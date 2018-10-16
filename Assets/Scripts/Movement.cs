@@ -38,8 +38,8 @@ public class Movement : MonoBehaviour {
 	}
 
 	private void movePlayer() {
-		//Move playerRig forward in direction of camera
-		playerRig.transform.position += reference.transform.forward * Time.deltaTime;
+		//Move playerRig based on touchpad axis
+		playerRig.transform.position += (transform.right * touchpadX + transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
 		//Reset y position so player does not fly
 		playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
 	}
