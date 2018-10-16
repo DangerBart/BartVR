@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Movement : MonoBehaviour {
 	private SteamVR_TrackedObject trackedObject;
 	private SteamVR_Controller.Device device;
+	private Valve.VR.EVRButtonId touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
 	private Vector3 reset = new Vector3(0,0,0);
+	private float touchpadY;
+	private float touchpadX;
 
 	public float movementSpeed = 2.5f;
 	public GameObject playerRig;
@@ -22,10 +23,11 @@ public class Movement : MonoBehaviour {
 		//Set device equal to the tracked controller
 		device = SteamVR_Controller.Input((int)trackedObject.index);
 		//Store touchpad y axis in local variable
-		float touchpadY = device.GetAxis().y;
+		touchpadY = device.GetAxis().y;
+		touchpadX = device.GetAxis().x;
 
 		//If touchpad is touched in top quarter
-		if (touchpadY >= 0.5) {
+		if (device.GetTouch(touchpad)) {
 			movePlayer();
 		}
 
