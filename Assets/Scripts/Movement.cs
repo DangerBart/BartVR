@@ -10,7 +10,6 @@ public class Movement : MonoBehaviour {
 
 	public float movementSpeed = 2.5f;
 	public GameObject playerRig;
-	public GameObject reference;
 
 
 	// Use this for initialization
