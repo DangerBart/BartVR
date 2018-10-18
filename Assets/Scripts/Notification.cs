@@ -7,5 +7,4 @@ public class Notification : MonoBehaviour {
     public string sender;
     public bool relevance;
     //public [insert time type here] time;
-    
 }
