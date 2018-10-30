@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class SteamVR_Teleporter : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class SteamVR_Teleporter : MonoBehaviour
 
 			// Get the current Y position of the reference space
 			float refY = t.position.y;
+			Debug.Log(refY.ToString());
 
 			// Create a plane at the Y position of the Play Area
 			// Then create a Ray from the origin of the controller in the direction that the controller is pointing

@@ -10,7 +10,7 @@ public class Movement : MonoBehaviour {
 
 	public float movementSpeed = 2.5f;
 	public GameObject playerRig;
-	public GameObject reference;
+	public GameObject camera;
 
 
 	// Use this for initialization
@@ -26,21 +26,27 @@ public class Movement : MonoBehaviour {
 		touchpadY = device.GetAxis().y;
 		touchpadX = device.GetAxis().x;
 
+
 		//If touchpad is touched in top quarter
 		if (device.GetTouch(touchpad)) {
 			movePlayer();
 		}
 
-		//Reset playerRig position to 0,0,0 when trigger is pressed
-		if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
-			playerRig.transform.position = reset;
-		}
+		////Reset playerRig position to 0,0,0 when trigger is pressed
+		//if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
+		//	playerRig.transform.position = reset;
+		//}
 	}
 
-	private void movePlayer() {
-		//Move playerRig based on touchpad axis
-		playerRig.transform.position += (transform.right * touchpadX + transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
-		//Reset y position so player does not fly
+	//private void movePlayer() { //Based on controller
+	//	//Move playerRig based on touchpad axis
+	//	playerRig.transform.position += (transform.right * touchpadX + transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
+	//	//Reset y position so player does not fly
+	//	playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
+	//}
+	private void movePlayer() { //Based on Look
+		playerRig.transform.position += (camera.transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
 		playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
 	}
+
 }
