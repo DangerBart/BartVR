@@ -11,8 +11,9 @@ public class Movement : MonoBehaviour {
 	public float movementSpeed = 2.5f;
 	public GameObject playerRig;
 	public GameObject cam;
+	public GameObject cameraEye;
 
-	public int movementSwitch = 1;
+	public int movementSwitch;
 	//Collisions
 	private bool isNoCollison = true;
 	private Vector3 movement;
@@ -61,13 +62,14 @@ public class Movement : MonoBehaviour {
 					movePlayerBasedOnController();
 					break;
 				default:
-					movePlayerBasedOnLook();
+					movePlayerTeleport();
 					break;
 			}
 		}
 	}
 	//...1...//
 	private void movePlayerBasedOnLook() { //Based on Look
+		cameraEye.GetComponent<TeleportVive>().enabled = false;
 		playerRig.transform.position += (cam.transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
 		playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
 	}
@@ -75,6 +77,7 @@ public class Movement : MonoBehaviour {
 	//...2...//
 	private void movePlayerBasedOnController() { //Based on controller
 												 //Move playerRig based on touchpad axis
+		cameraEye.GetComponent<TeleportVive>().enabled = false;
 		playerRig.transform.position += (transform.right * touchpadX + transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
 		//Reset y position so player does not fly
 		playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
@@ -90,6 +93,10 @@ public class Movement : MonoBehaviour {
 	void OnCollisionExit(Collision collision) {
 		isNoCollison = true;
 		Debug.Log("NO HAND COLLISION");
+	}
+
+	private void movePlayerTeleport() {
+		cameraEye.GetComponent<TeleportVive>().enabled = true;
 	}
 }
 ////Reset playerRig position to 0,0,0 when trigger is pressed
