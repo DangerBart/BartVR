@@ -1,14 +1,15 @@
 fileFormatVersion: 2
-guid: 25aa75659e6db4f4292cdfa8b7df0ae9
+guid: 88b530ae50c5a6940a8fd58dc19442b2
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: aiAmbientOcclusion4
+    2100000: Shop
+    2100002: lambert1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Seat4
+    4300000: Shop1
   externalObjects: {}
   materials:
     importMaterials: 1
