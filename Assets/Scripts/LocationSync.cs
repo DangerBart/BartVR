@@ -4,16 +4,32 @@ using UnityEngine;
 
 public class LocationSync : MonoBehaviour {
 
-	public GameObject officer;
-	public GameObject officerMap;
+	public GameObject map;
+	public GameObject plane;
+	public GameObject officerInVR;
+	private Vector2 mapSize;
+	private Vector2 planeSize;
+	private float xScale;
+	private float yScale;
+	private Vector2 officerOnMap;
+	private float offsetScale = 0.7f;
 
-	private RectTransform officerMapTransform;
+	private void Start() {
+		UpdateMapSizeAndScale();
+		Debug.Log("xScale :" + xScale);
+		Debug.Log("yScale :" + yScale);
+	}
 
 	void Update () {
-		Vector2 vect = new Vector3(officer.transform.position.x, officer.transform.position.z, 0);
-		Debug.Log(officer.transform.position.x);
-		Debug.Log(officer.transform.position.z);
-
-		officerMap.GetComponent<RectTransform>().position = vect;
+		ScaleOfficerOnMap();
+	}
+	private void UpdateMapSizeAndScale() {
+		mapSize = map.GetComponent<RectTransform>().sizeDelta;
+		planeSize = plane.GetComponent<RectTransform>().sizeDelta;
+		xScale = planeSize.x / mapSize.x + 1 + offsetScale;
+		yScale = planeSize.y / mapSize.y + 1 + offsetScale;
+	}
+	private void ScaleOfficerOnMap() {
+		this.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (officerInVR.transform.position.x * xScale), -1 *(officerInVR.transform.position.z * yScale));
 	}
 }
