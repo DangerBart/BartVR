@@ -33,9 +33,6 @@ public class Movement : MonoBehaviour {
 		touchpadY = device.GetAxis().y;
 		touchpadX = device.GetAxis().x;
 
-		newPosition = playerRig.transform.position;
-		movement = (newPosition - prevPos);
-
         //If there is no collision
 		if (isNoCollison) {
 			//If touchpad is touched in top quarter
@@ -47,12 +44,6 @@ public class Movement : MonoBehaviour {
 				Debug.Log("STILL STUCK");
 			}
 		}
-	}
-    //Late update is called after update
-	private void LateUpdate() {
-		prevPos = playerRig.transform.position;
-		fwd = playerRig.transform.forward;
-		isNoCollison = true;
 	}
     //Move player based on settings
 	private void movePlayer() {
