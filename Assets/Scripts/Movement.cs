@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour {
 	public GameObject cam;
 	public GameObject cameraEye;
 
-	public int movementSwitch;
+	public int movementSwitch = 3;
 	//Collisions
 	private bool isNoCollison = true;
 	private Vector3 movement;
@@ -36,22 +36,25 @@ public class Movement : MonoBehaviour {
 		newPosition = playerRig.transform.position;
 		movement = (newPosition - prevPos);
 
+        //If there is no collision
 		if (isNoCollison) {
 			//If touchpad is touched in top quarter
 			movePlayer();
 		} else {
-			if (touchpadY < 0) { //IF PLAYER IS MOVING BACKWARDS
+			if (touchpadY < 0) { //Player can only move backwards
 				movePlayer();
 			} else {
 				Debug.Log("STILL STUCK");
 			}
 		}
 	}
+    //Late update is called after update
 	private void LateUpdate() {
 		prevPos = playerRig.transform.position;
 		fwd = playerRig.transform.forward;
 		isNoCollison = true;
 	}
+    //Move player based on settings
 	private void movePlayer() {
 		if (device.GetTouch(touchpad)) {
 			switch (movementSwitch) {
@@ -61,7 +64,10 @@ public class Movement : MonoBehaviour {
 				case 2:
 					movePlayerBasedOnController();
 					break;
-				default:
+                case 3:
+                    movePlayerTeleport();
+                    break;
+                default:
 					movePlayerTeleport();
 					break;
 			}
