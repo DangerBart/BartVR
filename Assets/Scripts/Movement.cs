@@ -33,11 +33,8 @@ public class Movement : MonoBehaviour {
 		touchpadY = device.GetAxis().y;
 		touchpadX = device.GetAxis().x;
 
-		newPosition = playerRig.transform.position;
-		movement = (newPosition - prevPos);
-
 		if (isNoCollison) {
-			//If touchpad is touched in top quarter
+			//If touchpad is touched in top half
 			movePlayer();
 		} else {
 			if (touchpadY < 0) { //IF PLAYER IS MOVING BACKWARDS
@@ -47,11 +44,7 @@ public class Movement : MonoBehaviour {
 			}
 		}
 	}
-	private void LateUpdate() {
-		prevPos = playerRig.transform.position;
-		fwd = playerRig.transform.forward;
-		isNoCollison = true;
-	}
+
 	private void movePlayer() {
 		if (device.GetTouch(touchpad)) {
 			switch (movementSwitch) {
