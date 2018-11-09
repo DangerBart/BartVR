@@ -29,7 +29,7 @@ public class Notification : MonoBehaviour {
 
     public void add() {
         rect.transform.localPosition = new Vector2(dynamicX - notificationWidth, dynamicY);
-        dynamicX += 540;      //in case dynamic tabbing is desired, uncomment this line of code
+        dynamicX += 540;      
         rect.sizeDelta = new Vector2(notificationWidth, notificationHeight);
     }
 }
