@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour {
 	public GameObject cam;
 	public GameObject cameraEye;
 
-	public int movementSwitch = 3;
+	public int movementSwitch = 3; //enum
 	//Collisions
 	private bool isNoCollison = true;
 	private Vector3 movement;
@@ -34,67 +34,59 @@ public class Movement : MonoBehaviour {
 		touchpadX = device.GetAxis().x;
 
 		if (isNoCollison) {
-			//If touchpad is touched in top half
-			movePlayer();
+			//If player is touching movement controls
+			MovePlayer();
 		} else {
 			if (touchpadY < 0) { //Player can only move backwards
-				movePlayer();
-			} else {
-				Debug.Log("STILL STUCK");
-			}
+				MovePlayer();
+			} 
 		}
 	}
-	private void movePlayer() {
+	private void MovePlayer() {
 		if (device.GetTouch(touchpad)) {
 			switch (movementSwitch) {
 				case 1:
-					movePlayerBasedOnLook();
+					MovePlayerBasedOnLook();
 					break;
 				case 2:
-					movePlayerBasedOnController();
+					MovePlayerBasedOnController();
 					break;
                 case 3:
-                    movePlayerTeleport();
+                    MovePlayerTeleport();
                     break;
                 default:
-					movePlayerTeleport();
+					MovePlayerTeleport();
 					break;
 			}
 		}
 	}
 	//...1...//
-	private void movePlayerBasedOnLook() { //Based on Look
+	private void MovePlayerBasedOnLook() { //Based on direction players is looking at
 		cameraEye.GetComponent<TeleportVive>().enabled = false;
 		playerRig.transform.position += (cam.transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
 		playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
 	}
 
 	//...2...//
-	private void movePlayerBasedOnController() { //Based on controller
-												 //Move playerRig based on touchpad axis
+	private void MovePlayerBasedOnController() { //Move playerRig based on touchpad axis
 		cameraEye.GetComponent<TeleportVive>().enabled = false;
 		playerRig.transform.position += (transform.right * touchpadX + transform.forward * touchpadY) * Time.deltaTime * movementSpeed;
 		//Reset y position so player does not fly
 		playerRig.transform.position = new Vector3(playerRig.transform.position.x, 0, playerRig.transform.position.z);
 	}
+
+	//...3...///
+	private void MovePlayerTeleport() {
+		cameraEye.GetComponent<TeleportVive>().enabled = true;
+	}
+
 	void OnCollisionEnter(Collision collision) {
 		isNoCollison = false;
-		Debug.Log("HAND COLLISION");
 	}
 	void OnCollisionStay(Collision collision) {
-		Debug.Log("STILL HAND COLLISION");
 		isNoCollison = false;
 	}
 	void OnCollisionExit(Collision collision) {
 		isNoCollison = true;
-		Debug.Log("NO HAND COLLISION");
-	}
-
-	private void movePlayerTeleport() {
-		cameraEye.GetComponent<TeleportVive>().enabled = true;
 	}
 }
-////Reset playerRig position to 0,0,0 when trigger is pressed
-//if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
-//	playerRig.transform.position = reset;
-//}

@@ -16,13 +16,13 @@ public class LocationSync : MonoBehaviour {
 
 	private void Start() {
 		UpdateMapSizeAndScale();
-		Debug.Log("xScale :" + xScale);
-		Debug.Log("yScale :" + yScale);
 	}
 
 	void Update () {
 		ScaleOfficerOnMap();
 	}
+
+
 	private void UpdateMapSizeAndScale() {
 		mapSize = map.GetComponent<RectTransform>().sizeDelta;
 		planeSize = plane.GetComponent<RectTransform>().sizeDelta;
