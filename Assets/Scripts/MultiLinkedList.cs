@@ -9,9 +9,9 @@ public class MultiLinkedList : MonoBehaviour {
 		} else {
 			int i = 1;
 			Node current = head;
-			//while(i < index) {
-
-			//}
+			while(i < index) {
+				//find index, place node and update options of nodes
+			}
 		}
 	}
 
