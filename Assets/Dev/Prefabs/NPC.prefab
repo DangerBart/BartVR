@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62dbab25f34fcdb4b94ea0f00a719cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpointContainer: []
+  checkpointContainer: {fileID: 0}
 --- !u!136 &136887639919528226
 CapsuleCollider:
   m_ObjectHideFlags: 1
