@@ -5,11 +5,12 @@ using UnityEngine.AI;
 public class NPCBehaviour : MonoBehaviour {
 
     public GameObject checkpointContainer;
-    
+
     private Node target = null;
     private Node prevCheckpoint;
     private Node[] list = new Node[8];
     private NavMeshAgent agent = new NavMeshAgent();
+    private int randX, randZ, timeout;
 
     // Use this for initialization
     void Start() {
@@ -26,12 +27,12 @@ public class NPCBehaviour : MonoBehaviour {
         Node node6 = new Node(GetCheckpointChild(6));
         Node node7 = new Node(GetCheckpointChild(7));
 
-        node0.SetOptions(new Node[] { node1 , node3, node6 });
+        node0.SetOptions(new Node[] { node1, node3, node6 });
         node1.SetOptions(new Node[] { node0, node2, node7 });
         node2.SetOptions(new Node[] { node1, node3 });
         node3.SetOptions(new Node[] { node0, node2, node4 });
         node4.SetOptions(new Node[] { node3, node5 });
-        node5.SetOptions(new Node[] { node5 });
+        node5.SetOptions(new Node[] { node4 });
         node6.SetOptions(new Node[] { node0, node7 });
         node7.SetOptions(new Node[] { node1, node6 });
 
@@ -57,15 +58,24 @@ public class NPCBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         int rand;
-        if(target == null) {
+        if (target == null) {
+            randX = (int)Random.Range(0, 2.5f);
+            randZ = (int)Random.Range(0, 2.5f);
             rand = Random.Range(0, prevCheckpoint.GetLength());
             target = prevCheckpoint.GetOption(rand);
-            agent.SetDestination(target.GetTransformData().position);
+            agent.SetDestination(target.GetTransformData().position + new Vector3(randX, 0, randZ));
             FaceTarget();
-        } 
-        if(this.transform.position.x == target.GetTransformData().position.x && this.transform.position.z == target.GetTransformData().position.z) {
+        }
+        if (this.transform.position.x == (target.GetTransformData().position.x + randX) && this.transform.position.z == (target.GetTransformData().position.z + randZ)) {
             prevCheckpoint = target;
             target = null;
+            timeout = 0;
+        }
+        timeout++;
+        if(timeout > 750) {
+            prevCheckpoint = target;
+            target = null;
+            timeout = 0;
         }
     }
 
