@@ -26,8 +26,8 @@ GameObject:
   m_Name: LightPole 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 4
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4685666756509536
 Transform:
@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1903632244867314}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -44.296627, y: 2.3901794, z: 66.705635}
+  m_LocalPosition: {x: -11.88, y: 2.36, z: -2.29}
   m_LocalScale: {x: 0.919192, y: 0.919192, z: 0.919192}
   m_Children: []
   m_Father: {fileID: 0}
