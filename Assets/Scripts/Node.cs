@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Node {
     Transform data;
-    public Node[] options = new Node[100];
-
-    public Node(Transform data, Node[] options) { 
-        this.data = data;
-        this.options = options;
-    }
+    public Node[] options = new Node[100];//Update to list
 
     public Node(Transform data) {
         this.data = data;
+    }
+
+    public Node(Transform data, Node[] options) {
+        this.data = data;
+        this.options = options;
     }
 
     public Transform GetTransformData() {
@@ -25,7 +25,7 @@ public class Node {
 
     public int GetLength() {
         int length = 0;
-        foreach(Node n in options) {
+        foreach (Node n in options) {
             length++;
         }
         return length;
