@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data-set xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NotificationCollection>
+    <Notifications>
+      <Notification>
+        <Voornaam>Daan</Voornaam>
+        <Achternaam>van den Heuvel</Achternaam>
+        <Bericht>Ik heb niets gezien.</Bericht>
+        <POI>0</POI>
+        <Mediaplatform>SMS</Mediaplatform>
+      </Notification>
+      <Notification>
+        <Voornaam>Sanne</Voornaam>
+        <Achternaam>de Bruijn</Achternaam>
+        <Bericht>Is dit al opgelost?</Bericht>
+        <POI>0</POI>
+        <Mediaplatform>Twitter</Mediaplatform>
+      </Notification>
+    </Notifications>
+  </NotificationCollection>
+</data-set>
