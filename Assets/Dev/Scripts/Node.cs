@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Node {
     Transform data;
-    public Node[] options = new Node[100];//Update to list
+    public List<Node> options = new List<Node>();
 
     public Node(Transform data) {
         this.data = data;
     }
 
-    public Node(Transform data, Node[] options) {
+    public Node(Transform data, List<Node> options) {
         this.data = data;
         this.options = options;
     }
@@ -36,10 +36,8 @@ public class Node {
     }
 
     public void SetOptions(Node[] nodes) {
-        int i = 0;
         foreach (Node node in nodes) {
-            SetOption(node, i);
-            i++;
+            options.Add(node);
         }
     }
 }
