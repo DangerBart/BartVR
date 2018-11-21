@@ -210,6 +210,8 @@ public class NPCBehaviour : MonoBehaviour {
 
         this.agent.Warp(list[random].GetTransformData().position);
         prevCheckpoint = list[random];
+        agent.speed = Random.Range(3, 6);
+        agent.autoRepath = true;
 
         FindNewTarget();
     }

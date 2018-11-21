@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Node {
-    Transform data;
-    public List<Node> options = new List<Node>();
+    private Transform data;
+    private List<Node> options = new List<Node>();
 
     public Node(Transform data) {
         this.data = data;
