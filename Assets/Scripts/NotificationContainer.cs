@@ -19,13 +19,4 @@ public class NotificationContainer {
         reader.Close();
         return notifications;
     }
-    //public static NotificationContainer Load(string path)
-    //{
-    //    var serializer = new XmlSerializer(typeof(NotificationContainer));
-    //    using (var stream = new FileStream(path, FileMode.Open))
-    //    {
-    //        return serializer.Deserialize(stream) as NotificationContainer;
-    //    }
-    //}
-
 }
