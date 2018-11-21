@@ -33,21 +33,21 @@
 				<Voornaam>Lisa</Voornaam>
 				<Achternaam>Hendriks</Achternaam>
 				<Bericht>Ik zag iemand met die omschrijving.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>SMS</Mediaplatform>
 			</Notification>
 			<Notification>
 				<Voornaam>Lars</Voornaam>
 				<Achternaam>Timmerman</Achternaam>
 				<Bericht>Ik zie iemand die zich verdacht gedraagt.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Facebook</Mediaplatform>
 			</Notification>
 			<Notification>
 				<Voornaam>Niels</Voornaam>
 				<Achternaam>Smit</Achternaam>
 				<Bericht>Een paar minuten geleden had ik hem nog gezien.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Whattsapp</Mediaplatform>
 			</Notification>
 			<Notification>
@@ -68,14 +68,14 @@
 				<Voornaam>Tom</Voornaam>
 				<Achternaam>Scholten</Achternaam>
 				<Bericht>Ik had de verdachte  hier net nog gezien.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Bellen</Mediaplatform>
 			</Notification>
 			<Notification>
 				<Voornaam>Geert</Voornaam>
 				<Achternaam>Kuipers</Achternaam>
 				<Bericht>Heb iemand gezien met die verdachteomschrijving.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Bellen</Mediaplatform>
 			</Notification>
 			<Notification>
@@ -96,7 +96,7 @@
 				<Voornaam>Sandra</Voornaam>
 				<Achternaam>de Groot</Achternaam>
 				<Bericht>Iemand hier voldoet wel aan de omschrijving.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Facebook</Mediaplatform>
 			</Notification>
 			<Notification>
@@ -117,14 +117,14 @@
 				<Voornaam>Femke</Voornaam>
 				<Achternaam>Kok</Achternaam>
 				<Bericht>Iemand die erop leek liep langs mijn winkel heen.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>SMS</Mediaplatform>
 			</Notification>
 			<Notification>
 				<Voornaam>Anna</Voornaam>
 				<Achternaam>Dijkstra</Achternaam>
 				<Bericht>Hier liep wel iemand die erop leek.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Twitter</Mediaplatform>
 			</Notification>
 			<Notification>
@@ -159,7 +159,7 @@
 				<Voornaam>Tim</Voornaam>
 				<Achternaam>de Vries</Achternaam>
 				<Bericht>Uit mijn raam leek er wel op de persoon.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Facebook</Mediaplatform>
 			</Notification>
 			<Notification>
@@ -173,7 +173,7 @@
 				<Voornaam>Iris</Voornaam>
 				<Achternaam>de Jong</Achternaam>
 				<Bericht>Ik zie hem hier.</Bericht>
-				<POI>5</POI>
+				<POI>1</POI>
 				<Mediaplatform>Twitter</Mediaplatform>
 			</Notification>
 		</Notifications>
