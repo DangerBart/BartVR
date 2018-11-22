@@ -194,15 +194,22 @@ public class NPCBehaviour : MonoBehaviour {
         list[57] = node57;
         #endregion
 
+        //initialize values
         int random = Random.Range(0, list.Length);
+        randX = Random.Range(0, radius);
+        randZ = Random.Range(0, radius);
         agent = GetComponent<NavMeshAgent>();
 
-        this.agent.Warp(list[random].GetTransformData().position);
+
+        //Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other
+        this.agent.Warp(list[random].GetTransformData().position + new Vector3(randX, 0, randZ));
         prevCheckpoint = list[random];
+        //Randomize NPC's speed and set autoRepatch to true so NPC's don't walk to invalid points on map
         agent.speed = Random.Range(3, 6);
         agent.autoRepath = true;
 
-
+        //Add nodes which are in narrow alleys after choosing spawnpoint so they exist in the game but NPC's don't spawn on them
+        //preventing unnecessary clusterspawns
         list[6] = node6;
         list[8] = node8;
         list[9] = node9;
@@ -215,12 +222,14 @@ public class NPCBehaviour : MonoBehaviour {
         list[26] = node26;
         list[58] = node58;
 
+        //Find target to walk to
         FindNewTarget();
     }
 
     // Update is called once per frame
     void FixedUpdate() {
-        if (timeout > 500 || this.transform.position.x == (target.GetTransformData().position.x + randX)
+        //if timeout overflows OR NPC has reached destination find a new destination
+        if (timeout > 240 || this.transform.position.x == (target.GetTransformData().position.x + randX)
             && this.transform.position.z == (target.GetTransformData().position.z + randZ)) {
             prevCheckpoint = target;
             
@@ -232,14 +241,16 @@ public class NPCBehaviour : MonoBehaviour {
 
     private void FindNewTarget() {
         int rand;
-
+        //initialize values
         randX = Random.Range(0, radius);
         randZ = Random.Range(0, radius);
         rand = Random.Range(0, prevCheckpoint.GetLength());
 
+        //Set random option as destination
         target = prevCheckpoint.GetOption(rand);
         agent.SetDestination(target.GetTransformData().position + new Vector3(randX, 0, randZ));
 
+        //Face the destination
         FaceTarget();
     }
 
@@ -247,7 +258,7 @@ public class NPCBehaviour : MonoBehaviour {
         return checkpointContainer.gameObject.transform.GetChild(index);
     }
 
-    //TODO explain
+    //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
     private void FaceTarget() {
         Vector3 direction = (target.GetTransformData().position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
