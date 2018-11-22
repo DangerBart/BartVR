@@ -29,27 +29,27 @@ public class NPCBehaviour : MonoBehaviour {
         Node node3 = new Node(GetCheckpointChild(3));
         Node node4 = new Node(GetCheckpointChild(4));
         Node node5 = new Node(GetCheckpointChild(5));
-        Node node6 = new Node(GetCheckpointChild(6));   //------
+        Node node6 = new Node(GetCheckpointChild(6));
         Node node7 = new Node(GetCheckpointChild(7));
-        Node node8 = new Node(GetCheckpointChild(8));   //------
-        Node node9 = new Node(GetCheckpointChild(9));   //------
+        Node node8 = new Node(GetCheckpointChild(8));
+        Node node9 = new Node(GetCheckpointChild(9));
         Node node10 = new Node(GetCheckpointChild(10));
         Node node11 = new Node(GetCheckpointChild(11));
-        Node node12 = new Node(GetCheckpointChild(12)); //------
-        Node node13 = new Node(GetCheckpointChild(13)); //------
+        Node node12 = new Node(GetCheckpointChild(12));
+        Node node13 = new Node(GetCheckpointChild(13));
         Node node14 = new Node(GetCheckpointChild(14));
-        Node node15 = new Node(GetCheckpointChild(15)); //------
-        Node node16 = new Node(GetCheckpointChild(16)); //------
+        Node node15 = new Node(GetCheckpointChild(15));
+        Node node16 = new Node(GetCheckpointChild(16));
         Node node17 = new Node(GetCheckpointChild(17));
         Node node18 = new Node(GetCheckpointChild(18));
-        Node node19 = new Node(GetCheckpointChild(19)); //------
+        Node node19 = new Node(GetCheckpointChild(19));
         Node node20 = new Node(GetCheckpointChild(20));
         Node node21 = new Node(GetCheckpointChild(21));
         Node node22 = new Node(GetCheckpointChild(22));
-        Node node23 = new Node(GetCheckpointChild(23)); //------
+        Node node23 = new Node(GetCheckpointChild(23));
         Node node24 = new Node(GetCheckpointChild(24));
         Node node25 = new Node(GetCheckpointChild(25));
-        Node node26 = new Node(GetCheckpointChild(26)); //------
+        Node node26 = new Node(GetCheckpointChild(26));
         Node node27 = new Node(GetCheckpointChild(27));
         Node node28 = new Node(GetCheckpointChild(28));
         Node node29 = new Node(GetCheckpointChild(29));
@@ -81,7 +81,7 @@ public class NPCBehaviour : MonoBehaviour {
         Node node55 = new Node(GetCheckpointChild(55));
         Node node56 = new Node(GetCheckpointChild(56));
         Node node57 = new Node(GetCheckpointChild(57));
-        Node node58 = new Node(GetCheckpointChild(58)); //------
+        Node node58 = new Node(GetCheckpointChild(58));
 
         node0.SetOptions(new Node[] { node1, node58 });
         node1.SetOptions(new Node[] { node0, node2, node52, node54, node55 });
@@ -149,27 +149,17 @@ public class NPCBehaviour : MonoBehaviour {
         list[3] = node3;
         list[4] = node4;
         list[5] = node5;
-        list[6] = node6;
         list[7] = node7;
-        list[8] = node8;
-        list[9] = node9;
         list[10] = node10;
         list[11] = node11;
-        list[12] = node12;
-        list[13] = node13;
         list[14] = node14;
-        list[15] = node15;
-        list[16] = node16;
         list[17] = node17;
         list[18] = node18;
-        list[19] = node19;
         list[20] = node20;
         list[21] = node21;
         list[22] = node22;
-        list[23] = node23;
         list[24] = node24;
         list[25] = node25;
-        list[26] = node26;
         list[27] = node27;
         list[28] = node28;
         list[29] = node29;
@@ -202,7 +192,6 @@ public class NPCBehaviour : MonoBehaviour {
         list[55] = node55;
         list[56] = node56;
         list[57] = node57;
-        list[58] = node58;
         #endregion
 
         int random = Random.Range(0, list.Length);
@@ -212,6 +201,19 @@ public class NPCBehaviour : MonoBehaviour {
         prevCheckpoint = list[random];
         agent.speed = Random.Range(3, 6);
         agent.autoRepath = true;
+
+
+        list[6] = node6;
+        list[8] = node8;
+        list[9] = node9;
+        list[12] = node12;
+        list[13] = node13;
+        list[15] = node15;
+        list[16] = node16;
+        list[19] = node19;
+        list[23] = node23;
+        list[26] = node26;
+        list[58] = node58;
 
         FindNewTarget();
     }
