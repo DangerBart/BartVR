@@ -7,54 +7,40 @@ public class Board : MonoBehaviour
 {
     public GameObject notificationbar;
     private NotificationContainer nc;
-    private int AllPOI;
-    private List<List<Notification>> MassiveList = new List<List<Notification>>();
-    // Use this for initialization
+    private int amountPOI;
+    Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
+
     void Start()
     {
         string m_Path = "XML_Files/data-set";
-        //Debug.Log("m_path" + m_Path);
         LoadItems(m_Path);
-        AllPOI = CountAllDifferentPOI(nc);
-        FillMultiLinkedList(nc, AllPOI);
+        FillDictionaryWithNotificationsPerPOI();
     }
+
     void LoadItems(string path)
     {
         nc = NotificationContainer.Load(path);
     }
 
-    int CountAllDifferentPOI(NotificationContainer nc)
-    {
-        List<int> countPOIList = new List<int>();
 
-        foreach (Notification notification in nc.notifications)
-        {
-            if (!countPOIList.Contains(notification.POI))
-            {
-                countPOIList.Add(notification.POI);
+    void FillDictionaryWithNotificationsPerPOI(){
+        foreach (Notification note in nc.notifications){
+
+            if (!notificationsPerPOI.ContainsKey(note.POI)){
+                notificationsPerPOI.Add(note.POI, new List<Notification>());
+                amountPOI++;
             }
+          
+            notificationsPerPOI[note.POI].Add(note);
         }
-        return countPOIList.Count;
+
+        PrintTest();
     }
-    void FillMultiLinkedList(NotificationContainer nc, int POI)
-    {
-        List<Notification> miniList = new List<Notification>();
-        for (int i = 0; i < POI; i++)
-        {
-            foreach (Notification notification in nc.notifications)
-            {
-                if (i == notification.POI)
-                {
-                    miniList.Add(notification);
-                }
-            }
-            MassiveList.Add(miniList);
-            Debug.Log("POI: " + i);
-            foreach (Notification no in miniList)
-            {
-                Debug.Log(no.Voornaam);
-            }
-            miniList.Clear();
+
+    // Test function -> Remove later
+    void PrintTest(){
+        for (int i = 0; i < amountPOI; i++){
+            Debug.Log("POI: " + i + " contains " + notificationsPerPOI[i].Count + " notifications");
         }
     }
 

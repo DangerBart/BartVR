@@ -10,7 +10,6 @@ public class MessageListContext : MonoBehaviour {
 
     void Start() 
     {
-        Debug.Log("hello");
 
         for (int i = 1; i < 20; i ++) 
         {
