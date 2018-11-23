@@ -4,17 +4,17 @@
     <Notifications>
       <Notification>
         <Voornaam>Daan</Voornaam>
-        <Achternaam>van den Heuvel</Achternaam>
         <Bericht>Ik heb niets gezien.</Bericht>
         <POI>0</POI>
         <Mediaplatform>SMS</Mediaplatform>
+		<Afbeelding></Afbeelding>
       </Notification>
       <Notification>
         <Voornaam>Sanne</Voornaam>
-        <Achternaam>de Bruijn</Achternaam>
         <Bericht>Is dit al opgelost?</Bericht>
         <POI>0</POI>
         <Mediaplatform>Twitter</Mediaplatform>
+		<Afbeelding>/Images/Image.jpg</Afbeelding>
       </Notification>
     </Notifications>
   </NotificationCollection>
