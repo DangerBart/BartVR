@@ -6,20 +6,22 @@ public class NPCBehaviour : MonoBehaviour {
 
     public GameObject checkpointContainer;
 
-    private readonly float radius = 5.5f;
+    private readonly int radius = 5;
 
-    private Node target;
-    private Node prevCheckpoint;
-    private Node[] list = new Node[59];
+    private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
+    private readonly Node[] list = new Node[59];
+    private readonly Node[] spawnList = new Node[46];
     private NavMeshAgent agent = new NavMeshAgent();
-    private float randX, randZ;
+    private int randX, randZ;
     private int timeout;
+    private readonly int overflow = 1200;
 
     // Use this for initialization
     void Start() {
         #region Checkpoint node initialization
         /*
-        List goes by checkpoint index number in CheckpointContainer parent, so the GameObject named Checkpoint (3) is equal to node3 and GetCheckpointChild(3)
+        List goes by checkpoint index number in CheckpointContainer parent, 
+        so the GameObject named Checkpoint (3) is equal to node3 and GetCheckpointChild(3)
         */
 
         //TODO Create three seperate functions
@@ -149,17 +151,27 @@ public class NPCBehaviour : MonoBehaviour {
         list[3] = node3;
         list[4] = node4;
         list[5] = node5;
+        list[6] = node6;
         list[7] = node7;
+        list[8] = node8;
+        list[9] = node9;
         list[10] = node10;
         list[11] = node11;
+        list[12] = node12;
+        list[13] = node13;
         list[14] = node14;
+        list[15] = node15;
+        list[16] = node16;
         list[17] = node17;
         list[18] = node18;
+        list[19] = node19;
         list[20] = node20;
         list[21] = node21;
         list[22] = node22;
+        list[23] = node23;
         list[24] = node24;
         list[25] = node25;
+        list[26] = node26;
         list[27] = node27;
         list[28] = node28;
         list[29] = node29;
@@ -192,35 +204,73 @@ public class NPCBehaviour : MonoBehaviour {
         list[55] = node55;
         list[56] = node56;
         list[57] = node57;
+        list[58] = node58;
+        
+        spawnList[0] = node0;
+        spawnList[1] = node1;
+        spawnList[2] = node2;
+        spawnList[3] = node3;
+        spawnList[4] = node4;
+        spawnList[5] = node5;
+        spawnList[6] = node7;
+        spawnList[7] = node10;
+        spawnList[8] = node11;
+        spawnList[9] = node14;
+        spawnList[10] = node17;
+        spawnList[11] = node20;
+        spawnList[12] = node22;
+        spawnList[13] = node24;
+        spawnList[14] = node25;
+        spawnList[15] = node26;
+        spawnList[16] = node27;
+        spawnList[17] = node28;
+        spawnList[18] = node29;
+        spawnList[19] = node30;
+        spawnList[20] = node31;
+        spawnList[21] = node32;
+        spawnList[22] = node33;
+        spawnList[23] = node34;
+        spawnList[24] = node35;
+        spawnList[25] = node37;
+        spawnList[26] = node38;
+        spawnList[27] = node39;
+        spawnList[28] = node40;
+        spawnList[29] = node41;
+        spawnList[30] = node42;
+        spawnList[31] = node42;
+        spawnList[32] = node43;
+        spawnList[33] = node44;
+        spawnList[34] = node45;
+        spawnList[35] = node46;
+        spawnList[36] = node47;
+        spawnList[37] = node50;
+        spawnList[38] = node51;
+        spawnList[39] = node52;
+        spawnList[40] = node53;
+        spawnList[41] = node54;
+        spawnList[42] = node55;
+        spawnList[43] = node56;
+        spawnList[44] = node57;
+        spawnList[45] = node58;
         #endregion
 
         //initialize values
-        int random = Random.Range(0, list.Length);
+        int random = Random.Range(0, spawnList.Length);
         randX = Random.Range(0, radius);
         randZ = Random.Range(0, radius);
         agent = GetComponent<NavMeshAgent>();
 
 
-        //Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other
-        this.agent.Warp(list[random].GetTransformData().position + new Vector3(randX, 0, randZ));
-        prevCheckpoint = list[random];
-        //Randomize NPC's speed and set autoRepatch to true so NPC's don't walk to invalid points on map
+        //Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other, Using Warp() rather than position
+        //because transform.position unsyncs NPC from navmesh making it unable to walk across it
+        this.agent.Warp(spawnList[random].GetTransformData().position + new Vector3(randX, 0, randZ));
+
+        //Prevent NPC's from spawning on clutter heavy checkpoints
+        currentCheckpoint = spawnList[random];
+
+        //Randomize NPC's speed and set autoRepath to true so NPC's don't walk to invalid points on map
         agent.speed = Random.Range(3, 6);
         agent.autoRepath = true;
-
-        //Add nodes which are in narrow alleys after choosing spawnpoint so they exist in the game but NPC's don't spawn on them
-        //preventing unnecessary clusterspawns
-        list[6] = node6;
-        list[8] = node8;
-        list[9] = node9;
-        list[12] = node12;
-        list[13] = node13;
-        list[15] = node15;
-        list[16] = node16;
-        list[19] = node19;
-        list[23] = node23;
-        list[26] = node26;
-        list[58] = node58;
 
         //Find target to walk to
         FindNewTarget();
@@ -229,10 +279,11 @@ public class NPCBehaviour : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate() {
         //if timeout overflows OR NPC has reached destination find a new destination
-        if (timeout > 240 || this.transform.position.x == (target.GetTransformData().position.x + randX)
-            && this.transform.position.z == (target.GetTransformData().position.z + randZ)) {
-            prevCheckpoint = target;
-            
+        if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
+            this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius) && (this.transform.position.z 
+            >= nextCheckpoint.GetTransformData().position.z - radius && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius))) {
+            previousCheckpoint = currentCheckpoint;
+            currentCheckpoint = nextCheckpoint;
             FindNewTarget();
             timeout = 0;
         }
@@ -240,15 +291,27 @@ public class NPCBehaviour : MonoBehaviour {
     }
 
     private void FindNewTarget() {
-        int rand;
         //initialize values
+        bool confirm = false;
         randX = Random.Range(0, radius);
         randZ = Random.Range(0, radius);
-        rand = Random.Range(0, prevCheckpoint.GetLength());
+        int rand = Random.Range(0, currentCheckpoint.GetLength());
 
         //Set random option as destination
-        target = prevCheckpoint.GetOption(rand);
-        agent.SetDestination(target.GetTransformData().position + new Vector3(randX, 0, randZ));
+        nextCheckpoint = currentCheckpoint.GetOption(rand);
+
+        //Confirm that nextCheckpoint is not equal to previousCheckpoint so NPC's don't walk back and forth between the same points
+        if (currentCheckpoint.GetLength() != 1) {
+            while (!confirm) {
+                if (nextCheckpoint == previousCheckpoint) {
+                    rand = Random.Range(0, currentCheckpoint.GetLength());
+                    nextCheckpoint = currentCheckpoint.GetOption(rand);
+                } else {
+                    confirm = true;
+                }
+            }
+        }
+        agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
 
         //Face the destination
         FaceTarget();
@@ -260,7 +323,7 @@ public class NPCBehaviour : MonoBehaviour {
 
     //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
     private void FaceTarget() {
-        Vector3 direction = (target.GetTransformData().position - transform.position).normalized;
+        Vector3 direction = (nextCheckpoint.GetTransformData().position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
