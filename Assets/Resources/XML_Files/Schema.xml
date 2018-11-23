@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<data-set xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <NotificationCollection>
     <Notifications>
       <Notification>
-        <Voornaam>Daan</Voornaam>
-        <Bericht>Ik heb niets gezien.</Bericht>
+        <Name>Daan</Name>
+        <Message>Ik heb niets gezien.</Message>
         <POI>0</POI>
-        <Mediaplatform>SMS</Mediaplatform>
-		<Afbeelding></Afbeelding>
+        <PlatformLogoPath>/Mediaplatform/Facebook.png</PlatformLogoPath>
+		    <ImagePath></ImagePath>
       </Notification>
       <Notification>
-        <Voornaam>Sanne</Voornaam>
-        <Bericht>Is dit al opgelost?</Bericht>
+        <Name>Sanne</Name>
+        <Message>Is dit al opgelost?</Message>
         <POI>0</POI>
-        <Mediaplatform>Twitter</Mediaplatform>
-		<Afbeelding>/Images/Image.jpg</Afbeelding>
+        <PlatformLogoPath>/Mediaplatform/Twitter.png</PlatformLogoPath>
+		    <ImagePath>/Images/Image.png</ImagePath>
       </Notification>
     </Notifications>
   </NotificationCollection>
-</data-set>

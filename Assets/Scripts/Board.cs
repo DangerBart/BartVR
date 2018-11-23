@@ -5,14 +5,14 @@ using System.Linq;
 
 public class Board : MonoBehaviour
 {
-    public GameObject notificationbar;
     private NotificationContainer nc;
     private int amountPOI;
+    public string m_Path = "XML_Files/data-set";
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
+    private int switchPOI = 0;
 
     void Start()
     {
-        string m_Path = "XML_Files/data-set";
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
     }
@@ -34,7 +34,17 @@ public class Board : MonoBehaviour
             notificationsPerPOI[note.POI].Add(note);
         }
 
-        PrintTest();
+        //PrintTest();
+    } 
+    public void LoadRandomNotification(){
+        int randomNotificationID = Random.Range(0, notificationsPerPOI[switchPOI].Count);
+        Notification not = notificationsPerPOI[switchPOI][randomNotificationID];
+        
+        not.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + not.PlatformLogoPath);
+        if(not.ImagePath != null){
+            not.Image = Resources.Load<Sprite>("Images/" + not.ImagePath);
+        }
+        Debug.Log(not.PlatformLogo);
     }
 
     // Test function -> Remove later
