@@ -5,7 +5,7 @@
 //
 // Usage:	Add to your top level SteamVR_Camera (the one with ApplyDistoration
 //			checked) and drag a reference to this component into SteamVR_Camera
-//			RenderComponents list.  Then call the static helper function
+//			RenderComponents nodeList.  Then call the static helper function
 //			SteamVR_Fade.Start with the desired color and duration.
 //			Use a duration of zero to set the start color.
 //

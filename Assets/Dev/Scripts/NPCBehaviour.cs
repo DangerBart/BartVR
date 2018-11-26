@@ -5,11 +5,11 @@ using UnityEngine.AI;
 public class NPCBehaviour : MonoBehaviour {
 
     public GameObject checkpointContainer;
-
+    
     private readonly int radius = 5;
 
     private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
-    private readonly Node[] list = new Node[59];
+    private readonly Node[] nodeList = new Node[59];
     private readonly Node[] spawnList = new Node[46];
     private NavMeshAgent agent = new NavMeshAgent();
     private int randX, randZ;
@@ -18,13 +18,85 @@ public class NPCBehaviour : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        #region Checkpoint node initialization
-        /*
-        List goes by checkpoint index number in CheckpointContainer parent, 
-        so the GameObject named Checkpoint (3) is equal to node3 and GetCheckpointChild(3)
-        */
+        //initialize values
+        InitializeNodes();
+        int randomSpawnLocation = Random.Range(0, spawnList.Length);
+        randX = Random.Range(0, radius);
+        randZ = Random.Range(0, radius);
+        agent = GetComponent<NavMeshAgent>();
 
-        //TODO Create three seperate functions
+        //Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other, Using Warp() rather than position
+        //because transform.position unsyncs NPC from navmesh making it unable to walk across it
+        this.agent.Warp(spawnList[randomSpawnLocation].GetTransformData().position + new Vector3(randX, 0, randZ));
+
+        //Prevent NPC's from spawning on clutter heavy checkpoints
+        currentCheckpoint = spawnList[randomSpawnLocation];
+
+        //Randomize NPC's speed and set autoRepath to true so NPC's don't walk to invalid points on map
+        agent.speed = Random.Range(3, 6);
+        agent.autoRepath = true;
+
+        //Find target to walk to
+        FindNewTarget();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate() {
+        //if timeout overflows OR NPC has reached destination find a new destination
+        if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
+            this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius) && (this.transform.position.z
+            >= nextCheckpoint.GetTransformData().position.z - radius && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius))) {
+            previousCheckpoint = currentCheckpoint;
+            currentCheckpoint = nextCheckpoint;
+            FindNewTarget();
+            timeout = 0;
+        }
+        timeout++;
+    }
+
+    private void FindNewTarget() {
+        //initialize values
+        bool foundValidCheckpoint = false;
+        randX = Random.Range(0, radius);
+        randZ = Random.Range(0, radius);
+        int randNextCheckpoint = Random.Range(0, currentCheckpoint.GetLength());
+
+        //Set random option as destination
+        nextCheckpoint = currentCheckpoint.GetOption(randNextCheckpoint);
+
+        //Confirm that nextCheckpoint is not equal to previousCheckpoint so NPC's don't walk back and forth between the same points
+        if (currentCheckpoint.GetLength() != 1) {
+            while (!foundValidCheckpoint) {
+                if (nextCheckpoint == previousCheckpoint) {
+                    randNextCheckpoint = Random.Range(0, currentCheckpoint.GetLength());
+                    nextCheckpoint = currentCheckpoint.GetOption(randNextCheckpoint);
+                } else {
+                    foundValidCheckpoint = true;
+                }
+            }
+        }
+        agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
+
+        //Face the destination
+        FaceTarget();
+    }
+
+    private Transform GetCheckpointChild(int index) {
+        return checkpointContainer.gameObject.transform.GetChild(index);
+    }
+
+    //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
+    private void FaceTarget() {
+        Vector3 direction = (nextCheckpoint.GetTransformData().position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+
+    private void InitializeNodes() {
+        /*
+List goes by checkpoint index number in CheckpointContainer parent, 
+so the GameObject named Checkpoint (3) is equal to node3 and GetCheckpointChild(3)
+*/
         Node node0 = new Node(GetCheckpointChild(0));
         Node node1 = new Node(GetCheckpointChild(1));
         Node node2 = new Node(GetCheckpointChild(2));
@@ -145,67 +217,67 @@ public class NPCBehaviour : MonoBehaviour {
         node57.SetOptions(new Node[] { node47 });
         node58.SetOptions(new Node[] { node0, node1, node2 });
 
-        list[0] = node0;
-        list[1] = node1;
-        list[2] = node2;
-        list[3] = node3;
-        list[4] = node4;
-        list[5] = node5;
-        list[6] = node6;
-        list[7] = node7;
-        list[8] = node8;
-        list[9] = node9;
-        list[10] = node10;
-        list[11] = node11;
-        list[12] = node12;
-        list[13] = node13;
-        list[14] = node14;
-        list[15] = node15;
-        list[16] = node16;
-        list[17] = node17;
-        list[18] = node18;
-        list[19] = node19;
-        list[20] = node20;
-        list[21] = node21;
-        list[22] = node22;
-        list[23] = node23;
-        list[24] = node24;
-        list[25] = node25;
-        list[26] = node26;
-        list[27] = node27;
-        list[28] = node28;
-        list[29] = node29;
-        list[30] = node30;
-        list[31] = node31;
-        list[32] = node32;
-        list[33] = node33;
-        list[34] = node34;
-        list[35] = node35;
-        list[36] = node36;
-        list[37] = node37;
-        list[38] = node38;
-        list[39] = node39;
-        list[40] = node40;
-        list[41] = node41;
-        list[42] = node42;
-        list[42] = node42;
-        list[43] = node43;
-        list[44] = node44;
-        list[45] = node45;
-        list[46] = node46;
-        list[47] = node47;
-        list[48] = node48;
-        list[49] = node49;
-        list[50] = node50;
-        list[51] = node51;
-        list[52] = node52;
-        list[53] = node53;
-        list[54] = node54;
-        list[55] = node55;
-        list[56] = node56;
-        list[57] = node57;
-        list[58] = node58;
-        
+        nodeList[0] = node0;
+        nodeList[1] = node1;
+        nodeList[2] = node2;
+        nodeList[3] = node3;
+        nodeList[4] = node4;
+        nodeList[5] = node5;
+        nodeList[6] = node6;
+        nodeList[7] = node7;
+        nodeList[8] = node8;
+        nodeList[9] = node9;
+        nodeList[10] = node10;
+        nodeList[11] = node11;
+        nodeList[12] = node12;
+        nodeList[13] = node13;
+        nodeList[14] = node14;
+        nodeList[15] = node15;
+        nodeList[16] = node16;
+        nodeList[17] = node17;
+        nodeList[18] = node18;
+        nodeList[19] = node19;
+        nodeList[20] = node20;
+        nodeList[21] = node21;
+        nodeList[22] = node22;
+        nodeList[23] = node23;
+        nodeList[24] = node24;
+        nodeList[25] = node25;
+        nodeList[26] = node26;
+        nodeList[27] = node27;
+        nodeList[28] = node28;
+        nodeList[29] = node29;
+        nodeList[30] = node30;
+        nodeList[31] = node31;
+        nodeList[32] = node32;
+        nodeList[33] = node33;
+        nodeList[34] = node34;
+        nodeList[35] = node35;
+        nodeList[36] = node36;
+        nodeList[37] = node37;
+        nodeList[38] = node38;
+        nodeList[39] = node39;
+        nodeList[40] = node40;
+        nodeList[41] = node41;
+        nodeList[42] = node42;
+        nodeList[42] = node42;
+        nodeList[43] = node43;
+        nodeList[44] = node44;
+        nodeList[45] = node45;
+        nodeList[46] = node46;
+        nodeList[47] = node47;
+        nodeList[48] = node48;
+        nodeList[49] = node49;
+        nodeList[50] = node50;
+        nodeList[51] = node51;
+        nodeList[52] = node52;
+        nodeList[53] = node53;
+        nodeList[54] = node54;
+        nodeList[55] = node55;
+        nodeList[56] = node56;
+        nodeList[57] = node57;
+        nodeList[58] = node58;
+
         spawnList[0] = node0;
         spawnList[1] = node1;
         spawnList[2] = node2;
@@ -252,79 +324,5 @@ public class NPCBehaviour : MonoBehaviour {
         spawnList[43] = node56;
         spawnList[44] = node57;
         spawnList[45] = node58;
-        #endregion
-
-        //initialize values
-        int random = Random.Range(0, spawnList.Length);
-        randX = Random.Range(0, radius);
-        randZ = Random.Range(0, radius);
-        agent = GetComponent<NavMeshAgent>();
-
-
-        //Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other, Using Warp() rather than position
-        //because transform.position unsyncs NPC from navmesh making it unable to walk across it
-        this.agent.Warp(spawnList[random].GetTransformData().position + new Vector3(randX, 0, randZ));
-
-        //Prevent NPC's from spawning on clutter heavy checkpoints
-        currentCheckpoint = spawnList[random];
-
-        //Randomize NPC's speed and set autoRepath to true so NPC's don't walk to invalid points on map
-        agent.speed = Random.Range(3, 6);
-        agent.autoRepath = true;
-
-        //Find target to walk to
-        FindNewTarget();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate() {
-        //if timeout overflows OR NPC has reached destination find a new destination
-        if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
-            this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius) && (this.transform.position.z 
-            >= nextCheckpoint.GetTransformData().position.z - radius && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius))) {
-            previousCheckpoint = currentCheckpoint;
-            currentCheckpoint = nextCheckpoint;
-            FindNewTarget();
-            timeout = 0;
-        }
-        timeout++;
-    }
-
-    private void FindNewTarget() {
-        //initialize values
-        bool confirm = false;
-        randX = Random.Range(0, radius);
-        randZ = Random.Range(0, radius);
-        int rand = Random.Range(0, currentCheckpoint.GetLength());
-
-        //Set random option as destination
-        nextCheckpoint = currentCheckpoint.GetOption(rand);
-
-        //Confirm that nextCheckpoint is not equal to previousCheckpoint so NPC's don't walk back and forth between the same points
-        if (currentCheckpoint.GetLength() != 1) {
-            while (!confirm) {
-                if (nextCheckpoint == previousCheckpoint) {
-                    rand = Random.Range(0, currentCheckpoint.GetLength());
-                    nextCheckpoint = currentCheckpoint.GetOption(rand);
-                } else {
-                    confirm = true;
-                }
-            }
-        }
-        agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
-
-        //Face the destination
-        FaceTarget();
-    }
-
-    private Transform GetCheckpointChild(int index) {
-        return checkpointContainer.gameObject.transform.GetChild(index);
-    }
-
-    //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
-    private void FaceTarget() {
-        Vector3 direction = (nextCheckpoint.GetTransformData().position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 }
