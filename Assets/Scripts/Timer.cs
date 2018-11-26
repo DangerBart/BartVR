@@ -11,7 +11,6 @@ public class Timer : MonoBehaviour {
 
     // Social media creator
     public GameObject socialMediaPrefab;
-    GameObject socialMediaPrefabClone;
     private Board board;
 
 
@@ -20,7 +19,6 @@ public class Timer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        socialMediaPrefabClone = Instantiate(socialMediaPrefab);
         board = GetComponent<Board>();
 	} 
 
@@ -32,7 +30,7 @@ public class Timer : MonoBehaviour {
 
             // execute block of code here
             counter++;
-            board.LoadRandomNotification();
+            board.LoadRandomNotification(0);
         }
     }
 

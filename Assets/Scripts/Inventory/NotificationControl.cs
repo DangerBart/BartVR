@@ -10,17 +10,24 @@ public class NotificationControl : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < 1; i++){
-            CreateMessagePanel(i);
-        }
+   
     }
 
-    void CreateMessagePanel(int number){
+    public void CreateMessagePanel(Notification not)
+    {
         GameObject message = Instantiate(MessagePanel) as GameObject;
         message.SetActive(true);
 
-        message.GetComponent<NotificationButton>().SetName("User " + number);
+        message.GetComponent<NotificationButton>().SetName(not.Name);
+        message.GetComponent<NotificationButton>().SetMessage(not.Message);
+        message.GetComponent<NotificationButton>().SetMediaPlatform(not.PlatformLogo);
+
 
         message.transform.SetParent(MessagePanel.transform.parent, false);
+    }
+
+    public void Hello ()
+    {
+        Debug.Log("Hello");
     }
 }

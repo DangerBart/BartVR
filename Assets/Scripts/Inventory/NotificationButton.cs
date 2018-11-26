@@ -11,8 +11,22 @@ public class NotificationButton : MonoBehaviour {
     [SerializeField]
     private Text message;
 
+    [SerializeField]
+    private Image mediaPlaform;
+
     public void SetName(string name)
     {
         this.name.text = name;
+    }
+
+    public void SetMessage(string message) 
+    {
+        this.message.text = message;
+    }
+
+    public void SetMediaPlatform(Sprite image)
+    {
+        this.mediaPlaform.sprite = image;
+        Debug.Log("sprite: " + image.ToString());
     }
 }

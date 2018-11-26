@@ -5,16 +5,21 @@ using System.Linq;
 
 public class Board : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject notificationMenu;
+    private NotificationControl notificationControl;
+
+
     private NotificationContainer nc;
     private int amountPOI;
     public string m_Path = "XML_Files/data-set";
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
-    private int switchPOI = 0;
 
     void Start()
     {
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
+        notificationControl = notificationMenu.GetComponent<NotificationControl>();
     }
 
     void LoadItems(string path)
@@ -33,25 +38,20 @@ public class Board : MonoBehaviour
           
             notificationsPerPOI[note.POI].Add(note);
         }
-
-        //PrintTest();
     } 
-    public void LoadRandomNotification(){
-        int randomNotificationID = Random.Range(0, notificationsPerPOI[switchPOI].Count);
-        Notification not = notificationsPerPOI[switchPOI][randomNotificationID];
+
+    public void LoadRandomNotification(int POI)
+    {
+        int randomNotificationID = Random.Range(0, notificationsPerPOI[POI].Count);
+        Notification not = notificationsPerPOI[POI][randomNotificationID];
         
         not.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + not.Platform);
         if(not.Image != null){
             not.Img = Resources.Load<Sprite>("Images/" + not.Image);
         }
         Debug.Log(not.PlatformLogo);
-    }
 
-    // Test function -> Remove later
-    void PrintTest(){
-        for (int i = 0; i < amountPOI; i++){
-            Debug.Log("POI: " + i + " contains " + notificationsPerPOI[i].Count + " notifications");
-        }
+        notificationControl.CreateMessagePanel(not);
     }
 
 }
