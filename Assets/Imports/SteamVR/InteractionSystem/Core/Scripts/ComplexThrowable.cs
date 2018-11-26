@@ -134,7 +134,7 @@ namespace Valve.VR.InteractionSystem
 
 			hand.AttachObject( this.gameObject, attachmentFlags );
 
-			// Update holding list
+			// Update holding nodeList
 			holdingHands.Add( hand );
 			holdingBodies.Add( holdingBody );
 			holdingPoints.Add( holdingPoint );

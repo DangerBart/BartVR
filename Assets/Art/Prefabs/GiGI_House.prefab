@@ -25,8 +25,8 @@ GameObject:
   m_Name: Brievenbus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1111225915041652
 GameObject:
@@ -42,8 +42,8 @@ GameObject:
   m_Name: Deurnob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1200763842982506
 GameObject:
@@ -60,8 +60,8 @@ GameObject:
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1715264919228864
 GameObject:
@@ -77,8 +77,8 @@ GameObject:
   m_Name: GiGI_House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!1 &1829280970929852
 GameObject:
@@ -95,8 +95,8 @@ GameObject:
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4133632229119038
 Transform:
@@ -117,9 +117,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1715264919228864}
-  m_LocalRotation: {x: -0, y: -0.96609426, z: -0, w: 0.25818962}
-  m_LocalPosition: {x: -35.325, y: -0.01, z: 18.606}
-  m_LocalScale: {x: 390.38947, y: 390.38947, z: 390.38947}
+  m_LocalRotation: {x: -0, y: 0.731438, z: -0, w: 0.68190795}
+  m_LocalPosition: {x: -127.85295, y: -66.15707, z: 60.318905}
+  m_LocalScale: {x: -398.1976, y: 398.19724, z: 466.44864}
   m_Children:
   - {fileID: 4133632229119038}
   - {fileID: 4518330662135460}
@@ -127,7 +127,7 @@ Transform:
   - {fileID: 4492078781518686}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -150.07501, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -625.98596, z: 0}
 --- !u!4 &4492078781518686
 Transform:
   m_ObjectHideFlags: 1

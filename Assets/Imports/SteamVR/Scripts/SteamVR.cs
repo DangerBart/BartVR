@@ -68,7 +68,7 @@ public class SteamVR : System.IDisposable
             var error = EVRInitError.None;
             if (!SteamVR.usingNativeSupport)
             {
-                Debug.Log("OpenVR initialization failed.  Ensure 'Virtual Reality Supported' is checked in Player Settings, and OpenVR is added to the list of Virtual Reality SDKs.");
+                Debug.Log("OpenVR initialization failed.  Ensure 'Virtual Reality Supported' is checked in Player Settings, and OpenVR is added to the nodeList of Virtual Reality SDKs.");
                 return null;
             }
 
