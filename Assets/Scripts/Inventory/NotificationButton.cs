@@ -27,6 +27,5 @@ public class NotificationButton : MonoBehaviour {
     public void SetMediaPlatform(Sprite image)
     {
         this.mediaPlaform.sprite = image;
-        Debug.Log("sprite: " + image.ToString());
     }
 }

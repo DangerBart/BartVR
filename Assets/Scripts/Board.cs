@@ -9,9 +9,9 @@ public class Board : MonoBehaviour
     private GameObject notificationMenu;
     private NotificationControl notificationControl;
 
-
     private NotificationContainer nc;
-    private int amountPOI;
+    private int currentPOI = 1;
+    private int irrelevantNotificationCount;
     public string m_Path = "XML_Files/data-set";
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
@@ -33,25 +33,55 @@ public class Board : MonoBehaviour
 
             if (!notificationsPerPOI.ContainsKey(note.POI)){
                 notificationsPerPOI.Add(note.POI, new List<Notification>());
-                amountPOI++;
             }
           
             notificationsPerPOI[note.POI].Add(note);
         }
-    } 
+    }
 
-    public void LoadRandomNotification(int POI)
+    public void SetCurrentPOI(int POI)
     {
-        int randomNotificationID = Random.Range(0, notificationsPerPOI[POI].Count);
-        Notification not = notificationsPerPOI[POI][randomNotificationID];
-        
-        not.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + not.Platform);
-        if(not.Image != null){
-            not.Img = Resources.Load<Sprite>("Images/" + not.Image);
-        }
-        Debug.Log(not.PlatformLogo);
+        currentPOI = POI;
+    }
 
-        notificationControl.CreateMessagePanel(not);
+    public void LoadRandomRelevantNotification()
+    {
+        if (notificationsPerPOI[currentPOI].Count != 0) 
+        {
+            int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
+            Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
+
+            // Making sure relevant notifications are not displayed twice
+            notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
+
+            SetNotificationPlatformLogo(notification);
+
+            notificationControl.CreateMessagePanel(notification);
+        }
+    }
+
+    public void LoadRandomIrrelevantNotification()
+    {
+        // Reset counter if needed
+        if (irrelevantNotificationCount >= notificationsPerPOI[0].Count){
+            irrelevantNotificationCount = 0;
+        }
+
+        Notification notification = notificationsPerPOI[0][irrelevantNotificationCount];
+
+        SetNotificationPlatformLogo(notification);
+
+        irrelevantNotificationCount++;
+        notificationControl.CreateMessagePanel(notification);
+    }
+
+    private void SetNotificationPlatformLogo(Notification notification)
+    {
+        notification.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + notification.Platform);
+        if (notification.Image != null)
+        {
+            notification.Img = Resources.Load<Sprite>("Images/" + notification.Image);
+        }
     }
 
 }

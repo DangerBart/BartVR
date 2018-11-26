@@ -25,9 +25,4 @@ public class NotificationControl : MonoBehaviour
 
         message.transform.SetParent(MessagePanel.transform.parent, false);
     }
-
-    public void Hello ()
-    {
-        Debug.Log("Hello");
-    }
 }
