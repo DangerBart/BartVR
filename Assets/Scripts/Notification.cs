@@ -4,9 +4,11 @@ using System.Xml;
 using System.Xml.Serialization;
 
 public class Notification{
-    public string Voornaam;
-    public string Achternaam;
-    public string Bericht;
+    public string Name;
+    public string Message;
     public int POI;
-    public string Mediaplatform;
+    public string PlatformLogoPath;
+    public string ImagePath;
+    public Sprite PlatformLogo;
+    public Sprite Image;
 }

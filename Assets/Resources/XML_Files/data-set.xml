@@ -1,180 +1,156 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-	<NotificationCollection>
-		<Notifications>
-			<Notification>
-				<Voornaam>Daan</Voornaam>
-				<Achternaam>van den Heuvel</Achternaam>
-				<Bericht>Ik heb niets gezien.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>SMS</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Sanne</Voornaam>
-				<Achternaam>de Bruijn</Achternaam>
-				<Bericht>Is dit al opgelost?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Thomas</Voornaam>
-				<Achternaam>van der Linden</Achternaam>
-				<Bericht>Wat is er precies gebeurd?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Facebook</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Emma</Voornaam>
-				<Achternaam>de Graaf</Achternaam>
-				<Bericht>Ik ben vandaag niet in de stad.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Facebook</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Lisa</Voornaam>
-				<Achternaam>Hendriks</Achternaam>
-				<Bericht>Ik zag iemand met die omschrijving.</Bericht>
-				<POI>1</POI>
-				<Mediaplatform>SMS</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Lars</Voornaam>
-				<Achternaam>Timmerman</Achternaam>
-				<Bericht>Ik zie iemand die zich verdacht gedraagt.</Bericht>
-				<POI>2</POI>
-				<Mediaplatform>Facebook</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Niels</Voornaam>
-				<Achternaam>Smit</Achternaam>
-				<Bericht>Een paar minuten geleden had ik hem nog gezien.</Bericht>
-				<POI>2</POI>
-				<Mediaplatform>Whattsapp</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Lieke</Voornaam>
-				<Achternaam>de Boer</Achternaam>
-				<Bericht>Iemand rende hier zojuist hard weg.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Whattsapp</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Sara</Voornaam>
-				<Achternaam>de Lange</Achternaam>
-				<Bericht>Nog meer criminaliteit?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Tom</Voornaam>
-				<Achternaam>Scholten</Achternaam>
-				<Bericht>Ik had de verdachte  hier net nog gezien.</Bericht>
-				<POI>1</POI>
-				<Mediaplatform>Bellen</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Geert</Voornaam>
-				<Achternaam>Kuipers</Achternaam>
-				<Bericht>Heb iemand gezien met die verdachteomschrijving.</Bericht>
-				<POI>3</POI>
-				<Mediaplatform>Bellen</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Thijs</Voornaam>
-				<Achternaam>Vink</Achternaam>
-				<Bericht>Nou ik ga vandaag de stad niet in.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Floor</Voornaam>
-				<Achternaam>Veenstra</Achternaam>
-				<Bericht>Ik ga geen gevaarlijke verdachte opsporen.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>SMS</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Sandra</Voornaam>
-				<Achternaam>de Groot</Achternaam>
-				<Bericht>Iemand hier voldoet wel aan de omschrijving.</Bericht>
-				<POI>1</POI>
-				<Mediaplatform>Facebook</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Koen</Voornaam>
-				<Achternaam>van Leeuwen</Achternaam>
-				<Bericht>Is er hier verder nog nieuws over?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Whattsapp</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Justin</Voornaam>
-				<Achternaam>van Vliet</Achternaam>
-				<Bericht>Hebben jullie hem al?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Femke</Voornaam>
-				<Achternaam>Kok</Achternaam>
-				<Bericht>Iemand die erop leek liep langs mijn winkel heen.</Bericht>
-				<POI>3</POI>
-				<Mediaplatform>SMS</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Anna</Voornaam>
-				<Achternaam>Dijkstra</Achternaam>
-				<Bericht>Hier liep wel iemand die erop leek.</Bericht>
-				<POI>3</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Esmee</Voornaam>
-				<Achternaam>Dekker</Achternaam>
-				<Bericht>De winkels zijn wel toch gewoon open?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Facebook</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Jelle</Voornaam>
-				<Achternaam>Bos</Achternaam>
-				<Bericht>Zag wel iemand anders die zich aggresief gedroeg.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Bellen</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Amse</Voornaam>
-				<Achternaam>Bakker</Achternaam>
-				<Bericht>Ik zie anders geen enkele agent hier lopen.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Jurrien</Voornaam>
-				<Achternaam>Mulder</Achternaam>
-				<Bericht>Moet ik de politie bellen als ik de verdachte zie?</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>Bellen</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Tim</Voornaam>
-				<Achternaam>de Vries</Achternaam>
-				<Bericht>Uit mijn raam leek er wel op de persoon.</Bericht>
-				<POI>1</POI>
-				<Mediaplatform>Facebook</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Jaap</Voornaam>
-				<Achternaam>Jansen</Achternaam>
-				<Bericht>Iemand probeerde mijn fiets te stelen.</Bericht>
-				<POI>0</POI>
-				<Mediaplatform>SMS</Mediaplatform>
-			</Notification>
-			<Notification>
-				<Voornaam>Iris</Voornaam>
-				<Achternaam>de Jong</Achternaam>
-				<Bericht>Ik zie hem hier.</Bericht>
-				<POI>1</POI>
-				<Mediaplatform>Twitter</Mediaplatform>
-			</Notification>
-		</Notifications>
-	</NotificationCollection>
+<NotificationCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Notifications>
+		<Notification>
+			<Name>Daan</Name>
+			<Message>Ik heb niets gezien.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>SMS</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Sanne</Name>
+			<Message>Is dit al opgelost?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Thomas</Name>
+			<Message>Wat is er precies gebeurd?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Facebook</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Emma</Name>
+			<Message>Ik ben vandaag niet in de stad.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Facebook</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Lisa</Name>
+			<Message>Ik zag iemand met die omschrijving.</Message>
+			<POI>1</POI>
+			<PlatformLogoPath>SMS</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Lars</Name>
+			<Message>Ik zie iemand die zich verdacht gedraagt.</Message>
+			<POI>2</POI>
+			<PlatformLogoPath>Facebook</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Niels</Name>
+			<Message>Een paar minuten geleden had ik hem nog gezien.</Message>
+			<POI>2</POI>
+			<PlatformLogoPath>Whatsapp</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Lieke</Name>
+			<Message>Iemand rende hier zojuist hard weg.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Whatsapp</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Sara</Name>
+			<Message>Nog meer criminaliteit?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+			<ImagePath>Image</ImagePath>
+		</Notification>
+		<Notification>
+			<Name>Tom</Name>
+			<Message>Ik had de verdachte  hier net nog gezien.</Message>
+			<POI>1</POI>
+			<PlatformLogoPath>Bellen</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Geert</Name>
+			<Message>Heb iemand gezien met die verdachteomschrijving.</Message>
+			<POI>3</POI>
+			<PlatformLogoPath>Bellen</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Thijs</Name>
+			<Message>Nou ik ga vandaag de stad niet in.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Floor</Name>
+			<Message>Ik ga geen gevaarlijke verdachte opsporen.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>SMS</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Sandra</Name>
+			<Message>Iemand hier voldoet wel aan de omschrijving.</Message>
+			<POI>1</POI>
+			<PlatformLogoPath>Facebook</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Koen</Name>
+			<Message>Is er hier verder nog nieuws over?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Whatsapp</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Justin</Name>
+			<Message>Hebben jullie hem al?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Femke</Name>
+			<Message>Iemand die erop leek liep langs mijn winkel heen.</Message>
+			<POI>3</POI>
+			<PlatformLogoPath>SMS</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Anna</Name>
+			<Message>Hier liep wel iemand die erop leek.</Message>
+			<POI>3</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Esmee</Name>
+			<Message>De winkels zijn wel toch gewoon open?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Facebook</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Jelle</Name>
+			<Message>Zag wel iemand anders die zich aggresief gedroeg.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Bellen</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Amse</Name>
+			<Message>Ik zie anders geen enkele agent hier lopen.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Jurrien</Name>
+			<Message>Moet ik de politie bellen als ik de verdachte zie?</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>Bellen</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Tim</Name>
+			<Message>Uit mijn raam leek er wel op de persoon.</Message>
+			<POI>1</POI>
+			<PlatformLogoPath>Facebook</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Jaap</Name>
+			<Message>Iemand probeerde mijn fiets te stelen.</Message>
+			<POI>0</POI>
+			<PlatformLogoPath>SMS</PlatformLogoPath>
+		</Notification>
+		<Notification>
+			<Name>Iris</Name>
+			<Message>Ik zie hem hier.</Message>
+			<POI>1</POI>
+			<PlatformLogoPath>Twitter</PlatformLogoPath>
+		</Notification>
+	</Notifications>
+</NotificationCollection>
