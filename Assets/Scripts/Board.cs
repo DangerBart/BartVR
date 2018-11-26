@@ -40,9 +40,9 @@ public class Board : MonoBehaviour
         int randomNotificationID = Random.Range(0, notificationsPerPOI[switchPOI].Count);
         Notification not = notificationsPerPOI[switchPOI][randomNotificationID];
         
-        not.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + not.PlatformLogoPath);
-        if(not.ImagePath != null){
-            not.Image = Resources.Load<Sprite>("Images/" + not.ImagePath);
+        not.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + not.Platform);
+        if(not.Image != null){
+            not.Img = Resources.Load<Sprite>("Images/" + not.Image);
         }
         Debug.Log(not.PlatformLogo);
     }

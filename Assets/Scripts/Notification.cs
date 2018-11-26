@@ -7,8 +7,8 @@ public class Notification{
     public string Name;
     public string Message;
     public int POI;
-    public string PlatformLogoPath;
-    public string ImagePath;
+    public string Platform;
+    public string Image;
     public Sprite PlatformLogo;
-    public Sprite Image;
+    public Sprite Img;
 }
