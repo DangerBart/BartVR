@@ -24,7 +24,7 @@ public class LocationSync : MonoBehaviour {
 
 
     private void UpdateMapSizeAndScale() {
-        float offset = 1.7f;
+        float offset = 2f;
 
         mapSize = map.GetComponent<RectTransform>().sizeDelta;
         planeSize = plane.GetComponent<RectTransform>().sizeDelta;
