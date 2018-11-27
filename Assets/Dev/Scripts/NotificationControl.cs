@@ -16,7 +16,7 @@ public class NotificationControl : MonoBehaviour
         message.GetComponent<NotificationButton>().SetName(notification.Name);
         message.GetComponent<NotificationButton>().SetMessage(notification.Message);
         message.GetComponent<NotificationButton>().SetMediaPlatform(notification.PlatformLogo);
-
+        message.GetComponent<NotificationButton>().SetImage(notification.Img);
 
         message.transform.SetParent(MessagePanel.transform.parent, false);
     }

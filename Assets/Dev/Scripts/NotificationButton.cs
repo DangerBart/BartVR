@@ -14,6 +14,13 @@ public class NotificationButton : MonoBehaviour {
     [SerializeField]
     private Image mediaPlaform;
 
+    [SerializeField]
+    private GameObject popupWindow;
+
+    [SerializeField]
+    private Image image;
+
+
     public void SetName(string name)
     {
         this.name.text = name;
@@ -27,5 +34,14 @@ public class NotificationButton : MonoBehaviour {
     public void SetMediaPlatform(Sprite image)
     {
         this.mediaPlaform.sprite = image;
+    }
+
+    public void SetImage(Sprite image) 
+    {
+        if (image == null){
+            popupWindow.SetActive(false);
+        }
+
+        this.image.sprite = image;
     }
 }
