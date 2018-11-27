@@ -8,19 +8,14 @@ public class NotificationControl : MonoBehaviour
     [SerializeField]
     private GameObject MessagePanel;
 
-    void Start()
-    {
-   
-    }
-
-    public void CreateMessagePanel(Notification not)
+    public void CreateMessagePanel(Notification notification)
     {
         GameObject message = Instantiate(MessagePanel) as GameObject;
         message.SetActive(true);
 
-        message.GetComponent<NotificationButton>().SetName(not.Name);
-        message.GetComponent<NotificationButton>().SetMessage(not.Message);
-        message.GetComponent<NotificationButton>().SetMediaPlatform(not.PlatformLogo);
+        message.GetComponent<NotificationButton>().SetName(notification.Name);
+        message.GetComponent<NotificationButton>().SetMessage(notification.Message);
+        message.GetComponent<NotificationButton>().SetMediaPlatform(notification.PlatformLogo);
 
 
         message.transform.SetParent(MessagePanel.transform.parent, false);

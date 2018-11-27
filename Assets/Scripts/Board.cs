@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class Board : MonoBehaviour
 {
@@ -73,6 +71,7 @@ public class Board : MonoBehaviour
 
         irrelevantNotificationCount++;
         notificationControl.CreateMessagePanel(notification);
+
     }
 
     private void SetNotificationPlatformLogo(Notification notification)
