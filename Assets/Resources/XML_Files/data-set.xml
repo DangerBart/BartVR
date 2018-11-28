@@ -24,18 +24,21 @@
 			<Message>Ik ben vandaag niet in de stad.</Message>
 			<POI>0</POI>
 			<Platform>Facebook</Platform>
+			<Image>Image</Image>
 		</Notification>
 		<Notification>
 			<Name>Lisa</Name>
 			<Message>Ik zag iemand met die omschrijving.</Message>
 			<POI>1</POI>
 			<Platform>SMS</Platform>
+			<Image>Image</Image>
 		</Notification>
 		<Notification>
 			<Name>Lars</Name>
 			<Message>Ik zie iemand die zich verdacht gedraagt.</Message>
 			<POI>2</POI>
 			<Platform>Facebook</Platform>
+			<Image>Image</Image>
 		</Notification>
 		<Notification>
 			<Name>Niels</Name>
