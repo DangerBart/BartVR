@@ -6,6 +6,7 @@
 			<Message>Ik heb niets gezien.</Message>
 			<POI>0</POI>
 			<Platform>SMS</Platform>
+			<Image>Church</Image>
 		</Notification>
 		<Notification>
 			<Name>Sanne</Name>
@@ -24,21 +25,19 @@
 			<Message>Ik ben vandaag niet in de stad.</Message>
 			<POI>0</POI>
 			<Platform>Facebook</Platform>
-			<Image>Image</Image>
+			<Image>Bench</Image>
 		</Notification>
 		<Notification>
 			<Name>Lisa</Name>
 			<Message>Ik zag iemand met die omschrijving.</Message>
 			<POI>1</POI>
 			<Platform>SMS</Platform>
-			<Image>Image</Image>
 		</Notification>
 		<Notification>
 			<Name>Lars</Name>
 			<Message>Ik zie iemand die zich verdacht gedraagt.</Message>
 			<POI>2</POI>
 			<Platform>Facebook</Platform>
-			<Image>Image</Image>
 		</Notification>
 		<Notification>
 			<Name>Niels</Name>
@@ -51,13 +50,13 @@
 			<Message>Iemand rende hier zojuist hard weg.</Message>
 			<POI>0</POI>
 			<Platform>Whatsapp</Platform>
+			<Image>City</Image>
 		</Notification>
 		<Notification>
 			<Name>Sara</Name>
 			<Message>Nog meer criminaliteit?</Message>
 			<POI>0</POI>
 			<Platform>Twitter</Platform>
-			<Image>Image</Image>
 		</Notification>
 		<Notification>
 			<Name>Tom</Name>
