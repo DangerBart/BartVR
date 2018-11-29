@@ -469,12 +469,12 @@ public class ViveNavMeshEditor : Editor {
         return ret_set;
     }
 
-    /// Given a list of edges, finds a polyline connected to the edge at index start.
+    /// Given a nodeList of edges, finds a polyline connected to the edge at index start.
     /// Guaranteed to run in O(n) time.  Assumes that each edge only has two neighbor edges.
     /// 
     /// \param start starting index of edge
     /// \param visited tally of visited edges (perhaps from previous calls)
-    /// \param edges list of edges
+    /// \param edges nodeList of edges
     private static int[] FindPolylineFromEdges(int start, bool[] visited, List<Edge> edges)
     {
         List<int> loop = new List<int>(edges.Count);

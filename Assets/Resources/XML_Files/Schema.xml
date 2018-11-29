@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <NotificationCollection>
+    <Notifications>
+      <Notification>
+        <Name>Daan</Name>
+        <Message>Ik heb niets gezien.</Message>
+        <POI>0</POI>
+        <Platform>/Mediaplatform/Facebook.png</Platform>
+		    <Image></Image>
+      </Notification>
+      <Notification>
+        <Name>Sanne</Name>
+        <Message>Is dit al opgelost?</Message>
+        <POI>0</POI>
+        <Platform>/Mediaplatform/Twitter.png</Platform>
+		    <Image>/Images/Image.png</Image>
+      </Notification>
+    </Notifications>
+  </NotificationCollection>
