@@ -5,6 +5,12 @@ public class Board : MonoBehaviour
 {
     [SerializeField]
     private GameObject notificationMenu;
+
+    // POI
+    [SerializeField]
+    private GameObject POISystem;
+    private POIManager POIManager;
+
     private NotificationControl notificationControl;
 
     private NotificationContainer nc;
@@ -17,6 +23,16 @@ public class Board : MonoBehaviour
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
+
+        // POI
+        POIManager = POISystem.GetComponent<POIManager>();
+        // POI 0 is not a real POI
+        POIManager.Setup(notificationsPerPOI.Count - 1); 
+    }
+
+    public void PlayerMoved(Transform playerCoordinates)
+    {
+        Debug.Log("Player moved -> We should check if the player is near the current POI. These are the player cordinates: X " + playerCoordinates.transform.position.x + " Y " + playerCoordinates.transform.position.y);
     }
 
     void LoadItems(string path) {

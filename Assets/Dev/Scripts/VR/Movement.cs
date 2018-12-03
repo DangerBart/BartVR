@@ -23,10 +23,17 @@ public class Movement : MonoBehaviour {
     private Vector3 prevPos;
     private Vector3 fwd;
 
+    //POI
+    [SerializeField]
+    private GameObject controlRoom;
+    private Board board;
+
     // Use this for initialization
     void Start() {
         trackedObject = GetComponent<SteamVR_TrackedObject>();
+        board = controlRoom.GetComponent<Board>();
     }
+
     void Update() {
         // Set device equal to the tracked controller
         device = SteamVR_Controller.Input((int)trackedObject.index);
@@ -57,6 +64,9 @@ public class Movement : MonoBehaviour {
                     break;
             }
         }
+
+        // New
+        board.PlayerMoved(playerRig.transform);
     }
 
     private void MovePlayerBasedOnLook() { 
