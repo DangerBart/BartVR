@@ -66,7 +66,7 @@ public class Movement : MonoBehaviour {
         }
 
         // New
-        board.PlayerMoved(playerRig.transform);
+        //board.PlayerMoved(playerRig.transform);
     }
 
     private void MovePlayerBasedOnLook() { 

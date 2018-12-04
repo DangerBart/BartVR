@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135207532631062790}
   - component: {fileID: 114755881384994664}
   m_Layer: 2
-  m_Name: POI
+  m_Name: POI1
   m_TagString: POI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
