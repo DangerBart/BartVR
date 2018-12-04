@@ -14,7 +14,6 @@ public class Board : MonoBehaviour
     private NotificationControl notificationControl;
 
     private NotificationContainer nc;
-    private int currentPOI = 1;
     private int irrelevantNotificationCount;
     public string m_Path = "XML_Files/data-set";
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
@@ -51,17 +50,14 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void SetCurrentPOI(int POI) {
-        currentPOI = POI;
-    }
-
     public void LoadRandomRelevantNotification() {
-        if (notificationsPerPOI[currentPOI].Count != 0) {
-            int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
-            Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
+        if (notificationsPerPOI[POIManager.GetCurrentPOI()].Count != 0) {
+            int index = POIManager.GetCurrentPOI();
+            int randomNotificationID = Random.Range(0, notificationsPerPOI[index].Count);
+            Notification notification = notificationsPerPOI[index][randomNotificationID];
 
             // Making sure relevant notifications are not displayed twice
-            notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
+            notificationsPerPOI[index].RemoveAt(randomNotificationID);
 
             SetNotificationPlatformLogo(notification);
 

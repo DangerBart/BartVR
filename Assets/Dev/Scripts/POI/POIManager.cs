@@ -18,6 +18,11 @@ public class POIManager : MonoBehaviour {
         PrintAllPOI();
     }
 
+    public int GetCurrentPOI()
+    {
+        return currentPOI;
+    }
+
     private void FillPOIList(int amount)
     {
         for (int i = 0; i < amount; i++)
@@ -38,6 +43,17 @@ public class POIManager : MonoBehaviour {
         foreach (Transform POI in POIs)
         {
             Debug.Log(POI.transform.position.x);
+        }
+    }
+
+    // Might have to move this to each POI individualy with a new script
+    void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("Detected collission");
+
+        if (col.gameObject.tag == "CameraRig")
+        {
+            Debug.Log("Detected collission with CameraRig");
         }
     }
 }
