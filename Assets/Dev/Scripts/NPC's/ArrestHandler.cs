@@ -7,7 +7,7 @@ public class ArrestHandler : MonoBehaviour {
     public GameObject gameOverText;
 
     void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Arrest") {
+        if (collision.gameObject.tag == "Suspect") {
             Time.timeScale = 0;
             gameOverText.SetActive(true);
         }
