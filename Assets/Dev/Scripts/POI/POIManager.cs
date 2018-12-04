@@ -9,7 +9,6 @@ public class POIManager : MonoBehaviour {
 
     private List<Transform> POIs = new List<Transform>();
 
-
     public void Setup(int amountOfPOI)
     {
         currentPOI = 1;

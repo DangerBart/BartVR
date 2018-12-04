@@ -89,10 +89,16 @@ public class Movement : MonoBehaviour {
 
     //Because Unity uses this as a measure of detecting collisions we have to use this
     void OnCollisionEnter(Collision collision) {
-        isNoCollision = false;
+        if (collision.gameObject.tag != "POI")
+        {
+            isNoCollision = false;
+        }
     }
     void OnCollisionStay(Collision collision) {
-        isNoCollision = false;
+        if (collision.gameObject.tag != "POI")
+        {
+            isNoCollision = false;
+        }
     }
     void OnCollisionExit(Collision collision) {
         isNoCollision = true;

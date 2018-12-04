@@ -10,5 +10,11 @@ public class POICollision : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Detected collission with POI");
+
+        if (collision.gameObject.tag == "MainCamera")
+        {
+            Debug.Log("Specifiqly with Camera AKA the player!");
+        }
+        
     }
 }
