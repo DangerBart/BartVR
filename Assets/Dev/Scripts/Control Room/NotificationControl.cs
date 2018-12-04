@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class NotificationControl : MonoBehaviour
 {
-
-    [SerializeField]
-    private GameObject messagePanel;
-
-    public void CreateMessagePanel(Notification notification) {
-        GameObject message = Instantiate(messagePanel) as GameObject;
+    public void CreateMessagePanel(Notification notification, GameObject NotPanel, GameObject DefaultPanel) {
+        GameObject message = Instantiate(NotPanel) as GameObject;
         message.SetActive(true);
+        
+        message.GetComponent<NotificationPanel>().SetDefaultBoardPanel(DefaultPanel);
+        message.GetComponent<NotificationPanel>().SetDefaultNotificationPanel(NotPanel);
+        message.GetComponent<NotificationPanel>().SetName(notification.Name);
+        message.GetComponent<NotificationPanel>().SetMessage(notification.Message);
+        message.GetComponent<NotificationPanel>().SetMediaPlatform(notification.PlatformLogo);
+        message.GetComponent<NotificationPanel>().SetImage(notification.Img);
 
-        message.GetComponent<NotificationButton>().SetName(notification.Name);
-        message.GetComponent<NotificationButton>().SetMessage(notification.Message);
-        message.GetComponent<NotificationButton>().SetMediaPlatform(notification.PlatformLogo);
-        message.GetComponent<NotificationButton>().SetImage(notification.Img);
-
-        message.transform.SetParent(messagePanel.transform.parent, false);
+        message.transform.SetParent(NotPanel.transform.parent, false);
+    }
+    public void ToggleFavoritePanel(GameObject Panel, GameObject TogglePanel){
+        GameObject message = Instantiate(TogglePanel) as GameObject;
+        message.SetActive(true);
+        message = Panel;
+        message.transform.SetParent(TogglePanel.transform.parent, false);
     }
 }
