@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
 
-    [SerializeField]
-    public GameObject panelToShowNotifications;
-
     [Tooltip("Time in seconds")]
     [SerializeField]
     private float intervalRelevantMessages = 2f;
