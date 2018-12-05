@@ -7,52 +7,61 @@ public class POIManager : MonoBehaviour {
     private int currentPOI;
     private int amountOfPOI;
 
-    private List<Transform> POIs = new List<Transform>();
+    private List<GameObject> POIs = new List<GameObject>();
 
-    public void Setup(int amountOfPOI)
-    {
+    public void Setup(int amountOfPOI) {
         currentPOI = 1;
         this.amountOfPOI = amountOfPOI;
         FillPOIList(amountOfPOI);
         PrintAllPOI();
     }
 
-    public int GetCurrentPOI()
-    {
+    public int GetCurrentPOI() {
         return currentPOI;
     }
 
-    private void FillPOIList(int amount)
-    {
-        for (int i = 0; i < amount; i++)
+    public void POIReached() {
+        if (currentPOI <= POIs.Count) {
+            currentPOI++;
+            EnableCollider(POIs[currentPOI - 1]);
+        }
+        else
         {
+            Debug.Log("Last POI reached");
+        }
+
+        Debug.Log("Current POI is now: " + currentPOI);
+    }
+
+    private void FillPOIList(int amount) {
+        for (int i = 0; i < amount; i++) {
+
             POIs.Add(GetPOIChild(i));
+            if (i + 1 != currentPOI) {
+                EnableCollider(POIs[i], false);
+            }
         }
 
         Debug.Log("Done with filling the POI list");
     }
 
-    private Transform GetPOIChild(int index) {
-        return gameObject.transform.GetChild(index);
+    private GameObject GetPOIChild(int index) {
+        return gameObject.transform.GetChild(index).gameObject;
     }
+
+    private void EnableCollider(GameObject poiObject, bool value = true)
+    {
+        poiObject.GetComponent<SphereCollider>().enabled = value;
+    }
+
 
     // TEST
     public void PrintAllPOI()
     {
-        foreach (Transform POI in POIs)
+        foreach (GameObject POI in POIs)
         {
             Debug.Log(POI.transform.position.x);
         }
     }
 
-    // Might have to move this to each POI individualy with a new script
-    void OnCollisionEnter(Collision col)
-    {
-        Debug.Log("Detected collission");
-
-        if (col.gameObject.tag == "CameraRig")
-        {
-            Debug.Log("Detected collission with CameraRig");
-        }
-    }
 }

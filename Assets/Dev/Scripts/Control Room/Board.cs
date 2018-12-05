@@ -26,7 +26,7 @@ public class Board : MonoBehaviour
         // POI
         POIManager = POISystem.GetComponent<POIManager>();
         // POI 0 is not a real POI
-        POIManager.Setup(notificationsPerPOI.Count - 1); 
+        POIManager.Setup(notificationsPerPOI.Count - 1);
     }
 
     public void PlayerMoved(Transform playerCoordinates)

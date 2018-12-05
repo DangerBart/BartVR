@@ -9,6 +9,7 @@ public class POICollision : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Detected collission with POI");
-        this.GetComponent<SphereCollider>().enabled = false;
+        GetComponent<SphereCollider>().enabled = false;
     }
+    
 }
