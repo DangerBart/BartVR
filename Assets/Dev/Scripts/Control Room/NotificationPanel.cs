@@ -59,6 +59,7 @@ public class NotificationPanel : MonoBehaviour {
         notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
         DeletePanel();
     }
+
     public void DeletePanel(){
         Destroy(gameObject);
     }
