@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CameraRig
   - Hands
+  - DefaultNotification
   layers:
   - Default
   - TransparentFX

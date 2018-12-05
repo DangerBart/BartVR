@@ -5,6 +5,8 @@ public class Board : MonoBehaviour
 {
     [SerializeField]
     private GameObject notificationMenu;
+    [SerializeField]
+    private GameObject notificationPanel;
     private NotificationControl notificationControl;
 
     private NotificationContainer nc;
@@ -49,7 +51,7 @@ public class Board : MonoBehaviour
 
             SetNotificationPlatformLogo(notification);
 
-            notificationControl.CreateMessagePanel(notification);
+            notificationControl.CreateMessagePanel(notification, notificationPanel);
         }
     }
 
@@ -64,7 +66,7 @@ public class Board : MonoBehaviour
         SetNotificationPlatformLogo(notification);
 
         irrelevantNotificationCount++;
-        notificationControl.CreateMessagePanel(notification);
+        notificationControl.CreateMessagePanel(notification, notificationPanel);
 
     }
 
