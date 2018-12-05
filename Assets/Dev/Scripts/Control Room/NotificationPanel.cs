@@ -20,17 +20,8 @@ public class NotificationPanel : MonoBehaviour {
     public GameObject imageButton;
     public GameObject favoriteButton;
     public GameObject NotificationMenu;
-    public GameObject TogglePanel;
-    private GameObject DefaultBoardPanel;
-    private GameObject DefaultNotificationPanel;
-    private bool isFavorite = false;
+    public bool isFavorite;
     
-    public void SetDefaultBoardPanel(GameObject board){
-        this.DefaultBoardPanel = board;
-    }
-    public void SetDefaultNotificationPanel(GameObject not){
-        this.DefaultNotificationPanel = not;
-    }
     public void SetName(string name) {
         this.name.text = name;
     }
@@ -60,15 +51,12 @@ public class NotificationPanel : MonoBehaviour {
         if(isFavorite){
             isFavorite = false;
             favoriteButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/EmptyStar");
-            //TogglePanel = GameObject.Find("NotificationPanel");
-            NotificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, DefaultNotificationPanel);
         }
         else{
             isFavorite = true;
             favoriteButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/FilledStar");
-            //TogglePanel = GameObject.Find("BoardPanel");
-            NotificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, DefaultBoardPanel);
         }
-
+        
+        NotificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
     }
 }

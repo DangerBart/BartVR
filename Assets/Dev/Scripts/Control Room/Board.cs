@@ -13,15 +13,15 @@ public class Board : MonoBehaviour
     private int currentPOI = 1;
     private int irrelevantNotificationCount;
     public string m_Path = "XML_Files/data-set";
-    public GameObject defaultBoardPanel;
+    //public GameObject defaultBoardPanel;
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
     void Start() {
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
-        notificationPanel.SetActive(false);
-        defaultBoardPanel.SetActive(false);
+        // notificationPanel.SetActive(false);
+        // defaultBoardPanel.SetActive(false);
     }
 
     void LoadItems(string path) {
@@ -54,7 +54,7 @@ public class Board : MonoBehaviour
 
             SetNotificationPlatformLogo(notification);
 
-            notificationControl.CreateMessagePanel(notification, notificationPanel, defaultBoardPanel);
+            notificationControl.CreateMessagePanel(notification, notificationPanel);
         }
     }
 
@@ -69,7 +69,7 @@ public class Board : MonoBehaviour
         SetNotificationPlatformLogo(notification);
 
         irrelevantNotificationCount++;
-        notificationControl.CreateMessagePanel(notification, notificationPanel, defaultBoardPanel);
+        notificationControl.CreateMessagePanel(notification, notificationPanel);
 
     }
 

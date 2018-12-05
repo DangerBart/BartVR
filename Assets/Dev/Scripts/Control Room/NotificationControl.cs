@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NotificationControl : MonoBehaviour
 {
-    public void CreateMessagePanel(Notification notification, GameObject NotPanel, GameObject DefaultPanel) {
+    public GameObject DefaultNotificationPanel;
+    public GameObject DefaultBoardPanel;
+    public void CreateMessagePanel(Notification notification, GameObject NotPanel) {
         GameObject message = Instantiate(NotPanel) as GameObject;
         message.SetActive(true);
         
-        message.GetComponent<NotificationPanel>().SetDefaultBoardPanel(DefaultPanel);
-        message.GetComponent<NotificationPanel>().SetDefaultNotificationPanel(NotPanel);
         message.GetComponent<NotificationPanel>().SetName(notification.Name);
         message.GetComponent<NotificationPanel>().SetMessage(notification.Message);
         message.GetComponent<NotificationPanel>().SetMediaPlatform(notification.PlatformLogo);
@@ -17,10 +17,17 @@ public class NotificationControl : MonoBehaviour
 
         message.transform.SetParent(NotPanel.transform.parent, false);
     }
-    public void ToggleFavoritePanel(GameObject Panel, GameObject TogglePanel){
-        GameObject message = Instantiate(TogglePanel) as GameObject;
+    public void ToggleFavoritePanel(GameObject Panel, bool isFavorite){
+        GameObject NewPanel;
+        if(isFavorite){
+            NewPanel = DefaultBoardPanel;
+        }
+        else{
+            NewPanel = DefaultNotificationPanel;
+        }
+        GameObject message = Instantiate(NewPanel) as GameObject;
         message.SetActive(true);
         message = Panel;
-        message.transform.SetParent(TogglePanel.transform.parent, false);
+        message.transform.SetParent(NewPanel.transform.parent, false);
     }
 }
