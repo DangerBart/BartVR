@@ -13,15 +13,12 @@ public class Board : MonoBehaviour
     private int currentPOI = 1;
     private int irrelevantNotificationCount;
     public string m_Path = "XML_Files/data-set";
-    //public GameObject defaultBoardPanel;
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
     void Start() {
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
-        // notificationPanel.SetActive(false);
-        // defaultBoardPanel.SetActive(false);
     }
 
     void LoadItems(string path) {

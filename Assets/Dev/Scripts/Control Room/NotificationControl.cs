@@ -7,6 +7,7 @@ public class NotificationControl : MonoBehaviour
     public GameObject DefaultNotificationPanel;
     public GameObject DefaultBoardPanel;
     public void CreateMessagePanel(Notification notification, GameObject NotPanel) {
+        //Make a copy of the hidden panel
         GameObject message = Instantiate(NotPanel) as GameObject;
         message.SetActive(true);
         
@@ -17,17 +18,16 @@ public class NotificationControl : MonoBehaviour
 
         message.transform.SetParent(NotPanel.transform.parent, false);
     }
-    public void ToggleFavoritePanel(GameObject Panel, bool isFavorite){
-        GameObject NewPanel;
+    public void ToggleFavoritePanel(GameObject originalPanel, bool isFavorite){
+        //Make a copy of the originalpanel
+        GameObject message = Instantiate(originalPanel) as GameObject;
+        message.SetActive(true);
+        //Place it on the boardpanel or the receive notificationpanel
         if(isFavorite){
-            NewPanel = DefaultBoardPanel;
+            message.transform.SetParent(DefaultBoardPanel.transform.parent, false);
         }
         else{
-            NewPanel = DefaultNotificationPanel;
+            message.transform.SetParent(DefaultNotificationPanel.transform.parent, false);
         }
-        GameObject message = Instantiate(NewPanel) as GameObject;
-        message.SetActive(true);
-        message = Panel;
-        message.transform.SetParent(NewPanel.transform.parent, false);
     }
 }
