@@ -44,4 +44,7 @@ public class NotificationButton : MonoBehaviour {
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
     }
+    public void DeletePanel(){
+        Destroy(gameObject);
+    }
 }
