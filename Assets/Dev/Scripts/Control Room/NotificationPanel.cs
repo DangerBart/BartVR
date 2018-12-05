@@ -19,7 +19,7 @@ public class NotificationPanel : MonoBehaviour {
     public GameObject panelImage;
     public GameObject imageButton;
     public GameObject favoriteButton;
-    public GameObject NotificationMenu;
+    public GameObject notificationMenu;
     public bool isFavorite;
     
     public void SetName(string name) {
@@ -56,7 +56,7 @@ public class NotificationPanel : MonoBehaviour {
             isFavorite = true;
             favoriteButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
-        NotificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
+        notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
         DeletePanel();
     }
     public void DeletePanel(){

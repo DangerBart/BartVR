@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NotificationControl : MonoBehaviour
 {
-    public GameObject DefaultNotificationPanel;
-    public GameObject DefaultBoardPanel;
+    public GameObject defaultNotificationPanel;
+    public GameObject defaultBoardPanel;
     public void CreateMessagePanel(Notification notification, GameObject NotPanel) {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(NotPanel) as GameObject;
@@ -24,10 +24,10 @@ public class NotificationControl : MonoBehaviour
         message.SetActive(true);
         //Place it on the boardpanel or the receive notificationpanel
         if(isFavorite){
-            message.transform.SetParent(DefaultBoardPanel.transform.parent, false);
+            message.transform.SetParent(defaultBoardPanel.transform.parent, false);
         }
         else{
-            message.transform.SetParent(DefaultNotificationPanel.transform.parent, false);
+            message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
         }
     }
 }
