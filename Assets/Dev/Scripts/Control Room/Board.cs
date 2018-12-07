@@ -5,6 +5,7 @@ public class Board : MonoBehaviour
 {
     [SerializeField]
     private GameObject notificationMenu;
+    private GameObject suspect;
 
     // POI
     [SerializeField]
@@ -26,7 +27,8 @@ public class Board : MonoBehaviour
         // POI
         POIManager = POISystem.GetComponent<POIManager>();
         // POI 0 is not a real POI
-        POIManager.Setup(notificationsPerPOI.Count - 1); 
+        POIManager.Setup(notificationsPerPOI.Count - 1);    
+        
     }
 
     public void PlayerMoved(Transform playerCoordinates)
@@ -38,6 +40,13 @@ public class Board : MonoBehaviour
         nc = NotificationContainer.Load(path);
     }
 
+    void EnableArrest()
+    { 
+        if(POIManager.GetCurrentPOI() == notificationsPerPOI.Count - 1)
+        {
+            suspect.GetComponent<ArrestHandler>().enabled = true;
+        }
+    }
 
     void FillDictionaryWithNotificationsPerPOI() {
         foreach (Notification note in nc.notifications) {

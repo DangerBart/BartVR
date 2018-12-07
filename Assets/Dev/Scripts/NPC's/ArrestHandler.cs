@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ArrestHandler : MonoBehaviour {
+public class ArrestHandler : MonoBehaviour { 
 
     public GameObject gameOverText;
 
     void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Suspect") {
-            Time.timeScale = 0;
-            gameOverText.SetActive(true);
-        }
+        Debug.Log("Arrest collision");
+        Debug.Log("Arrest in progress");
+        Time.timeScale = 0;
+        gameOverText.SetActive(true);
+        this.GetComponent<SphereCollider>().enabled = false;
     }
 }
