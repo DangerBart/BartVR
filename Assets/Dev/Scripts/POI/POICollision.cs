@@ -6,9 +6,20 @@ public class POICollision : MonoBehaviour
     [SerializeField]
     private POIManager POIManger;
 
-    void OnCollisionEnter(Collision collision)
+    public void Start()
     {
-        Debug.Log("Detected collission with POI");
-        this.GetComponent<SphereCollider>().enabled = false;
+        POIManger = transform.parent.gameObject.GetComponent<POIManager>();
     }
+
+    void OnCollisionEnter(Collision collision) {
+        if(collision.gameObject.tag == "MainCamera") {
+
+            // Disabling the collider so this POI won't detect collission anymore
+            GetComponent<SphereCollider>().enabled = false;
+  
+            // Notify POI Manager
+            POIManger.POIReached();
+        } 
+    }
+    
 }
