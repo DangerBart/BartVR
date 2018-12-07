@@ -5,7 +5,6 @@ public class Board : MonoBehaviour
 {
     [SerializeField]
     private GameObject notificationMenu;
-    [SerializeField]
     private NotificationControl notificationControl;
 
     private NotificationContainer nc;

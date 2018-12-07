@@ -40,9 +40,6 @@ public class NotificationPanel : MonoBehaviour {
             imageButton.SetActive(true);
 
         }
-        else {
-            imageButton.SetActive(false);
-        }
     }
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;

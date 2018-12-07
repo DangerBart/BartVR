@@ -8,7 +8,8 @@ public class NotificationControl : MonoBehaviour
     public GameObject defaultBoardPanel;
     public void CreateMessagePanel(Notification notification) {
         //Make a copy of the hidden panel
-        GameObject message = Instantiate(defaultNotificationPanel) as GameObject;
+        GameObject message = new GameObject();
+        message = Instantiate(defaultNotificationPanel) as GameObject;
         message.SetActive(true);
         
         message.GetComponent<NotificationPanel>().SetName(notification.Name);
