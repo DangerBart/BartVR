@@ -5,6 +5,9 @@ public class POIManager : MonoBehaviour {
 
     private int currentPOI;
 
+    [SerializeField]
+    private GameObject suspect;
+
     private List<GameObject> POIs = new List<GameObject>();
 
     public void Setup(int amountOfPOI) {
@@ -24,6 +27,8 @@ public class POIManager : MonoBehaviour {
         if (currentPOI < POIs.Count) {
             currentPOI++;
             EnableCollider(POIs[currentPOI - 1]);
+        } else {
+            suspect.GetComponent<SphereCollider>().enabled = true;
         }
     }
 
