@@ -4,26 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NotificationPanel : MonoBehaviour {
-
-    [SerializeField]
-    private Text name;
-
-    [SerializeField]
+    private Text username;
     private Text message;
-
-    [SerializeField]
     private Image mediaPlaform;
-
-    [SerializeField]
-    private Sprite image;
+    //image needs to be public to be able to clone
+    public Sprite image;
     public GameObject panelImage;
-    public GameObject imageButton;
-    public GameObject favoriteButton;
+    private GameObject imageButton;
+    private Image favoriteButton;
     public GameObject notificationMenu;
     public bool isFavorite;
+
+    public void SetGameObjects(){
+        username = this.transform.Find("UserName").GetComponent<Text>();
+        message = this.transform.Find("Message").GetComponent<Text>();
+        mediaPlaform = this.transform.Find("MediaPlatform").GetComponent<Image>();
+        favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
+        imageButton = this.transform.Find("Show Button").gameObject;
+    }
     
     public void SetName(string name) {
-        this.name.text = name;
+        this.username.text = name;
     }
 
     public void SetMessage(string message) {
@@ -47,11 +48,11 @@ public class NotificationPanel : MonoBehaviour {
     public void ToggleFavoriteButton(){
         if(isFavorite){
             isFavorite = false;
-            favoriteButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/EmptyStar");
+            favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
         }
         else{
             isFavorite = true;
-            favoriteButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/FilledStar");
+            favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
         notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
         DeletePanel();

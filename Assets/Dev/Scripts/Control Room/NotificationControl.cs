@@ -12,6 +12,7 @@ public class NotificationControl : MonoBehaviour
         message = Instantiate(defaultNotificationPanel) as GameObject;
         message.SetActive(true);
         
+        message.GetComponent<NotificationPanel>().SetGameObjects();
         message.GetComponent<NotificationPanel>().SetName(notification.Name);
         message.GetComponent<NotificationPanel>().SetMessage(notification.Message);
         message.GetComponent<NotificationPanel>().SetMediaPlatform(notification.PlatformLogo);
@@ -22,6 +23,7 @@ public class NotificationControl : MonoBehaviour
     public void ToggleFavoritePanel(GameObject originalPanel, bool isFavorite){
         //Make a copy of the originalpanel
         GameObject message = Instantiate(originalPanel) as GameObject;
+        message.GetComponent<NotificationPanel>().SetGameObjects();
         message.SetActive(true);
         //Place it on the boardpanel or the receive notificationpanel
         if(isFavorite){
