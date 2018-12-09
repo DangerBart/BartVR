@@ -13,10 +13,14 @@ public class NotificationControl : MonoBehaviour
         message.SetActive(true);
         
         message.GetComponent<NotificationPanel>().SetGameObjects();
+        message.GetComponent<NotificationPanel>().SetComponents();
+
         message.GetComponent<NotificationPanel>().SetName(notification.Name);
         message.GetComponent<NotificationPanel>().SetMessage(notification.Message);
         message.GetComponent<NotificationPanel>().SetMediaPlatform(notification.PlatformLogo);
         message.GetComponent<NotificationPanel>().SetImage(notification.Img);
+
+        message.GetComponent<NotificationPanel>().SetTime();
 
         message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
     }
@@ -24,6 +28,8 @@ public class NotificationControl : MonoBehaviour
         //Make a copy of the originalpanel
         GameObject message = Instantiate(originalPanel) as GameObject;
         message.GetComponent<NotificationPanel>().SetGameObjects();
+        message.GetComponent<NotificationPanel>().SetComponents();
+
         message.SetActive(true);
         //Place it on the boardpanel or the receive notificationpanel
         if(isFavorite){
