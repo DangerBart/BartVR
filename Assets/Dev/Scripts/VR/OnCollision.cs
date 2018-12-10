@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OnCollision : MonoBehaviour {
 	void OnCollisionEnter(Collision collision) {
-		if(collision.gameObject.tag != "Hands") {
+		if(collision.gameObject.tag != "Hands" && collision.gameObject.tag != "POI") {
 			SteamVR_Fade.Start(Color.black, 0f);
 		}
 	}
