@@ -25,6 +25,8 @@ public class POIManager : MonoBehaviour {
             currentPOI++;
             EnableCollider(POIs[currentPOI - 1]);
         }
+
+        Debug.Log("Current POI: " + currentPOI);
     }
 
     private void FillPOIList(int amount) {

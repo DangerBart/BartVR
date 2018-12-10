@@ -11,6 +11,8 @@ public class Board : MonoBehaviour
     private GameObject POISystem;
     private POIManager POIManager;
 
+    [SerializeField]
+    private GameObject notificationPanel;
     private NotificationControl notificationControl;
 
     private NotificationContainer notificationContainer;
@@ -54,7 +56,7 @@ public class Board : MonoBehaviour
 
             SetNotificationPlatformLogo(notification);
 
-            notificationControl.CreateMessagePanel(notification);
+            notificationControl.CreateMessagePanel(notification, notificationPanel);
         }
     }
 
@@ -69,7 +71,7 @@ public class Board : MonoBehaviour
         SetNotificationPlatformLogo(notification);
 
         irrelevantNotificationCount++;
-        notificationControl.CreateMessagePanel(notification);
+        notificationControl.CreateMessagePanel(notification, notificationPanel);
 
     }
 
