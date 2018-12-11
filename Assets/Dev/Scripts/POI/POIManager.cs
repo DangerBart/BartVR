@@ -30,8 +30,6 @@ public class POIManager : MonoBehaviour {
         } else {
             suspect.GetComponent<SphereCollider>().enabled = true;
         }
-
-        Debug.Log("Current POI: " + currentPOI);
     }
 
     private void FillPOIList(int amount) {
