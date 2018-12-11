@@ -6,10 +6,10 @@ public class NotificationControl : MonoBehaviour
 {
     public GameObject defaultNotificationPanel;
     public GameObject defaultBoardPanel;
+
     public void CreateMessagePanel(Notification notification) {
         //Make a copy of the hidden panel
-        GameObject message = new GameObject();
-        message = Instantiate(defaultNotificationPanel) as GameObject;
+        GameObject message = Instantiate(defaultNotificationPanel) as GameObject;
         message.SetActive(true);
         
         message.GetComponent<NotificationPanel>().SetGameObjects();
@@ -19,7 +19,6 @@ public class NotificationControl : MonoBehaviour
         message.GetComponent<NotificationPanel>().SetMessage(notification.Message);
         message.GetComponent<NotificationPanel>().SetMediaPlatform(notification.PlatformLogo);
         message.GetComponent<NotificationPanel>().SetImage(notification.Img);
-
         message.GetComponent<NotificationPanel>().SetTime();
 
         message.transform.SetParent(defaultNotificationPanel.transform.parent, false);

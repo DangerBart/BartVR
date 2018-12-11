@@ -17,10 +17,10 @@ public class NotificationPanel : MonoBehaviour {
     private Image favoriteButton;
     private Text Date;
 
-    public void SetGameObjects(){
+    public void SetGameObjects() {
         imageButton = this.transform.Find("Show Button").gameObject;
     }
-    public void SetComponents(){
+    public void SetComponents() {
         username = this.transform.Find("UserName").GetComponent<Text>();
         message = this.transform.Find("Message").GetComponent<Text>();
         mediaPlaform = this.transform.Find("MediaPlatform").GetComponent<Image>();
@@ -44,17 +44,19 @@ public class NotificationPanel : MonoBehaviour {
         if(img != null) {
             this.image = img;
             imageButton.SetActive(true);
-
         }
     }
+
     public void SetTime(){
         Text date = Timestamp.transform.Find("Date").GetComponent<Text>();
         Text time = Timestamp.transform.Find("Time").GetComponent<Text>();
         Date.text = string.Format("{0} \n{1}", time.text, date.text);
     }
+
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
     }
+
     public void ToggleFavoriteButton() {
         if(isFavorite) {
             isFavorite = false;

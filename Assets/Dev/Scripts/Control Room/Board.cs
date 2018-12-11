@@ -7,6 +7,12 @@ public class Board : MonoBehaviour
     private GameObject notificationMenu;
     private NotificationControl notificationControl;
 
+    // POI
+    [SerializeField]
+    private GameObject POISystem;
+    private POIManager POIManager;
+
+
     private NotificationContainer nc;
     private int currentPOI = 1;
     private int irrelevantNotificationCount;
@@ -17,6 +23,11 @@ public class Board : MonoBehaviour
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
+
+        POIManager = POISystem.GetComponent<POIManager>();
+        // Count -1 as we don't need a POI on the map for irrelevant messages
+        POIManager.Setup(notificationsPerPOI.Count - 1);
+    
     }
 
     void LoadItems(string path) {
@@ -65,7 +76,6 @@ public class Board : MonoBehaviour
 
         irrelevantNotificationCount++;
         notificationControl.CreateMessagePanel(notification);
-
     }
 
     private void SetNotificationPlatformLogo(Notification notification) {

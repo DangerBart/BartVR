@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class POIManager : MonoBehaviour {
 
     private int currentPOI;
+
+    [SerializeField]
+    private GameObject suspect;
 
     private List<GameObject> POIs = new List<GameObject>();
 
@@ -24,9 +28,9 @@ public class POIManager : MonoBehaviour {
         if (currentPOI < POIs.Count) {
             currentPOI++;
             EnableCollider(POIs[currentPOI - 1]);
+        } else {
+            suspect.GetComponentInChildren<SphereCollider>().enabled = true;
         }
-
-        Debug.Log("Current POI: " + currentPOI);
     }
 
     private void FillPOIList(int amount) {
@@ -41,7 +45,13 @@ public class POIManager : MonoBehaviour {
 
     // Retrieve POI's from map
     private GameObject GetPOIChild(int index) {
-        return gameObject.transform.GetChild(index).gameObject;
+    
+        try {
+            GameObject POI = gameObject.transform.GetChild(index).gameObject;
+            return POI;
+        } catch {
+            throw new Exception("Unable to find POI on map, make sure POISystem has all the necessary POI's as children");
+        }        
     }
 
     private void EnableCollider(GameObject poiObject, bool value = true) {

@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class POICollision : MonoBehaviour
 {
 
     [SerializeField]
-    private POIManager POIManger;
+    private POIManager POIManager;
 
     public void Start()
     {
-        POIManger = transform.parent.gameObject.GetComponent<POIManager>();
+        POIManager = transform.parent.gameObject.GetComponent<POIManager>();
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -18,7 +19,7 @@ public class POICollision : MonoBehaviour
             GetComponent<SphereCollider>().enabled = false;
   
             // Notify POI Manager
-            POIManger.POIReached();
+            POIManager.POIReached();
         } 
     }
     
