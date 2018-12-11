@@ -14,7 +14,7 @@ public class POICollision : MonoBehaviour
     void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.tag == "MainCamera") {
 
-            // Disabling the collider so this POI won't detect collission anymore
+            // Disabling the collider so this POI won't detect collision anymore
             GetComponent<SphereCollider>().enabled = false;
   
             // Notify POI Manager
