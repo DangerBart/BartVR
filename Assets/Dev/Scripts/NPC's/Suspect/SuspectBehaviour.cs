@@ -27,7 +27,7 @@ public class SuspectBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Set random index as destination
-        while (findNewDestination) {
+        if (findNewDestination) {
             findNewDestination = false;
             randomIndex = Random.Range(0, checkpoints.Count);
             agent.SetDestination(checkpoints[randomIndex].transform.position);
