@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InGameTimer : MonoBehaviour {
-	[Tooltip("Update in game time")]
+	[Tooltip("Update in game time every X seconds")]
     public float updateTimeEvery;
 
     private GameObject timestamp;
