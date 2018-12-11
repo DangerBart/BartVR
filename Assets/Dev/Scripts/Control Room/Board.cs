@@ -12,9 +12,7 @@ public class Board : MonoBehaviour
     private GameObject POISystem;
     private POIManager POIManager;
 
-
     private NotificationContainer nc;
-    private int currentPOI = 1;
     private int irrelevantNotificationCount;
     public string m_Path = "XML_Files/data-set";
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
@@ -46,11 +44,10 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void SetCurrentPOI(int POI) {
-        currentPOI = POI;
-    }
-
     public void LoadRandomRelevantNotification() {
+
+        int currentPOI = POIManager.GetCurrentPOI();
+
         if (notificationsPerPOI[currentPOI].Count != 0) {
             int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
             Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
