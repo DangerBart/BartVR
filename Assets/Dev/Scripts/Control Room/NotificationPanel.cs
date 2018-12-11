@@ -55,12 +55,12 @@ public class NotificationPanel : MonoBehaviour {
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
     }
-    public void ToggleFavoriteButton(){
-        if(isFavorite){
+    public void ToggleFavoriteButton() {
+        if(isFavorite) {
             isFavorite = false;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
         }
-        else{
+        else {
             isFavorite = true;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
@@ -68,7 +68,7 @@ public class NotificationPanel : MonoBehaviour {
         DeletePanel();
     }
 
-    public void DeletePanel(){
+    public void DeletePanel() {
         Destroy(gameObject);
     }
 }

@@ -24,7 +24,8 @@ public class NotificationControl : MonoBehaviour
 
         message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
     }
-    public void ToggleFavoritePanel(GameObject originalPanel, bool isFavorite){
+
+    public void ToggleFavoritePanel(GameObject originalPanel, bool isFavorite) {
         //Make a copy of the originalpanel
         GameObject message = Instantiate(originalPanel) as GameObject;
         message.GetComponent<NotificationPanel>().SetGameObjects();
@@ -32,10 +33,10 @@ public class NotificationControl : MonoBehaviour
 
         message.SetActive(true);
         //Place it on the boardpanel or the receive notificationpanel
-        if(isFavorite){
+        if(isFavorite) {
             message.transform.SetParent(defaultBoardPanel.transform.parent, false);
         }
-        else{
+        else {
             message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
         }
     }
