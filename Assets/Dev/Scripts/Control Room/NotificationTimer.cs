@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class NotificationTimer : MonoBehaviour {
 
     [Tooltip("Time in seconds")]
@@ -22,16 +24,18 @@ public class NotificationTimer : MonoBehaviour {
 
     void Update()
     {
-        // Relevant notifications
-        if (Time.time > relevantActionTime){
-            relevantActionTime += intervalRelevantMessages;
-            board.LoadRandomRelevantNotification();
-        }
+        if (SceneManager.GetActiveScene().name == "Straatroof Scenario") {
+            // Relevant notifications
+            if (Time.time > relevantActionTime) {
+                relevantActionTime += intervalRelevantMessages;
+                board.LoadRandomRelevantNotification();
+            }
 
-        // irrelevant notifications
-        if (Time.time > irrelevantActionTime){
-            irrelevantActionTime += intervalIrrelevantMessages;
-            board.LoadRandomIrrelevantNotification();
+            // irrelevant notifications
+            if (Time.time > irrelevantActionTime) {
+                irrelevantActionTime += intervalIrrelevantMessages;
+                board.LoadRandomIrrelevantNotification();
+            }
         }
     }
 }

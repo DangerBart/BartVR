@@ -16,18 +16,21 @@ public class Gamemanager : MonoBehaviour {
     public static int amountOfNpcsToSpawn;
 
 	public void StartGame() {
-        if (amountOfNpcs.text != "") {
+        if (amountOfNpcs.text != "" && amountOfNpcs.text != "-" && amountOfNpcsToSpawn > 0 && amountOfNpcsToSpawn <= 250) {
             SceneManager.LoadScene(1);
         } else {
+            inputRequired.GetComponent<Text>().text = "Vul een geldig tussen 0 en 250 getal in";
             inputRequired.SetActive(true);
         }
     }
 
     void Update() {
-        movementValue = movement.value;
+            movementValue = movement.value;
     }
 
     public void EnteredNPCValue() {
-        amountOfNpcsToSpawn = int.Parse(amountOfNpcs.text);
+        if (amountOfNpcs.text != "-") {
+            amountOfNpcsToSpawn = int.Parse(amountOfNpcs.text);
+        }
     }
 }
