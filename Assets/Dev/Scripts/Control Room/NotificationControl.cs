@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class NotificationControl : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject minimap;
+    private MinimapControl minimapControl;
+
     public GameObject defaultNotificationPanel;
     public GameObject defaultBoardPanel;
+
+    void Start() {
+        minimapControl = minimap.GetComponent<MinimapControl>();
+    }
 
     public void CreateMessagePanel(Notification notification) {
         //Make a copy of the hidden panel
@@ -22,6 +30,8 @@ public class NotificationControl : MonoBehaviour
         message.GetComponent<NotificationPanel>().SetTime();
 
         message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
+
+        minimapControl.SetNotificationMinimapLocation(notification);
     }
 
     public void ToggleFavoritePanel(GameObject originalPanel, bool isFavorite) {

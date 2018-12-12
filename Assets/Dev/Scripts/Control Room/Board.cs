@@ -55,6 +55,8 @@ public class Board : MonoBehaviour
             // Making sure relevant notifications are not displayed twice
             notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
 
+            notification.POILocation = POIManager.GetPOILocation();
+
             SetNotificationPlatformLogo(notification);
 
             notificationControl.CreateMessagePanel(notification);
