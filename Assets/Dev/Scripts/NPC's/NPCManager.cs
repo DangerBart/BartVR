@@ -7,13 +7,12 @@ public class NPCManager : MonoBehaviour {
     public GameObject NPC;
     public GameObject CheckpointContainer;
 
-    [Tooltip("Amount of NPC's to spawn")]
-    public int amount;
-
+    private int amount;
     private NPCBehaviour npcBehaviour;
 
     // Use this for initialization
     void Start () {
+        amount = Gamemanager.amountOfNpcsToSpawn;
         for (int i = 0; i < amount; i++) {
             CreateNPC(this.gameObject);
         }

@@ -10,7 +10,6 @@ public class Movement : MonoBehaviour {
     private float touchpadX;
 
     //Movement
-    public Gamemanager gameManager;
     public float movementSpeed = 2.5f;
     public GameObject playerRig;
     public GameObject cam;
@@ -27,7 +26,7 @@ public class Movement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         trackedObject = GetComponent<SteamVR_TrackedObject>();
-        movementSwitch = gameManager.GetMovementStyle();
+        movementSwitch = Gamemanager.movementValue + 1;
     }
 
     void Update() {
