@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,8 +17,11 @@ public class Gamemanager : MonoBehaviour {
     public static int amountOfNpcsToSpawn;
 
 	public void StartGame() {
-        if (amountOfNpcs.text != "" && amountOfNpcs.text != "-" && 
-            amountOfNpcsToSpawn > 0 && amountOfNpcsToSpawn <= 250) {
+        // First digit has to be between 1 and 9, following digits have to be numbers
+        Regex regex = new Regex(@"^[1-9]\d*$");
+        Match match = regex.Match(amountOfNpcs.text);
+
+        if (match.Success && amountOfNpcsToSpawn <= 250) {
             SceneManager.LoadScene(1);
             //Start time
             Time.timeScale = 1;
@@ -32,8 +36,6 @@ public class Gamemanager : MonoBehaviour {
     }
 
     public void EnteredNPCValue() {
-        if (amountOfNpcs.text != "-") {
-            amountOfNpcsToSpawn = int.Parse(amountOfNpcs.text);
-        }
+        amountOfNpcsToSpawn = int.Parse(amountOfNpcs.text);
     }
 }

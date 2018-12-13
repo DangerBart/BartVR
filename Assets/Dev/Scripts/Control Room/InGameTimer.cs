@@ -24,12 +24,14 @@ public class InGameTimer : MonoBehaviour {
         System.Action updateGameTimeAlias = UpdateGameTime;
         InvokeRepeating(updateGameTimeAlias.Method.Name,0,updateTimeEvery);
     }
-	private void LoadTime(){
+
+	private void LoadTime() {
         var date = System.DateTime.Now;
         hour = date.Hour;
         minute = date.Minute;
     } 
-	private void UpdateGameTime(){
+
+	private void UpdateGameTime() {
         minute += 1;
         if(minute >= 60){
             minute = 0;
@@ -40,6 +42,7 @@ public class InGameTimer : MonoBehaviour {
         }          
         ViewGameTime();
     }
+
 	private void ViewGameTime(){
         currentTime.text = string.Format("Tijd: {0}:{1}", hour.ToString("00"), minute.ToString("00"));
     }
