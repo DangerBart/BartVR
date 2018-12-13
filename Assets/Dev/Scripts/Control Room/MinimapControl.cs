@@ -5,11 +5,19 @@
 
         Setup();          TestPrint();     }      public void SetNotificationMinimapLocation (Notification notification) {
         // Irrelevant notifications
-        if (notification.POI == 0) {             SetIrrelevantNotificationLocation(notification);             //CreateNewMarker(notification);         } else {             SetRelevantNotificationLocation(notification);             //CreateNewMarker(notification);         }     }      private void SetIrrelevantNotificationLocation(Notification notification) {         float corX = Random.Range(minRangeX, maxRangeX);         float corY = Random.Range(minRangeY, maxRangeY);         notification.MinimapLocation = new Vector2(corX, corY);
+        if (notification.POI == 0) {             SetIrrelevantNotificationLocation(notification);         } else {             SetRelevantNotificationLocation(notification);         }     }      private void SetIrrelevantNotificationLocation(Notification notification) {         float corX = Random.Range(minRangeX, maxRangeX);         float corY = Random.Range(minRangeY, maxRangeY);         notification.MinimapLocation = new Vector2(corX, corY);
     }      private void SetRelevantNotificationLocation(Notification notification) {
         // Calculate location of POI relatively to minimap
-        Vector2 POILocation = new Vector2(-1 * (notification.POILocation.x * xScale), (-1 * (notification.POILocation.z * yScale)) + defaultMarker.GetComponent<RectTransform>().rect.height);         notification.MinimapLocation = POILocation + Random.insideUnitCircle * 60;     }      public void CreateNewMarker(Notification notification) {
-        GameObject marker = Instantiate(defaultMarker) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(this.transform, false);          // Set marker on correct location         marker.transform.localPosition = notification.MinimapLocation;
+        Vector2 POILocation = new Vector2(-1 * (notification.POILocation.x * xScale), (-1 * (notification.POILocation.z * yScale)) + defaultMarker.GetComponent<RectTransform>().rect.height);         notification.MinimapLocation = POILocation + Random.insideUnitCircle * 60;     }      public void CreateNewMarker(Vector2 minimapLocation) {
+        GameObject marker = Instantiate(defaultMarker) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(this.transform, false);          // Set marker on correct location         marker.transform.localPosition = minimapLocation;
+    }      public void DeleteSpecifiqMarker(Vector2 minimapLocation)
+    {            // Begin at 2 as the first two items are the playerIcon and the prefab
+        for (int i = 2; i < transform.childCount; i++)
+        {
+            Vector2 markerlocation = transform.GetChild(i).localPosition;              if (minimapLocation == markerlocation) {
+                Debug.Log("Found the marker");                 Destroy(transform.GetChild(i).gameObject);
+            }
+        }
     }      private void Setup() {
         CalculateScale();         CalculateBoundries();
     }      private void CalculateScale() {

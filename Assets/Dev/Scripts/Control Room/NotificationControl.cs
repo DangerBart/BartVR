@@ -36,10 +36,20 @@ public class NotificationControl : MonoBehaviour
         //Place it on the boardpanel or the receive notificationpanel
         if(notification.IsFavorite) {
             message.transform.SetParent(defaultBoardPanel.transform.parent, false);
-
+            minimapControl.CreateNewMarker(notification.MinimapLocation);
         }
         else {
             message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
+            minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
         }
+    }
+
+    public void NotificationPanelRemoved(Notification notification)
+    {
+        if (notification.IsFavorite)
+        {
+            Debug.Log("Delete Marker");
+            //minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
+        }      
     }
 }

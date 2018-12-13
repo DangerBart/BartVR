@@ -79,6 +79,10 @@ public class NotificationPanel : MonoBehaviour {
     }
 
     public void DeletePanel() {
+        Debug.Log("Fav: " + notification.IsFavorite);
+     
+        notificationMenu.GetComponent<NotificationControl>().NotificationPanelRemoved(notification);
+
         Destroy(gameObject);
     }
 }
