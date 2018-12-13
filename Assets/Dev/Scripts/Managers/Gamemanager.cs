@@ -14,7 +14,6 @@ public class Gamemanager : MonoBehaviour {
 
     public static int movementValue;
     public static int amountOfNpcsToSpawn;
-    private NotificationTimer notificationTimer = new NotificationTimer();
 
 	public void StartGame() {
         if (amountOfNpcs.text != "" && amountOfNpcs.text != "-" && 
@@ -28,8 +27,8 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    void Update() {
-            movementValue = movement.value;
+    public void UpdateMovement() {
+        movementValue = movement.value;
     }
 
     public void EnteredNPCValue() {

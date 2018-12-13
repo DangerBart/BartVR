@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 519538366}
   - component: {fileID: 519538367}
   m_Layer: 5
-  m_Name: InputRequired
+  m_Name: InputRequiredText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -854,7 +854,7 @@ GameObject:
   - component: {fileID: 580931463}
   - component: {fileID: 580931462}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: MenuPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1212,7 +1212,7 @@ GameObject:
   - component: {fileID: 1051735070}
   - component: {fileID: 1051735069}
   m_Layer: 5
-  m_Name: Poweredby
+  m_Name: PoweredbyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1360,7 +1360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252403204}
   m_Layer: 0
-  m_Name: Options
+  m_Name: GameOptions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1396,7 +1396,7 @@ GameObject:
   - component: {fileID: 1339649500}
   - component: {fileID: 1339649499}
   m_Layer: 5
-  m_Name: Movement
+  m_Name: MovementDropDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1469,13 +1469,24 @@ MonoBehaviour:
     m_Options:
     - m_Text: Lopen richting kijkrichting
       m_Image: {fileID: 0}
-    - m_Text: Lopen richting touchpadrichting
+    - m_Text: Lopen richting controllerrichting
       m_Image: {fileID: 0}
     - m_Text: Teleporteren
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1416298490}
+        m_MethodName: UpdateMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1339649500
@@ -1839,7 +1850,7 @@ GameObject:
   - component: {fileID: 1598260767}
   - component: {fileID: 1598260766}
   m_Layer: 5
-  m_Name: Title
+  m_Name: GameTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2135,7 +2146,7 @@ GameObject:
   - component: {fileID: 1881141681}
   - component: {fileID: 1881141680}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainmenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

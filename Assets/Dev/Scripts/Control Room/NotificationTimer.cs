@@ -11,6 +11,7 @@ public class NotificationTimer : MonoBehaviour {
     [Tooltip("Time in seconds")]
     public float intervalIrrelevantMessages = 2f;
 
+    //Enable scene loading check
     private void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -24,6 +25,7 @@ public class NotificationTimer : MonoBehaviour {
         InvokeRepeating(addIrrelevantNotificationAlias.Method.Name, 0, intervalIrrelevantMessages);
     }
 
+    //Remove scene from sceneloading check
     private void OnDisable() {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
