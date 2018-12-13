@@ -17,7 +17,8 @@ public class Gamemanager : MonoBehaviour {
     private NotificationTimer notificationTimer = new NotificationTimer();
 
 	public void StartGame() {
-        if (amountOfNpcs.text != "" && amountOfNpcs.text != "-" && amountOfNpcsToSpawn > 0 && amountOfNpcsToSpawn <= 250) {
+        if (amountOfNpcs.text != "" && amountOfNpcs.text != "-" && 
+            amountOfNpcsToSpawn > 0 && amountOfNpcsToSpawn <= 250) {
             SceneManager.LoadScene(1);
             //Start time
             Time.timeScale = 1;

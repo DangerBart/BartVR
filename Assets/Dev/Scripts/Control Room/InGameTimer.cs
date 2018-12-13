@@ -20,7 +20,8 @@ public class InGameTimer : MonoBehaviour {
         currentTime = timestamp.transform.Find("Time").GetComponent<Text>();
         currentDate.text = "Datum: " + System.DateTime.Now.ToString("dd/MM/yyyy");
         LoadTime();
-        InvokeRepeating("UpdateGameTime",0,updateTimeEvery);
+        System.Action updateGameTimeAlias = UpdateGameTime;
+        InvokeRepeating(updateGameTimeAlias.Method.Name,0,updateTimeEvery);
     }
 	private void LoadTime(){
         var date = System.DateTime.Now;

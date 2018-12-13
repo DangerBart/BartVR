@@ -16,9 +16,12 @@ public class NotificationTimer : MonoBehaviour {
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        //Get function so we can extract its name dynamically rather than literal string
+        System.Action addRelevantNotificationAlias = AddRelevantNotification;
+        System.Action addIrrelevantNotificationAlias = AddIrrelevantNotification;
         //Repeatedly call the addnotification function with an interval
-        InvokeRepeating("AddRelevantNotification", 0, intervalRelevantMessages);
-        InvokeRepeating("AddIrrelevantNotification", 0, intervalIrrelevantMessages);
+        InvokeRepeating(addRelevantNotificationAlias.Method.Name, 0, intervalRelevantMessages);
+        InvokeRepeating(addIrrelevantNotificationAlias.Method.Name, 0, intervalIrrelevantMessages);
     }
 
     private void OnDisable() {
