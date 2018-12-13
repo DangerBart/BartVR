@@ -9,7 +9,8 @@ public class NotificationPanel : MonoBehaviour {
     public GameObject panelImage;
     public GameObject notificationMenu;
     public GameObject Timestamp;
-    public bool isFavorite;
+
+    private Notification notification;
     private Text username;
     private Text message;
     private Image mediaPlaform;
@@ -17,27 +18,34 @@ public class NotificationPanel : MonoBehaviour {
     private Image favoriteButton;
     private Text Date;
 
-    public void SetGameObjects() {
+    public void Setup(Notification notification)
+    {
+        SetGameObjects();
+        SetComponents();
+        SetupPanelInformation(notification);
+    }
+
+    private void SetGameObjects() {
         imageButton = this.transform.Find("Show Button").gameObject;
     }
-    public void SetComponents() {
+
+    private void SetComponents() {
         username = this.transform.Find("UserName").GetComponent<Text>();
         message = this.transform.Find("Message").GetComponent<Text>();
         mediaPlaform = this.transform.Find("MediaPlatform").GetComponent<Image>();
         favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
         Date = this.transform.Find("Date").GetComponent<Text>();
     }
-    
-    public void SetName(string name) {
-        this.username.text = name;
-    }
 
-    public void SetMessage(string message) {
-        this.message.text = message;
-    }
+    private void SetupPanelInformation(Notification notification)
+    {
+        username.text = notification.Name;
+        message.text = notification.Message;
+        mediaPlaform.sprite = notification.PlatformLogo;
+        SetImage(notification.Img);
+        SetTime();
 
-    public void SetMediaPlatform(Sprite image) {
-        this.mediaPlaform.sprite = image;
+        this.notification = notification;
     }
 
     public void SetImage(Sprite img) {
@@ -58,15 +66,15 @@ public class NotificationPanel : MonoBehaviour {
     }
 
     public void ToggleFavoriteButton() {
-        if(isFavorite) {
-            isFavorite = false;
+        if(notification.IsFavorite) {
+            notification.IsFavorite = false;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
         }
         else {
-            isFavorite = true;
+            notification.IsFavorite = true;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
-        notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
+        notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel();
     }
 

@@ -32,7 +32,6 @@ public class Board : MonoBehaviour
         nc = NotificationContainer.Load(path);
     }
 
-
     void FillDictionaryWithNotificationsPerPOI() {
         foreach (Notification note in nc.notifications) {
 
