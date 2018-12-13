@@ -7,35 +7,37 @@ using UnityEngine.UI;
 public class NotificationTimer : MonoBehaviour {
 
     [Tooltip("Time in seconds")]
-    [SerializeField]
-    private float intervalRelevantMessages = 2f;
+    public float intervalRelevantMessages = 2f;
     [Tooltip("Time in seconds")]
-    [SerializeField]
-    private float intervalIrrelevantMessages = 2f;
-    private float relevantActionTime = 0.0f;
-    private float irrelevantActionTime = 0.0f;
+    public float intervalIrrelevantMessages = 2f;
 
-    // Social media creator
-    private Board board;
+    private bool isActive = false;
+    private bool doOnce = true;
 
-    void Start () {
-        board = GetComponent<Board>();
-    } 
+    //private void Awake() {
 
-    void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "Straatroof Scenario") {
-            // Relevant notifications
-            if (Time.time > relevantActionTime) {
-                relevantActionTime += intervalRelevantMessages;
-                board.LoadRandomRelevantNotification();
-            }
+    //}
 
-            // irrelevant notifications
-            if (Time.time > irrelevantActionTime) {
-                irrelevantActionTime += intervalIrrelevantMessages;
-                board.LoadRandomIrrelevantNotification();
-            }
-        }
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Invoke("Setup", 0);
+    }
+
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void Setup() {
+        InvokeRepeating("AddRelevantNotification", 0, intervalRelevantMessages);
+        InvokeRepeating("AddIrrelevantNotification", 0, intervalIrrelevantMessages);
+    }
+
+    void AddRelevantNotification() {
+        this.GetComponent<Board>().LoadRandomRelevantNotification();
+    }
+    void AddIrrelevantNotification() {
+        this.GetComponent<Board>().LoadRandomIrrelevantNotification();
     }
 }

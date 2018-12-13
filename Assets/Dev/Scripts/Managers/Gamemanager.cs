@@ -14,6 +14,7 @@ public class Gamemanager : MonoBehaviour {
 
     public static int movementValue;
     public static int amountOfNpcsToSpawn;
+    private NotificationTimer notificationTimer = new NotificationTimer();
 
 	public void StartGame() {
         if (amountOfNpcs.text != "" && amountOfNpcs.text != "-" && amountOfNpcsToSpawn > 0 && amountOfNpcsToSpawn <= 250) {
