@@ -1775,7 +1775,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4455523998112148}
-  - component: {fileID: 114613633298042494}
+  - component: {fileID: 195615486946494984}
+  - component: {fileID: 114685564716959646}
+  - component: {fileID: 114979012162475372}
   m_Layer: 0
   m_Name: FWoman_2
   m_TagString: Civilian
@@ -1852,6 +1854,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4016459639486634}
   - component: {fileID: 95067654027763332}
+  - component: {fileID: 114564097254380656}
   m_Layer: 0
   m_Name: AnimRig
   m_TagString: Civilian
@@ -3687,7 +3690,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1757149106662366}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 59.558334, y: -0.0036621094, z: 47.966553}
+  m_LocalPosition: {x: 85.03273, y: -0.0036621094, z: 30.119995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4016459639486634}
@@ -4780,12 +4783,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114613633298042494
+--- !u!114 &114564097254380656
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1757149106662366}
+  m_GameObject: {fileID: 1780184427802516}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b8c59cbf02c10a49a358b4bc452fe1d, type: 3}
@@ -4796,6 +4799,32 @@ MonoBehaviour:
   stateType: 0
   blend: 0
   IsGettingUp: 0
+--- !u!114 &114685564716959646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757149106662366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60153306513bc9f4a81dee31ffb6fefc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointContainer: {fileID: 0}
+  minSpeed: 2
+  maxSpeed: 4
+--- !u!114 &114979012162475372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757149106662366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7056f43469cded043a8f20e7a7f54343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcMovementSpeed: 5
 --- !u!137 &137510551936625938
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4904,3 +4933,24 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.028019324, y: -0.0007233918, z: -0.110875756}
     m_Extent: {x: 0.26996475, y: 0.5885086, z: 0.89851534}
   m_DirtyAABB: 0
+--- !u!195 &195615486946494984
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757149106662366}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

@@ -1865,7 +1865,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4074088431605312}
-  - component: {fileID: 114267560656783108}
+  - component: {fileID: 195100989195359634}
+  - component: {fileID: 114717715943039968}
+  - component: {fileID: 114226041900642900}
   m_Layer: 0
   m_Name: FBoy_2
   m_TagString: Civilian
@@ -2452,6 +2454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4188204444309532}
   - component: {fileID: 95026743397780108}
+  - component: {fileID: 114021337520805170}
   m_Layer: 0
   m_Name: AnimRig
   m_TagString: Civilian
@@ -2617,7 +2620,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1768348461599192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.51985, y: -0.0036621094, z: 42.28601}
+  m_LocalPosition: {x: 84.77458, y: -0.0036621094, z: 29.434845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4188204444309532}
@@ -4766,12 +4769,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114267560656783108
+--- !u!114 &114021337520805170
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1768348461599192}
+  m_GameObject: {fileID: 1989053417506772}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b8c59cbf02c10a49a358b4bc452fe1d, type: 3}
@@ -4782,6 +4785,32 @@ MonoBehaviour:
   stateType: 0
   blend: 0
   IsGettingUp: 0
+--- !u!114 &114226041900642900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768348461599192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7056f43469cded043a8f20e7a7f54343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcMovementSpeed: 5
+--- !u!114 &114717715943039968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768348461599192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60153306513bc9f4a81dee31ffb6fefc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointContainer: {fileID: 0}
+  minSpeed: 2
+  maxSpeed: 4
 --- !u!137 &137776844372818550
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4889,3 +4918,24 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0024667531, y: -0.00007766485, z: -0.06375933}
     m_Extent: {x: 0.24058583, y: 0.56086993, z: 0.9138601}
   m_DirtyAABB: 0
+--- !u!195 &195100989195359634
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768348461599192}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
