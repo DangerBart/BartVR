@@ -18,10 +18,10 @@ public class NotificationPanel : MonoBehaviour {
     private Image favoriteButton;
     private Text Date;
 
-    public void Setup(Notification notification)
-    {
+    public void Setup(Notification notification) {
         SetGameObjects();
         SetComponents();
+        this.notification = notification;
         SetupPanelInformation(notification);
     }
 
@@ -37,8 +37,7 @@ public class NotificationPanel : MonoBehaviour {
         Date = this.transform.Find("Date").GetComponent<Text>();
     }
 
-    private void SetupPanelInformation(Notification notification)
-    {
+    private void SetupPanelInformation(Notification notification) {
         username.text = notification.Name;
         message.text = notification.Message;
         mediaPlaform.sprite = notification.PlatformLogo;
@@ -55,7 +54,7 @@ public class NotificationPanel : MonoBehaviour {
         }
     }
 
-    public void SetTime(){
+    public void SetTime() {
         Text date = Timestamp.transform.Find("Date").GetComponent<Text>();
         Text time = Timestamp.transform.Find("Time").GetComponent<Text>();
         Date.text = string.Format("{0} \n{1}", time.text, date.text);
@@ -66,11 +65,10 @@ public class NotificationPanel : MonoBehaviour {
     }
 
     public void ToggleFavoriteButton() {
-        if(notification.IsFavorite) {
+        if (notification.IsFavorite) {
             notification.IsFavorite = false;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
-        }
-        else {
+        } else {
             notification.IsFavorite = true;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
@@ -78,11 +76,16 @@ public class NotificationPanel : MonoBehaviour {
         DeletePanel();
     }
 
-    public void DeletePanel() {
-        Debug.Log("Fav: " + notification.IsFavorite);
-     
-        notificationMenu.GetComponent<NotificationControl>().NotificationPanelRemoved(notification);
-
+    private void DeletePanel() {
         Destroy(gameObject);
+    }
+
+    public void DeleteButtonClicked() {
+        if (notification.IsFavorite) {
+            // Make sure the marker gets deleted as well
+            notificationMenu.GetComponent<NotificationControl>().NotificationPanelRemoved(notification.MinimapLocation);
+        }
+
+        DeletePanel();
     }
 }

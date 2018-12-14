@@ -44,12 +44,7 @@ public class NotificationControl : MonoBehaviour
         }
     }
 
-    public void NotificationPanelRemoved(Notification notification)
-    {
-        if (notification.IsFavorite)
-        {
-            Debug.Log("Delete Marker");
-            //minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
-        }      
+    public void NotificationPanelRemoved(Vector2 minimapLocation) {
+        minimapControl.DeleteSpecifiqMarker(minimapLocation); 
     }
 }
