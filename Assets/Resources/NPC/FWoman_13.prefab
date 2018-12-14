@@ -169,7 +169,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4692549231667634}
-  - component: {fileID: 65429904348778022}
   m_Layer: 0
   m_Name: Bip
   m_TagString: SkinBones
@@ -305,8 +304,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4583959529528478}
-  - component: {fileID: 195362348352288746}
-  - component: {fileID: 208078391166355474}
+  - component: {fileID: 114947319215012436}
   m_Layer: 0
   m_Name: FWoman_13
   m_TagString: Civilian
@@ -562,7 +560,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4655789212121198}
-  - component: {fileID: 135268412132542664}
   m_Layer: 0
   m_Name: Head
   m_TagString: SkinBones
@@ -878,7 +875,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4996905385518546}
-  - component: {fileID: 65630615408620156}
   m_Layer: 0
   m_Name: Spine1
   m_TagString: SkinBones
@@ -909,7 +905,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4480559348957990}
-  - component: {fileID: 136798155922110168}
   m_Layer: 0
   m_Name: R Calf
   m_TagString: SkinBones
@@ -955,7 +950,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4886694173897042}
-  - component: {fileID: 136972001211693440}
   m_Layer: 0
   m_Name: RThighTwist
   m_TagString: SkinBones
@@ -1436,7 +1430,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4015745460289724}
-  - component: {fileID: 136138465607891514}
   m_Layer: 0
   m_Name: LUpArmTwist
   m_TagString: SkinBones
@@ -1617,7 +1610,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4095507460506342}
-  - component: {fileID: 136622020544167750}
   m_Layer: 0
   m_Name: L Calf
   m_TagString: SkinBones
@@ -1678,7 +1670,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4686992678535424}
-  - component: {fileID: 136762476113729940}
   m_Layer: 0
   m_Name: R ForeTwist
   m_TagString: SkinBones
@@ -1754,7 +1745,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4271353399324052}
-  - component: {fileID: 136537786484366270}
   m_Layer: 0
   m_Name: LThighTwist
   m_TagString: SkinBones
@@ -1770,7 +1760,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4929622925294606}
-  - component: {fileID: 136346964915591412}
   m_Layer: 0
   m_Name: L ForeTwist
   m_TagString: SkinBones
@@ -1802,7 +1791,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4636659710466638}
-  - component: {fileID: 136557729634432348}
   m_Layer: 0
   m_Name: RUpArmTwist
   m_TagString: SkinBones
@@ -3919,7 +3907,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1104271736043264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1452789, y: -0.0036621094, z: -7.858078}
+  m_LocalPosition: {x: 58.701492, y: -0.0036621094, z: 47.644806}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4987474302139070}
@@ -4772,30 +4760,6 @@ Transform:
   m_Father: {fileID: 4772024303825662}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65429904348778022
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1049933905168596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.224599, y: 0.29435533, z: 0.21703145}
-  m_Center: {x: 0.016330183, y: -0.0003964007, z: 0.108515665}
---- !u!65 &65630615408620156
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1346615885427830}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.28, y: 0.22503509, z: 0.29435533}
-  m_Center: {x: -0.17, y: -0.017886154, z: -0.00039711595}
 --- !u!95 &95113623722078940
 Animator:
   serializedVersion: 3
@@ -4814,122 +4778,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!135 &135268412132542664
-SphereCollider:
+--- !u!114 &114947319215012436
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1202422642108184}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_GameObject: {fileID: 1104271736043264}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.1
-  m_Center: {x: -0.1, y: 0.02, z: 0}
---- !u!136 &136138465607891514
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1590165430588156}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.056906868
-  m_Height: 0.22762747
-  m_Direction: 0
-  m_Center: {x: -0.113813736, y: 0, z: 0}
---- !u!136 &136346964915591412
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1696334415093216}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.05
-  m_Height: 0.28
-  m_Direction: 0
-  m_Center: {x: -0.14, y: 0, z: 0}
---- !u!136 &136537786484366270
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1695716756927212}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.08
-  m_Height: 0.37864074
-  m_Direction: 0
-  m_Center: {x: -0.18932037, y: 0, z: 0}
---- !u!136 &136557729634432348
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1713098765362864}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.056451704
-  m_Height: 0.22580682
-  m_Direction: 0
-  m_Center: {x: -0.11290341, y: 0, z: 0}
---- !u!136 &136622020544167750
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1648694749244610}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.07
-  m_Height: 0.5197524
-  m_Direction: 0
-  m_Center: {x: -0.2598762, y: 0, z: 0}
---- !u!136 &136762476113729940
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1674504772134958}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.05
-  m_Height: 0.28
-  m_Direction: 0
-  m_Center: {x: -0.14, y: 0, z: 0}
---- !u!136 &136798155922110168
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351625143665176}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.07
-  m_Height: 0.5197524
-  m_Direction: 0
-  m_Center: {x: -0.2598762, y: 0, z: 0}
---- !u!136 &136972001211693440
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1369548874623760}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.08
-  m_Height: 0.37864074
-  m_Direction: 0
-  m_Center: {x: -0.18932037, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8c59cbf02c10a49a358b4bc452fe1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _npc: {fileID: 0}
+  anim: {fileID: 0}
+  stateType: 0
+  blend: 0
+  IsGettingUp: 0
 --- !u!137 &137697227100175712
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -5038,39 +4902,3 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.024500668, y: 0.0013498068, z: -0.11257684}
     m_Extent: {x: 0.24564928, y: 0.58765835, z: 0.88900304}
   m_DirtyAABB: 0
---- !u!195 &195362348352288746
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1104271736043264}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.35
-  m_Speed: 2.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!208 &208078391166355474
-NavMeshObstacle:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1104271736043264}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
