@@ -11,6 +11,9 @@ public class NotificationControl : MonoBehaviour
     public GameObject defaultNotificationPanel;
     public GameObject defaultBoardPanel;
 
+    //ToDo
+    private GameObject selectedNotficationObject;
+
     void Start() {
         minimapControl = minimap.GetComponent<MinimapControl>();
     }
@@ -42,6 +45,12 @@ public class NotificationControl : MonoBehaviour
             message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
             minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
         }
+    }
+
+    public void NotificationSelected(GameObject notificationObject)
+    {
+        //ToDO
+        //Toggle panel color and do the same for the current selected one
     }
 
     public void NotificationPanelRemoved(Vector2 minimapLocation) {

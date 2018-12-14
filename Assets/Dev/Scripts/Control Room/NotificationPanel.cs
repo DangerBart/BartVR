@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class NotificationPanel : MonoBehaviour {
+public class NotificationPanel : MonoBehaviour, IPointerClickHandler
+{
     //image needs to be public to be able to clone
     public Sprite image;
     public GameObject panelImage;
@@ -17,6 +19,9 @@ public class NotificationPanel : MonoBehaviour {
     private GameObject imageButton;
     private Image favoriteButton;
     private Text Date;
+
+    private Color panelColorWhite = new Color32(255, 255, 255, 255);
+    private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
     public void Setup(Notification notification) {
         SetGameObjects();
@@ -87,5 +92,32 @@ public class NotificationPanel : MonoBehaviour {
         }
 
         DeletePanel();
+    }
+
+    // TEST
+    public bool IsSelected()
+    {
+        return notification.IsSelected;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Image panelImage = gameObject.GetComponent<Image>();
+
+        notificationMenu.GetComponent<NotificationControl>().NotificationSelected(gameObject);
+    }
+
+    public void TogglePanelColor() {
+        Image panelImage = gameObject.GetComponent<Image>();
+
+        if (!notification.IsSelected) {
+            panelImage.color = panelColorYellow;
+        } else {
+            panelImage.color = panelColorWhite;
+        }
+
+        // set isSelected value
+        notification.IsSelected = !notification.IsSelected;
+        Debug.Log("IsSelected = " + notification.IsSelected);
     }
 }

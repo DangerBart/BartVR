@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class LocationSync : MonoBehaviour {
+public class LocationSync : MonoBehaviour, IPointerClickHandler
+{
 
     public GameObject map;
     public GameObject plane;
@@ -22,6 +24,10 @@ public class LocationSync : MonoBehaviour {
         ScaleOfficerOnMap();
     }
 
+    public void OnPointerClick(PointerEventData eventData) // 3
+    {
+        Debug.Log("I was clicked");
+    }
 
     private void UpdateMapSizeAndScale() {
         float offset = 2f;
