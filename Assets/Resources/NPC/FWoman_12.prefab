@@ -2986,7 +2986,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1928390140572338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 84.17592, y: -0.0036621094, z: 30.325562}
+  m_LocalPosition: {x: -165.84993, y: -0.0036621094, z: 24.10147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4549960369781708}
@@ -3674,7 +3674,7 @@ Transform:
   m_GameObject: {fileID: 1471590032016658}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_Children:
   - {fileID: 4859963750382288}
   - {fileID: 4566195354453052}
@@ -4822,7 +4822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpointContainer: {fileID: 0}
   minSpeed: 2
-  maxSpeed: 4
+  maxSpeed: 2
 --- !u!137 &137541394189625020
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4951,6 +4951,6 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
