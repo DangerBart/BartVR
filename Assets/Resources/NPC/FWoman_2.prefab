@@ -4812,7 +4812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpointContainer: {fileID: 0}
   minSpeed: 2
-  maxSpeed: 4
+  maxSpeed: 2
 --- !u!114 &114979012162475372
 MonoBehaviour:
   m_ObjectHideFlags: 1

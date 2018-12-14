@@ -4826,7 +4826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpointContainer: {fileID: 0}
   minSpeed: 2
-  maxSpeed: 4
+  maxSpeed: 2
 --- !u!137 &137192969432384848
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
