@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class LocationSync : MonoBehaviour, IPointerClickHandler
+public class LocationSync : MonoBehaviour
 {
 
     public GameObject map;
@@ -22,11 +21,6 @@ public class LocationSync : MonoBehaviour, IPointerClickHandler
 
     void Update() {
         ScaleOfficerOnMap();
-    }
-
-    public void OnPointerClick(PointerEventData eventData) // 3
-    {
-        Debug.Log("I was clicked");
     }
 
     private void UpdateMapSizeAndScale() {
