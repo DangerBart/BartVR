@@ -47,10 +47,24 @@ public class NotificationControl : MonoBehaviour
         }
     }
 
-    public void NotificationSelected(GameObject notificationObject)
-    {
-        //ToDO
-        //Toggle panel color and do the same for the current selected one
+    public void NotificationSelected(GameObject notificationObject) {
+        if (selectedNotficationObject != null) {
+            selectedNotficationObject.GetComponent<NotificationPanel>().TogglePanelColor();
+            //Remove previous selected marker
+            minimapControl.DeleteSpecifiqMarker(selectedNotficationObject.GetComponent<NotificationPanel>().GetMinimapLocation());
+        }
+
+        if (selectedNotficationObject != notificationObject) {
+            notificationObject.GetComponent<NotificationPanel>().TogglePanelColor();
+            selectedNotficationObject = notificationObject;
+
+            //Place new minimap marker
+            minimapControl.CreateNewMarker(notificationObject.GetComponent<NotificationPanel>().GetMinimapLocation(), true);
+        }
+        else {
+            // Same selected panels
+            selectedNotficationObject = null;
+        }
     }
 
     public void NotificationPanelRemoved(Vector2 minimapLocation) {

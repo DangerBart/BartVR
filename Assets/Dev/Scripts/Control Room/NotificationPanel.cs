@@ -30,6 +30,11 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         SetupPanelInformation(notification);
     }
 
+    public Vector2 GetMinimapLocation()
+    {
+        return notification.MinimapLocation;
+    }
+
     private void SetGameObjects() {
         imageButton = this.transform.Find("Show Button").gameObject;
     }
@@ -102,7 +107,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Image panelImage = gameObject.GetComponent<Image>();
+
+        Debug.Log("Detected a panel click");
 
         notificationMenu.GetComponent<NotificationControl>().NotificationSelected(gameObject);
     }
