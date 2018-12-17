@@ -4818,8 +4818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8c59cbf02c10a49a358b4bc452fe1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _npc: {fileID: 0}
-  anim: {fileID: 0}
   stateType: 0
   blend: 0
   IsGettingUp: 0

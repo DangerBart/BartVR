@@ -16,9 +16,6 @@ namespace Assets.Scripts.NPCs
     /// </summary>
     public class Ragdoll02 : MonoBehaviour
     {
-		public NPC _npc;
-        public Animator anim;
-
         public StateType stateType;
 
 		public bool blend;     //Activate Skin > Anim in Slerp (smooth transition)
@@ -30,9 +27,6 @@ namespace Assets.Scripts.NPCs
         // Use this for initialization
         void Start()
         {
-            anim = GetComponentInChildren<Animator>();
-			_npc = GetComponent<NPC> ();
-
             _animBones = new List<GameObject>();
             _skinBones = new List<GameObject>();
 
@@ -61,10 +55,6 @@ namespace Assets.Scripts.NPCs
                 }
             }
         }
-        public void BlendBack()
-        {
-            StartCoroutine(WaitBlend());
-        }
 
         IEnumerator WaitBlend()
         {
@@ -79,9 +69,6 @@ namespace Assets.Scripts.NPCs
 
             blend = true;
             bool faceUp = Vector3.Dot(-_skinBones[0].GetComponent<Transform>().right, Vector3.up) > 0f;
-
-            anim.SetFloat("BackFront", faceUp ? 0 : 1);
-            anim.SetTrigger("GetUp");
 
             yield return new WaitForSeconds(6);
 
