@@ -12,8 +12,7 @@
         {
             marker.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");
         }          marker.SetActive(true);         marker.transform.SetParent(this.transform, false);          // Set marker on correct location         marker.transform.localPosition = minimapLocation;
-    }      public void DeleteSpecifiqMarker(Vector2 minimapLocation) {
-        Debug.Log("Deleting marker");         // Begin at 2 as the first two items are the playerIcon and the marker prefab
+    }      public void DeleteSpecifiqMarker(Vector2 minimapLocation) {         // Begin at 2 as the first two items are the playerIcon and the marker prefab
         for (int i = 2; i < transform.childCount; i++) {
             Vector2 markerlocation = transform.GetChild(i).localPosition;              if (minimapLocation == markerlocation) {                 Destroy(transform.GetChild(i).gameObject);                 break;
             }

@@ -109,8 +109,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         DeletePanel();
     }
 
-    // TEST
-
     public void OnPointerClick(PointerEventData eventData)
     {
         // Detect click on panel
@@ -126,7 +124,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             panelImage.color = panelColorWhite;
         }
 
-        // set isSelected value
+        // Set IsSelected value
         notification.IsSelected = !notification.IsSelected;
     }
 }
