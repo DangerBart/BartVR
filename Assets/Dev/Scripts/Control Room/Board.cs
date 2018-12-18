@@ -25,7 +25,10 @@ public class Board : MonoBehaviour
         POIManager = POISystem.GetComponent<POIManager>();
         // Count -1 as we don't need a POI on the map for irrelevant messages
         POIManager.Setup(notificationsPerPOI.Count - 1);
-    
+
+        //Setup second display for VR camera
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
     }
 
     void LoadItems(string path) {

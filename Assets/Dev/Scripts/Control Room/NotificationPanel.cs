@@ -13,9 +13,11 @@ public class NotificationPanel : MonoBehaviour {
     private Text username;
     private Text message;
     private Image mediaPlaform;
+    private Sprite imageForVR;
     private GameObject imageButton;
     private Image favoriteButton;
     private Text Date;
+    private TabletDisplay tablet = new TabletDisplay();
 
     public void SetGameObjects() {
         imageButton = this.transform.Find("Show Button").gameObject;

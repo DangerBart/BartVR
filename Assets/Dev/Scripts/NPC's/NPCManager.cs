@@ -17,7 +17,7 @@ public class NPCManager : MonoBehaviour {
         for (int i = 0; i < amount; i++) {
             CreateNPC(this.gameObject);
         }
-	}
+    }
 
     private void CreateNPC(GameObject container) {
         GameObject npc = Instantiate(NPC) as GameObject;
