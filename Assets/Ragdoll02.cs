@@ -29,8 +29,15 @@ namespace Assets.Scripts.NPCs
         {
             _animBones = new List<GameObject>();
             _skinBones = new List<GameObject>();
+            Transform[] Bones = gameObject.GetComponentsInChildren<Transform>();
+            SetBones(Bones);
 
-            foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+
+            string[] legs = { "LThighTwist", "RThighTwist" };
+        }
+        public void SetBones(Transform[] Bones)
+        {
+            foreach (Transform child in Bones)
             {
                 if (child.tag == "AnimBones")
                     _animBones.Add(child.gameObject);
@@ -39,8 +46,6 @@ namespace Assets.Scripts.NPCs
 
                 stateType = StateType.Two;
             }
-
-            string[] legs = { "LThighTwist", "RThighTwist" };
         }
 
         public void SetKinimatic(List<GameObject> gameobject)
