@@ -2095,6 +2095,7 @@ GameObject:
   - component: {fileID: 4501021616013784}
   - component: {fileID: 95648828210649260}
   - component: {fileID: 114166890809035180}
+  - component: {fileID: 114312664145632306}
   m_Layer: 0
   m_Name: AnimRig
   m_TagString: Civilian
@@ -4627,7 +4628,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1515848122755588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -165.53188, y: -0.0036621094, z: 24.3768}
+  m_LocalPosition: {x: -157.35522, y: -0.0036621094, z: 44.129456}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4501021616013784}
@@ -4828,6 +4829,18 @@ MonoBehaviour:
   stateType: 0
   blend: 0
   IsGettingUp: 0
+--- !u!114 &114312664145632306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854941307786576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fb24a4e8dafb64ba14e8f51ffb6742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _footstepAudioClip: {fileID: 0}
 --- !u!114 &114560104651100060
 MonoBehaviour:
   m_ObjectHideFlags: 1

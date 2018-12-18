@@ -2455,6 +2455,7 @@ GameObject:
   - component: {fileID: 4188204444309532}
   - component: {fileID: 95026743397780108}
   - component: {fileID: 114021337520805170}
+  - component: {fileID: 114955347569372862}
   m_Layer: 0
   m_Name: AnimRig
   m_TagString: Civilian
@@ -2620,7 +2621,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1768348461599192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -165.0799, y: -0.0036621094, z: 24.903809}
+  m_LocalPosition: {x: -156.82312, y: -0.0036621094, z: 43.864624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4188204444309532}
@@ -4809,6 +4810,18 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+--- !u!114 &114955347569372862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1989053417506772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fb24a4e8dafb64ba14e8f51ffb6742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _footstepAudioClip: {fileID: 0}
 --- !u!137 &137776844372818550
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
