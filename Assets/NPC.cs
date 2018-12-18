@@ -20,13 +20,5 @@ public class NPC : MonoBehaviour {
 	void Update () {
 		float speed = navMeshAgent.velocity.magnitude;
 		animator.SetFloat("Speed", speed);
-		//if(speed < Mathf.Abs(0.05f) && lowerBodyLayer != 1){
-		//	lowerBodyLayer = Mathf.Lerp(lowerBodyLayer, 0, 2 * Time.deltaTime);
-		//	//animator.SetLayerWeight(1, lowerBodyLayer);
-		//}
-		//else{
-		//	lowerBodyLayer = Mathf.Lerp(lowerBodyLayer, 1, speed * Time.deltaTime);
-		//	//animator.SetLayerWeight(1, lowerBodyLayer);
-		//}
 	}
 }
