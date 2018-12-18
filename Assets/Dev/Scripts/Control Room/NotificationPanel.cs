@@ -35,6 +35,16 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         return notification.MinimapLocation;
     }
 
+    public bool IsFavorite()
+    {
+        return notification.IsFavorite;
+    }
+
+    public bool IsSelected()
+    {
+        return notification.IsSelected;
+    }
+
     private void SetGameObjects() {
         imageButton = this.transform.Find("Show Button").gameObject;
     }
@@ -91,7 +101,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void DeleteButtonClicked() {
-        if (notification.IsFavorite) {
+        if (notification.IsFavorite || notification.IsSelected) {
             // Make sure the marker gets deleted as well
             notificationMenu.GetComponent<NotificationControl>().NotificationPanelRemoved(notification.MinimapLocation);
         }
@@ -100,16 +110,10 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     // TEST
-    public bool IsSelected()
-    {
-        return notification.IsSelected;
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
-        Debug.Log("Detected a panel click");
-
+        // Detect click on panel
         notificationMenu.GetComponent<NotificationControl>().NotificationSelected(gameObject);
     }
 
@@ -124,6 +128,5 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         // set isSelected value
         notification.IsSelected = !notification.IsSelected;
-        Debug.Log("IsSelected = " + notification.IsSelected);
     }
 }

@@ -11,7 +11,6 @@ public class NotificationControl : MonoBehaviour
     public GameObject defaultNotificationPanel;
     public GameObject defaultBoardPanel;
 
-    //ToDo
     private GameObject selectedNotficationObject;
 
     void Start() {
@@ -39,11 +38,18 @@ public class NotificationControl : MonoBehaviour
         //Place it on the boardpanel or the receive notificationpanel
         if(notification.IsFavorite) {
             message.transform.SetParent(defaultBoardPanel.transform.parent, false);
-            minimapControl.CreateNewMarker(notification.MinimapLocation);
+            if (!notification.IsSelected)
+            {
+                minimapControl.CreateNewMarker(notification.MinimapLocation);
+            }
         }
         else {
             message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
             minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
+        }
+
+        if (notification.IsSelected) {
+            selectedNotficationObject = message;
         }
     }
 
@@ -52,9 +58,20 @@ public class NotificationControl : MonoBehaviour
             selectedNotficationObject.GetComponent<NotificationPanel>().TogglePanelColor();
             //Remove previous selected marker
             minimapControl.DeleteSpecifiqMarker(selectedNotficationObject.GetComponent<NotificationPanel>().GetMinimapLocation());
+
+            if (selectedNotficationObject.GetComponent<NotificationPanel>().IsFavorite())
+            {
+                minimapControl.CreateNewMarker(selectedNotficationObject.GetComponent<NotificationPanel>().GetMinimapLocation());
+            }
+        }
+
+        if (notificationObject.GetComponent<NotificationPanel>().IsFavorite())
+        {
+            minimapControl.DeleteSpecifiqMarker(notificationObject.GetComponent<NotificationPanel>().GetMinimapLocation());
         }
 
         if (selectedNotficationObject != notificationObject) {
+
             notificationObject.GetComponent<NotificationPanel>().TogglePanelColor();
             selectedNotficationObject = notificationObject;
 
@@ -62,12 +79,16 @@ public class NotificationControl : MonoBehaviour
             minimapControl.CreateNewMarker(notificationObject.GetComponent<NotificationPanel>().GetMinimapLocation(), true);
         }
         else {
-            // Same selected panels
+            // Selected panel was clicked twice
+            if (notificationObject.GetComponent<NotificationPanel>().IsFavorite()) {
+                minimapControl.CreateNewMarker(notificationObject.GetComponent<NotificationPanel>().GetMinimapLocation());
+            }
+
             selectedNotficationObject = null;
         }
     }
 
     public void NotificationPanelRemoved(Vector2 minimapLocation) {
-        minimapControl.DeleteSpecifiqMarker(minimapLocation); 
+        minimapControl.DeleteSpecifiqMarker(minimapLocation);
     }
 }
