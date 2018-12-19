@@ -21,12 +21,12 @@ public class Gamemanager : MonoBehaviour {
         Regex regex = new Regex(@"^[1-9]\d*$");
         Match match = regex.Match(amountOfNpcs.text);
 
-        if (match.Success && amountOfNpcsToSpawn <= 250) {
+        if (match.Success && amountOfNpcsToSpawn <= 150) {
             SceneManager.LoadScene(1);
             //Start time
             Time.timeScale = 1;
         } else {
-            inputRequired.GetComponent<Text>().text = "Vul een geldig tussen 0 en 250 getal in";
+            inputRequired.GetComponent<Text>().text = "Vul een geldig tussen 0 en 150 getal in";
             inputRequired.SetActive(true);
         }
     }
