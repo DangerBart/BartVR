@@ -7,6 +7,10 @@ public class NPCBehaviour : MonoBehaviour {
     public GameObject checkpointContainer;
     
     private readonly int radius = 5;
+    [SerializeField]
+    private float minSpeed;
+    [SerializeField]
+    private float maxSpeed;
 
     private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
     private readonly Node[] nodeList = new Node[59];
@@ -33,7 +37,7 @@ public class NPCBehaviour : MonoBehaviour {
         currentCheckpoint = spawnList[randomSpawnLocation];
 
         //Randomize NPC's speed and set autoRepath to true so NPC's don't walk to invalid points on map
-        agent.speed = Random.Range(3, 6);
+        agent.speed = Random.Range(minSpeed, maxSpeed);
         agent.autoRepath = true;
 
         //Find target to walk to
