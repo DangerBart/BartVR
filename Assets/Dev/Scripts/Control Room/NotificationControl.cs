@@ -38,8 +38,9 @@ public class NotificationControl : MonoBehaviour
         //Place it on the boardpanel or the receive notificationpanel
         if(notification.IsFavorite) {
             message.transform.SetParent(defaultBoardPanel.transform.parent, false);
-            if (!notification.IsSelected)
-            {
+
+            if (!notification.IsSelected) {
+                // Create marker when notfication is not selected
                 minimapControl.CreateNewMarker(notification.MinimapLocation);
             }
         }
@@ -49,6 +50,7 @@ public class NotificationControl : MonoBehaviour
         }
 
         if (notification.IsSelected) {
+            // Making sure selectedNotificationObject is updated
             selectedNotficationObject = message;
         }
     }
@@ -65,6 +67,7 @@ public class NotificationControl : MonoBehaviour
 
             if (selectedNotificationPanel.IsFavorite())
             {
+                // As the selected marker(yellow) has been romoved we have to create a new purple marker
                 minimapControl.CreateNewMarker(selectedNotificationPanel.GetMinimapLocation());
             }
         }
@@ -83,11 +86,6 @@ public class NotificationControl : MonoBehaviour
             minimapControl.CreateNewMarker(notificationPanel.GetMinimapLocation(), true);
         }
         else {
-            // Selected panel was clicked twice
-            if (notificationPanel.IsFavorite()) {
-                minimapControl.CreateNewMarker(notificationPanel.GetMinimapLocation());
-            }
-
             selectedNotficationObject = null;
         }
     }

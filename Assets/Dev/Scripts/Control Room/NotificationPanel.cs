@@ -30,18 +30,15 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         SetupPanelInformation(notification);
     }
 
-    public Vector2 GetMinimapLocation()
-    {
+    public Vector2 GetMinimapLocation() {
         return notification.MinimapLocation;
     }
 
-    public bool IsFavorite()
-    {
+    public bool IsFavorite() {
         return notification.IsFavorite;
     }
 
-    public bool IsSelected()
-    {
+    public bool IsSelected() {
         return notification.IsSelected;
     }
 
@@ -92,6 +89,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             notification.IsFavorite = true;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
+
         notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel();
     }
@@ -109,19 +107,18 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         DeletePanel();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        // Detect click on panel
+    public void OnPointerClick(PointerEventData eventData) {
+        // Detected click on panel
         notificationMenu.GetComponent<NotificationControl>().NotificationSelected(gameObject);
     }
 
     public void TogglePanelColor() {
-        Image panelImage = gameObject.GetComponent<Image>();
+        Image panel = gameObject.GetComponent<Image>();
 
         if (!notification.IsSelected) {
-            panelImage.color = panelColorYellow;
+            panel.color = panelColorYellow;
         } else {
-            panelImage.color = panelColorWhite;
+            panel.color = panelColorWhite;
         }
 
         // Set IsSelected value
