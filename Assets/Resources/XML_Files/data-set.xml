@@ -2,34 +2,33 @@
 <NotificationCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Notifications>
 		<Notification>
-			<Name>Daan</Name>
-			<Message>Ik heb niets gezien.</Message>
+			<Name>Richard</Name>
+			<Message>Is dit hem?</Message>
 			<POI>0</POI>
-			<Platform>SMS</Platform>
-			<Image>Church</Image>
+			<Platform>Twitter</Platform>
+			<Image>IsDitHem</Image>
 		</Notification>
 		<Notification>
-			<Name>Sanne</Name>
-			<Message>Is dit al opgelost?</Message>
+			<Name>Dennis</Name>
+			<Message>Ik heb gister een broodje pindakaas gegeten. #peanutbutter4lyfe #lekker</Message>
 			<POI>0</POI>
 			<Platform>Twitter</Platform>
 		</Notification>
 		<Notification>
-			<Name>Thomas</Name>
-			<Message>Wat is er precies gebeurd?</Message>
+			<Name>Nummer 06000000001</Name>
+			<Message>Smash?</Message>
 			<POI>0</POI>
-			<Platform>Facebook</Platform>
+			<Platform>Bellen</Platform>
 		</Notification>
 		<Notification>
-			<Name>Emma</Name>
-			<Message>Ik ben vandaag niet in de stad.</Message>
+			<Name>FlobberBark</Name>
+			<Message>Fourtnite is leuk #winnerwinnerchickendinner</Message>
 			<POI>0</POI>
 			<Platform>Facebook</Platform>
-			<Image>Bench</Image>
 		</Notification>
 		<Notification>
 			<Name>Lisa</Name>
-			<Message>Ik zag iemand met die omschrijving.</Message>
+			<Message>Er is hier net een overval gepleegd!</Message>
 			<POI>1</POI>
 			<Platform>SMS</Platform>
 		</Notification>
@@ -38,29 +37,29 @@
 			<Message>Ik zie iemand die zich verdacht gedraagt.</Message>
 			<POI>2</POI>
 			<Platform>Facebook</Platform>
+			<Image>Walking</Image>
 		</Notification>
 		<Notification>
 			<Name>Niels</Name>
-			<Message>Een paar minuten geleden had ik hem nog gezien.</Message>
+			<Message>Ik zag hier net een persoon voorbij lopen die er uitziet als die overvaller.</Message>
 			<POI>2</POI>
 			<Platform>Whatsapp</Platform>
 		</Notification>
 		<Notification>
-			<Name>Lieke</Name>
-			<Message>Iemand rende hier zojuist hard weg.</Message>
+			<Name>GentStudent</Name>
+			<Message>#DoeHetVoorGentStudent42.2</Message>
 			<POI>0</POI>
-			<Platform>Whatsapp</Platform>
-			<Image>City</Image>
+			<Platform>Twitter</Platform>
 		</Notification>
 		<Notification>
-			<Name>Sara</Name>
-			<Message>Nog meer criminaliteit?</Message>
+			<Name>VervelendeZeurpiet</Name>
+			<Message>De bus is weer laat @Synthus #sad #late</Message>
 			<POI>0</POI>
 			<Platform>Twitter</Platform>
 		</Notification>
 		<Notification>
 			<Name>Tom</Name>
-			<Message>Ik had de verdachte  hier net nog gezien.</Message>
+			<Message>ik heb net een straatroof gezien, er was een vrouw overvallen door een man.</Message>
 			<POI>1</POI>
 			<Platform>Bellen</Platform>
 		</Notification>
@@ -71,40 +70,24 @@
 			<Platform>Bellen</Platform>
 		</Notification>
 		<Notification>
-			<Name>Thijs</Name>
-			<Message>Nou ik ga vandaag de stad niet in.</Message>
+			<Name>Snoepjesgever</Name>
+			<Message>Iemand een snoepje? #nietXtcHoor</Message>
 			<POI>0</POI>
 			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Floor</Name>
-			<Message>Ik ga geen gevaarlijke verdachte opsporen.</Message>
-			<POI>0</POI>
-			<Platform>SMS</Platform>
 		</Notification>
 		<Notification>
 			<Name>Sandra</Name>
-			<Message>Iemand hier voldoet wel aan de omschrijving.</Message>
+			<Message>Wow, straatroof in het daglicht! Waar gaat de wereld naartoe? #sad</Message>
 			<POI>1</POI>
-			<Platform>Facebook</Platform>
-		</Notification>
-		<Notification>
-			<Name>Koen</Name>
-			<Message>Is er hier verder nog nieuws over?</Message>
-			<POI>0</POI>
-			<Platform>Whatsapp</Platform>
-		</Notification>
-		<Notification>
-			<Name>Justin</Name>
-			<Message>Hebben jullie hem al?</Message>
-			<POI>0</POI>
 			<Platform>Twitter</Platform>
+			<Image>Running</Image>
 		</Notification>
 		<Notification>
 			<Name>Femke</Name>
-			<Message>Iemand die erop leek liep langs mijn winkel heen.</Message>
+			<Message>Hier staat iemand die veel op het signalement lijkt al een tijdje te wachten.</Message>
 			<POI>3</POI>
-			<Platform>SMS</Platform>
+			<Platform>Whatsapp</Platform>
+			<Image>Suspect</Image>
 		</Notification>
 		<Notification>
 			<Name>Anna</Name>
@@ -113,40 +96,10 @@
 			<Platform>Twitter</Platform>
 		</Notification>
 		<Notification>
-			<Name>Esmee</Name>
-			<Message>De winkels zijn wel toch gewoon open?</Message>
-			<POI>0</POI>
-			<Platform>Facebook</Platform>
-		</Notification>
-		<Notification>
-			<Name>Jelle</Name>
-			<Message>Zag wel iemand anders die zich aggresief gedroeg.</Message>
-			<POI>0</POI>
-			<Platform>Bellen</Platform>
-		</Notification>
-		<Notification>
-			<Name>Amse</Name>
-			<Message>Ik zie anders geen enkele agent hier lopen.</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Jurrien</Name>
-			<Message>Moet ik de politie bellen als ik de verdachte zie?</Message>
-			<POI>0</POI>
-			<Platform>Bellen</Platform>
-		</Notification>
-		<Notification>
 			<Name>Tim</Name>
 			<Message>Uit mijn raam zag ik de verdachte.</Message>
-			<POI>1</POI>
-			<Platform>Facebook</Platform>
-		</Notification>
-		<Notification>
-			<Name>Jaap</Name>
-			<Message>Iemand probeerde mijn fiets te stelen.</Message>
-			<POI>0</POI>
-			<Platform>SMS</Platform>
+			<POI>2</POI>
+			<Platform>Bellen</Platform>
 		</Notification>
 		<Notification>
 			<Name>Iris</Name>
