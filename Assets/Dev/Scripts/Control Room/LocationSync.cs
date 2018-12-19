@@ -12,6 +12,8 @@ public class LocationSync : MonoBehaviour
     private Vector2 planeSize;
     private float xScale;
     private float yScale;
+    public float offsetx = 1.7f;
+    public float offsety = 2f;
     private Vector2 officerOnMap;
     
 
@@ -24,12 +26,10 @@ public class LocationSync : MonoBehaviour
     }
 
     private void UpdateMapSizeAndScale() {
-        float offset = 2f;
-
         mapSize = map.GetComponent<RectTransform>().sizeDelta;
         planeSize = plane.GetComponent<RectTransform>().sizeDelta;
-        xScale = planeSize.x / mapSize.x + offset;
-        yScale = planeSize.y / mapSize.y + offset;
+        xScale = planeSize.x / mapSize.x + offsetx;
+        yScale = planeSize.y / mapSize.y + offsety;
     }
     private void ScaleOfficerOnMap() {
         this.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (officerInVR.transform.position.x * xScale),

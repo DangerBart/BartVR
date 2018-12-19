@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class NPCManager : MonoBehaviour {
 
-    public GameObject NPC;
+    public string NPCPath = "NPC";
+    private Object[] gameObjects;
     public GameObject CheckpointContainer;
 
-    [Tooltip("Amount of NPC's to spawn")]
-    public int amount;
-
+    private int amount;
     private NPCBehaviour npcBehaviour;
 
     // Use this for initialization
     void Start () {
+        gameObjects = Resources.LoadAll(NPCPath, typeof(GameObject));
+        amount = Gamemanager.amountOfNpcsToSpawn;
         for (int i = 0; i < amount; i++) {
             CreateNPC(this.gameObject);
         }
 	}
 
     private void CreateNPC(GameObject container) {
-        GameObject npc = Instantiate(NPC) as GameObject;
-        npcBehaviour = npc.GetComponent<NPCBehaviour>();
-        npcBehaviour.checkpointContainer = CheckpointContainer; 
-        npc.SetActive(true);
-        npc.transform.SetParent(container.transform);
+        int rndNPC = Random.Range(0, gameObjects.Length);
+        GameObject NPC = Instantiate((GameObject)gameObjects[rndNPC]) as GameObject;
+        npcBehaviour = NPC.GetComponent<NPCBehaviour>();
+        npcBehaviour.checkpointContainer = CheckpointContainer;
+        NPC.SetActive(true);
+        NPC.transform.SetParent(container.transform);
     }
 }
