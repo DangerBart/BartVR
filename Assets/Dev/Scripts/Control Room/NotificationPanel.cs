@@ -9,6 +9,7 @@ public class NotificationPanel : MonoBehaviour {
     public GameObject panelImage;
     public GameObject notificationMenu;
     public GameObject Timestamp;
+    public TabletDisplay tablet;
     public bool isFavorite;
     private Text username;
     private Text message;
@@ -17,7 +18,7 @@ public class NotificationPanel : MonoBehaviour {
     private GameObject imageButton;
     private Image favoriteButton;
     private Text Date;
-    private TabletDisplay tablet = new TabletDisplay();
+    // private TabletDisplay tablet = new TabletDisplay();
 
     public void SetGameObjects() {
         imageButton = this.transform.Find("Show Button").gameObject;
@@ -70,6 +71,9 @@ public class NotificationPanel : MonoBehaviour {
         }
         notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, isFavorite);
         DeletePanel();
+    }
+    public void SendImageToVRUser(){
+        tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
     public void DeletePanel() {
