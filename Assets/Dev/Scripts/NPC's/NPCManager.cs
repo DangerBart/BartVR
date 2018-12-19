@@ -6,17 +6,15 @@ public class NPCManager : MonoBehaviour {
 
     public string NPCPath = "NPC";
     private Object[] gameObjects;
-    //private GameObject NPC;
     public GameObject CheckpointContainer;
 
-    [Tooltip("Amount of NPC's to spawn")]
-    public int amount;
-
+    private int amount;
     private NPCBehaviour npcBehaviour;
 
     // Use this for initialization
     void Start () {
         gameObjects = Resources.LoadAll(NPCPath, typeof(GameObject));
+        amount = Gamemanager.amountOfNpcsToSpawn;
         for (int i = 0; i < amount; i++) {
             CreateNPC(this.gameObject);
         }
@@ -25,7 +23,6 @@ public class NPCManager : MonoBehaviour {
     private void CreateNPC(GameObject container) {
         int rndNPC = Random.Range(0, gameObjects.Length);
         GameObject NPC = Instantiate((GameObject)gameObjects[rndNPC]) as GameObject;
-        //GameObject npc = Instantiate(NPC) as GameObject;
         npcBehaviour = NPC.GetComponent<NPCBehaviour>();
         npcBehaviour.checkpointContainer = CheckpointContainer;
         NPC.SetActive(true);

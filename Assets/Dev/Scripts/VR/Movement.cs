@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour {
     public GameObject playerRig;
     public GameObject cam;
     public GameObject cameraEye;
-    public int movementSwitch = 3; //enum
+    private int movementSwitch;
 
     //Collisions
     private bool isNoCollision = true;
@@ -26,6 +26,7 @@ public class Movement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         trackedObject = GetComponent<SteamVR_TrackedObject>();
+        movementSwitch = Gamemanager.movementValue + 1;
     }
 
     void Update() {
