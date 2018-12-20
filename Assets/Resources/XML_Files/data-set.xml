@@ -16,15 +16,63 @@
 		</Notification>
 		<Notification>
 			<Name>Nummer 06000000001</Name>
-			<Message>Smash?</Message>
+			<Message>Waar kan ik de aphotheek vinden?</Message>
 			<POI>0</POI>
 			<Platform>Bellen</Platform>
 		</Notification>
 		<Notification>
+			<Name>LisaNL12</Name>
+			<Message>Lekker dagje winkelen met mij vriendinnen!!</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Jordaan038</Name>
+			<Message>kopje koffie? Ik krijg er nooit genoeg van!</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Fluffy06</Name>
+			<Message>Zag net zo'n schattig knuffeltje. Heb er één gekocht voor mijn broertje maar wil er eigelijk ook zelf één XD</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Roos</Name>
+			<Message>Eindelijk klaar met leren! Nu tijd om te relaxen! </Message>
+			<POI>0</POI>
+			<Platform>Whatsapp</Platform>
+		</Notification>
+		<Notification>
+			<Name>Kees1999</Name>
+			<Message>Dat moment wanneer je niet weet wat je moet tweeten #random</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
 			<Name>FlobberBark</Name>
-			<Message>Fourtnite is leuk #winnerwinnerchickendinner</Message>
+			<Message>Wat een mooie dag is het vandaag! Lekker een luchte scheppen :D</Message>
 			<POI>0</POI>
 			<Platform>Facebook</Platform>
+		</Notification>
+		<Notification>
+			<Name>Natasha</Name>
+			<Message>Whoa kan niet geloven hoe goedkoop die schoenen waren! #lucky #opruiming</Message>
+			<POI>0</POI>
+			<Platform>Whatsapp</Platform>
+		</Notification>
+		<Notification>
+			<Name>Ricky4</Name>
+			<Message>Vandaag ga ik lekker niks doen… behalve dit bericht poste haha</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Marloesje</Name>
+			<Message>Naar de kapper staat op de planning vandaag! Is ook wel nodig haha</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
 		</Notification>
 		<Notification>
 			<Name>Lisa</Name>
@@ -70,10 +118,10 @@
 			<Platform>Bellen</Platform>
 		</Notification>
 		<Notification>
-			<Name>Snoepjesgever</Name>
-			<Message>Iemand een snoepje? #nietXtcHoor</Message>
+			<Name>Sweet Tooth</Name>
+			<Message>Zo hyped!! Buitelands snoep komt morgen binnen!! </Message>
 			<POI>0</POI>
-			<Platform>Twitter</Platform>
+			<Platform>Facebook</Platform>
 		</Notification>
 		<Notification>
 			<Name>Sandra</Name>

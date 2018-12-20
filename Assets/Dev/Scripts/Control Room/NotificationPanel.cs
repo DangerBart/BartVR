@@ -77,7 +77,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void SetTime() {
         Text date = Timestamp.transform.Find("Date").GetComponent<Text>();
         Text time = Timestamp.transform.Find("Time").GetComponent<Text>();
-        Date.text = string.Format("{0} \n{1}", time.text, date.text);
+        Date.text = string.Format("{0} {1}", time.text, date.text);
     }
 
     public void ShowImage() {
