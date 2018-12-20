@@ -13,9 +13,12 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public GameObject Timestamp;
 
     private Notification notification;
+    public TabletDisplay tablet;
+    public bool isFavorite;
     private Text username;
     private Text message;
     private Image mediaPlaform;
+    private Sprite imageForVR;
     private GameObject imageButton;
     private Image favoriteButton;
     private Text Date;
@@ -92,6 +95,9 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel();
+    }
+    public void SendImageToVRUser(){
+        tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
     private void DeletePanel() {
