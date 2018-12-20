@@ -75,7 +75,7 @@ public class NotificationControl : MonoBehaviour
         if (notificationPanel.IsFavorite()) {
             minimapControl.DeleteSpecifiqMarker(notificationPanel.GetMinimapLocation());
         }
-
+        
         if (selectedNotficationObject != notificationObject) {
             // Currently selected panel an previous are not the same
 
