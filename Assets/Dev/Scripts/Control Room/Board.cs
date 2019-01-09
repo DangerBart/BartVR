@@ -25,13 +25,15 @@ public class Board : MonoBehaviour
         POIManager = POISystem.GetComponent<POIManager>();
         // Count -1 as we don't need a POI on the map for irrelevant messages
         POIManager.Setup(notificationsPerPOI.Count - 1);
-    
+
+        //Setup second display for VR camera
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
     }
 
     void LoadItems(string path) {
         nc = NotificationContainer.Load(path);
     }
-
 
     void FillDictionaryWithNotificationsPerPOI() {
         foreach (Notification note in nc.notifications) {
@@ -54,6 +56,8 @@ public class Board : MonoBehaviour
 
             // Making sure relevant notifications are not displayed twice
             notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
+
+            notification.POILocation = POIManager.GetPOILocation();
 
             SetNotificationPlatformLogo(notification);
 

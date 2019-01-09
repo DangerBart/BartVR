@@ -20,8 +20,8 @@ public class POIManager : MonoBehaviour {
         return currentPOI;
     }
 
-    public Transform GetPOITransformData() {
-        return POIs[currentPOI - 1].transform;
+    public Vector3 GetPOILocation() {
+        return POIs[currentPOI - 1].transform.localPosition;
     }
 
     public void POIReached() {

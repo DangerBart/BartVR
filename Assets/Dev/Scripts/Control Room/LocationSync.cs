@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LocationSync : MonoBehaviour {
+public class LocationSync : MonoBehaviour
+{
 
     public GameObject map;
     public GameObject plane;
@@ -23,7 +24,6 @@ public class LocationSync : MonoBehaviour {
     void Update() {
         ScaleOfficerOnMap();
     }
-
 
     private void UpdateMapSizeAndScale() {
         mapSize = map.GetComponent<RectTransform>().sizeDelta;
