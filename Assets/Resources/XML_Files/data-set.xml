@@ -2,144 +2,131 @@
 <NotificationCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Notifications>
 		<Notification>
-			<Name>Richard</Name>
-			<Message>Is dit hem?</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-			<Image>IsDitHem</Image>
-		</Notification>
-		<Notification>
-			<Name>Dennis</Name>
-			<Message>Ik heb gister een broodje pindakaas gegeten. #peanutbutter4lyfe #lekker</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
 			<Name>Nummer 06000000001</Name>
-			<Message>Waar kan ik de aphotheek vinden?</Message>
-			<POI>0</POI>
+			<Message>Iemand werd hier zojuist overvallen.</Message>
+			<POI>1</POI>
 			<Platform>Bellen</Platform>
 		</Notification>
 		<Notification>
 			<Name>LisaNL12</Name>
-			<Message>Lekker dagje winkelen met mij vriendinnen!!</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Jordaan038</Name>
-			<Message>kopje koffie? Ik krijg er nooit genoeg van!</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Fluffy06</Name>
-			<Message>Zag net zo'n schattig knuffeltje. Heb er één gekocht voor mijn broertje maar wil er eigelijk ook zelf één XD</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Roos</Name>
-			<Message>Eindelijk klaar met leren! Nu tijd om te relaxen! </Message>
-			<POI>0</POI>
-			<Platform>Whatsapp</Platform>
-		</Notification>
-		<Notification>
-			<Name>Kees1999</Name>
-			<Message>Dat moment wanneer je niet weet wat je moet tweeten #random</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>FlobberBark</Name>
-			<Message>Wat een mooie dag is het vandaag! Lekker een luchte scheppen :D</Message>
-			<POI>0</POI>
-			<Platform>Facebook</Platform>
-		</Notification>
-		<Notification>
-			<Name>Natasha</Name>
-			<Message>Whoa kan niet geloven hoe goedkoop die schoenen waren! #lucky #opruiming</Message>
-			<POI>0</POI>
-			<Platform>Whatsapp</Platform>
-		</Notification>
-		<Notification>
-			<Name>Ricky4</Name>
-			<Message>Vandaag ga ik lekker niks doen… behalve dit bericht poste haha</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Marloesje</Name>
-			<Message>Naar de kapper staat op de planning vandaag! Is ook wel nodig haha</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Lisa</Name>
-			<Message>Er is hier net een overval gepleegd!</Message>
-			<POI>1</POI>
-			<Platform>SMS</Platform>
-		</Notification>
-		<Notification>
-			<Name>Lars</Name>
-			<Message>Ik zie iemand die zich verdacht gedraagt.</Message>
-			<POI>2</POI>
-			<Platform>Facebook</Platform>
-			<Image>Walking</Image>
-		</Notification>
-		<Notification>
-			<Name>Niels</Name>
-			<Message>Ik zag hier net een persoon voorbij lopen die er uitziet als die overvaller.</Message>
-			<POI>2</POI>
-			<Platform>Whatsapp</Platform>
-		</Notification>
-		<Notification>
-			<Name>GentStudent</Name>
-			<Message>#DoeHetVoorGentStudent42.2</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>VervelendeZeurpiet</Name>
-			<Message>De bus is weer laat @Synthus #sad #late</Message>
-			<POI>0</POI>
-			<Platform>Twitter</Platform>
-		</Notification>
-		<Notification>
-			<Name>Tom</Name>
-			<Message>ik heb net een straatroof gezien, er was een vrouw overvallen door een man.</Message>
-			<POI>1</POI>
-			<Platform>Bellen</Platform>
-		</Notification>
-		<Notification>
-			<Name>Geert</Name>
-			<Message>Heb iemand gezien met die verdachteomschrijving.</Message>
-			<POI>3</POI>
-			<Platform>Bellen</Platform>
-		</Notification>
-		<Notification>
-			<Name>Sweet Tooth</Name>
-			<Message>Zo hyped!! Buitelands snoep komt morgen binnen!! </Message>
-			<POI>0</POI>
-			<Platform>Facebook</Platform>
-		</Notification>
-		<Notification>
-			<Name>Sandra</Name>
-			<Message>Wow, straatroof in het daglicht! Waar gaat de wereld naartoe? #sad</Message>
+			<Message>Een man stal een tas van een vrouw.</Message>
 			<POI>1</POI>
 			<Platform>Twitter</Platform>
 			<Image>Running</Image>
 		</Notification>
 		<Notification>
+			<Name>Jordaan038</Name>
+			<Message>Waar is dit gebeurd?</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Fluffy06</Name>
+			<Message>Heeft iemand de overvaller gezien?</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Roos</Name>
+			<Message>Schokkend dat het gebeurt op klaarlichte dag.</Message>
+			<POI>0</POI>
+			<Platform>Whatsapp</Platform>
+		</Notification>
+		<Notification>
+			<Name>Kees1999</Name>
+			<Message>De man rende hier gauw weg!</Message>
+			<POI>1</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>FlobberBark</Name>
+			<Message>Ik heb verder niets gezien.</Message>
+			<POI>0</POI>
+			<Platform>Facebook</Platform>
+		</Notification>
+		<Notification>
+			<Name>Natasha</Name>
+			<Message>Is de verdachte gevaarlijk?</Message>
+			<POI>0</POI>
+			<Platform>Whatsapp</Platform>
+		</Notification>
+		<Notification>
+			<Name>Ricky4</Name>
+			<Message>Ik zag iemand hier wegrennen met een tas!</Message>
+			<POI>2</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Marloesje</Name>
+			<Message>Tas was hier gedumpt, heb het naar de politie gebracht.</Message>
+			<POI>2</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Lisa</Name>
+			<Message>Loop hij hier nog ergens rond?</Message>
+			<POI>0</POI>
+			<Platform>SMS</Platform>
+		</Notification>
+		<Notification>
+			<Name>Lars</Name>
+			<Message>Is dit al opgelost?</Message>
+			<POI>0</POI>
+			<Platform>Facebook</Platform>
+		</Notification>
+		<Notification>
+			<Name>Niels</Name>
+			<Message>De persoon die de tas dumpte had een zwart shirt aan.</Message>
+			<POI>2</POI>
+			<Platform>Whatsapp</Platform>
+		</Notification>
+		<Notification>
+			<Name>GentStudent</Name>
+			<Message>Ik zag de overval voor mijn ogen gebeuren.</Message>
+			<POI>1</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>VervelendeZeurpiet</Name>
+			<Message>Ik was vandaag helaas niet in de stad.</Message>
+			<POI>0</POI>
+			<Platform>Twitter</Platform>
+		</Notification>
+		<Notification>
+			<Name>Tom</Name>
+			<Message>De overvaller leek geen wapen bij zich te hebben.</Message>
+			<POI>1</POI>
+			<Platform>Bellen</Platform>
+		</Notification>
+		<Notification>
+			<Name>Geert</Name>
+			<Message>Was de verdachte een vrouw?</Message>
+			<POI>0</POI>
+			<Platform>Bellen</Platform>
+		</Notification>
+		<Notification>
+			<Name>Sweet Tooth</Name>
+			<Message>Hoe ziet de verdachte eruit?</Message>
+			<POI>0</POI>
+			<Platform>Facebook</Platform>
+		</Notification>
+		<Notification>
+			<Name>Sandra</Name>
+			<Message>De overvaller loopt hier volgens mij.</Message>
+			<POI>3</POI>
+			<Platform>Twitter</Platform>
+			<Image>Verdachte</Image>
+		</Notification>
+		<Notification>
 			<Name>Femke</Name>
-			<Message>Hier staat iemand die veel op het signalement lijkt al een tijdje te wachten.</Message>
+			<Message>Ik zie een uitgeput persoon hier van het rennen.</Message>
 			<POI>3</POI>
 			<Platform>Whatsapp</Platform>
 			<Image>Suspect</Image>
 		</Notification>
 		<Notification>
 			<Name>Anna</Name>
-			<Message>Hier liep wel iemand die erop leek.</Message>
+			<Message>Volgens mij verstopt hij zich hier in deze straat.</Message>
 			<POI>3</POI>
 			<Platform>Twitter</Platform>
 		</Notification>
@@ -148,10 +135,11 @@
 			<Message>Uit mijn raam zag ik de verdachte.</Message>
 			<POI>2</POI>
 			<Platform>Bellen</Platform>
+			<Image>Walking</Image>
 		</Notification>
 		<Notification>
 			<Name>Iris</Name>
-			<Message>Ik zie hem hier.</Message>
+			<Message>Een vrouw werdt hier overvallen, ze is niet gewond.</Message>
 			<POI>1</POI>
 			<Platform>Twitter</Platform>
 		</Notification>
