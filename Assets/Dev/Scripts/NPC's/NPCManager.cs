@@ -3,7 +3,7 @@
 
 public class NPCManager : MonoBehaviour {
 
-    public string NPCPath = "NPC";
+    public string NPCPath = "NPCTEST";
     private Object[] gameObjects;
     public GameObject CheckpointContainer;
 
@@ -26,8 +26,13 @@ public class NPCManager : MonoBehaviour {
     }
 
     private void CreateNPC(GameObject container) {
-        int rndNPC = Random.Range(0, gameObjects.Length);
-        GameObject NPC = Instantiate((GameObject)gameObjects[rndNPC]) as GameObject;
+        //int rndNPC = Random.Range(0, gameObjects.Length);
+        //GameObject NPC = Instantiate((GameObject)gameObjects[rndNPC]) as GameObject;
+
+
+        // Test -> Able to print name
+        GameObject NPC = Instantiate(GetRandomNPCModel());
+
         npcBehaviour = NPC.GetComponent<NPCBehaviour>();
         npcBehaviour.checkpointContainer = CheckpointContainer;
         npcBehaviour.SetSpawnList(spawnList);
@@ -35,9 +40,82 @@ public class NPCManager : MonoBehaviour {
         NPC.transform.SetParent(container.transform);
     }
 
+    private GameObject GetRandomNPCModel()
+    {
+        int rndNPC = Random.Range(0, gameObjects.Length);
+        GameObject npcModel = (GameObject)gameObjects[rndNPC];
+
+        SetIDProperties(npcModel.name, npcModel.GetComponent<Identification>());
+
+        return npcModel;
+    }
+
+    private void SetIDProperties(string modelName, Identification idModel)
+    {
+        //properties
+        string gender;
+        string topPiece;
+        string bottomPiece;
+
+        string[] proporties = (modelName.Split('-'));
+        gender = proporties[0];
+        topPiece = proporties[1];
+        bottomPiece = proporties[2];
+
+        // Set role
+        idModel.Role = Roles.Civilian;
+
+        // Check gender
+        switch (gender.ToUpper())
+        {
+            case "F":
+                idModel.Gender = Genders.Female;
+                break;
+            default:
+                idModel.Gender = Genders.Male;
+                break;
+        }
+
+        // Check toppiece
+        switch (topPiece.ToUpper())
+        {
+
+            case "BL":
+                idModel.TopPiece = Colors.Blue;
+                break;
+            case "BR":
+                idModel.TopPiece = Colors.Brown;
+                break;
+            case "P":
+                idModel.TopPiece = Colors.Pink;
+                break;
+            default:
+                idModel.TopPiece = Colors.White;
+                break;
+        }
+
+        // Check bottompiece
+        switch (bottomPiece.ToUpper())
+        {
+            case "BL":
+                idModel.BottomPiece = Colors.Blue;
+                break;
+            case "BR":
+                idModel.BottomPiece = Colors.Brown;
+                break;
+            default:
+                idModel.BottomPiece = Colors.White;
+                break;
+        }
+
+        Debug.Log("Recieved the following model: " + modelName);
+        idModel.Test();
+    }
+
     private Transform GetCheckpointChild(int index) {
         return CheckpointContainer.gameObject.transform.GetChild(index);
     }
+
 
     private void InitializeNodes() {
         /*
