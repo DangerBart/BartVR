@@ -28,9 +28,7 @@ public class UILaser : MonoBehaviour {
                     Debug.Log("Name: " + hit.collider.name);
                     hit.collider.gameObject.GetComponent<Button>().onClick.Invoke();
 
-                } else if (hit.collider.tag == "VRUIToggle") {
-                    hit.collider.gameObject.GetComponent<Toggle>().isOn = !(hit.collider.gameObject.GetComponent<Toggle>().isOn);
-                }
+                } 
             }
         }
     }

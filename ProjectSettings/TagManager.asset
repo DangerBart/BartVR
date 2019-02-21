@@ -15,7 +15,6 @@ TagManager:
   - projectile
   - FxTemporaire
   - VRUIButton
-  - VRUIToggle
   layers:
   - Default
   - TransparentFX

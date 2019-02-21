@@ -13,6 +13,6 @@ public class VRButtonInteractTest : MonoBehaviour {
     }
 
     public void notificationTest() {
-        notification.SetActive(true);
+        notification.SetActive(!notification.activeSelf);
     }
 }
