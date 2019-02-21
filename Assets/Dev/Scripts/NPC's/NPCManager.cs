@@ -26,11 +26,8 @@ public class NPCManager : MonoBehaviour {
     }
 
     private void CreateNPC(GameObject container) {
-        //int rndNPC = Random.Range(0, gameObjects.Length);
-        //GameObject NPC = Instantiate((GameObject)gameObjects[rndNPC]) as GameObject;
 
-
-        // Test -> Able to print name
+        // NEW
         GameObject NPC = Instantiate(GetRandomNPCModel());
 
         npcBehaviour = NPC.GetComponent<NPCBehaviour>();
@@ -65,8 +62,18 @@ public class NPCManager : MonoBehaviour {
         // Set role
         idModel.Role = Roles.Civilian;
 
-        // Check gender
-        switch (gender.ToUpper())
+        // Set all ID variables
+        SetRightGender(gender, idModel);
+        SetRightTopPiece(topPiece, idModel);
+        SetRightBottomPiece(bottomPiece, idModel);
+
+        Debug.Log("Recieved the following model: " + modelName);
+        idModel.Test();
+    }
+
+    private void SetRightGender(string genderCode, Identification idModel)
+    {
+        switch (genderCode.ToUpper())
         {
             case "F":
                 idModel.Gender = Genders.Female;
@@ -75,16 +82,24 @@ public class NPCManager : MonoBehaviour {
                 idModel.Gender = Genders.Male;
                 break;
         }
+    }
 
-        // Check toppiece
-        switch (topPiece.ToUpper())
+    private void SetRightTopPiece(string topPieceCode, Identification idModel)
+    {
+        switch (topPieceCode.ToUpper())
         {
 
+            case "B":
+                idModel.TopPiece = Colors.BLack;
+                break;
             case "BL":
                 idModel.TopPiece = Colors.Blue;
                 break;
             case "BR":
                 idModel.TopPiece = Colors.Brown;
+                break;
+            case "GR":
+                idModel.TopPiece = Colors.Grey;
                 break;
             case "P":
                 idModel.TopPiece = Colors.Pink;
@@ -93,23 +108,31 @@ public class NPCManager : MonoBehaviour {
                 idModel.TopPiece = Colors.White;
                 break;
         }
+    }
 
-        // Check bottompiece
-        switch (bottomPiece.ToUpper())
+    private void SetRightBottomPiece(string bottomPieceCode, Identification idModel)
+   {
+        switch (bottomPieceCode.ToUpper())
         {
+            case "B":
+                idModel.BottomPiece = Colors.BLack;
+                break;
             case "BL":
                 idModel.BottomPiece = Colors.Blue;
                 break;
             case "BR":
                 idModel.BottomPiece = Colors.Brown;
                 break;
+            case "GR":
+                idModel.BottomPiece = Colors.Grey;
+                break;
+            case "P":
+                idModel.BottomPiece = Colors.Pink;
+                break;
             default:
                 idModel.BottomPiece = Colors.White;
                 break;
         }
-
-        Debug.Log("Recieved the following model: " + modelName);
-        idModel.Test();
     }
 
     private Transform GetCheckpointChild(int index) {
