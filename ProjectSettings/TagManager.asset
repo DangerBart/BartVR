@@ -12,6 +12,9 @@ TagManager:
   - Civilian
   - AnimBones
   - SkinBones
+  - projectile
+  - FxTemporaire
+  - VRUI
   layers:
   - Default
   - TransparentFX
