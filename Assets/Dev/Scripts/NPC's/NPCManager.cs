@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Linq;
-using System.Collections.Generic;
 
 public class NPCManager : MonoBehaviour {
 
@@ -21,17 +20,34 @@ public class NPCManager : MonoBehaviour {
         amount = Gamemanager.amountOfNpcsToSpawn;
         InitializeNodes();
 
-        for (int i = 0; i < amount; i++) {
-            CreateNPC(this.gameObject);
-        }
+        // Create suspect
+        int suspectModelIndex = Random.Range(0, gameObjects.Length);
+        CreateSuspect(gameObject, suspectModelIndex);
 
-        //CreateSuspect();
+        // Create all civilians
+        for (int i = 0; i < amount; i++) {
+            CreateNPC(gameObject, GenerateRandomNumberWithException(0, gameObjects.Length, suspectModelIndex));
+        }
     }
 
-    private void CreateNPC(GameObject container) {
+
+    private void CreateSuspect(GameObject container, int modelIndex)
+    {
+        GameObject suspect = Instantiate(GetNPCModelByIndex(modelIndex));
+        SetIDProperties(suspect, Roles.Suspect);
+
+        npcBehaviour = suspect.GetComponent<NPCBehaviour>();
+        npcBehaviour.checkpointContainer = CheckpointContainer;
+        npcBehaviour.SetSpawnList(spawnList);
+        suspect.SetActive(true);
+        suspect.transform.SetParent(container.transform);
+    }
+
+    private void CreateNPC(GameObject container, int modelIndex) {
 
         // NEW
-        GameObject NPC = Instantiate(GetRandomNPCModel());
+        GameObject NPC = Instantiate(GetNPCModelByIndex(modelIndex));
+        SetIDProperties(NPC, Roles.Civilian);
 
         npcBehaviour = NPC.GetComponent<NPCBehaviour>();
         npcBehaviour.checkpointContainer = CheckpointContainer;
@@ -40,12 +56,11 @@ public class NPCManager : MonoBehaviour {
         NPC.transform.SetParent(container.transform);
     }
 
-    private void CreateSuspect()
+    private GameObject GetNPCModelByIndex(int index)
     {
-
+        return (GameObject)gameObjects[index];
     }
 
-    //ToDo
     private int GenerateRandomNumberWithException(int minRange, int maxRange, int exception)
     {
         var range = Enumerable.Range(minRange, maxRange).Where(i => i != exception);
@@ -56,37 +71,29 @@ public class NPCManager : MonoBehaviour {
         return range.ElementAt(index);
     }
 
-    private GameObject GetRandomNPCModel()
+    private void SetIDProperties(GameObject NPC, Roles role)
     {
-        int rndNPC = Random.Range(0, gameObjects.Length);
-        GameObject npcModel = (GameObject)gameObjects[rndNPC];
+        Identification idModel = NPC.GetComponent<Identification>();
 
-        SetIDProperties(npcModel.name, npcModel.GetComponent<Identification>());
-
-        return npcModel;
-    }
-
-    private void SetIDProperties(string modelName, Identification idModel)
-    {
         //properties
         string gender;
         string topPiece;
         string bottomPiece;
 
-        string[] proporties = (modelName.Split('-'));
+        string[] proporties = (NPC.name.Split('-'));
         gender = proporties[0];
         topPiece = proporties[1];
         bottomPiece = proporties[2];
 
         // Set role
-        idModel.Role = Roles.Civilian;
+        idModel.Role = role;
 
         // Set all ID variables
         SetRightGender(gender, idModel);
         SetRightTopPiece(topPiece, idModel);
         SetRightBottomPiece(bottomPiece, idModel);
 
-        Debug.Log("Recieved the following model: " + modelName);
+        Debug.Log("Recieved the following model: " + NPC.name);
         idModel.Test();
     }
 
