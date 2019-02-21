@@ -1,35 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UILaser : MonoBehaviour {
 
-    private bool singlePress = false;
+    private SteamVR_TrackedObject trackedObject;
+    private SteamVR_Controller.Device device;
 
     // Use this for initialization
     void Start () {
-
-	}
+        trackedObject = GetComponent<SteamVR_TrackedObject>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        SteamVR_TrackedController controller = GetComponent<SteamVR_TrackedController>();
+        device = SteamVR_Controller.Input((int)trackedObject.index);
 
-        if (controller.triggerPressed && !singlePress) {
-            singlePress = true;
+        if (device.GetHairTriggerDown()) {
             Ray raycast = new Ray(transform.position, transform.forward);
             RaycastHit hit;
             Vector3 fwd = transform.TransformDirection(Vector3.forward);
 
             if (Physics.Raycast(transform.position, fwd, out hit)) {
-                Debug.Log("Hit : " + hit.collider.tag);
-                Debug.DrawRay(transform.position, fwd * hit.distance, Color.yellow);
-                if (hit.collider.tag == "VRUI") {
+
+                if (hit.collider.tag == "VRUIButton") {
                     Debug.Log("Name: " + hit.collider.name);
-                    hit.collider.gameObject.GetComponent<VRButtonInteractTest>().buttonTest();
+                    hit.collider.gameObject.GetComponent<Button>().onClick.Invoke();
+
+                } else if (hit.collider.tag == "VRUIToggle") {
+                    hit.collider.gameObject.GetComponent<Toggle>().isOn = !(hit.collider.gameObject.GetComponent<Toggle>().isOn);
                 }
             }
-            singlePress = false;
         }
     }
 }
