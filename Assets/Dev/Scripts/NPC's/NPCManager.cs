@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-
+using System.Linq;
+using System.Collections.Generic;
 
 public class NPCManager : MonoBehaviour {
 
@@ -23,6 +24,8 @@ public class NPCManager : MonoBehaviour {
         for (int i = 0; i < amount; i++) {
             CreateNPC(this.gameObject);
         }
+
+        //CreateSuspect();
     }
 
     private void CreateNPC(GameObject container) {
@@ -35,6 +38,22 @@ public class NPCManager : MonoBehaviour {
         npcBehaviour.SetSpawnList(spawnList);
         NPC.SetActive(true);
         NPC.transform.SetParent(container.transform);
+    }
+
+    private void CreateSuspect()
+    {
+
+    }
+
+    //ToDo
+    private int GenerateRandomNumberWithException(int minRange, int maxRange, int exception)
+    {
+        var range = Enumerable.Range(minRange, maxRange).Where(i => i != exception);
+
+        var rand = new System.Random();
+        int index = rand.Next(minRange, maxRange - 1);
+
+        return range.ElementAt(index);
     }
 
     private GameObject GetRandomNPCModel()
