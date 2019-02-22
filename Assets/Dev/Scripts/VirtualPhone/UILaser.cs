@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UILaser : MonoBehaviour {
@@ -16,7 +14,7 @@ public class UILaser : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Get reference to controller through SteamVR_TrackedObject, 
-        //rather than SteamVR_TrackedController for access to more functions
+        //rather than SteamVR_TrackedController for access to more and low-level functions
         device = SteamVR_Controller.Input((int)trackedObject.index);
 
         //Check if the trigger was pressed
@@ -28,7 +26,7 @@ public class UILaser : MonoBehaviour {
 
             //Check what the ray hit
             if (Physics.Raycast(transform.position, fwd, out hit)) {
-                //If ray hit a button trigger the button's function
+                //If ray hit a button, trigger the button's onClick function
                 if (hit.collider.tag == "VRUIButton") {
                     hit.collider.gameObject.GetComponent<Button>().onClick.Invoke();
 
