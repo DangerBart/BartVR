@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class NPCManager : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class NPCManager : MonoBehaviour {
 
     private int amount;
     private NPCBehaviour npcBehaviour;
+    private System.Random rand = new System.Random();
 
     //Node attributes
     private readonly Node[] nodeList = new Node[59];
@@ -21,8 +23,8 @@ public class NPCManager : MonoBehaviour {
         InitializeNodes();
 
         // Create suspect
-        int suspectModelIndex = Random.Range(0, gameObjects.Length);
-        CreateSuspect(gameObject, suspectModelIndex);
+        int suspectModelIndex = -1;
+;        CreateSuspect(gameObject, ref suspectModelIndex);
 
         // Create all civilians
         for (int i = 0; i < amount; i++) {
@@ -31,16 +33,38 @@ public class NPCManager : MonoBehaviour {
     }
 
 
-    private void CreateSuspect(GameObject container, int modelIndex)
+    private void CreateSuspect(GameObject container, ref int modelIndex)
     {
-        GameObject suspect = Instantiate(GetNPCModelByIndex(modelIndex));
-        SetIDProperties(suspect, Roles.Suspect);
+        List<int> suspectModelsIndexes = new List<int>();
 
-        npcBehaviour = suspect.GetComponent<NPCBehaviour>();
-        npcBehaviour.checkpointContainer = CheckpointContainer;
-        npcBehaviour.SetSpawnList(spawnList);
-        suspect.SetActive(true);
-        suspect.transform.SetParent(container.transform);
+        for (int i=0; i < gameObjects.Length; i++)
+        {
+            if (gameObjects[i].name.Contains("S"))
+                suspectModelsIndexes.Add(i);
+        }
+
+        if(suspectModelsIndexes.Count == 0)
+        {
+            throw new System.Exception("No valid models for suspect were found");
+        }
+        else
+        {
+            Debug.Log("I think it worked!");
+
+            int randomindex = suspectModelsIndexes[rand.Next(0, suspectModelsIndexes.Count - 1)];
+            modelIndex = randomindex;
+
+            GameObject suspect = GetNPCModelByIndex(modelIndex);
+            SetIDProperties(suspect, Roles.Suspect);
+            suspect = Instantiate(suspect);
+
+            npcBehaviour = suspect.GetComponent<NPCBehaviour>();
+            npcBehaviour.checkpointContainer = CheckpointContainer;
+            npcBehaviour.SetSpawnList(spawnList);
+            suspect.SetActive(true);
+            suspect.transform.SetParent(container.transform);
+        }
+
     }
 
     private void CreateNPC(GameObject container, int modelIndex) {
@@ -61,11 +85,11 @@ public class NPCManager : MonoBehaviour {
         return (GameObject)gameObjects[index];
     }
 
+
     private int GenerateRandomNumberWithException(int minRange, int maxRange, int exception)
     {
         var range = Enumerable.Range(minRange, maxRange).Where(i => i != exception);
 
-        var rand = new System.Random();
         int index = rand.Next(minRange, maxRange - 1);
 
         return range.ElementAt(index);
