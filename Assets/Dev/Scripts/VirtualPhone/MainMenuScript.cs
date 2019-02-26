@@ -8,16 +8,19 @@ public class MainMenuScript : MonoBehaviour {
     private SteamVR_Controller.Device device;
     private float touchpadY;
     private float touchpadX;
+   
     //AppList
     [Header ("Add apps in order of left>top>right>bottom>deselect")]
     [Tooltip("Add apps in order of left>top>right>bottom>deselect")]
     [SerializeField]
     private List<GameObject> apps = new List<GameObject>();
+    
     //PanelList
     [Header("Add panels in order of testGUI>camera>unnamed>map")]
     [Tooltip("Add panels in order of testGUI>camera>unnamed>map")]
     [SerializeField]
     private List<GameObject> panels = new List<GameObject>();
+    
     //Direction enum
     enum Direction{
         left = 0,
@@ -57,7 +60,7 @@ public class MainMenuScript : MonoBehaviour {
                 break;
         }
 
-        if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && touchpadDirection() == Direction.standby) {
+        if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && touchpadDirection() != Direction.standby) {
             launchApp((int)touchpadDirection());
         }
     }
