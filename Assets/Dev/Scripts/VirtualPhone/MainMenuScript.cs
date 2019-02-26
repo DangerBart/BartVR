@@ -22,7 +22,7 @@ public class MainMenuScript : MonoBehaviour {
     private List<GameObject> panels = new List<GameObject>();
     
     //Direction enum
-    enum Direction{
+    public enum Direction{
         left = 0,
         up = 1,
         right = 2,
@@ -67,9 +67,10 @@ public class MainMenuScript : MonoBehaviour {
 
     void launchApp(int app) {
         panels[app].SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
-    Direction touchpadDirection() {
+    public Direction touchpadDirection() {
         //Get touchpad variables
         touchpadY = device.GetAxis().y;
         touchpadX = device.GetAxis().x;
