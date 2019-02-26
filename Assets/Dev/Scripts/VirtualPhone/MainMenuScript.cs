@@ -39,29 +39,30 @@ public class MainMenuScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         device = SteamVR_Controller.Input((int)trackedObject.index);
+        if (this.gameObject.activeInHierarchy) {
+            //Highlight app in direction of finger on touchpad
+            switch (touchpadDirection(device)) {
+                case Direction.left:
+                    apps[0].GetComponent<Button>().Select();
+                    break;
+                case Direction.up:
+                    apps[1].GetComponent<Button>().Select();
+                    break;
+                case Direction.right:
+                    apps[2].GetComponent<Button>().Select();
+                    break;
+                case Direction.down:
+                    apps[3].GetComponent<Button>().Select();
+                    break;
+                case Direction.standby:
+                    //Highlight a hidden button so none of the visible apps are highlighted
+                    apps[4].GetComponent<Button>().Select();
+                    break;
+            }
 
-        //Highlight app in direction of finger on touchpad
-        switch (touchpadDirection()) {
-            case Direction.left:
-                apps[0].GetComponent<Button>().Select();
-                break;
-            case Direction.up:
-                apps[1].GetComponent<Button>().Select();
-                break;
-            case Direction.right:
-                apps[2].GetComponent<Button>().Select();
-                break;
-            case Direction.down:
-                apps[3].GetComponent<Button>().Select();
-                break;
-            case Direction.standby:
-                //Highlight a hidden button so none of the visible apps are highlighted
-                apps[4].GetComponent<Button>().Select();
-                break;
-        }
-
-        if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && touchpadDirection() != Direction.standby) {
-            launchApp((int)touchpadDirection());
+            if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && touchpadDirection(device) != Direction.standby) {
+                launchApp((int)touchpadDirection(device));
+            }
         }
     }
 
@@ -70,7 +71,7 @@ public class MainMenuScript : MonoBehaviour {
         this.gameObject.SetActive(false);
     }
 
-    public Direction touchpadDirection() {
+    public Direction touchpadDirection(SteamVR_Controller.Device device) {
         //Get touchpad variables
         touchpadY = device.GetAxis().y;
         touchpadX = device.GetAxis().x;
