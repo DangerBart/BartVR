@@ -35,13 +35,10 @@ public class Movement : MonoBehaviour {
         //Store touchpad y axis in local variable
         touchpadY = device.GetAxis().y;
         touchpadX = device.GetAxis().x;
+        
 
-        // OR touchpadY < 0 instead of else
-        if (isNoCollision) {
+        if (isNoCollision || touchpadY < 0) {
             // If player is touching movement controls
-            MovePlayer();
-            // Player can only move backwards
-        } else if (touchpadY < 0) {
             MovePlayer();
         }
     }
