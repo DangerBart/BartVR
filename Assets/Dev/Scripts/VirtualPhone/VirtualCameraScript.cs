@@ -8,7 +8,7 @@ public class VirtualCameraScript : MonoBehaviour {
     private MainMenuScript mm = new MainMenuScript();
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
-    //AppList
+    //ButtonList
     [Header("Add buttons in order from top to bottom and finally deselect")]
     [Tooltip("Add buttons in order from top to bottom and finally deselect")]
     [SerializeField]
@@ -30,12 +30,15 @@ public class VirtualCameraScript : MonoBehaviour {
 	void Update () {
         device = SteamVR_Controller.Input((int)trackedObject.index);
 
+        //Highlight button in direction of finger on touchpad
         if (this.gameObject.activeInHierarchy) {
             switch (mm.TouchpadDirection(device)) {
                 case MainMenuScript.Direction.up:
+                    Debug.Log(buttons[0].gameObject.name);
                     buttons[0].GetComponent<Button>().Select();
                     break;
                 case MainMenuScript.Direction.down:
+                    Debug.Log(buttons[1].gameObject.name);
                     buttons[1].GetComponent<Button>().Select();
                     break;
                 case MainMenuScript.Direction.standby:
