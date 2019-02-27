@@ -30,7 +30,6 @@ public class MainMenuScript : MonoBehaviour {
         standby = 4
     }
 
-
     // Use this for initialization
     void Start () {
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
@@ -60,6 +59,7 @@ public class MainMenuScript : MonoBehaviour {
                     break;
             }
 
+            //If the touchpad was clicked open the app in the direction of the touchpad
             if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && TouchpadDirection(device) != Direction.standby) {
                 LaunchApp((int)TouchpadDirection(device));
             }
@@ -77,23 +77,24 @@ public class MainMenuScript : MonoBehaviour {
         touchpadX = device.GetAxis().x;
 
         //Player's finger is in the middle of the touchpad
-        if (touchpadY <= 0.75 && touchpadY >= -0.75) {
+        if (touchpadY <= 0.75f && touchpadY >= -0.75f) {
             //Player's finger is on the right side of the touchpad
-            if (touchpadX > 0.75) {
+            if (touchpadX > 0.75f) {
                 return Direction.right;
-            } else if (touchpadX < -0.75) {
+            } else if (touchpadX < -0.75f) {
                 //Player's finger is on the left side of the touchpad
                 return Direction.left;
             }
         } else {
             //Player's hand is on the top side of the touchpad
-            if (touchpadY >= 0.75) {
+            if (touchpadY >= 0.75f) {
                 return Direction.up;
-            } else if (touchpadY <= -0.75) {
+            } else if (touchpadY <= -0.75f) {
                 //Player's finger is on the bottom side of the touchpad
                 return Direction.down;
             }
         }
+        //If finger is not on touchpad return standby
         return Direction.standby;
     }
 }

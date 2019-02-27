@@ -43,7 +43,7 @@ public class VirtualCameraScript : MonoBehaviour {
                     break;
             }
         }
-
+        //Detect which button was clicked
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
             if (mm.TouchpadDirection(device) == MainMenuScript.Direction.up) {
                 TakePicture();
@@ -51,7 +51,7 @@ public class VirtualCameraScript : MonoBehaviour {
                 mainMenuPanel.SetActive(true);
                 this.gameObject.SetActive(false);
             }
-        } 
+        }
     }
 
     void TakePicture() {
