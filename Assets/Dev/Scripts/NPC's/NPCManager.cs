@@ -22,14 +22,20 @@ public class NPCManager : MonoBehaviour {
     void Start () {
 
         Setup();
+
         // Create suspect
-        //ToDo make sure suspect is unique based on gender, top- and bottompiece
-        int suspectModelIndex = -1;
-        CreateSuspect(gameObject, ref suspectModelIndex);
+        string suspectModelName = CreateSuspect();
+        Debug.Log ("Owo suspect name: " + suspectModelName);
+
+        List<int> civilianModelIndexes = GetModelIndexesWithDifferentId(suspectModelName);
 
         // Create all civilians
         for (int i = 0; i < amount; i++) {
-            CreateCivilian(gameObject, GenerateRandomNumberWithException(0, npcModels.Length, suspectModelIndex));
+            int index = rand.Next(0, civilianModelIndexes.Count-1);
+            index = civilianModelIndexes[index];
+            Debug.Log("Random index: " + index);
+
+            InstantiateNPC(index);
         }
     }
 
@@ -41,9 +47,10 @@ public class NPCManager : MonoBehaviour {
     }
 
 
-    private void CreateSuspect(GameObject container, ref int modelIndex)
+    private string CreateSuspect()
     {
         List<int> suspectModelsIndexes = new List<int>();
+        string usedModelName = "";
 
         // Make list with available suspect models
         for (int i=0; i < npcModels.Length; i++)
@@ -61,19 +68,19 @@ public class NPCManager : MonoBehaviour {
             Debug.Log("I think it worked!");
 
             int randomindex = suspectModelsIndexes[rand.Next(0, suspectModelsIndexes.Count - 1)];
-            modelIndex = randomindex;
 
-            GameObject suspect = GetNPCModelByIndex(modelIndex);
+            GameObject suspect = GetNPCModelByIndex(randomindex);
             SetIDProperties(suspect, Roles.Suspect);
             InstantiateNPC(suspect);
 
-            GetCivilianModelIndexes(npcModels[modelIndex].name);
+            usedModelName = suspect.name;
         }
 
+        return usedModelName;
     }
 
     //NEW
-    private List<int> GetCivilianModelIndexes(string modelName)
+    private List<int> GetModelIndexesWithDifferentId(string modelName)
     {
         // List that contains all indexes of models which do not match with the suspect
         List<int> civilianModelIndexes = new List<int>(); 
@@ -103,32 +110,16 @@ public class NPCManager : MonoBehaviour {
         return civilianModelIndexes;
     }
 
-    private void CreateCivilian(GameObject container, int modelIndex) {
-
-        // NEW
-        GameObject NPC = Instantiate(GetNPCModelByIndex(modelIndex));
-        SetIDProperties(NPC, Roles.Civilian);
-
-        npcBehaviour = NPC.GetComponent<NPCBehaviour>();
-        npcBehaviour.checkpointContainer = CheckpointContainer;
-        npcBehaviour.SetSpawnList(spawnList);
-        NPC.SetActive(true);
-        NPC.transform.SetParent(container.transform);
-    }
-
     private GameObject GetNPCModelByIndex(int index)
     {
         return (GameObject)npcModels[index];
     }
 
 
-    private int GenerateRandomNumberWithException(int minRange, int maxRange, int exception)
+    private void InstantiateNPC(int modelIndex)
     {
-        var range = Enumerable.Range(minRange, maxRange).Where(i => i != exception);
-
-        int index = rand.Next(minRange, maxRange - 1);
-
-        return range.ElementAt(index);
+        GameObject npc = GetNPCModelByIndex(modelIndex);
+        InstantiateNPC(npc);
     }
 
     private void InstantiateNPC(GameObject npc)
