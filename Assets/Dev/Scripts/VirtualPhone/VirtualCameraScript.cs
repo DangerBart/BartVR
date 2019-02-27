@@ -31,7 +31,7 @@ public class VirtualCameraScript : MonoBehaviour {
         device = SteamVR_Controller.Input((int)trackedObject.index);
 
         if (this.gameObject.activeInHierarchy) {
-            switch (mm.touchpadDirection(device)) {
+            switch (mm.TouchpadDirection(device)) {
                 case MainMenuScript.Direction.up:
                     buttons[0].GetComponent<Button>().Select();
                     break;
@@ -45,17 +45,16 @@ public class VirtualCameraScript : MonoBehaviour {
         }
 
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-            if (mm.touchpadDirection(device) == MainMenuScript.Direction.up) {
-                takePicture();
-            } else if (mm.touchpadDirection(device) == MainMenuScript.Direction.down) {
-                Debug.Log("i did a thing");
+            if (mm.TouchpadDirection(device) == MainMenuScript.Direction.up) {
+                TakePicture();
+            } else if (mm.TouchpadDirection(device) == MainMenuScript.Direction.down) {
                 mainMenuPanel.SetActive(true);
                 this.gameObject.SetActive(false);
             }
         } 
     }
 
-    void takePicture() {
+    void TakePicture() {
         testText.SetActive(!testText.activeInHierarchy);
     }
 }

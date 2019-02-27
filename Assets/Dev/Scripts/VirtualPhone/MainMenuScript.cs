@@ -41,7 +41,7 @@ public class MainMenuScript : MonoBehaviour {
         device = SteamVR_Controller.Input((int)trackedObject.index);
         if (this.gameObject.activeInHierarchy) {
             //Highlight app in direction of finger on touchpad
-            switch (touchpadDirection(device)) {
+            switch (TouchpadDirection(device)) {
                 case Direction.left:
                     apps[0].GetComponent<Button>().Select();
                     break;
@@ -60,18 +60,18 @@ public class MainMenuScript : MonoBehaviour {
                     break;
             }
 
-            if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && touchpadDirection(device) != Direction.standby) {
-                launchApp((int)touchpadDirection(device));
+            if (device.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && TouchpadDirection(device) != Direction.standby) {
+                LaunchApp((int)TouchpadDirection(device));
             }
         }
     }
 
-    void launchApp(int app) {
+    void LaunchApp(int app) {
         panels[app].SetActive(true);
         this.gameObject.SetActive(false);
     }
 
-    public Direction touchpadDirection(SteamVR_Controller.Device device) {
+    public Direction TouchpadDirection(SteamVR_Controller.Device device) {
         //Get touchpad variables
         touchpadY = device.GetAxis().y;
         touchpadX = device.GetAxis().x;

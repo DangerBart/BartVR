@@ -23,24 +23,24 @@ public class VRSync : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        mapSize = getSize(map);
-        planeSize = getSize(plane);
+        mapSize = GetSize(map);
+        planeSize = GetSize(plane);
     }
 
     // Update is called once per frame
     void Update () {
-        xScale = scale(planeSize.x, mapSize.x, offsetx);
-        yScale = scale(planeSize.y, mapSize.y, offsety);
+        xScale = Scale(planeSize.x, mapSize.x, offsetx);
+        yScale = Scale(planeSize.y, mapSize.y, offsety);
         //Set icon to location of the cameraRig
         GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (cameraRig.transform.position.x * xScale),
                                                                                  -1 * (cameraRig.transform.position.z * yScale));
     }
 
-    Vector2 getSize(GameObject go) {
+    Vector2 GetSize(GameObject go) {
         return go.GetComponent<RectTransform>().sizeDelta;
     }
 
-    float scale(float planeSize, float mapSize, float offset) {
+    float Scale(float planeSize, float mapSize, float offset) {
         return planeSize / mapSize + offset;
     }
 }
