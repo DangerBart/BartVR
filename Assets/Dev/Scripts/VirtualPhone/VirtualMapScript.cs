@@ -31,11 +31,9 @@ public class VirtualMapScript : MonoBehaviour {
             if (this.gameObject.activeInHierarchy) {
                 switch (mm.TouchpadDirection(device)) {
                     case MainMenuScript.Direction.up:
-                        Debug.Log(buttons[0].gameObject.name);
                         buttons[0].GetComponent<Button>().Select();
                         break;
                     case MainMenuScript.Direction.down:
-                        Debug.Log(buttons[1].gameObject.name);
                         buttons[1].GetComponent<Button>().Select();
                         break;
                     case MainMenuScript.Direction.standby:

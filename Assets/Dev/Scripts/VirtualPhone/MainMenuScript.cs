@@ -30,6 +30,12 @@ public class MainMenuScript : MonoBehaviour {
         standby = 4
     }
 
+    //---------------------------------------------------------------------------------
+    // ToDo: check in software what panel we are on so only one script can be used
+    //       by all panels, allowing for functions like CheckFinger() for finding
+    //       finger rahter than doing a switch statement in every seperate script
+    //---------------------------------------------------------------------------------
+
     // Use this for initialization
     void Start () {
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
@@ -69,6 +75,7 @@ public class MainMenuScript : MonoBehaviour {
     void LaunchApp(int app) {
         panels[app].SetActive(true);
         this.gameObject.SetActive(false);
+
     }
 
     public Direction TouchpadDirection(SteamVR_Controller.Device device) {
