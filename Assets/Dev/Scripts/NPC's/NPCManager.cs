@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class NPCManager : MonoBehaviour {
 
     public string NPCPath = "NPCTEST";
-    private Object[] gameObjects;
     public GameObject CheckpointContainer;
+    private Object[] npcModels;
 
     private int amount;
     private NPCBehaviour npcBehaviour;
@@ -16,20 +17,27 @@ public class NPCManager : MonoBehaviour {
     private readonly Node[] nodeList = new Node[59];
     private readonly Node[] spawnList = new Node[46];
 
+
     // Use this for initialization
     void Start () {
-        gameObjects = Resources.LoadAll(NPCPath, typeof(GameObject));
-        amount = Gamemanager.amountOfNpcsToSpawn;
-        InitializeNodes();
 
+        Setup();
         // Create suspect
+        //ToDo make sure suspect is unique based on gender, top- and bottompiece
         int suspectModelIndex = -1;
-;        CreateSuspect(gameObject, ref suspectModelIndex);
+        CreateSuspect(gameObject, ref suspectModelIndex);
 
         // Create all civilians
         for (int i = 0; i < amount; i++) {
-            CreateNPC(gameObject, GenerateRandomNumberWithException(0, gameObjects.Length, suspectModelIndex));
+            CreateCivilian(gameObject, GenerateRandomNumberWithException(0, npcModels.Length, suspectModelIndex));
         }
+    }
+
+    private void Setup()
+    {
+        npcModels = Resources.LoadAll(NPCPath, typeof(GameObject));
+        amount = Gamemanager.amountOfNpcsToSpawn;
+        InitializeNodes();
     }
 
 
@@ -37,9 +45,10 @@ public class NPCManager : MonoBehaviour {
     {
         List<int> suspectModelsIndexes = new List<int>();
 
-        for (int i=0; i < gameObjects.Length; i++)
+        // Make list with available suspect models
+        for (int i=0; i < npcModels.Length; i++)
         {
-            if (gameObjects[i].name.Contains("S"))
+            if (npcModels[i].name.Contains("S"))
                 suspectModelsIndexes.Add(i);
         }
 
@@ -56,18 +65,45 @@ public class NPCManager : MonoBehaviour {
 
             GameObject suspect = GetNPCModelByIndex(modelIndex);
             SetIDProperties(suspect, Roles.Suspect);
-            suspect = Instantiate(suspect);
+            InstantiateNPC(suspect);
 
-            npcBehaviour = suspect.GetComponent<NPCBehaviour>();
-            npcBehaviour.checkpointContainer = CheckpointContainer;
-            npcBehaviour.SetSpawnList(spawnList);
-            suspect.SetActive(true);
-            suspect.transform.SetParent(container.transform);
+            GetCivilianModelIndexes(npcModels[modelIndex].name);
         }
 
     }
 
-    private void CreateNPC(GameObject container, int modelIndex) {
+    //NEW
+    private List<int> GetCivilianModelIndexes(string modelName)
+    {
+        // List that contains all indexes of models which do not match with the suspect
+        List<int> civilianModelIndexes = new List<int>(); 
+
+        string[] recievedModelName = (modelName.Split('-'));
+        recievedModelName[0] = Regex.Replace(recievedModelName[0], @"[\d]", string.Empty);
+
+        for (int i = 0; i < npcModels.Length; i++)
+        {
+           //Debug.Log("Looped through models OwO, string: " + ", " + foundModel.name);
+
+            string[] foundModelName = (npcModels[i].name.Split('-'));
+            foundModelName[0] = Regex.Replace(foundModelName[0], @"[\d]", string.Empty);
+
+            //Check if model has the same identifications
+            if (!(recievedModelName[0] == foundModelName[0] && recievedModelName[1] == foundModelName[1] && recievedModelName[2] == foundModelName[2]))
+            {
+                civilianModelIndexes.Add(i);
+            }
+            else
+            {
+                Debug.Log("Found model with same ID: " + modelName + " == " + npcModels[i].name);
+            }
+
+        }
+
+        return civilianModelIndexes;
+    }
+
+    private void CreateCivilian(GameObject container, int modelIndex) {
 
         // NEW
         GameObject NPC = Instantiate(GetNPCModelByIndex(modelIndex));
@@ -82,7 +118,7 @@ public class NPCManager : MonoBehaviour {
 
     private GameObject GetNPCModelByIndex(int index)
     {
-        return (GameObject)gameObjects[index];
+        return (GameObject)npcModels[index];
     }
 
 
@@ -93,6 +129,17 @@ public class NPCManager : MonoBehaviour {
         int index = rand.Next(minRange, maxRange - 1);
 
         return range.ElementAt(index);
+    }
+
+    private void InstantiateNPC(GameObject npc)
+    {
+        npc = Instantiate(npc);
+
+        npcBehaviour = npc.GetComponent<NPCBehaviour>();
+        npcBehaviour.checkpointContainer = CheckpointContainer;
+        npcBehaviour.SetSpawnList(spawnList);
+        npc.SetActive(true);
+        npc.transform.SetParent(this.transform);
     }
 
     private void SetIDProperties(GameObject NPC, Roles role)
@@ -117,8 +164,8 @@ public class NPCManager : MonoBehaviour {
         idModel.TopPiece = GetColorBasedOfString(topPiece);
         idModel.BottomPiece = GetColorBasedOfString(bottomPiece);
 
-        Debug.Log("Recieved the following model: " + NPC.name);
-        idModel.Test();
+        //Debug.Log("Recieved the following model: " + NPC.name);
+        //idModel.Test();
     }
 
     private void SetRightGender(string genderCode, Identification idModel)
