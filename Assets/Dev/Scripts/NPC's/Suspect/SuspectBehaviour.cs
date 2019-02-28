@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,7 +33,7 @@ public class SuspectBehaviour : MonoBehaviour {
             target = agent.destination;
         } 
         //When suspect reaches destination find a new one
-        if(transform.position == target) {
+        if (transform.position == target) {
             findNewDestination = true;
         }
 	}

@@ -29,16 +29,8 @@ public enum Colors
 public class Identification : MonoBehaviour {
 
     // All the information needed to identify someone.
-
-    // Properties
     public Roles Role { get; set; }
     public Genders Gender { get; set; }
     public Colors TopPiece { get; set; }
     public Colors BottomPiece { get; set; }
-
-    public void Test()
-    {
-        Debug.Log("Role: " + Role + ", Gender: " + Gender + ", TopPiece: " + TopPiece + ", BottomPiece: " + BottomPiece);
-    }
-
 }
