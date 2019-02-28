@@ -185,6 +185,9 @@ public class NPCManager : MonoBehaviour {
             case "GR":
                 color = Colors.Grey;
                 break;
+            case "PU":
+                color = Colors.Purple;
+                break;
             default:
                 color = Colors.White;
                 break;

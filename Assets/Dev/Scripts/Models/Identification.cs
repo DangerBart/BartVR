@@ -22,6 +22,7 @@ public enum Colors
     Yellow,
     Green,
     Pink,
+    Purple,
     Blue,
     Brown
 }

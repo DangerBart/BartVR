@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 114693188009358526}
   - component: {fileID: 114634873979788416}
   m_Layer: 0
-  m_Name: F1-P-BL-S
+  m_Name: F1-P-BL
   m_TagString: Civilian
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

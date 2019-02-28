@@ -4,13 +4,14 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BWom0006-M3-Head-D
+  m_Name: M4-W-BL
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -18,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 03a8f02e4734497448bdd3cc88e16044, type: 3}
+        m_Texture: {fileID: 2800000, guid: ec71a3d37abefd04d842449736e64e0b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -38,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d893528bb0a00554294321be574b805f, type: 3}
+        m_Texture: {fileID: 2800000, guid: d3ad80fd3790f493ca5e293b21941cfc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -59,7 +60,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.248
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
@@ -71,5 +72,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.5880008, g: 0.5880008, b: 0.5880008, a: 1}
+    - _Color: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
