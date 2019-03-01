@@ -27,11 +27,12 @@ public enum Colors
     Brown
 }
 
+[System.Serializable]
 public class Identification : MonoBehaviour {
 
     // All the information needed to identify someone.
-    public Roles Role { get; set; }
-    public Genders Gender { get; set; }
-    public Colors TopPiece { get; set; }
-    public Colors BottomPiece { get; set; }
+    public Roles role;
+    public Genders Gender;
+    public Colors TopPiece;
+    public Colors BottomPiece;
 }

@@ -23,14 +23,14 @@ public class NPCManager : MonoBehaviour {
         // Create suspect
         string suspectModelName = CreateSuspect();
 
-        List<int> civilianModelIndexes = GetModelIndexesWithDifferentId(suspectModelName);
+        List<int> civilianModelIndexes = GetModelsIndexesWithDifferentId(suspectModelName);
 
         // Create all civilians
         for (int i = 0; i < amount; i++) {
+
             int index = rand.Next(0, civilianModelIndexes.Count-1);
             index = civilianModelIndexes[index];
-
-            InstantiateNPC(index);
+            InstantiateNPC(index, Roles.Civilian);
         }
     }
 
@@ -62,14 +62,13 @@ public class NPCManager : MonoBehaviour {
         int randomindex = suspectModelsIndexes[rand.Next(0, suspectModelsIndexes.Count - 1)];
         GameObject suspect = GetNPCModelByIndex(randomindex);
 
-        SetIDProperties(suspect, Roles.Suspect);
-        InstantiateNPC(suspect);
+        InstantiateNPC(suspect, Roles.Suspect);
         usedModelName = suspect.name;
 
         return usedModelName;
     }
 
-    private List<int> GetModelIndexesWithDifferentId(string modelName)
+    private List<int> GetModelsIndexesWithDifferentId(string modelName)
     {
         // List that contains all indexes of models which do not match with the suspect
         List<int> civilianModelIndexes = new List<int>();
@@ -105,14 +104,15 @@ public class NPCManager : MonoBehaviour {
     }
 
 
-    private void InstantiateNPC(int modelIndex)
+    private void InstantiateNPC(int modelIndex, Roles role)
     {
         GameObject npc = GetNPCModelByIndex(modelIndex);
-        InstantiateNPC(npc);
+        InstantiateNPC(npc, role);
     }
 
-    private void InstantiateNPC(GameObject npc)
+    private void InstantiateNPC(GameObject npc, Roles role)
     {
+        SetIDProperties(npc, role);
         npc = Instantiate(npc);
 
         NPCBehaviour npcBehaviour = npc.GetComponent<NPCBehaviour>();
@@ -137,7 +137,7 @@ public class NPCManager : MonoBehaviour {
         bottomPiece = proporties[2];
 
         // Set role
-        idModel.Role = role;
+        idModel.role = role;
 
         // Set all ID variables
         SetRightGender(gender, idModel);
