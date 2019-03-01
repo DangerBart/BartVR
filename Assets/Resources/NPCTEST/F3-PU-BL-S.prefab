@@ -1435,7 +1435,7 @@ GameObject:
   - component: {fileID: 114747642500718602}
   - component: {fileID: 114440783399803374}
   m_Layer: 0
-  m_Name: F3-PU-BL
+  m_Name: F3-PU-BL-S
   m_TagString: Civilian
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4824,6 +4824,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 0
+  gender: 0
+  topPiece: 0
+  bottomPiece: 0
 --- !u!114 &114740922863638074
 MonoBehaviour:
   m_ObjectHideFlags: 1

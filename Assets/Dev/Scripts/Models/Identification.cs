@@ -32,7 +32,7 @@ public class Identification : MonoBehaviour {
 
     // All the information needed to identify someone.
     public Roles role;
-    public Genders Gender;
-    public Colors TopPiece;
-    public Colors BottomPiece;
+    public Genders gender;
+    public Colors topPiece;
+    public Colors bottomPiece;
 }

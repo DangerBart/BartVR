@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 public class NPCManager : MonoBehaviour {
 
-    public string NPCPath = "NPCTEST";
+    public string NPCPrefabsPath = "NPCTEST";
     public GameObject CheckpointContainer;
     private Object[] npcModels;
 
@@ -28,7 +28,7 @@ public class NPCManager : MonoBehaviour {
         // Create all civilians
         for (int i = 0; i < amount; i++) {
 
-            int index = rand.Next(0, civilianModelIndexes.Count-1);
+            int index = rand.Next(0, civilianModelIndexes.Count);
             index = civilianModelIndexes[index];
             InstantiateNPC(index, Roles.Civilian);
         }
@@ -36,7 +36,7 @@ public class NPCManager : MonoBehaviour {
 
     private void Setup()
     {
-        npcModels = Resources.LoadAll(NPCPath, typeof(GameObject));
+        npcModels = Resources.LoadAll(NPCPrefabsPath, typeof(GameObject));
         amount = Gamemanager.amountOfNpcsToSpawn;
         InitializeNodes();
     }
@@ -58,8 +58,8 @@ public class NPCManager : MonoBehaviour {
         {
             throw new System.Exception("No valid models for suspect were found");
         }
-      
-        int randomindex = suspectModelsIndexes[rand.Next(0, suspectModelsIndexes.Count - 1)];
+
+        int randomindex = suspectModelsIndexes[rand.Next(0, suspectModelsIndexes.Count)];
         GameObject suspect = GetNPCModelByIndex(randomindex);
 
         InstantiateNPC(suspect, Roles.Suspect);
@@ -141,8 +141,8 @@ public class NPCManager : MonoBehaviour {
 
         // Set all ID variables
         SetRightGender(gender, idModel);
-        idModel.TopPiece = GetColorBasedOfString(topPiece);
-        idModel.BottomPiece = GetColorBasedOfString(bottomPiece);
+        idModel.topPiece = GetColorBasedOfString(topPiece);
+        idModel.bottomPiece = GetColorBasedOfString(bottomPiece);
     }
 
     private void SetRightGender(string genderCode, Identification idModel)
@@ -150,10 +150,10 @@ public class NPCManager : MonoBehaviour {
         switch (genderCode.ToUpper())
         {
             case "F":
-                idModel.Gender = Genders.Female;
+                idModel.gender = Genders.Female;
                 break;
             default:
-                idModel.Gender = Genders.Male;
+                idModel.gender = Genders.Male;
                 break;
         }
     }

@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 114732848114262070}
   - component: {fileID: 114935347525113106}
   m_Layer: 0
-  m_Name: M3-BL-GR
+  m_Name: M3-BL-GR-S
   m_TagString: Civilian
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4879,6 +4879,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 0
+  gender: 0
+  topPiece: 7
+  bottomPiece: 2
 --- !u!137 &137911272546732634
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
