@@ -131,7 +131,7 @@ public class NPCManager : MonoBehaviour {
         string topPiece;
         string bottomPiece;
 
-        string[] proporties = (NPC.name.Split('-'));
+        string[] proporties = SplitStringInRightFormat(NPC.name);
         gender = proporties[0];
         topPiece = proporties[1];
         bottomPiece = proporties[2];
