@@ -75,7 +75,6 @@ public class MainMenuScript : MonoBehaviour {
     void LaunchApp(int app) {
         panels[app].SetActive(true);
         this.gameObject.SetActive(false);
-
     }
 
     public Direction TouchpadDirection(SteamVR_Controller.Device device) {
