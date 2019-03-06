@@ -1,33 +1,45 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class VirtualGUI : MonoBehaviour {
-    //SteamVR
+    // SteamVR
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
-    //ButtonList
+    
+    // ButtonList
     [Header("Add app panels in order from top to bottom in hierarchy")]
     [Tooltip("Add app panels in order from top to bottom in hierarchy")]
     [SerializeField]
     private List<GameObject> apps = new List<GameObject>();
-    //MenuButtons
+    
+    // MenuButtons
     [Header("Add app buttons in order from left, top, right, bottom then deselect")]
     [Tooltip("Add app buttons in order from left, top, right, bottom then deselect")]
     [SerializeField]
     private List<GameObject> menuApps = new List<GameObject>();
-    //CameraButtons
+    
+    // CameraButtons
     [Header("Add app buttons in order of takepicture, back, deselect")]
     [Tooltip("Add app buttons in order of takepicture, back, deselect")]
     [SerializeField]
     private List<GameObject> cameraButton = new List<GameObject>();
-    //mapButtons
+    
+    // mapButtons
     [Header("Add app buttons in order of enlargemap, back, deselect")]
     [Tooltip("Add app buttons in order of enlargemap, back, deselect")]
     [SerializeField]
     private List<GameObject> mapButton = new List<GameObject>();
-    //Enums
+
+    // confirmButtons
+    [Header("Add app buttons in order of yes, no, deselect")]
+    [SerializeField]
+    private List<GameObject> confirmButton = new List<GameObject>();
+
+    // Enums
     private enum App {
         test = 0,
         camera = 1,
@@ -36,7 +48,6 @@ public class VirtualGUI : MonoBehaviour {
         menu = 4,
         none = 5
     }
-
     private enum Direction {
         left = 0,
         up = 1,
@@ -45,8 +56,19 @@ public class VirtualGUI : MonoBehaviour {
         standby = 4
     }
 
-    //Logic variables
+    // References to other gameobjects
+    [SerializeField]
+    private GameObject virtualCamera;
+    [SerializeField]
+    private GameObject confirmPanel;
+
+    // Logic variables
     private float touchpadMargin = 0.60f;
+    private string path = "";
+    private bool pictureTaken = false;
+    private GameObject renderTexture;
+
+
 
     // Use this for initialization
     void Start() {
@@ -73,10 +95,27 @@ public class VirtualGUI : MonoBehaviour {
             case App.app3:
                 //RunApp3
                 break;
-            default:
-                //Error: no app active
-                Debug.LogError("NO ACTIVE APP ON GUI");
-                break;
+        }
+
+        if(confirmPanel.activeInHierarchy == true) {
+            switch (TouchpadDirection(device)) {
+                case Direction.left:
+                    confirmButton[0].GetComponent<Button>().Select();
+                    break;
+                case Direction.right:
+                    confirmButton[1].GetComponent<Button>().Select();
+                    break;
+                case Direction.standby:
+                    confirmButton[2].GetComponent<Button>().Select();
+                    break;
+            }
+            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
+                if (TouchpadDirection(device) == Direction.left) {
+                    SendPictureToOC();
+                } else if (TouchpadDirection(device) == Direction.right) {
+                    confirmPanel.SetActive(false);
+                }
+            }
         }
     }
 
@@ -90,24 +129,24 @@ public class VirtualGUI : MonoBehaviour {
     }
 
     private void RunCamera() {
-        switch (TouchpadDirection(device)) {
-            case Direction.left:
-                cameraButton[0].GetComponent<Button>().Select();
-                break;
-            case Direction.right:
-                cameraButton[1].GetComponent<Button>().Select();
-                break;
-            case Direction.standby:
-                cameraButton[2].GetComponent<Button>().Select();
-                break;
-        }
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-            if(TouchpadDirection(device) == Direction.left) {
-                TakePicture();
-            } else if (TouchpadDirection(device) == Direction.right) {
-                //return to main menu
-                apps[(int)App.camera].SetActive(false);
-                apps[(int)App.menu].SetActive(true);
+        if (confirmPanel.activeInHierarchy == false) {
+            switch (TouchpadDirection(device)) {
+                case Direction.left:
+                    cameraButton[0].GetComponent<Button>().Select();
+                    break;
+                case Direction.right:
+                    cameraButton[1].GetComponent<Button>().Select();
+                    break;
+                case Direction.standby:
+                    cameraButton[2].GetComponent<Button>().Select();
+                    break;
+            }
+            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
+                if (TouchpadDirection(device) == Direction.left) {
+                    TakePicture();
+                } else if (TouchpadDirection(device) == Direction.right) {
+                    ReturnToMenu(App.camera);
+                }
             }
         }
     }
@@ -128,9 +167,7 @@ public class VirtualGUI : MonoBehaviour {
             if (TouchpadDirection(device) == Direction.up) {
                 EnlargeMap();
             } else if (TouchpadDirection(device) == Direction.down) {
-                //return to main menu
-                apps[(int)App.map].SetActive(false);
-                apps[(int)App.menu].SetActive(true);
+                ReturnToMenu(App.map);
             }
         }
     }
@@ -144,22 +181,55 @@ public class VirtualGUI : MonoBehaviour {
     }
 
     private void LaunchApp(int app) {
-        //Set main menu false
+        // Set main menu false
         apps[(int)App.menu].SetActive(false);
-        //set selected app true
+        // set selected app true
         apps[app].SetActive(true);
     }
 
     private void TakePicture() {
-        Debug.Log("HA");
+        StartCoroutine(TakeScreenShot());
+
+        confirmPanel.SetActive(true);
+    }
+
+    public IEnumerator TakeScreenShot() {
+        yield return new WaitForEndOfFrame();
+        
+        Camera camOV = virtualCamera.GetComponent<Camera>();
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture.active = camOV.targetTexture;
+        camOV.Render();
+        Texture2D imageOverview = new Texture2D(camOV.targetTexture.width, camOV.targetTexture.height, TextureFormat.RGB24, false);
+        imageOverview.ReadPixels(new Rect(0, 0, camOV.targetTexture.width, camOV.targetTexture.height), 0, 0);
+        imageOverview.Apply();
+        RenderTexture.active = currentRT;
+
+        // Encode texture into PNG
+        byte[] bytes = imageOverview.EncodeToPNG();
+
+        // save in memory
+        string filename = "screenshot.png";
+        path = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/" + filename;
+        // Write to path (previous screenshots are overwritten)
+        File.WriteAllBytes(path, bytes);
+    }
+
+    private void SendPictureToOC() {
+        Debug.Log("Not yet implemented");
     }
 
     private void EnlargeMap() {
         Debug.Log("HA");
     }
 
+    private void ReturnToMenu(App app) {
+        apps[(int)app].SetActive(false);
+        apps[(int)App.menu].SetActive(true);
+    }
+
     private void HighlightSelectedApp() {
-        //Highlight Finger
+        // Highlight finger in direction on touchpad
         switch (TouchpadDirection(device)) {
             case Direction.left:
                 menuApps[0].GetComponent<Button>().Select();
@@ -174,36 +244,36 @@ public class VirtualGUI : MonoBehaviour {
                 menuApps[3].GetComponent<Button>().Select();
                 break;
             case Direction.standby:
-                //Highlight a hidden button so none of the visible apps are highlighted
+                // Highlight a hidden button so none of the visible apps are highlighted
                 menuApps[4].GetComponent<Button>().Select();
                 break;
         }
     }
 
     private Direction TouchpadDirection(SteamVR_Controller.Device device) {
-        //Get touchpad variables
+        // Get touchpad variables
         float touchpadY = device.GetAxis().y;
         float touchpadX = device.GetAxis().x;
 
-        //Player's finger is in the middle of the touchpad
+        // Player's finger is in the middle of the touchpad
         if (touchpadY <= touchpadMargin && touchpadY >= -touchpadMargin) {
-            //Player's finger is on the right side of the touchpad
+            // Player's finger is on the right side of the touchpad
             if (touchpadX > touchpadMargin) {
                 return Direction.right;
             } else if (touchpadX < -touchpadMargin) {
-                //Player's finger is on the left side of the touchpad
+                // Player's finger is on the left side of the touchpad
                 return Direction.left;
             }
         } else {
-            //Player's hand is on the top side of the touchpad
+            // Player's hand is on the top side of the touchpad
             if (touchpadY >= touchpadMargin) {
                 return Direction.up;
             } else if (touchpadY <= -touchpadMargin) {
-                //Player's finger is on the bottom side of the touchpad
+                // Player's finger is on the bottom side of the touchpad
                 return Direction.down;
             }
         }
-        //If finger is not on touchpad return standby
+        // If finger is not on touchpad return standby
         return Direction.standby;
     }
 }
