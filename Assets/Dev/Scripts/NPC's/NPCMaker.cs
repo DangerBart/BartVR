@@ -30,7 +30,7 @@ public class NPCMaker : MonoBehaviour {
         // Make list with available suspect models
         for (int i = 0; i < npcModels.Length; i++)
         {
-            if (npcModels[i].name.Contains("S"))
+            if (npcModels[i].name.ToUpper().Contains("S"))
                 suspectModelsIndexes.Add(i);
         }
 
@@ -115,10 +115,8 @@ public class NPCMaker : MonoBehaviour {
         string topPiece = proporties[1];
         string bottomPiece = proporties[2];
 
-        // Set role
-        idModel.role = role;
-
         // Set all ID variables
+        idModel.role = role;
         SetRightGender(gender, idModel);
         idModel.topPiece = GetColorBasedOfString(topPiece);
         idModel.bottomPiece = GetColorBasedOfString(bottomPiece);
@@ -142,7 +140,6 @@ public class NPCMaker : MonoBehaviour {
         Colors color;
         switch (colorCode.ToUpper())
         {
-
             case "B":
                 color = Colors.BLack;
                 break;
