@@ -7,7 +7,6 @@ public class NPCMaker : MonoBehaviour {
     private Object[] npcModels;
 
     private List<int> civilianModelIndexes = new List<int>();
-    private System.Random rand = new System.Random();
 
     //Node attributes
     private readonly Node[] nodeList = new Node[59];
@@ -16,15 +15,13 @@ public class NPCMaker : MonoBehaviour {
     // Use this for initialization
     void Start () {}
 
-    public void Setup(string npcPrefabsPath, GameObject checkpointContainer)
-    {
+    public void Setup(string npcPrefabsPath, GameObject checkpointContainer) {
         npcModels = Resources.LoadAll(npcPrefabsPath, typeof(GameObject));
         this.checkpointContainer = checkpointContainer;
         InitializeNodes();
     }
 
-    public void CreateSuspect()
-    {
+    public void CreateSuspect() {
         List<int> suspectModelsIndexes = new List<int>();
 
         // Make list with available suspect models
@@ -37,44 +34,41 @@ public class NPCMaker : MonoBehaviour {
         if (suspectModelsIndexes.Count == 0)
             throw new System.Exception("No valid models for suspect were found");
 
-        int randomindex = suspectModelsIndexes[rand.Next(0, suspectModelsIndexes.Count)];
+        int randomindex = suspectModelsIndexes[Random.Range(0, suspectModelsIndexes.Count)];
         GameObject suspect = GetNPCModelByIndex(randomindex);
 
         InstantiateNPC(suspect, Roles.Suspect);
 
-        // Making sure the supsect is unique by setting avaiable civilian models
+        // Making sure the suspsect is unique by setting avaiable civilian models
         civilianModelIndexes = GetModelsIndexesWithDifferentId(suspect.name);
     }
 
-    public void CreateCivilian()
-    {
+    public void CreateCivilian() {
         if (civilianModelIndexes.Count == 0)
             throw new System.Exception("No valid models for civilians were found, make sure to first create a suspect before creating civilians");
 
-        int index = rand.Next(0, civilianModelIndexes.Count);
+        int index = Random.Range(0, civilianModelIndexes.Count);
         index = civilianModelIndexes[index];
         InstantiateNPC(index, Roles.Civilian);
     }
 
-    private List<int> GetModelsIndexesWithDifferentId(string modelName)
-    {
+    private List<int> GetModelsIndexesWithDifferentId(string modelName) {
         // List that contains all indexes of models which do not match with the suspect
         List<int> ModelIndexes = new List<int>();
-        string[] recievedModelName = SplitStringInRightFormat(modelName);
+        string[] receivedModelName = SplitStringInRightFormat(modelName);
 
         for (int i = 0; i < npcModels.Length; i++)
         {
             string[] foundModelName = SplitStringInRightFormat(npcModels[i].name);
             // Check if model does not have the same identifications
-            if (!(recievedModelName[0] == foundModelName[0] && recievedModelName[1] == foundModelName[1] && recievedModelName[2] == foundModelName[2]))
+            if (!(receivedModelName[0] == foundModelName[0] && receivedModelName[1] == foundModelName[1] && receivedModelName[2] == foundModelName[2]))
                 ModelIndexes.Add(i);
         }
 
         return ModelIndexes;
     }
 
-    private string[] SplitStringInRightFormat(string text)
-    {
+    private string[] SplitStringInRightFormat(string text) {
         string[] returnString = text.Split('-');
         //Make sure the number is removed so it can easily be compared
         returnString[0] = Regex.Replace(returnString[0], @"[\d]", string.Empty);
@@ -82,20 +76,17 @@ public class NPCMaker : MonoBehaviour {
         return returnString;
     }
 
-    private GameObject GetNPCModelByIndex(int index)
-    {
+    private GameObject GetNPCModelByIndex(int index) {
         return (GameObject)npcModels[index];
     }
 
 
-    private void InstantiateNPC(int modelIndex, Roles role)
-    {
+    private void InstantiateNPC(int modelIndex, Roles role) {
         GameObject npc = GetNPCModelByIndex(modelIndex);
         InstantiateNPC(npc, role);
     }
 
-    private void InstantiateNPC(GameObject npc, Roles role)
-    {
+    private void InstantiateNPC(GameObject npc, Roles role) {
         SetIDProperties(npc, role);
         npc = Instantiate(npc);
 
@@ -106,8 +97,7 @@ public class NPCMaker : MonoBehaviour {
         npc.transform.SetParent(this.transform);
     }
 
-    private void SetIDProperties(GameObject NPC, Roles role)
-    {
+    private void SetIDProperties(GameObject NPC, Roles role) {
         Identification idModel = NPC.GetComponent<Identification>();
 
         string[] proporties = SplitStringInRightFormat(NPC.name);
@@ -122,10 +112,8 @@ public class NPCMaker : MonoBehaviour {
         idModel.bottomPiece = GetColorBasedOfString(bottomPiece);
     }
 
-    private void SetRightGender(string genderCode, Identification idModel)
-    {
-        switch (genderCode.ToUpper())
-        {
+    private void SetRightGender(string genderCode, Identification idModel) {
+        switch (genderCode.ToUpper()) {
             case "F":
                 idModel.gender = Genders.Female;
                 break;
@@ -135,11 +123,9 @@ public class NPCMaker : MonoBehaviour {
         }
     }
 
-    private Colors GetColorBasedOfString(string colorCode)
-    {
+    private Colors GetColorBasedOfString(string colorCode) {
         Colors color;
-        switch (colorCode.ToUpper())
-        {
+        switch (colorCode.ToUpper()) {
             case "B":
                 color = Colors.BLack;
                 break;
@@ -172,13 +158,11 @@ public class NPCMaker : MonoBehaviour {
         return color;
     }
 
-    private Transform GetCheckpointChild(int index)
-    {
+    private Transform GetCheckpointChild(int index) {
         return checkpointContainer.gameObject.transform.GetChild(index);
     }
 
-    private void InitializeNodes()
-    {
+    private void InitializeNodes() {
         /*
         so the GameObject named Checkpoint (3) is equal to node3 and GetCheckpointChild(3)
         List goes by checkpoint index number in CheckpointContainer parent, 

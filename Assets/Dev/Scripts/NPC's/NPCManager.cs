@@ -2,12 +2,13 @@
 
 public class NPCManager : MonoBehaviour
 {
-    public GameObject CheckpointContainer;
-    public string NpcPrefabsPath;
+    [SerializeField]
+    private GameObject CheckpointContainer;
+    [SerializeField]
+    private string NpcPrefabsPath;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         NPCMaker npcMaker = GetComponent<NPCMaker>();
         npcMaker.Setup(NpcPrefabsPath, CheckpointContainer);
 

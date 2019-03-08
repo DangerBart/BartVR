@@ -88,10 +88,6 @@ public class NPCBehaviour : MonoBehaviour {
         FaceTarget();
     }
 
-    private Transform GetCheckpointChild(int index) {
-        return checkpointContainer.gameObject.transform.GetChild(index);
-    }
-
     //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
     private void FaceTarget() {
         Vector3 direction = (nextCheckpoint.GetTransformData().position - transform.position).normalized;
