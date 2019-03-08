@@ -5,31 +5,30 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class VirtualGUI : MonoBehaviour {
+
+    private PhotoHandler pHandler;
+
     // SteamVR
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
 
     // ButtonList
     [Header("Add app panels in order from top to bottom in hierarchy")]
-    [Tooltip("Add app panels in order from top to bottom in hierarchy")]
     [SerializeField]
     private List<GameObject> apps = new List<GameObject>();
 
     // MenuButtons
     [Header("Add app buttons in order from left, top, right, bottom then deselect")]
-    [Tooltip("Add app buttons in order from left, top, right, bottom then deselect")]
     [SerializeField]
     private List<GameObject> menuApps = new List<GameObject>();
 
     // CameraButtons
     [Header("Add app buttons in order of takepicture, back, deselect")]
-    [Tooltip("Add app buttons in order of takepicture, back, deselect")]
     [SerializeField]
     private List<GameObject> cameraButton = new List<GameObject>();
 
     // mapButtons
     [Header("Add app buttons in order of enlargemap, back, deselect")]
-    [Tooltip("Add app buttons in order of enlargemap, back, deselect")]
     [SerializeField]
     private List<GameObject> mapButton = new List<GameObject>();
 
@@ -57,9 +56,9 @@ public class VirtualGUI : MonoBehaviour {
 
     // References to other gameobjects
     [SerializeField]
-    private GameObject virtualCamera;
-    [SerializeField]
     private GameObject confirmPanel;
+    [SerializeField]
+    private GameObject virtualCamera;
     [SerializeField]
     private GameObject preview;
 
@@ -70,17 +69,21 @@ public class VirtualGUI : MonoBehaviour {
     private Sprite previewSprite;
     private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
 
-
     // Use this for initialization
     void Start() {
+        pHandler = new PhotoHandler();
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
+
+    // ----------------------------TODO----------------------------
+    // - Turn switch case into a function because redundancy
+    // - Finish SendPictureToOC function
+    // - Clear entire folder after playthrough
+    // ------------------------------------------------------------
 
     // Update is called once per frame
     void Update() {
         device = SteamVR_Controller.Input((int)trackedObject.index);
-
-        Debug.Log("Preview sprite: " + preview.GetComponent<Image>().sprite);
 
         switch (CurrentApp()) {
             case App.camera:
@@ -148,7 +151,7 @@ public class VirtualGUI : MonoBehaviour {
             }
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
                 if (TouchpadDirection(device) == Direction.left) {
-                    StartCoroutine(TakeScreenShot());
+                    StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
                 } else if (TouchpadDirection(device) == Direction.right) {
                     ReturnToMenu(App.camera);
                 }
@@ -192,39 +195,10 @@ public class VirtualGUI : MonoBehaviour {
         apps[app].SetActive(true);
     }
 
-    private void SetPreview() {
-        previewSprite = MakeSprite();
-        preview.GetComponent<Image>().sprite = previewSprite;
-        confirmPanel.SetActive(true);
-    }
-
-    public IEnumerator TakeScreenShot() {
-        yield return new WaitForEndOfFrame();
-
-        Camera camOV = virtualCamera.GetComponent<Camera>();
-        RenderTexture currentRT = RenderTexture.active;
-        RenderTexture.active = camOV.targetTexture;
-        camOV.Render();
-        Texture2D imageOverview = new Texture2D(camOV.targetTexture.width, camOV.targetTexture.height, TextureFormat.RGB24, false);
-        imageOverview.ReadPixels(new Rect(0, 0, camOV.targetTexture.width, camOV.targetTexture.height), 0, 0);
-        imageOverview.Apply();
-        RenderTexture.active = currentRT;
-
-        // Encode texture into PNG
-        byte[] bytes = imageOverview.EncodeToPNG();
-
-        // save in memory
-        string filename = "screenshot.png";
-        path = pictureRoot + filename;
-        // Write to path (previous screenshots are overwritten)
-        File.WriteAllBytes(path, bytes);
-        SetPreview();
-    }
-
     private void SendPictureToOC() {
         string newPath = string.Format(pictureRoot + "OCpicture{0}.png", pictureID);
         pictureID++;
-        File.Move(path, newPath);
+        File.Move(pictureRoot + "screenshot.png", newPath);
     }
 
     private void EnlargeMap() {
@@ -283,34 +257,5 @@ public class VirtualGUI : MonoBehaviour {
         }
         // If finger is not on touchpad return standby
         return Direction.standby;
-    }
-
-    private Sprite MakeSprite() {
-        Sprite sprite;
-        Texture2D spriteTexture = LoadTexture(pictureRoot + "screenshot.png");
-        sprite = Sprite.Create(spriteTexture, new Rect(0, 0, 500, 1000), new Vector2(0, 0), 100f, 0, SpriteMeshType.Tight);
-        
-        return sprite;
-    }
-    
-    private Texture2D LoadTexture(string FilePath) {
-        // Load a PNG or JPG file from disk to a Texture2D
-        // Returns null if load fails
-
-        Texture2D Tex2D;
-        byte[] FileData;
-
-        if (File.Exists(FilePath)) {
-            FileData = File.ReadAllBytes(FilePath);
-            Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
-            if (Tex2D.LoadImage(FileData))           // Load the imagedata into the texture (size is set automatically)
-                return Tex2D;                 // If data = readable -> return texture
-        }
-        return null;                     // Return null if load failed
-    }
-    
-    //Delete screenshot after application quit
-    private void OnApplicationQuit() {
-        File.Delete(pictureRoot + "screenshot.png");
     }
 }
