@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -67,6 +66,7 @@ public class VirtualGUI : MonoBehaviour {
     private string path = "";
     private bool pictureTaken = false;
     private GameObject renderTexture;
+    private bool pressedOnce = true;
 
 
 
@@ -97,6 +97,7 @@ public class VirtualGUI : MonoBehaviour {
                 break;
         }
 
+        //Camera Pop-up handler
         if(confirmPanel.activeInHierarchy == true) {
             switch (TouchpadDirection(device)) {
                 case Direction.left:
@@ -195,7 +196,7 @@ public class VirtualGUI : MonoBehaviour {
 
     public IEnumerator TakeScreenShot() {
         yield return new WaitForEndOfFrame();
-        
+
         Camera camOV = virtualCamera.GetComponent<Camera>();
         RenderTexture currentRT = RenderTexture.active;
         RenderTexture.active = camOV.targetTexture;
@@ -210,13 +211,19 @@ public class VirtualGUI : MonoBehaviour {
 
         // save in memory
         string filename = "screenshot.png";
-        path = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/" + filename;
+        path = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/" + filename;
         // Write to path (previous screenshots are overwritten)
         File.WriteAllBytes(path, bytes);
+        System.Diagnostics.Process.Start("C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/");
     }
 
     private void SendPictureToOC() {
-        Debug.Log("Not yet implemented");
+        if (pressedOnce == false) {
+            Debug.Log("ye boiiiiiiii");
+            pressedOnce = true;
+        } else {
+            pressedOnce = false;
+        }
     }
 
     private void EnlargeMap() {
