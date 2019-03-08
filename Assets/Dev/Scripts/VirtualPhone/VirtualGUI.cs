@@ -148,7 +148,7 @@ public class VirtualGUI : MonoBehaviour {
             }
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
                 if (TouchpadDirection(device) == Direction.left) {
-                    TakePicture();
+                    StartCoroutine(TakeScreenShot());
                 } else if (TouchpadDirection(device) == Direction.right) {
                     ReturnToMenu(App.camera);
                 }
@@ -192,8 +192,7 @@ public class VirtualGUI : MonoBehaviour {
         apps[app].SetActive(true);
     }
 
-    private void TakePicture() {
-        StartCoroutine(TakeScreenShot());
+    private void SetPreview() {
         previewSprite = MakeSprite();
         preview.GetComponent<Image>().sprite = previewSprite;
         confirmPanel.SetActive(true);
@@ -219,14 +218,13 @@ public class VirtualGUI : MonoBehaviour {
         path = pictureRoot + filename;
         // Write to path (previous screenshots are overwritten)
         File.WriteAllBytes(path, bytes);
+        SetPreview();
     }
 
     private void SendPictureToOC() {
         string newPath = string.Format(pictureRoot + "OCpicture{0}.png", pictureID);
-        Debug.Log("Tried to send pic to OC");
         pictureID++;
         File.Move(path, newPath);
-        Debug.Log("new location: " + newPath);
     }
 
     private void EnlargeMap() {
@@ -289,17 +287,13 @@ public class VirtualGUI : MonoBehaviour {
 
     private Sprite MakeSprite() {
         Sprite sprite;
-        Texture2D spriteTexture = LoadTexture(path);
+        Texture2D spriteTexture = LoadTexture(pictureRoot + "screenshot.png");
         sprite = Sprite.Create(spriteTexture, new Rect(0, 0, 500, 1000), new Vector2(0, 0), 100f, 0, SpriteMeshType.Tight);
         
-        while(sprite == null) {
-            Debug.Log("Sprite exists now: " + sprite);
-        }
         return sprite;
     }
     
     private Texture2D LoadTexture(string FilePath) {
-
         // Load a PNG or JPG file from disk to a Texture2D
         // Returns null if load fails
 
