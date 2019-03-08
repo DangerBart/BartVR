@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class NotificationTimer : MonoBehaviour {
 
@@ -31,9 +28,9 @@ public class NotificationTimer : MonoBehaviour {
     }
 
     void AddRelevantNotification() {
-        this.GetComponent<Board>().LoadRandomRelevantNotification();
+        GetComponent<Board>().LoadRandomRelevantNotification();
     }
     void AddIrrelevantNotification() {
-        this.GetComponent<Board>().LoadRandomIrrelevantNotification();
+        GetComponent<Board>().LoadRandomIrrelevantNotification();
     }
 }
