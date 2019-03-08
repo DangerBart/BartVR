@@ -8,25 +8,25 @@ public class VirtualGUI : MonoBehaviour {
     // SteamVR
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
-    
+
     // ButtonList
     [Header("Add app panels in order from top to bottom in hierarchy")]
     [Tooltip("Add app panels in order from top to bottom in hierarchy")]
     [SerializeField]
     private List<GameObject> apps = new List<GameObject>();
-    
+
     // MenuButtons
     [Header("Add app buttons in order from left, top, right, bottom then deselect")]
     [Tooltip("Add app buttons in order from left, top, right, bottom then deselect")]
     [SerializeField]
     private List<GameObject> menuApps = new List<GameObject>();
-    
+
     // CameraButtons
     [Header("Add app buttons in order of takepicture, back, deselect")]
     [Tooltip("Add app buttons in order of takepicture, back, deselect")]
     [SerializeField]
     private List<GameObject> cameraButton = new List<GameObject>();
-    
+
     // mapButtons
     [Header("Add app buttons in order of enlargemap, back, deselect")]
     [Tooltip("Add app buttons in order of enlargemap, back, deselect")]
@@ -60,14 +60,14 @@ public class VirtualGUI : MonoBehaviour {
     private GameObject virtualCamera;
     [SerializeField]
     private GameObject confirmPanel;
+    [SerializeField]
+    private GameObject preview;
+    [SerializeField]
+    private Sprite previewSprite;
 
     // Logic variables
     private float touchpadMargin = 0.60f;
     private string path = "";
-    private bool pictureTaken = false;
-    private GameObject renderTexture;
-    private bool pressedOnce = true;
-
 
 
     // Use this for initialization
@@ -98,12 +98,12 @@ public class VirtualGUI : MonoBehaviour {
         }
 
         //Camera Pop-up handler
-        if(confirmPanel.activeInHierarchy == true) {
+        if (confirmPanel.activeInHierarchy == true) {
             switch (TouchpadDirection(device)) {
-                case Direction.left:
+                case Direction.up:
                     confirmButton[0].GetComponent<Button>().Select();
                     break;
-                case Direction.right:
+                case Direction.down:
                     confirmButton[1].GetComponent<Button>().Select();
                     break;
                 case Direction.standby:
@@ -111,12 +111,13 @@ public class VirtualGUI : MonoBehaviour {
                     break;
             }
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-                if (TouchpadDirection(device) == Direction.left) {
+                if (TouchpadDirection(device) == Direction.up) {
                     SendPictureToOC();
-                } else if (TouchpadDirection(device) == Direction.right) {
+                } else if (TouchpadDirection(device) == Direction.down) {
                     confirmPanel.SetActive(false);
                 }
             }
+
         }
     }
 
@@ -190,7 +191,7 @@ public class VirtualGUI : MonoBehaviour {
 
     private void TakePicture() {
         StartCoroutine(TakeScreenShot());
-
+        preview.GetComponent<Image>().sprite = previewSprite;
         confirmPanel.SetActive(true);
     }
 
@@ -214,16 +215,10 @@ public class VirtualGUI : MonoBehaviour {
         path = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/" + filename;
         // Write to path (previous screenshots are overwritten)
         File.WriteAllBytes(path, bytes);
-        System.Diagnostics.Process.Start("C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/");
     }
 
     private void SendPictureToOC() {
-        if (pressedOnce == false) {
-            Debug.Log("ye boiiiiiiii");
-            pressedOnce = true;
-        } else {
-            pressedOnce = false;
-        }
+        Debug.Log("Tried to send pic to OC");
     }
 
     private void EnlargeMap() {
@@ -282,5 +277,10 @@ public class VirtualGUI : MonoBehaviour {
         }
         // If finger is not on touchpad return standby
         return Direction.standby;
+    }
+
+    //Delete screenshot after application quit
+    private void OnApplicationQuit() {
+        File.Delete("C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/screenshot.png");
     }
 }
