@@ -62,12 +62,13 @@ public class VirtualGUI : MonoBehaviour {
     private GameObject confirmPanel;
     [SerializeField]
     private GameObject preview;
-    [SerializeField]
-    private Sprite previewSprite;
 
     // Logic variables
     private float touchpadMargin = 0.60f;
     private string path = "";
+    private int pictureID = 0;
+    private Sprite previewSprite;
+    private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
 
 
     // Use this for initialization
@@ -78,6 +79,8 @@ public class VirtualGUI : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         device = SteamVR_Controller.Input((int)trackedObject.index);
+
+        Debug.Log("Preview sprite: " + preview.GetComponent<Image>().sprite);
 
         switch (CurrentApp()) {
             case App.camera:
@@ -191,6 +194,7 @@ public class VirtualGUI : MonoBehaviour {
 
     private void TakePicture() {
         StartCoroutine(TakeScreenShot());
+        previewSprite = MakeSprite();
         preview.GetComponent<Image>().sprite = previewSprite;
         confirmPanel.SetActive(true);
     }
@@ -212,13 +216,17 @@ public class VirtualGUI : MonoBehaviour {
 
         // save in memory
         string filename = "screenshot.png";
-        path = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/" + filename;
+        path = pictureRoot + filename;
         // Write to path (previous screenshots are overwritten)
         File.WriteAllBytes(path, bytes);
     }
 
     private void SendPictureToOC() {
+        string newPath = string.Format(pictureRoot + "OCpicture{0}.png", pictureID);
         Debug.Log("Tried to send pic to OC");
+        pictureID++;
+        File.Move(path, newPath);
+        Debug.Log("new location: " + newPath);
     }
 
     private void EnlargeMap() {
@@ -279,8 +287,36 @@ public class VirtualGUI : MonoBehaviour {
         return Direction.standby;
     }
 
+    private Sprite MakeSprite() {
+        Sprite sprite;
+        Texture2D spriteTexture = LoadTexture(path);
+        sprite = Sprite.Create(spriteTexture, new Rect(0, 0, 500, 1000), new Vector2(0, 0), 100f, 0, SpriteMeshType.Tight);
+        
+        while(sprite == null) {
+            Debug.Log("Sprite exists now: " + sprite);
+        }
+        return sprite;
+    }
+    
+    private Texture2D LoadTexture(string FilePath) {
+
+        // Load a PNG or JPG file from disk to a Texture2D
+        // Returns null if load fails
+
+        Texture2D Tex2D;
+        byte[] FileData;
+
+        if (File.Exists(FilePath)) {
+            FileData = File.ReadAllBytes(FilePath);
+            Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
+            if (Tex2D.LoadImage(FileData))           // Load the imagedata into the texture (size is set automatically)
+                return Tex2D;                 // If data = readable -> return texture
+        }
+        return null;                     // Return null if load failed
+    }
+    
     //Delete screenshot after application quit
     private void OnApplicationQuit() {
-        File.Delete("C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Dev/VirtualPhone/Snapshots/screenshot.png");
+        File.Delete(pictureRoot + "screenshot.png");
     }
 }
