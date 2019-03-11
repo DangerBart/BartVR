@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class VirtualGUI : MonoBehaviour {
-
+    // HandlerReferences
     private PhotoHandler pHandler;
+    private InputHandler iHandler;
 
     // SteamVR
     private SteamVR_TrackedObject trackedObject;
@@ -46,13 +47,6 @@ public class VirtualGUI : MonoBehaviour {
         menu = 4,
         none = 5
     }
-    private enum Direction {
-        left = 0,
-        up = 1,
-        right = 2,
-        down = 3,
-        standby = 4
-    }
 
     // References to other gameobjects
     [SerializeField]
@@ -63,7 +57,6 @@ public class VirtualGUI : MonoBehaviour {
     private GameObject preview;
 
     // Logic variables
-    private float touchpadMargin = 0.60f;
     private string path = "";
     private int pictureID = 0;
     private Sprite previewSprite;
@@ -72,14 +65,15 @@ public class VirtualGUI : MonoBehaviour {
     // Use this for initialization
     void Start() {
         pHandler = new PhotoHandler();
+        iHandler = new InputHandler();
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
 
-    // ----------------------------TODO----------------------------
-    // - Turn switch case into a function because redundancy
+    // ----------------------------TODO------------------------------
+    // - Turn switch case into a function because redundancy -- DONE
     // - Finish SendPictureToOC function
     // - Clear entire folder after playthrough
-    // ------------------------------------------------------------
+    // --------------------------------------------------------------
 
     // Update is called once per frame
     void Update() {
@@ -105,7 +99,19 @@ public class VirtualGUI : MonoBehaviour {
 
         //Camera Pop-up handler
         if (confirmPanel.activeInHierarchy == true) {
-            switch (TouchpadDirection(device)) {
+            //--------------------------------------------------THIS IS NEW--------------------------------------------------
+
+            iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButton);
+
+            if (iHandler.GetTouch() == Direction.up) {
+                SendPictureToOC();
+            } else if (iHandler.GetTouch() == Direction.down) {
+                confirmPanel.SetActive(false);
+            }
+
+            //--------------------------------------------------THIS IS NEW--------------------------------------------------
+            /*
+            switch (iHandler.TouchpadDirection(device)) {
                 case Direction.up:
                     confirmButton[0].GetComponent<Button>().Select();
                     break;
@@ -115,15 +121,7 @@ public class VirtualGUI : MonoBehaviour {
                 case Direction.standby:
                     confirmButton[2].GetComponent<Button>().Select();
                     break;
-            }
-            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-                if (TouchpadDirection(device) == Direction.up) {
-                    SendPictureToOC();
-                } else if (TouchpadDirection(device) == Direction.down) {
-                    confirmPanel.SetActive(false);
-                }
-            }
-
+            }*/
         }
     }
 
@@ -138,6 +136,18 @@ public class VirtualGUI : MonoBehaviour {
 
     private void RunCamera() {
         if (confirmPanel.activeInHierarchy == false) {
+
+            //-----------------------------------------------NEW-------------------------------------------
+            iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButton);
+
+            if (iHandler.GetTouch() == Direction.left) {
+                StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
+            } else if (iHandler.GetTouch() == Direction.right) {
+                ReturnToMenu(App.camera);
+            }
+
+            /*
+            -------------------------------------------------OLD-------------------------------------------
             switch (TouchpadDirection(device)) {
                 case Direction.left:
                     cameraButton[0].GetComponent<Button>().Select();
@@ -149,6 +159,7 @@ public class VirtualGUI : MonoBehaviour {
                     cameraButton[2].GetComponent<Button>().Select();
                     break;
             }
+            
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
                 if (TouchpadDirection(device) == Direction.left) {
                     StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
@@ -156,10 +167,15 @@ public class VirtualGUI : MonoBehaviour {
                     ReturnToMenu(App.camera);
                 }
             }
+            */
         }
     }
 
     private void RunMap() {
+
+        iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, mapButton);
+
+        /*
         switch (TouchpadDirection(device)) {
             case Direction.up:
                 mapButton[0].GetComponent<Button>().Select();
@@ -170,21 +186,22 @@ public class VirtualGUI : MonoBehaviour {
             case Direction.standby:
                 mapButton[2].GetComponent<Button>().Select();
                 break;
+        }*/
+
+        if (iHandler.GetTouch() == Direction.up) {
+            EnlargeMap();
+        } else if (iHandler.GetTouch() == Direction.down) {
+            ReturnToMenu(App.map);
         }
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-            if (TouchpadDirection(device) == Direction.up) {
-                EnlargeMap();
-            } else if (TouchpadDirection(device) == Direction.down) {
-                ReturnToMenu(App.map);
-            }
-        }
+
     }
 
     private void RunMenu() {
-        HighlightSelectedApp();
+        //HighlightSelectedApp();
+        iHandler.Highlight(new List<Direction> { Direction.left, Direction.up, Direction.right, Direction.down, Direction.standby }, menuApps);
         //App was selected
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad) && TouchpadDirection(device) != Direction.standby) {
-            LaunchApp((int)TouchpadDirection(device));
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad) && iHandler.TouchpadDirection(device) != Direction.standby) {
+            LaunchApp((int)iHandler.TouchpadDirection(device));
         }
     }
 
@@ -210,6 +227,7 @@ public class VirtualGUI : MonoBehaviour {
         apps[(int)App.menu].SetActive(true);
     }
 
+    /*
     private void HighlightSelectedApp() {
         // Highlight finger in direction on touchpad
         switch (TouchpadDirection(device)) {
@@ -230,32 +248,5 @@ public class VirtualGUI : MonoBehaviour {
                 menuApps[4].GetComponent<Button>().Select();
                 break;
         }
-    }
-
-    private Direction TouchpadDirection(SteamVR_Controller.Device device) {
-        // Get touchpad variables
-        float touchpadY = device.GetAxis().y;
-        float touchpadX = device.GetAxis().x;
-
-        // Player's finger is in the middle of the touchpad
-        if (touchpadY <= touchpadMargin && touchpadY >= -touchpadMargin) {
-            // Player's finger is on the right side of the touchpad
-            if (touchpadX > touchpadMargin) {
-                return Direction.right;
-            } else if (touchpadX < -touchpadMargin) {
-                // Player's finger is on the left side of the touchpad
-                return Direction.left;
-            }
-        } else {
-            // Player's hand is on the top side of the touchpad
-            if (touchpadY >= touchpadMargin) {
-                return Direction.up;
-            } else if (touchpadY <= -touchpadMargin) {
-                // Player's finger is on the bottom side of the touchpad
-                return Direction.down;
-            }
-        }
-        // If finger is not on touchpad return standby
-        return Direction.standby;
-    }
+    }*/
 }
