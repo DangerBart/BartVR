@@ -61,9 +61,9 @@ public class PhotoHandler : MonoBehaviour {
 
         if (File.Exists(FilePath)) {
             FileData = File.ReadAllBytes(FilePath);
-            Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
-            if (Tex2D.LoadImage(FileData))           // Load the imagedata into the texture (size is set automatically)
-                return Tex2D;                 // If data = readable -> return texture
+            Tex2D = new Texture2D(2, 2);            // Create new "empty" texture
+            if (Tex2D.LoadImage(FileData))          // Load the imagedata into the texture (size is set automatically)
+                return Tex2D;                       // If data = readable -> return texture
         }
         return null;                     // Return null if load failed
     }
