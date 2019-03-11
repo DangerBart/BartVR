@@ -34,12 +34,14 @@ public class InputHandler : MonoBehaviour {
 
     public void Highlight(List<Direction> directions, List<GameObject> buttons) {
         Direction currentDir = TouchpadDirection(device);
-
+        // Check if current direction of finger on touchpad is in the list of button directions
         if (directions.Contains(currentDir)) 
+            // If the finger is in the direction of a button, highlight that button
             buttons[directions.IndexOf(currentDir)].GetComponent<Button>().Select();
     }
 
-    public Direction GetTouch() {
+    // Return the direction of the press on the touchpad
+    public Direction GetPress() {
         Direction currentDir = TouchpadDirection(device);
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
             return currentDir;

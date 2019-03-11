@@ -103,9 +103,9 @@ public class VirtualGUI : MonoBehaviour {
 
             iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButton);
 
-            if (iHandler.GetTouch() == Direction.up) {
+            if (iHandler.GetPress() == Direction.up) {
                 SendPictureToOC();
-            } else if (iHandler.GetTouch() == Direction.down) {
+            } else if (iHandler.GetPress() == Direction.down) {
                 confirmPanel.SetActive(false);
             }
 
@@ -140,9 +140,9 @@ public class VirtualGUI : MonoBehaviour {
             //-----------------------------------------------NEW-------------------------------------------
             iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButton);
 
-            if (iHandler.GetTouch() == Direction.left) {
+            if (iHandler.GetPress() == Direction.left) {
                 StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
-            } else if (iHandler.GetTouch() == Direction.right) {
+            } else if (iHandler.GetPress() == Direction.right) {
                 ReturnToMenu(App.camera);
             }
 
@@ -188,9 +188,9 @@ public class VirtualGUI : MonoBehaviour {
                 break;
         }*/
 
-        if (iHandler.GetTouch() == Direction.up) {
+        if (iHandler.GetPress() == Direction.up) {
             EnlargeMap();
-        } else if (iHandler.GetTouch() == Direction.down) {
+        } else if (iHandler.GetPress() == Direction.down) {
             ReturnToMenu(App.map);
         }
 
