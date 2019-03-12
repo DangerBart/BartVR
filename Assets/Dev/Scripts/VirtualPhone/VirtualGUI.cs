@@ -58,7 +58,6 @@ public class VirtualGUI : MonoBehaviour {
 
     // Logic variables
     private string path = "";
-    private int pictureID = 0;
     private Sprite previewSprite;
     private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
 
@@ -102,7 +101,7 @@ public class VirtualGUI : MonoBehaviour {
             iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButton, device);
 
             if (iHandler.GetPress(device) == Direction.up) {
-                pHandler.SendPictureToOC(pictureID);
+                pHandler.SendPictureToOC();
             } else if (iHandler.GetPress(device) == Direction.down) {
                 confirmPanel.SetActive(false);
             }

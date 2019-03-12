@@ -8,11 +8,13 @@ public class PhotoHandler : MonoBehaviour {
     private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
     string tempPath = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/screenshot.png";
 
+    private int pictureID = 0;
+
     public IEnumerator TakeScreenShot(GameObject cam, GameObject preview, GameObject confirmPanel) {
         yield return new WaitForEndOfFrame();
 
         string path;
-        
+
 
         // This code stops the rendertexture for a short moment so it can take all the pixels on it and turn it back on
         // Once the pixels are collected they are put onto a Texture2D which is saved in screenshot.png
@@ -20,7 +22,7 @@ public class PhotoHandler : MonoBehaviour {
         RenderTexture currentRT = RenderTexture.active;
         RenderTexture.active = camOV.targetTexture;
         camOV.Render();
-        Texture2D imageOverview = new Texture2D(camOV.targetTexture.width, 
+        Texture2D imageOverview = new Texture2D(camOV.targetTexture.width,
                                                 camOV.targetTexture.height, TextureFormat.RGB24, false);
         imageOverview.ReadPixels(new Rect(0, 0, camOV.targetTexture.width, camOV.targetTexture.height), 0, 0);
         imageOverview.Apply();
@@ -70,18 +72,18 @@ public class PhotoHandler : MonoBehaviour {
         return null;                     // Return null if load failed
     }
 
-    public void SendPictureToOC(int pictureID) {
+    public void SendPictureToOC() {
         string newPath = string.Format(pictureRoot + "OCpicture{0}.png", pictureID);
         pictureID++;
-        File.Move(pictureRoot + "screenshot.png", newPath);
+        if (File.Exists(tempPath))
+            File.Move(tempPath, newPath);
     }
 
     //Delete screenshots after application quit
     private void OnApplicationQuit() {
         DirectoryInfo di = new DirectoryInfo(pictureRoot);
 
-        foreach (FileInfo file in di.GetFiles()) {
+        foreach (FileInfo file in di.GetFiles())
             file.Delete();
-        }
     }
 }
