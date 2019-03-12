@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class VirtualGUI : MonoBehaviour {
     // HandlerReferences
     private PhotoHandler pHandler;
     private InputHandler iHandler;
+    private ScrollRectEnsureVisible center;
 
     // SteamVR
     private SteamVR_TrackedObject trackedObject;
@@ -26,17 +24,17 @@ public class VirtualGUI : MonoBehaviour {
     // CameraButtons
     [Header("Add app buttons in order of takepicture, back, deselect")]
     [SerializeField]
-    private List<GameObject> cameraButton = new List<GameObject>();
+    private List<GameObject> cameraButtons = new List<GameObject>();
 
     // mapButtons
     [Header("Add app buttons in order of enlargemap, back, deselect")]
     [SerializeField]
-    private List<GameObject> mapButton = new List<GameObject>();
+    private List<GameObject> mapButtons = new List<GameObject>();
 
     // confirmButtons
     [Header("Add app buttons in order of yes, no, deselect")]
     [SerializeField]
-    private List<GameObject> confirmButton = new List<GameObject>();
+    private List<GameObject> confirmButtons = new List<GameObject>();
 
     // Enums
     private enum App {
@@ -55,6 +53,10 @@ public class VirtualGUI : MonoBehaviour {
     private GameObject virtualCamera;
     [SerializeField]
     private GameObject preview;
+    [SerializeField]
+    private GameObject largeMap;
+    [SerializeField]
+    private RectTransform icon;
 
     // Logic variables
     private string path = "";
@@ -65,9 +67,10 @@ public class VirtualGUI : MonoBehaviour {
     void Start() {
         pHandler = new PhotoHandler();
         iHandler = new InputHandler();
+        center = new ScrollRectEnsureVisible();
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
-
+    
     // Update is called once per frame
     void Update() {
         device = SteamVR_Controller.Input((int)trackedObject.index);
@@ -84,23 +87,22 @@ public class VirtualGUI : MonoBehaviour {
                 break;
             case App.test:
                 //RunTest();
+                ReturnToMenu(App.test);
                 break;
             case App.app3:
                 //RunApp3
+                ReturnToMenu(App.app3);
                 break;
         }
 
-        //Camera Pop-up handler
-        if (confirmPanel.activeInHierarchy == true) {
-            iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButton, device);
-
-            if (iHandler.GetPress(device) == Direction.up) {
-                pHandler.SendPictureToOC();
-            } else if (iHandler.GetPress(device) == Direction.down) {
-                confirmPanel.SetActive(false);
-            }
-        }
+        
+        
+        RunCameraPopUp(confirmPanel.activeInHierarchy);
+        RunLargeMapPopUp(largeMap.activeInHierarchy);
+        
     }
+
+    // MAIN MENU
 
     private App CurrentApp() {
         for (int i = 0; i <= apps.Count; i++) {
@@ -111,29 +113,9 @@ public class VirtualGUI : MonoBehaviour {
         return App.none;
     }
 
-    private void RunCamera() {
-        if (confirmPanel.activeInHierarchy == false) {
-            
-            iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButton, device);
-
-            if (iHandler.GetPress(device) == Direction.left) {
-                StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
-            } else if (iHandler.GetPress(device) == Direction.right) {
-                ReturnToMenu(App.camera);
-            }
-        }
-    }
-
-    private void RunMap() {
-
-        iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, mapButton, device);
-
-        if (iHandler.GetPress(device) == Direction.up) {
-            EnlargeMap();
-        } else if (iHandler.GetPress(device) == Direction.down) {
-            ReturnToMenu(App.map);
-        }
-
+    private void ReturnToMenu(App app) {
+        apps[(int)app].SetActive(false);
+        apps[(int)App.menu].SetActive(true);
     }
 
     private void RunMenu() {
@@ -152,12 +134,52 @@ public class VirtualGUI : MonoBehaviour {
         apps[app].SetActive(true);
     }
 
-    private void EnlargeMap() {
-        Debug.Log("HA");
+    // MAP APP
+
+    private void RunMap() {
+        if (largeMap.activeInHierarchy == false) {
+            iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, mapButtons, device);
+
+            if (iHandler.GetPress(device) == Direction.up) {
+                ToggleLargeMap(true);
+            } else if (iHandler.GetPress(device) == Direction.down) {
+                ReturnToMenu(App.map);
+            }
+        }
     }
 
-    private void ReturnToMenu(App app) {
-        apps[(int)app].SetActive(false);
-        apps[(int)App.menu].SetActive(true);
+    private void ToggleLargeMap(bool enlarge) {
+        largeMap.SetActive(enlarge);
+    }
+
+    // CAMERA APP
+
+    private void RunCamera() {
+        if (confirmPanel.activeInHierarchy == false) {
+            iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButtons, device);
+
+            if (iHandler.GetPress(device) == Direction.left) {
+                StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
+            } else if (iHandler.GetPress(device) == Direction.right) {
+                ReturnToMenu(App.camera);
+            }
+        } 
+    }
+
+    private void RunCameraPopUp(bool run) {
+        iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButtons, device);
+
+        if (iHandler.GetPress(device) == Direction.up) {
+            pHandler.SendPictureToOC();
+        } else if (iHandler.GetPress(device) == Direction.down) {
+            confirmPanel.SetActive(false);
+        }
+    }
+
+    private void RunLargeMapPopUp(bool run) {
+        //center.CenterOnItem(icon);
+        if (iHandler.GetPress(device) == Direction.right) {
+            ToggleLargeMap(false);
+        }
     }
 }

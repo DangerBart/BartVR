@@ -18,28 +18,29 @@ public class InputHandler : MonoBehaviour {
     private float touchMargin = 0.60f;
 
     private VirtualGUI vGUI = new VirtualGUI();
-
-    // Use this for initialization
-    void Start() {
-    }
-
-    // Update is called once per frame
-    void Update() {
-    }
-
+    
+    /// <summary>
+    /// Highlights the given buttons in each direction, buttons[x] will be highlighted by directions[x]
+    /// </summary>
     public void Highlight(List<Direction> directions, List<GameObject> buttons, SteamVR_Controller.Device device) {
-        Direction currentDir = TouchpadDirection(device);
+        Direction currentDirection = TouchpadDirection(device);
+        
         // Check if current direction of finger on touchpad is in the list of button directions
-        if (directions.Contains(currentDir)) 
+        if (directions.Contains(currentDirection)) 
             // If the finger is in the direction of a button, highlight that button
-            buttons[directions.IndexOf(currentDir)].GetComponent<Button>().Select();
+            buttons[directions.IndexOf(currentDirection)].GetComponent<Button>().Select();
     }
 
-    // Return the direction of the press on the touchpad
+    // Return the direction the press on the touchpad
+    /// <summary>
+    /// Returns direction of a press on the touchpad of device
+    /// </summary>
     public Direction GetPress(SteamVR_Controller.Device device) {
-        Direction currentDir = TouchpadDirection(device);
+
+        Direction currentDirection = TouchpadDirection(device);
+
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
-            return currentDir;
+            return currentDirection;
      
         return Direction.standby;
     }

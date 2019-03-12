@@ -17,9 +17,9 @@ public class VRSync : MonoBehaviour {
     private float yScale;
     //Offset for more precise location to give to the icon
     [SerializeField]
-    private float offsetx = 1.7f;
+    private float offsetx;
     [SerializeField]
-    private float offsety = 2f;
+    private float offsety;
 
     // Use this for initialization
     void Start () {
@@ -36,11 +36,11 @@ public class VRSync : MonoBehaviour {
                                                                                  -1 * (cameraRig.transform.position.z * yScale));
     }
 
-    Vector2 GetSize(GameObject go) {
+    private Vector2 GetSize(GameObject go) {
         return go.GetComponent<RectTransform>().sizeDelta;
     }
 
-    float Scale(float planeSize, float mapSize, float offset) {
+    private float Scale(float planeSize, float mapSize, float offset) {
         return planeSize / mapSize + offset;
     }
 }
