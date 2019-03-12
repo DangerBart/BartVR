@@ -27,7 +27,7 @@ public class VirtualGUI : MonoBehaviour {
     private List<GameObject> cameraButtons = new List<GameObject>();
 
     // mapButtons
-    [Header("Add app buttons in order of enlargemap, back, deselect")]
+    [Header("Add app buttons in order of back, deselect")]
     [SerializeField]
     private List<GameObject> mapButtons = new List<GameObject>();
 
@@ -63,8 +63,10 @@ public class VirtualGUI : MonoBehaviour {
     private RectTransform icon;
 
     // Logic variables
-    public float offsetX;
-    public float offsetY;
+    [SerializeField]
+    private float offsetX;
+    [SerializeField]
+    private float offsetY;
     private string path = "";
     private Sprite previewSprite;
     private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
@@ -75,7 +77,7 @@ public class VirtualGUI : MonoBehaviour {
         iHandler = new InputHandler();
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
-    
+
     // Update is called once per frame
     void Update() {
         device = SteamVR_Controller.Input((int)trackedObject.index);
@@ -98,10 +100,12 @@ public class VirtualGUI : MonoBehaviour {
                 //RunApp3
                 ReturnToMenu(App.app3);
                 break;
+            case App.none:
+                ReturnToMenu(App.menu);
+                break;
         }
-        
+
         RunCameraPopUp(confirmPanel.activeInHierarchy);
-        RunLargeMapPopUp(largeMap.activeInHierarchy);
     }
 
     // MAIN MENU
@@ -139,25 +143,12 @@ public class VirtualGUI : MonoBehaviour {
     // MAP APP
 
     private void RunMap() {
-        if (largeMap.activeInHierarchy == false) {
-            iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, mapButtons, device);
+        iHandler.Highlight(new List<Direction> { Direction.down, Direction.standby }, mapButtons, device);
 
-            if (iHandler.GetPress(device) == Direction.up) {
-                ToggleLargeMap(true);
-            } else if (iHandler.GetPress(device) == Direction.down) {
-                ReturnToMenu(App.map);
-            }
-        }
-    }
-
-    private void ToggleLargeMap(bool enlarge) {
-        largeMap.SetActive(enlarge);
-    }
-
-    private void RunLargeMapPopUp(bool run) {
         SnapTo(icon);
-        if (iHandler.GetPress(device) == Direction.right) {
-            ToggleLargeMap(false);
+
+        if (iHandler.GetPress(device) == Direction.down) {
+            ReturnToMenu(App.map);
         }
     }
 
@@ -179,7 +170,7 @@ public class VirtualGUI : MonoBehaviour {
             } else if (iHandler.GetPress(device) == Direction.right) {
                 ReturnToMenu(App.camera);
             }
-        } 
+        }
     }
 
     private void RunCameraPopUp(bool run) {
