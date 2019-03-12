@@ -68,12 +68,6 @@ public class VirtualGUI : MonoBehaviour {
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
 
-    // ----------------------------TODO------------------------------
-    // - Turn switch case into a function because redundancy -- DONE
-    // - Finish SendPictureToOC function                     
-    // - Clear entire folder after playthrough               -- DONE
-    // --------------------------------------------------------------
-
     // Update is called once per frame
     void Update() {
         device = SteamVR_Controller.Input((int)trackedObject.index);
