@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VirtualGUI : MonoBehaviour {
     // HandlerReferences
     private PhotoHandler pHandler;
     private InputHandler iHandler;
-    private ScrollRectEnsureVisible center;
 
     // SteamVR
     private SteamVR_TrackedObject trackedObject;
@@ -56,9 +56,15 @@ public class VirtualGUI : MonoBehaviour {
     [SerializeField]
     private GameObject largeMap;
     [SerializeField]
+    private ScrollRect scrollRect;
+    [SerializeField]
+    private RectTransform contentPanel;
+    [SerializeField]
     private RectTransform icon;
 
     // Logic variables
+    public float offsetX;
+    public float offsetY;
     private string path = "";
     private Sprite previewSprite;
     private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
@@ -67,7 +73,6 @@ public class VirtualGUI : MonoBehaviour {
     void Start() {
         pHandler = new PhotoHandler();
         iHandler = new InputHandler();
-        center = new ScrollRectEnsureVisible();
         trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
     
@@ -94,12 +99,9 @@ public class VirtualGUI : MonoBehaviour {
                 ReturnToMenu(App.app3);
                 break;
         }
-
-        
         
         RunCameraPopUp(confirmPanel.activeInHierarchy);
         RunLargeMapPopUp(largeMap.activeInHierarchy);
-        
     }
 
     // MAIN MENU
@@ -152,6 +154,20 @@ public class VirtualGUI : MonoBehaviour {
         largeMap.SetActive(enlarge);
     }
 
+    private void RunLargeMapPopUp(bool run) {
+        SnapTo(icon);
+        if (iHandler.GetPress(device) == Direction.right) {
+            ToggleLargeMap(false);
+        }
+    }
+
+    void SnapTo(RectTransform target) {
+        contentPanel.anchoredPosition =
+            (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+            - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+        contentPanel.anchoredPosition += new Vector2(offsetX, offsetY);
+    }
+
     // CAMERA APP
 
     private void RunCamera() {
@@ -173,13 +189,6 @@ public class VirtualGUI : MonoBehaviour {
             pHandler.SendPictureToOC();
         } else if (iHandler.GetPress(device) == Direction.down) {
             confirmPanel.SetActive(false);
-        }
-    }
-
-    private void RunLargeMapPopUp(bool run) {
-        //center.CenterOnItem(icon);
-        if (iHandler.GetPress(device) == Direction.right) {
-            ToggleLargeMap(false);
         }
     }
 }
