@@ -14,9 +14,6 @@ public enum Direction {
 }
 
 public class InputHandler : MonoBehaviour {
-    // SteamVR
-    private SteamVR_TrackedObject trackedObject;
-    private SteamVR_Controller.Device device;
     // Logic variables
     private float touchMargin = 0.60f;
 
@@ -24,15 +21,13 @@ public class InputHandler : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        trackedObject = GetComponentInParent<SteamVR_TrackedObject>();
     }
 
     // Update is called once per frame
     void Update() {
-        device = SteamVR_Controller.Input((int)trackedObject.index);
     }
 
-    public void Highlight(List<Direction> directions, List<GameObject> buttons) {
+    public void Highlight(List<Direction> directions, List<GameObject> buttons, SteamVR_Controller.Device device) {
         Direction currentDir = TouchpadDirection(device);
         // Check if current direction of finger on touchpad is in the list of button directions
         if (directions.Contains(currentDir)) 
@@ -41,7 +36,7 @@ public class InputHandler : MonoBehaviour {
     }
 
     // Return the direction of the press on the touchpad
-    public Direction GetPress() {
+    public Direction GetPress(SteamVR_Controller.Device device) {
         Direction currentDir = TouchpadDirection(device);
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
             return currentDir;

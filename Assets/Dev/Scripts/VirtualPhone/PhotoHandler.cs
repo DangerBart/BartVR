@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class PhotoHandler : MonoBehaviour {
 
     private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
+    string tempPath = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/screenshot.png";
 
     public IEnumerator TakeScreenShot(GameObject cam, GameObject preview, GameObject confirmPanel) {
         yield return new WaitForEndOfFrame();
 
         string path;
+        
 
         // This code stops the rendertexture for a short moment so it can take all the pixels on it and turn it back on
         // Once the pixels are collected they are put onto a Texture2D which is saved in screenshot.png
@@ -68,8 +70,18 @@ public class PhotoHandler : MonoBehaviour {
         return null;                     // Return null if load failed
     }
 
-    //Delete screenshot after application quit
+    public void SendPictureToOC(int pictureID) {
+        string newPath = string.Format(pictureRoot + "OCpicture{0}.png", pictureID);
+        pictureID++;
+        File.Move(pictureRoot + "screenshot.png", newPath);
+    }
+
+    //Delete screenshots after application quit
     private void OnApplicationQuit() {
-        File.Delete("C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/screenshot.png");
+        DirectoryInfo di = new DirectoryInfo(pictureRoot);
+
+        foreach (FileInfo file in di.GetFiles()) {
+            file.Delete();
+        }
     }
 }

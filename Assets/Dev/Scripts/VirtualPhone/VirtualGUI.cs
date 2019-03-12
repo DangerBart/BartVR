@@ -71,8 +71,8 @@ public class VirtualGUI : MonoBehaviour {
 
     // ----------------------------TODO------------------------------
     // - Turn switch case into a function because redundancy -- DONE
-    // - Finish SendPictureToOC function
-    // - Clear entire folder after playthrough
+    // - Finish SendPictureToOC function                     
+    // - Clear entire folder after playthrough               -- DONE
     // --------------------------------------------------------------
 
     // Update is called once per frame
@@ -99,29 +99,13 @@ public class VirtualGUI : MonoBehaviour {
 
         //Camera Pop-up handler
         if (confirmPanel.activeInHierarchy == true) {
-            //--------------------------------------------------THIS IS NEW--------------------------------------------------
+            iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButton, device);
 
-            iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, confirmButton);
-
-            if (iHandler.GetPress() == Direction.up) {
-                SendPictureToOC();
-            } else if (iHandler.GetPress() == Direction.down) {
+            if (iHandler.GetPress(device) == Direction.up) {
+                pHandler.SendPictureToOC(pictureID);
+            } else if (iHandler.GetPress(device) == Direction.down) {
                 confirmPanel.SetActive(false);
             }
-
-            //--------------------------------------------------THIS IS NEW--------------------------------------------------
-            /*
-            switch (iHandler.TouchpadDirection(device)) {
-                case Direction.up:
-                    confirmButton[0].GetComponent<Button>().Select();
-                    break;
-                case Direction.down:
-                    confirmButton[1].GetComponent<Button>().Select();
-                    break;
-                case Direction.standby:
-                    confirmButton[2].GetComponent<Button>().Select();
-                    break;
-            }*/
         }
     }
 
@@ -136,61 +120,24 @@ public class VirtualGUI : MonoBehaviour {
 
     private void RunCamera() {
         if (confirmPanel.activeInHierarchy == false) {
+            
+            iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButton, device);
 
-            //-----------------------------------------------NEW-------------------------------------------
-            iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButton);
-
-            if (iHandler.GetPress() == Direction.left) {
+            if (iHandler.GetPress(device) == Direction.left) {
                 StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
-            } else if (iHandler.GetPress() == Direction.right) {
+            } else if (iHandler.GetPress(device) == Direction.right) {
                 ReturnToMenu(App.camera);
             }
-
-            /*
-            -------------------------------------------------OLD-------------------------------------------
-            switch (TouchpadDirection(device)) {
-                case Direction.left:
-                    cameraButton[0].GetComponent<Button>().Select();
-                    break;
-                case Direction.right:
-                    cameraButton[1].GetComponent<Button>().Select();
-                    break;
-                case Direction.standby:
-                    cameraButton[2].GetComponent<Button>().Select();
-                    break;
-            }
-            
-            if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-                if (TouchpadDirection(device) == Direction.left) {
-                    StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
-                } else if (TouchpadDirection(device) == Direction.right) {
-                    ReturnToMenu(App.camera);
-                }
-            }
-            */
         }
     }
 
     private void RunMap() {
 
-        iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, mapButton);
+        iHandler.Highlight(new List<Direction> { Direction.up, Direction.down, Direction.standby }, mapButton, device);
 
-        /*
-        switch (TouchpadDirection(device)) {
-            case Direction.up:
-                mapButton[0].GetComponent<Button>().Select();
-                break;
-            case Direction.down:
-                mapButton[1].GetComponent<Button>().Select();
-                break;
-            case Direction.standby:
-                mapButton[2].GetComponent<Button>().Select();
-                break;
-        }*/
-
-        if (iHandler.GetPress() == Direction.up) {
+        if (iHandler.GetPress(device) == Direction.up) {
             EnlargeMap();
-        } else if (iHandler.GetPress() == Direction.down) {
+        } else if (iHandler.GetPress(device) == Direction.down) {
             ReturnToMenu(App.map);
         }
 
@@ -198,7 +145,7 @@ public class VirtualGUI : MonoBehaviour {
 
     private void RunMenu() {
         //HighlightSelectedApp();
-        iHandler.Highlight(new List<Direction> { Direction.left, Direction.up, Direction.right, Direction.down, Direction.standby }, menuApps);
+        iHandler.Highlight(new List<Direction> { Direction.left, Direction.up, Direction.right, Direction.down, Direction.standby }, menuApps, device);
         //App was selected
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad) && iHandler.TouchpadDirection(device) != Direction.standby) {
             LaunchApp((int)iHandler.TouchpadDirection(device));
@@ -212,12 +159,6 @@ public class VirtualGUI : MonoBehaviour {
         apps[app].SetActive(true);
     }
 
-    private void SendPictureToOC() {
-        string newPath = string.Format(pictureRoot + "OCpicture{0}.png", pictureID);
-        pictureID++;
-        File.Move(pictureRoot + "screenshot.png", newPath);
-    }
-
     private void EnlargeMap() {
         Debug.Log("HA");
     }
@@ -226,27 +167,4 @@ public class VirtualGUI : MonoBehaviour {
         apps[(int)app].SetActive(false);
         apps[(int)App.menu].SetActive(true);
     }
-
-    /*
-    private void HighlightSelectedApp() {
-        // Highlight finger in direction on touchpad
-        switch (TouchpadDirection(device)) {
-            case Direction.left:
-                menuApps[0].GetComponent<Button>().Select();
-                break;
-            case Direction.up:
-                menuApps[1].GetComponent<Button>().Select();
-                break;
-            case Direction.right:
-                menuApps[2].GetComponent<Button>().Select();
-                break;
-            case Direction.down:
-                menuApps[3].GetComponent<Button>().Select();
-                break;
-            case Direction.standby:
-                // Highlight a hidden button so none of the visible apps are highlighted
-                menuApps[4].GetComponent<Button>().Select();
-                break;
-        }
-    }*/
 }
