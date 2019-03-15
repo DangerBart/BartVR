@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EventHandler : MonoBehaviour {
 
-    private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
+    private readonly string pictureRoot = "Assets/Resources/Snapshots/";
 
     //Delete screenshots after application quit
     private void OnApplicationQuit() {

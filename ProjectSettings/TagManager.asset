@@ -14,7 +14,6 @@ TagManager:
   - SkinBones
   - projectile
   - FxTemporaire
-  - VRUIButton
   layers:
   - Default
   - TransparentFX

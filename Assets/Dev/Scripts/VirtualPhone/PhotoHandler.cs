@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class PhotoHandler : MonoBehaviour {
 
-    private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
-    string tempPath = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/screenshot.png";
+    private readonly string pictureRoot = "Assets/Resources/Snapshots/";
+    private readonly string tempPath = "Assets/Resources/Snapshots/screenshot.png";
 
-    private int pictureID = 0;
+    private int pictureID;
 
     public IEnumerator TakeScreenShot(GameObject cam, GameObject preview, GameObject confirmPanel) {
         yield return new WaitForEndOfFrame();

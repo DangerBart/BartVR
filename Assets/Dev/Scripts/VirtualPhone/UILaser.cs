@@ -6,6 +6,8 @@ public class UILaser : MonoBehaviour {
     private SteamVR_TrackedObject trackedObject;
     private SteamVR_Controller.Device device;
 
+    //TODO CHANGE BUTTON INTERACTION TO NPC INTERACTION WHEN IMPLEMENTED
+
     // Use this for initialization
     void Start () {
         trackedObject = GetComponent<SteamVR_TrackedObject>();
@@ -27,9 +29,8 @@ public class UILaser : MonoBehaviour {
             //Check what the ray hit
             if (Physics.Raycast(transform.position, fwd, out hit)) {
                 //If ray hit a button, trigger the button's onClick function
-                if (hit.collider.tag == "VRUIButton") {
+                if (hit.collider.tag == "Suspect") {
                     hit.collider.gameObject.GetComponent<Button>().onClick.Invoke();
-
                 } 
             }
         }

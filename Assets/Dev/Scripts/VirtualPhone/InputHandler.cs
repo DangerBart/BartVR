@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,8 +28,7 @@ public class InputHandler : MonoBehaviour {
             // If the finger is in the direction of a button, highlight that button
             buttons[directions.IndexOf(currentDirection)].GetComponent<Button>().Select();
     }
-
-    // Return the direction the press on the touchpad
+    
     /// <summary>
     /// Returns direction of a press on the touchpad of device
     /// </summary>

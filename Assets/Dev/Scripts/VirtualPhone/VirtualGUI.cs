@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -70,7 +69,6 @@ public class VirtualGUI : MonoBehaviour {
     private float offsetY;
     private string path = "";
     private Sprite previewSprite;
-    private string pictureRoot = "C:/Users/Vive/Desktop/BARTVR/BartVR/Assets/Resources/Snapshots/";
 
     // Use this for initialization
     void Start() {
@@ -94,11 +92,11 @@ public class VirtualGUI : MonoBehaviour {
                 RunMenu();
                 break;
             case App.test:
-                //RunTest();
+                //TODO third panel;
                 ReturnToMenu(App.test);
                 break;
             case App.app3:
-                //RunApp3
+                //TODO fourth panel
                 ReturnToMenu(App.app3);
                 break;
             case App.none:
