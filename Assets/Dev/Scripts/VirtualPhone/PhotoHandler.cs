@@ -78,12 +78,4 @@ public class PhotoHandler : MonoBehaviour {
         if (File.Exists(tempPath))
             File.Move(tempPath, newPath);
     }
-
-    //Delete screenshots after application quit
-    private void OnApplicationQuit() {
-        DirectoryInfo di = new DirectoryInfo(pictureRoot);
-
-        foreach (FileInfo file in di.GetFiles())
-            file.Delete();
-    }
 }
