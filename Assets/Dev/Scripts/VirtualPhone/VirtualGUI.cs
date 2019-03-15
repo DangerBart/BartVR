@@ -143,7 +143,7 @@ public class VirtualGUI : MonoBehaviour {
 
     private void RunMap() {
         iHandler.Highlight(new List<Direction> { Direction.down, Direction.standby }, mapButtons, device);
-
+        // center view on player
         SnapTo(icon);
 
         if (iHandler.GetPress(device) == Direction.down) {
@@ -152,6 +152,7 @@ public class VirtualGUI : MonoBehaviour {
     }
 
     void SnapTo(RectTransform target) {
+        // Get player location on map and set that to be the center of the map view
         contentPanel.anchoredPosition =
             (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
             - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
