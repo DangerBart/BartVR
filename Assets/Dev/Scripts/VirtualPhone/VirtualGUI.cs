@@ -178,6 +178,7 @@ public class VirtualGUI : MonoBehaviour {
 
         if (iHandler.GetPress(device) == Direction.up) {
             pHandler.SendPictureToOC();
+            confirmPanel.SetActive(false);
         } else if (iHandler.GetPress(device) == Direction.down) {
             confirmPanel.SetActive(false);
         }
