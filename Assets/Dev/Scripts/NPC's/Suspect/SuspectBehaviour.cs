@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +6,7 @@ using UnityEngine.AI;
 public class SuspectBehaviour : MonoBehaviour {
     //List of desired checkpoint nodes
     [SerializeField][Tooltip("Add the checkpoint nodes that the suspect can walk between here")]
-    private List<GameObject> checkpoints = new List<GameObject>();
+    public List<GameObject> checkpoints = new List<GameObject>();
 
     //Logic variables
     private NavMeshAgent agent;
@@ -34,7 +33,7 @@ public class SuspectBehaviour : MonoBehaviour {
             target = agent.destination;
         } 
         //When suspect reaches destination find a new one
-        if(transform.position == target) {
+        if (transform.position == target) {
             findNewDestination = true;
         }
 	}
