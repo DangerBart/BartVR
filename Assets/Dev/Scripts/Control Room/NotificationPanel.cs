@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -58,11 +56,13 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     private void SetupPanelInformation(Notification notification) {
-        username.text = notification.Name;
+        username.text = notification.Autor;
         message.text = notification.Message;
         mediaPlaform.sprite = notification.PlatformLogo;
         SetImage(notification.Img);
         SetTime();
+
+        Debug.Log("ID: " + notification.Id + ", reaction to: " + notification.ReactionTo + ", postable: " + notification.Postable);
 
         this.notification = notification;
     }
