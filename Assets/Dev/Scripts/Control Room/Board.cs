@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Board : MonoBehaviour
 {
@@ -17,9 +18,16 @@ public class Board : MonoBehaviour
     public string m_Path = "XML_Files/data-set";
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
+    // NEW
+    private Notification[] notificationsArray;
+
     void Start() {
         LoadItems(m_Path);
         FillDictionaryWithNotificationsPerPOI();
+
+        // NEW
+        FillAndConnectNotificationsList();
+
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
 
         POIManager = POISystem.GetComponent<POIManager>();
@@ -45,6 +53,44 @@ public class Board : MonoBehaviour
             notificationsPerPOI[note.POI].Add(note);
         }
     }
+    
+    // NEW
+    private void FillAndConnectNotificationsList()
+    {
+        notificationsArray = new Notification[nc.notifications.Count(x => !x.ReactionTo.HasValue)];
+
+        //Needed for optimization
+        int difference = nc.notifications.Count - nc.notifications.Count(x => !x.ReactionTo.HasValue);
+        int count = 0;
+
+        foreach (Notification notif in nc.notifications)
+        {
+            //Debug.Log("ID: " + note.Id + ", reaction to: " + note.ReactionTo + ", postable: " + note.Postable);
+            if (!notif.ReactionTo.HasValue) {
+                notificationsArray[count] = notif;
+                count++;
+            } else {
+                // Notification is a reaction and needs to be connected
+                int startLookingAt = (int)notif.ReactionTo - difference;
+                if (startLookingAt < 0)
+                    startLookingAt = 0;
+
+                Debug.Log("Found a reaction to id: " + notif.ReactionTo + ", start looking at: " + startLookingAt);
+
+                for (int i = startLookingAt; i < count; i++)
+                {
+                    Debug.Log("Looking at notif: " + i);
+                    //ToDo look at all connnections
+                    //if (notificationsArray[i].Id == notificationsArray[count].ReactionTo)
+                    //{
+                       // Debug.Log("Found the related message");
+                        //break;
+                    //}
+                }
+            }
+        }
+        Debug.Log("Count at end: " + count);
+    }
 
     public void LoadRandomRelevantNotification() {
 
@@ -66,9 +112,11 @@ public class Board : MonoBehaviour
     }
 
     public void LoadRandomIrrelevantNotification() {
+        // Doesn't work ATM
+        
         // Reset counter if needed
         if (irrelevantNotificationCount >= notificationsPerPOI[0].Count){
-            irrelevantNotificationCount = 0;
+            //irrelevantNotificationCount = 0;
         }
 
         Notification notification = notificationsPerPOI[0][irrelevantNotificationCount];

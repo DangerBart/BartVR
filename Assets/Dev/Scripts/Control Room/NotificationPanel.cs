@@ -62,8 +62,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         SetImage(notification.Img);
         SetTime();
 
-        Debug.Log("ID: " + notification.Id + ", reaction to: " + notification.ReactionTo + ", postable: " + notification.Postable);
-
         this.notification = notification;
     }
 

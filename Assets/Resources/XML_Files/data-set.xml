@@ -83,6 +83,7 @@
 		</Notification>
 		<Notification>
 			<Id>11</Id>
+			<ReactionTo>2</ReactionTo>
 			<Autor>Lars</Autor>
 			<Message>Is dit al opgelost?</Message>
 			<Platform>Facebook</Platform>
@@ -148,6 +149,7 @@
 		</Notification>
 		<Notification>
 			<Id>20</Id>
+			<ReactionTo>19</ReactionTo>
 			<Autor>Anna</Autor>
 			<Message>Volgens mij verstopt hij zich hier in deze straat.</Message>
 			<Platform>Twitter</Platform>
