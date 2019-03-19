@@ -31,8 +31,8 @@ public enum Colors
 public class Identification : MonoBehaviour {
 
     // All the information needed to identify someone.
-    public Roles role;
-    public Genders gender;
-    public Colors topPiece;
-    public Colors bottomPiece;
+    public Roles? role;
+    public Genders? gender;
+    public Colors? topPiece;
+    public Colors? bottomPiece;
 }
