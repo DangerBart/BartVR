@@ -80,31 +80,30 @@ public class Board : MonoBehaviour
 
                 for (int i = startLookingAt; i < count; i++)
                 {
-                    Debug.Log("Looking at notif: " + notificationsArray[i].Id + ", For notif: " + notif.Id );
                     if (notificationsArray[i].Id == notif.ReactionTo)
                     {
-                        Debug.Log("We've got a match!");
                         notificationsArray[i].Next = notif;
                         notif.Previous = notificationsArray[i];
                     } else if (notificationsArray[i].Next != null) {
-                        Notification connectedNotif = notificationsArray[i];
-                        Debug.Log("But notif " + notificationsArray[i].Id + " is connected to " + notificationsArray[i].Next.Id);
 
-                        bool found = false;
-                        while (!found)
+                        Notification currentNotif= notificationsArray[i].Next;
+
+                        while ((currentNotif != null) && (currentNotif.Id != notif.ReactionTo))
+                            currentNotif = currentNotif.Next;
+
+                        if (currentNotif != null)
                         {
-
-                            if (connectedNotif.Id == notif.ReactionTo)
-                            {
-                                Debug.Log("Found the connection in the while loop");
-                                connectedNotif.Next = notif;
-                                notif.Previous = connectedNotif;
-                                found = true;
-                                break;
-                            }
+                            Debug.Log("Found match in loop: " + currentNotif.Id);
+                            Debug.Log("So notif " + notif.Id + "(" + notif.ReactionTo + ") is attached to " + currentNotif.Id + " next is currently: " + currentNotif.Next);
+                            
+                            //This makes is crash
+                            //currentNotif.Next = notif;
+                            
+                            //notif.Previous = currentNotif;
+                            
                         }
-                    }
 
+                    }
 
                 }
             }
