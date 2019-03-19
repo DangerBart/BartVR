@@ -21,6 +21,16 @@ public class NPCMaker : MonoBehaviour {
         InitializeNodes();
     }
 
+    public void CreateOfficer(string officerModelPath) {
+        Object[] officerModels = Resources.LoadAll(officerModelPath, typeof(GameObject));
+        if (officerModels.Length == 0)
+            throw new System.Exception("No valid models for officers were found");
+
+        GameObject randomModel = (GameObject)officerModels[Random.Range(0, officerModels.Length)];
+        randomModel.AddComponent<Officer>();
+        InstantiateNPC(randomModel, Roles.Officer);
+    }
+
     public void CreateSuspect() {
         List<int> suspectModelsIndexes = new List<int>();
 
