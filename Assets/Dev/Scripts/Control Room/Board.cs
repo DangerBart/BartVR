@@ -27,6 +27,7 @@ public class Board : MonoBehaviour
 
         // NEW
         FillAndConnectNotificationsList();
+        Test();
 
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
 
@@ -75,22 +76,60 @@ public class Board : MonoBehaviour
                 if (startLookingAt < 0)
                     startLookingAt = 0;
 
-                Debug.Log("Found a reaction to id: " + notif.ReactionTo + ", start looking at: " + startLookingAt);
+                //Debug.Log("Found a reaction to id: " + notif.ReactionTo + ", start looking at: " + startLookingAt);
 
                 for (int i = startLookingAt; i < count; i++)
                 {
-                    Debug.Log("Looking at notif: " + i);
-                    //ToDo look at all connnections
-                    //if (notificationsArray[i].Id == notificationsArray[count].ReactionTo)
-                    //{
-                       // Debug.Log("Found the related message");
-                        //break;
-                    //}
+                    Debug.Log("Looking at notif: " + notificationsArray[i].Id + ", For notif: " + notif.Id );
+                    if (notificationsArray[i].Id == notif.ReactionTo)
+                    {
+                        Debug.Log("We've got a match!");
+                        notificationsArray[i].Next = notif;
+                        notif.Previous = notificationsArray[i];
+                    } else if (notificationsArray[i].Next != null) {
+                        Notification connectedNotif = notificationsArray[i];
+                        Debug.Log("But notif " + notificationsArray[i].Id + " is connected to " + notificationsArray[i].Next.Id);
+
+                        bool found = false;
+                        while (!found)
+                        {
+
+                            if (connectedNotif.Id == notif.ReactionTo)
+                            {
+                                Debug.Log("Found the connection in the while loop");
+                                connectedNotif.Next = notif;
+                                notif.Previous = connectedNotif;
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+
+
                 }
             }
         }
-        Debug.Log("Count at end: " + count);
+        //Debug.Log("Count at end: " + count);
     }
+
+    private void Test()
+    {
+        Debug.Log("=======================");
+        foreach (Notification notif in notificationsArray)
+        {
+            string toprint = notif.Id.ToString();
+            Notification curr = notif;
+
+            while (curr.Next != null)
+            {
+                toprint += (", " + notif.Next.Id);
+                curr = notif.Next;
+            }
+
+            Debug.Log(toprint);
+        }
+    }
+
 
     public void LoadRandomRelevantNotification() {
 
