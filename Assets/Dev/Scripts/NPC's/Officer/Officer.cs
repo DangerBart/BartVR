@@ -4,6 +4,16 @@ using UnityEngine;
 public class Officer : MonoBehaviour {
     private GameObject npcContainer;
 
+    enum Check {
+        Gender,
+        TopPiece,
+        BottomPiece,
+        GenderAndTop,
+        GenderAndBottom,
+        TopAndBottom,
+        Complete
+    }
+
 	// Use this for initialization
 	void Start () {
         if (GameObject.Find("NPCContainer") == null)
@@ -23,8 +33,8 @@ public class Officer : MonoBehaviour {
             }
         }
     }
-
-    private bool CheckId(Identification origin, Identification toCheck) {
-        return false;
-    }
+    /*
+    private Check ToCheck(Identification origin) {
+        
+    }*/
 }
