@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Officer : MonoBehaviour {
     private GameObject npcContainer;
@@ -17,7 +18,9 @@ public class Officer : MonoBehaviour {
     
     public void Search(Identification wanted) {
         foreach(Identification idToCheck in npcContainer.GetComponentsInChildren<Identification>()) {
-            
+            if (idToCheck.gender.Equals(wanted.gender)) {
+                // CHECK HOW MANY VALUES OF WANTED ARE SET AND CROSS REFERENCE ID'S ON SET VALUES
+            }
         }
     }
 
