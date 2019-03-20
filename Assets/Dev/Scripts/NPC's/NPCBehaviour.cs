@@ -14,7 +14,7 @@ public class NPCBehaviour : MonoBehaviour {
     private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
    
     private Node[] spawnList;
-    private NavMeshAgent agent = new NavMeshAgent();
+    public NavMeshAgent agent = new NavMeshAgent();
     private int randX, randZ;
     private int timeout;
     private readonly int overflow = 1200;
@@ -86,6 +86,10 @@ public class NPCBehaviour : MonoBehaviour {
 
         //Face the destination
         FaceTarget();
+    }
+
+    public void MoveToTarget(GameObject target) {
+        // TODO implement moving to target here
     }
 
     //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards

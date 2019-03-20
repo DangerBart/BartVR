@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Officer : MonoBehaviour {
-    private GameObject npcContainer;
+
     public string targetName;
 
-    Identification id = new Identification();
+    private GameObject npcContainer;
+    private NPCBehaviour behaviour = new NPCBehaviour();
+
+    //TEMPORARY REMOVE ONCE FINISHED
+    private Identification id = new Identification();
 
     enum Check {
         None,
@@ -32,10 +37,13 @@ public class Officer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log("Searching for civilians matching description: " + id.gender);
-            Search(id);
-        }
+        // TODO:
+        //  - check for input from the control room. Once input is given start looking for given description.
+        //  - stop NPC's and "question" them
+        //  - arrest suspect when description is complete
+        //  - arrest suspect if he is found while talking to an NPC with a partial description
+
+        Search(id);
 	}
     /// <summary>
     /// Checks if wanted identification is in the field of vision of the gameObject this function is called from.
@@ -43,89 +51,22 @@ public class Officer : MonoBehaviour {
     /// <param name="wanted"></param>
     public void Search(Identification wanted) {
         // loop through every NPC
-        foreach(Identification idToCheck in npcContainer.GetComponentsInChildren<Identification>()) {
+        foreach(Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {
             // Only loop through civilians and suspect
-            if (idToCheck.role != Roles.Officer) {
-                // linecasting information
-                Vector3 npcPosition = new Vector3(idToCheck.GetComponent<Transform>().position.x, 1, idToCheck.GetComponent<Transform>().position.z);
+            if (idToCompare.role != Roles.Officer) {
+                // Linecasting information
+                Vector3 npcPosition = new Vector3(idToCompare.GetComponent<Transform>().position.x, 1, idToCompare.GetComponent<Transform>().position.z);
                 Vector3 ownPosition = new Vector3(this.transform.position.x, 1, this.transform.position.z);
                 RaycastHit hit;
 
                 // Find out who we need to look for and then check if who we are looking for is in our field of vision
-                /*if (IsEqual(wanted, idToCheck, LookFor(wanted))) {
+                if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
                     if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                        if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
+                        if (hit.collider.tag == "Civilian" && IsInFront(idToCompare.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
+                            // TODO implement QuestionSuspect(hit.collider.gameObject);
                             targetName = hit.collider.name;
                         }
                     }
-                }*/
-                switch (LookFor(wanted)) { 
-                    case Check.Gender:
-                        if (IsEqual(wanted, idToCheck, Check.Gender)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    Debug.Log("GET HIM BIIIIITCH");
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    case Check.TopPiece:
-                        if (IsEqual(wanted, idToCheck, Check.TopPiece)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    case Check.BottomPiece:
-                        if (IsEqual(wanted, idToCheck, Check.BottomPiece)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    case Check.GenderAndTop:
-                        if (IsEqual(wanted, idToCheck, Check.GenderAndTop)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    case Check.GenderAndBottom:
-                        if (IsEqual(wanted, idToCheck, Check.GenderAndBottom)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    case Check.TopAndBottom:
-                        if (IsEqual(wanted, idToCheck, Check.TopAndBottom)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    case Check.Complete:
-                        if (IsEqual(wanted, idToCheck, Check.Complete)) {
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "Civilian" && IsInFront(idToCheck.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    targetName = hit.collider.name;
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        break;
                 }
             }
         }
@@ -206,5 +147,11 @@ public class Officer : MonoBehaviour {
         if (Mathf.Abs(angle) > 90 || Mathf.Abs(angle) > 270)
             return true;
         return false;
+    }
+
+    private void QuestionSuspect(GameObject target) {
+        behaviour.agent.speed = 9;
+
+        behaviour.MoveToTarget(target);
     }
 }
