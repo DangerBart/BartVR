@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 
 public class Notification{
-    // Doubly linked list
-    public Notification Previous;
-    public Notification Next;
 
     // Attributes
     public int Id;
