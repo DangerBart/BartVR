@@ -27,7 +27,6 @@ public class NPCMaker : MonoBehaviour {
             throw new System.Exception("No valid models for officers were found");
 
         GameObject randomModel = (GameObject)officerModels[Random.Range(0, officerModels.Length)];
-        randomModel.AddComponent<Officer>();
         InstantiateNPC(randomModel, Roles.Officer);
     }
 
@@ -147,6 +146,9 @@ public class NPCMaker : MonoBehaviour {
                 break;
             case "Y":
                 color = Colors.Yellow;
+                break;
+            case "R":
+                color = Colors.Red;
                 break;
             case "BL":
                 color = Colors.Blue;

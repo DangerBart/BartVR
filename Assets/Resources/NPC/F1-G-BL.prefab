@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 114335899439388876}
   - component: {fileID: 114638441445446906}
   - component: {fileID: 114274476771258720}
+  - component: {fileID: 65147505723762554}
   m_Layer: 0
   m_Name: F1-G-BL
   m_TagString: Civilian
@@ -4761,6 +4762,18 @@ Transform:
   m_Father: {fileID: 4419334529085898}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65147505723762554
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160043273106508}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95892280308540462
 Animator:
   serializedVersion: 3
@@ -4790,6 +4803,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 0
+  gender: 0
+  topPiece: 0
+  bottomPiece: 0
 --- !u!114 &114296506197736854
 MonoBehaviour:
   m_ObjectHideFlags: 1

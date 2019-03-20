@@ -6,7 +6,7 @@ public class NPCBehaviour : MonoBehaviour {
 
     public GameObject checkpointContainer;
     
-    private readonly int radius = 5;
+    private readonly int radius = 4;
     [SerializeField]
     private float minSpeed;
     [SerializeField]

@@ -2007,8 +2007,7 @@ GameObject:
   - component: {fileID: 114286794013107662}
   - component: {fileID: 114345896532399480}
   - component: {fileID: 114966653645810004}
-  - component: {fileID: 114304204618291042}
-  - component: {fileID: 114767835987783276}
+  - component: {fileID: 114561781349489490}
   m_Layer: 0
   m_Name: F4-BL-BL
   m_TagString: Civilian
@@ -4813,17 +4812,6 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
---- !u!114 &114304204618291042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1840573337800176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28a90cd6be4557d48a6dfccf3b57fc34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114345896532399480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4848,7 +4836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _footstepAudioClip: {fileID: 0}
---- !u!114 &114767835987783276
+--- !u!114 &114561781349489490
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4870,6 +4858,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 2
+  gender: 2
+  topPiece: 8
+  bottomPiece: 8
 --- !u!137 &137396387368489082
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
