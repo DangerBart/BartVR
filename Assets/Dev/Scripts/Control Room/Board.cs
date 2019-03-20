@@ -19,7 +19,7 @@ public class Board : MonoBehaviour
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
     // NEW
-    private Notification[] notificationsArray;
+    private DLinkedList[] notificationsArray;
 
     void Start() {
         LoadItems(m_Path);
@@ -28,6 +28,15 @@ public class Board : MonoBehaviour
         // NEW
         FillAndConnectNotificationsList();
         Test();
+        //DLinkedList node1 = new DLinkedList(1);
+        //DLinkedList node3 = node1.InsertNext(3);
+        //DLinkedList node2 = node3.InsertPrev(2);
+        //DLinkedList node5 = node3.InsertNext(5);
+        //DLinkedList node4 = node5.InsertPrev(4);
+
+        //node1.TraverseFront();
+        //node5.TraverseBack();
+
 
         notificationControl = notificationMenu.GetComponent<NotificationControl>();
 
@@ -58,7 +67,7 @@ public class Board : MonoBehaviour
     // NEW
     private void FillAndConnectNotificationsList()
     {
-        notificationsArray = new Notification[nc.notifications.Count(x => !x.ReactionTo.HasValue)];
+        notificationsArray = new DLinkedList[nc.notifications.Count(x => !x.ReactionTo.HasValue)];
 
         //Needed for optimization
         int difference = nc.notifications.Count - nc.notifications.Count(x => !x.ReactionTo.HasValue);
@@ -68,7 +77,7 @@ public class Board : MonoBehaviour
         {
             //Debug.Log("ID: " + note.Id + ", reaction to: " + note.ReactionTo + ", postable: " + note.Postable);
             if (!notif.ReactionTo.HasValue) {
-                notificationsArray[count] = notif;
+                notificationsArray[count] = new DLinkedList(notif);
                 count++;
             } else {
                 // Notification is a reaction and needs to be connected
@@ -76,56 +85,55 @@ public class Board : MonoBehaviour
                 if (startLookingAt < 0)
                     startLookingAt = 0;
 
-                //Debug.Log("Found a reaction to id: " + notif.ReactionTo + ", start looking at: " + startLookingAt);
-
                 for (int i = startLookingAt; i < count; i++)
                 {
-                    if (notificationsArray[i].Id == notif.ReactionTo)
+                    bool found = notificationsArray[i].FindAndInsertByNotificationId(notif);
+
+                    if (found)
                     {
-                        notificationsArray[i].Next = notif;
-                        notif.Previous = notificationsArray[i];
-                    } else if (notificationsArray[i].Next != null) {
-
-                        Notification currentNotif= notificationsArray[i].Next;
-
-                        while ((currentNotif != null) && (currentNotif.Id != notif.ReactionTo))
-                            currentNotif = currentNotif.Next;
-
-                        if (currentNotif != null)
-                        {
-                            Debug.Log("Found match in loop: " + currentNotif.Id);
-                            Debug.Log("So notif " + notif.Id + "(" + notif.ReactionTo + ") is attached to " + currentNotif.Id + " next is currently: " + currentNotif.Next);
-                            
-                            //This makes is crash
-                            //currentNotif.Next = notif;
-                            
-                            //notif.Previous = currentNotif;
-                            
-                        }
-
+                        Debug.Log("Notification was found");
+                        break;
                     }
 
                 }
+               
+
+                    //if (notificationsArray[i].Id == notif.ReactionTo)
+                    //{
+                    //    notificationsArray[i].Next = notif;
+                    //    notif.Previous = notificationsArray[i];
+                    //} else if (notificationsArray[i].Next != null) {
+
+                //    Notification currentNotif = notificationsArray[i].Next;
+
+                //    while ((currentNotif != null) && (currentNotif.Id != notif.ReactionTo))
+                //        currentNotif = currentNotif.Next;
+
+                //    if (currentNotif != null)
+                //    {
+                //        Debug.Log("Found match in loop: " + currentNotif.Id);
+                //        Debug.Log("So notif " + notif.Id + "(" + notif.ReactionTo + ") is attached to " + currentNotif.Id + " next is currently: " + currentNotif.Next);
+                //        Debug.Log("NEXT OF NOTIF " + notif.Next);
+                //        //This makes is crash
+                //        currentNotif.Next = notif;   
+                //        notif.Previous = currentNotif;
+
+                //    }
+
+                //}
+
             }
         }
         //Debug.Log("Count at end: " + count);
     }
+    
 
     private void Test()
     {
         Debug.Log("=======================");
-        foreach (Notification notif in notificationsArray)
+        foreach (DLinkedList notif in notificationsArray)
         {
-            string toprint = notif.Id.ToString();
-            Notification curr = notif;
-
-            while (curr.Next != null)
-            {
-                toprint += (", " + notif.Next.Id);
-                curr = notif.Next;
-            }
-
-            Debug.Log(toprint);
+            notif.TraverseFront();
         }
     }
 
@@ -172,4 +180,154 @@ public class Board : MonoBehaviour
         }
     }
 
-}
+
+    class DLinkedList
+
+    {
+        private Notification data;
+        private DLinkedList next;
+        private DLinkedList prev;
+
+        public DLinkedList()
+
+        {
+            data = new Notification();
+            next = null;
+            prev = null;
+        }
+
+
+
+        public DLinkedList(Notification value)
+        {
+            data = value;
+            next = null;
+            prev = null;
+        }
+
+        public DLinkedList InsertNext(Notification notif)
+        {
+
+            DLinkedList node = new DLinkedList(notif);
+            if (this.next == null)
+            {
+                // Easy to handle
+                node.prev = this;
+                node.next = null; // already set in constructor
+                this.next = node;
+
+            }else{
+                // Insert in the middle
+                DLinkedList temp = this.next;
+                node.prev = this;
+                node.next = temp;
+                this.next = node;
+                temp.prev = node;
+                // temp.next does not have to be changed
+
+            }
+            return node;
+        }
+
+        public bool FindAndInsertByNotificationId(Notification notif)
+        {
+            return FindAndInsertByNotificationId(this, notif);
+        }
+
+        public bool FindAndInsertByNotificationId(DLinkedList node, Notification notif)
+        {
+            if (node == null)
+                node = this;
+
+            Debug.Log("Traversing in Forward Direction");
+
+            while ((node != null) && (node.data.Id != notif.ReactionTo))
+            {
+                Debug.Log(node.data.Id);
+                node = node.next;
+            }
+            if (node != null)
+            {
+                Debug.Log("Found Notif");
+                node.InsertNext(notif);
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public DLinkedList InsertPrev(Notification notif)
+        {
+            DLinkedList node = new DLinkedList(notif);
+            if (this.prev == null)  
+            {
+                node.prev = null; // already set on constructor
+                node.next = this;
+                this.prev = node;
+            }else{
+                // Insert in the middle
+                DLinkedList temp = this.prev;
+                node.prev = temp;
+                node.next = this;
+                this.prev = node;
+                temp.next = node;
+                // temp.prev does not have to be changed
+
+            }
+            return node;
+
+        }
+
+
+
+        public void TraverseFront()
+        {
+            TraverseFront(this);
+        }
+
+
+
+        public void TraverseFront(DLinkedList node)
+        {
+            if (node == null)
+                node = this;
+
+            //Debug.Log("Traversing in Forward Direction for notification: " + node.data.Id);
+
+            string toPrint = "";
+
+            while (node != null)
+            {
+                toPrint += node.data.Id + ", ";
+                node = node.next;
+            }
+            Debug.Log(toPrint);
+        }
+
+
+        public void TraverseBack()
+        {
+            TraverseBack(this);
+        }
+
+
+
+        public void TraverseBack(DLinkedList node)
+        {
+
+            if (node == null)
+                node = this;
+
+            Debug.Log("Traversing in Backward Direction");
+
+            while (node != null)
+            {
+                Debug.Log(node.data);
+                node = node.prev;
+
+            }
+        }
+    }
+
+    }
