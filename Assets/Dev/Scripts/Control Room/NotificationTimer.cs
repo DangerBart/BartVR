@@ -28,7 +28,7 @@ public class NotificationTimer : MonoBehaviour {
     }
 
     void AddRelevantNotification() {
-        GetComponent<Board>().LoadRandomRelevantNotification();
+        //GetComponent<Board>().LoadRandomRelevantNotification();
     }
     void AddIrrelevantNotification() {
         GetComponent<Board>().LoadRandomIrrelevantNotification();

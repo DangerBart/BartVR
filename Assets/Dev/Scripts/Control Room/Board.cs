@@ -98,24 +98,26 @@ public class Board : MonoBehaviour
     }
 
 
-    public void LoadRandomRelevantNotification() {
+    //public void LoadRandomRelevantNotification()
+    //{
 
-        int currentPOI = POIManager.GetCurrentPOI();
+    //    int currentPOI = POIManager.GetCurrentPOI();
 
-        if (notificationsPerPOI[currentPOI].Count != 0) {
-            int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
-            Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
+    //    if (notificationsPerPOI[currentPOI].Count != 0)
+    //    {
+    //        int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
+    //        Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
 
-            // Making sure relevant notifications are not displayed twice
-            notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
+    //        // Making sure relevant notifications are not displayed twice
+    //        notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
 
-            notification.POILocation = POIManager.GetPOILocation();
+    //        notification.POILocation = POIManager.GetPOILocation();
 
-            SetNotificationPlatformLogo(notification);
+    //        SetNotificationPlatformLogo(notification);
 
-            notificationControl.CreateMessagePanel(notification);
-        }
-    }
+    //        notificationControl.CreateMessagePanel(notification);
+    //    }
+    //}
 
     public void LoadRandomIrrelevantNotification() {
         // Doesn't work ATM
