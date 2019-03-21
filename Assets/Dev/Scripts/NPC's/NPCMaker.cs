@@ -46,6 +46,10 @@ public class NPCMaker : MonoBehaviour {
         int randomindex = suspectModelsIndexes[Random.Range(0, suspectModelsIndexes.Count)];
         GameObject suspect = GetNPCModelByIndex(randomindex);
 
+        // Set this gameObject to the 'Suspect' layer for collision ignoring
+        suspect.layer = 10;
+        suspect.GetComponent<BoxCollider>().isTrigger = true;
+
         InstantiateNPC(suspect, Roles.Suspect);
 
         // Making sure the suspsect is unique by setting avaiable civilian models
@@ -58,6 +62,7 @@ public class NPCMaker : MonoBehaviour {
 
         int index = Random.Range(0, civilianModelIndexes.Count);
         index = civilianModelIndexes[index];
+        
         InstantiateNPC(index, Roles.Civilian);
     }
 
@@ -92,6 +97,7 @@ public class NPCMaker : MonoBehaviour {
 
     private void InstantiateNPC(int modelIndex, Roles role) {
         GameObject npc = GetNPCModelByIndex(modelIndex);
+        npc.GetComponent<BoxCollider>().size = new Vector3(1.2f, 1.2f, 1.2f);
         InstantiateNPC(npc, role);
     }
 

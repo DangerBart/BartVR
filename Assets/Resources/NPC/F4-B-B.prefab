@@ -1076,6 +1076,7 @@ GameObject:
   - component: {fileID: 114325595673124258}
   - component: {fileID: 114367449592418900}
   - component: {fileID: 114864529401722872}
+  - component: {fileID: 65732721467154344}
   m_Layer: 0
   m_Name: F4-B-B
   m_TagString: Civilian
@@ -4765,6 +4766,18 @@ Transform:
   m_Father: {fileID: 4228950636641824}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65732721467154344
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1489105549070516}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95798037784282876
 Animator:
   serializedVersion: 3
@@ -4797,6 +4810,7 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  agent: {fileID: 0}
 --- !u!114 &114367449592418900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4846,6 +4860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 1
+  gender: 2
+  topPiece: 2
+  bottomPiece: 2
 --- !u!137 &137602739846035482
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

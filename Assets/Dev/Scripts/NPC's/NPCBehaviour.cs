@@ -5,15 +5,17 @@ using UnityEngine.AI;
 public class NPCBehaviour : MonoBehaviour {
 
     public GameObject checkpointContainer;
-    
+
     private readonly int radius = 4;
     [SerializeField]
     private float minSpeed;
     [SerializeField]
     private float maxSpeed;
     private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
-   
     private Node[] spawnList;
+
+    public bool inQuestioning;
+    public GameObject officerQuestioning;
     public NavMeshAgent agent = new NavMeshAgent();
     private int randX, randZ;
     private int timeout;
@@ -43,7 +45,7 @@ public class NPCBehaviour : MonoBehaviour {
         FindNewTarget();
     }
 
-    public void SetSpawnList(Node[] spawnlist) {   
+    public void SetSpawnList(Node[] spawnlist) {
         this.spawnList = spawnlist;
     }
 
@@ -55,10 +57,16 @@ public class NPCBehaviour : MonoBehaviour {
             >= nextCheckpoint.GetTransformData().position.z - radius && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius))) {
             previousCheckpoint = currentCheckpoint;
             currentCheckpoint = nextCheckpoint;
-            FindNewTarget();
-            timeout = 0;
+            if (inQuestioning == false) {
+                FindNewTarget();
+                timeout = 0;
+            } else {
+                Debug.Log("I am in questioning: " + this.gameObject.name);
+                FaceTarget(officerQuestioning.transform);
+            }
         }
-        timeout++;
+        if (inQuestioning == false)
+            timeout++;
     }
 
     private void FindNewTarget() {
@@ -85,16 +93,16 @@ public class NPCBehaviour : MonoBehaviour {
         agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
 
         //Face the destination
-        FaceTarget();
+        FaceTarget(nextCheckpoint.GetTransformData());
     }
 
     public void MoveToTarget(GameObject target) {
-        // TODO implement moving to target here
+        agent.SetDestination(target.transform.position);
     }
 
     //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
-    private void FaceTarget() {
-        Vector3 direction = (nextCheckpoint.GetTransformData().position - transform.position).normalized;
+    public void FaceTarget(Transform target) {
+        Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }

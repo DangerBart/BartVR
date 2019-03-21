@@ -1422,6 +1422,7 @@ GameObject:
   - component: {fileID: 114447613373187796}
   - component: {fileID: 114082058858266002}
   - component: {fileID: 114630068031514694}
+  - component: {fileID: 65638794779674222}
   m_Layer: 0
   m_Name: F3-P-BL
   m_TagString: Civilian
@@ -4769,6 +4770,18 @@ Transform:
   m_Father: {fileID: 4275799493633500}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65638794779674222
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571595880133262}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95155002707783714
 Animator:
   serializedVersion: 3
@@ -4825,6 +4838,7 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  agent: {fileID: 0}
 --- !u!114 &114630068031514694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4836,6 +4850,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 1
+  gender: 2
+  topPiece: 6
+  bottomPiece: 8
 --- !u!114 &114656170449404878
 MonoBehaviour:
   m_ObjectHideFlags: 1

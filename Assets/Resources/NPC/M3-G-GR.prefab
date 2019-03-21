@@ -1677,6 +1677,7 @@ GameObject:
   - component: {fileID: 114540880248206822}
   - component: {fileID: 114612667271716788}
   - component: {fileID: 114004847202241560}
+  - component: {fileID: 65819292503894616}
   m_Layer: 0
   m_Name: M3-G-GR
   m_TagString: Civilian
@@ -4798,6 +4799,18 @@ Transform:
   m_Father: {fileID: 4477432230212670}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65819292503894616
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653616876262286}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95320047994156874
 Animator:
   serializedVersion: 3
@@ -4827,6 +4840,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 1
+  gender: 1
+  topPiece: 5
+  bottomPiece: 3
 --- !u!114 &114540880248206822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4841,6 +4858,7 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  agent: {fileID: 0}
 --- !u!114 &114589026116791704
 MonoBehaviour:
   m_ObjectHideFlags: 1
