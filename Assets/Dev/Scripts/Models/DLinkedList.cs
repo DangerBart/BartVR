@@ -37,6 +37,11 @@ class DLinkedList
         return node;
     }
 
+    public Notification GetData()
+    {
+        return data;
+    }
+
     public bool FindAndInsertByNotificationId(Notification notif) {
         return FindAndInsertByNotificationId(this, notif);
     }

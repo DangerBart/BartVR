@@ -17,6 +17,7 @@ public class Notification{
     // Used to display
     public bool IsFavorite;
     public bool IsSelected;
+    public bool IsShown;
 
     // To be removed
     public int POI;

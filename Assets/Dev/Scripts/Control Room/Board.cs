@@ -120,19 +120,26 @@ public class Board : MonoBehaviour
     //}
 
     public void LoadRandomIrrelevantNotification() {
-        // Doesn't work ATM
-        
-        // Reset counter if needed
-        if (irrelevantNotificationCount >= notificationsPerPOI[0].Count){
-            //irrelevantNotificationCount = 0;
-        }
 
-        Notification notification = notificationsPerPOI[0][irrelevantNotificationCount];
+        //ToDo think of a good structure to keep track of what messages need to be displayed. 
 
-        SetNotificationPlatformLogo(notification);
+        Debug.Log("Found " + notificationsArray.Count() + " notifications");
+        int i = 0;
 
-        irrelevantNotificationCount++;
-        notificationControl.CreateMessagePanel(notification);
+        Notification notificationItem = notificationsArray[i].GetData();
+
+        // OLD
+        //// Reset counter if needed
+        //if (irrelevantNotificationCount >= notificationsPerPOI[0].Count){
+        //    //irrelevantNotificationCount = 0;
+        //}
+
+        //Notification notification = notificationsPerPOI[0][irrelevantNotificationCount];
+
+       SetNotificationPlatformLogo(notificationItem);
+
+        //irrelevantNotificationCount++;
+        notificationControl.CreateMessagePanel(notificationItem);
     }
 
     private void SetNotificationPlatformLogo(Notification notification) {
