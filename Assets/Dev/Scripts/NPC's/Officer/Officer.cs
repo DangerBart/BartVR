@@ -58,6 +58,7 @@ public class Officer : MonoBehaviour {
         //  - check for input from the control room. Once input is given start looking for given description.
         //  - arrest suspect when description is complete
         //  - arrest suspect if he is found while talking to an NPC with a partial description
+        //  - Make officer not walk to NPC last location after questioning
 
         if (target == null) {
             StartCoroutine(Search(id, Roles.Officer, 1.5f));
@@ -201,16 +202,18 @@ public class Officer : MonoBehaviour {
         behaviour.inQuestioning = false;
         target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
         target = null;
+        this.GetComponent<SphereCollider>().enabled = true;
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))
-            && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false) {
+            && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false && other.GetInstanceID() == target.GetInstanceID()) {
             other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
 
             other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
             behaviour.inQuestioning = true;
             behaviour.FaceTarget(other.GetComponent<Transform>());
+            this.GetComponent<SphereCollider>().enabled = false;
             StartCoroutine(Questioning(5f));
         }
     }
