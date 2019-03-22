@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 65938296870187696}
   m_Layer: 0
   m_Name: F1-P-B
-  m_TagString: Civilian
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4772,7 +4772,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 1.2, y: 1.2, z: 1.2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95344102563255632
 Animator:
@@ -4806,6 +4806,9 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  inQuestioning: 0
+  officerQuestioning: {fileID: 0}
+  agent: {fileID: 0}
 --- !u!114 &114170280542298532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4855,10 +4858,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  role: 0
-  gender: 0
-  topPiece: 0
-  bottomPiece: 0
+  role: 1
+  gender: 2
+  topPiece: 6
+  bottomPiece: 2
 --- !u!137 &137566890637910364
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

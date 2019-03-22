@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Officer : MonoBehaviour {
 
@@ -8,11 +9,13 @@ public class Officer : MonoBehaviour {
     private NPCBehaviour behaviour;
     private Identification lookingFor;
     private Rigidbody rb;
+    private GameObject target;
 
     //TEMPORARY REMOVE ONCE FINISHED
-    private Identification id = new Identification();
-    
+    private Identification id;
+
     private bool canQuestion;
+    private bool hasQuestioned;
 
     enum Check {
         None,
@@ -27,23 +30,26 @@ public class Officer : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
         if (GameObject.Find("NPCContainer") == null)
-            throw new System.Exception("No NPCContainer found, make sure the name matches in casing");
+            throw new Exception("No NPCContainer found, make sure the name matches in casing");
         npcContainer = GameObject.Find("NPCContainer");
 
         behaviour = this.GetComponent<NPCBehaviour>();
         rb = this.GetComponent<Rigidbody>();
 
-        rb.isKinematic = false;
+        rb.isKinematic = true;
         rb.detectCollisions = true;
         // Set this gameObject to the 'Officer' layer for collision ignoring
         this.gameObject.layer = 9;
         this.GetComponent<SphereCollider>().isTrigger = true;
 
+        id = new Identification();
         id.gender = Genders.Male;
         id.topPiece = Colors.None;
         id.bottomPiece = Colors.None;
 
+        target = null;
     }
 
     // Update is called once per frame
@@ -54,20 +60,29 @@ public class Officer : MonoBehaviour {
         //  - arrest suspect when description is complete
         //  - arrest suspect if he is found while talking to an NPC with a partial description
 
-        Search(id, Roles.Officer);
+        if (target == null) {
+            Debug.Log("Searching!");
+            StartCoroutine(Search(id, Roles.Officer, 1.5f));
+        } else
+            QuestionSuspect(target);
+
 
         if (behaviour.inQuestioning) {
             behaviour.agent.isStopped = true;
+        } else {
+            behaviour.agent.isStopped = false;
         }
     }
+
     /// <summary>
     /// Checks if wanted identification is in the field of vision of the gameObject this function is called from.
     /// </summary>
     /// <param name="wanted"></param>
-    public void Search(Identification wanted, Roles searcher) {
-
+    public IEnumerator Search(Identification wanted, Roles searcher, float interval) {
+        yield return new WaitForSeconds(interval);
         // loop through every NPC
         foreach (Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {
+            // Who is searching for the given Identification
             switch (searcher) {
                 case Roles.Officer:
                     // Only loop through civilians and suspect
@@ -83,11 +98,9 @@ public class Officer : MonoBehaviour {
                             lookingFor = wanted;
                             if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
                                 if (hit.collider.tag == "NPC" && IsInFront(idToCompare.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    Debug.DrawLine(ownPosition, npcPosition, Color.yellow, 1.0f);
-                                    // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast)
-                                    if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted))) {
-                                        Debug.DrawLine(ownPosition, npcPosition, Color.green, 1.0f);
-                                        QuestionSuspect(hit.collider.gameObject);
+                                    // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
+                                    if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted)) && !hit.collider.GetComponent<NPCBehaviour>().questioned) {
+                                        target = hit.collider.gameObject;
                                     }
                                 }
                             }
@@ -104,15 +117,13 @@ public class Officer : MonoBehaviour {
     private Check LookFor(Identification id) {
         char[] isSet = { '0', '0', '0' };
 
-        if (id.gender != Genders.None) {
+        if (id.gender != Genders.None)
             isSet[0] = '1';
-        }
-        if (id.topPiece != Colors.None) {
+        if (id.topPiece != Colors.None)
             isSet[1] = '1';
-        }
-        if (id.bottomPiece != Colors.None) {
+        if (id.bottomPiece != Colors.None)
             isSet[2] = '1';
-        }
+
 
         string s = new string(isSet);
         switch (s) {
@@ -179,22 +190,33 @@ public class Officer : MonoBehaviour {
     }
 
     private void QuestionSuspect(GameObject target) {
-        Debug.Log("Going to question the suspect");
-        behaviour.agent.speed = 3f;
+        if (this.GetComponent<NavMeshAgent>() != null)
+            this.GetComponent<NavMeshAgent>().speed = 2.5f;
         canQuestion = true;
 
         behaviour.MoveToTarget(target);
     }
 
+    private IEnumerator Questioning(float time) {
+        Debug.Log("Questioning suspect");
+        yield return new WaitForSeconds(time);
+        hasQuestioned = true;
+        Debug.Log("Finished questioning");
+        behaviour.inQuestioning = false;
+        target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
+        target = null;   
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (other.GetComponent<Collider>().tag == "NPC")
-            Debug.Log("Collided with an NPC: " + other.GetComponent<Collider>().name);
-        if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor)) && canQuestion) {
-            Debug.Log("Questioning suspect: " + other.GetComponent<Collider>().name);
-            other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
-            other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
-            behaviour.inQuestioning = true;
-            behaviour.FaceTarget(other.GetComponent<Collider>().GetComponent<Transform>());
-        }
+            if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor)) 
+                && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false) {
+                other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
+
+                other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
+                behaviour.inQuestioning = true;
+                behaviour.FaceTarget(other.GetComponent<Transform>());
+                StartCoroutine(Questioning(5f));
+            }
     }
 }

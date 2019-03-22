@@ -20,6 +20,7 @@ public class NPCBehaviour : MonoBehaviour {
     private int randX, randZ;
     private int timeout;
     private readonly int overflow = 1200;
+    public bool questioned;
 
     // Use this for initialization
     void Start() {
@@ -51,19 +52,23 @@ public class NPCBehaviour : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
-        //if timeout overflows OR NPC has reached destination find a new destination
-        if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
+        if (inQuestioning == false) {
+            //if timeout overflows OR NPC has reached destination find a new destination
+            if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
             this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius) && (this.transform.position.z
             >= nextCheckpoint.GetTransformData().position.z - radius && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius))) {
-            previousCheckpoint = currentCheckpoint;
-            currentCheckpoint = nextCheckpoint;
-            if (inQuestioning == false) {
+                previousCheckpoint = currentCheckpoint;
+                currentCheckpoint = nextCheckpoint;
+
                 FindNewTarget();
                 timeout = 0;
-            } else {
-                Debug.Log("I am in questioning: " + this.gameObject.name);
-                FaceTarget(officerQuestioning.transform);
+
             }
+        } else {
+            agent.isStopped = true;
+            if (this.GetComponent<Identification>().role != Roles.Officer)
+                FaceTarget(officerQuestioning.transform);
+            questioned = true;
         }
         if (inQuestioning == false)
             timeout++;

@@ -2118,7 +2118,7 @@ GameObject:
   - component: {fileID: 65677886436402592}
   m_Layer: 0
   m_Name: M1-B-BL
-  m_TagString: Civilian
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4855,7 +4855,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 1.2, y: 1.2, z: 1.2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95556046981107030
 Animator:
@@ -4940,6 +4940,8 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  inQuestioning: 0
+  officerQuestioning: {fileID: 0}
   agent: {fileID: 0}
 --- !u!114 &114698226482186310
 MonoBehaviour:
