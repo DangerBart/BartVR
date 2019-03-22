@@ -56,12 +56,10 @@ public class Officer : MonoBehaviour {
     void Update() {
         // TODO:
         //  - check for input from the control room. Once input is given start looking for given description.
-        //  - stop NPC's and "question" them
         //  - arrest suspect when description is complete
         //  - arrest suspect if he is found while talking to an NPC with a partial description
 
         if (target == null) {
-            Debug.Log("Searching!");
             StartCoroutine(Search(id, Roles.Officer, 1.5f));
         } else
             QuestionSuspect(target);
@@ -198,25 +196,22 @@ public class Officer : MonoBehaviour {
     }
 
     private IEnumerator Questioning(float time) {
-        Debug.Log("Questioning suspect");
         yield return new WaitForSeconds(time);
         hasQuestioned = true;
-        Debug.Log("Finished questioning");
         behaviour.inQuestioning = false;
         target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
-        target = null;   
+        target = null;
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.GetComponent<Collider>().tag == "NPC")
-            if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor)) 
-                && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false) {
-                other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
+        if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))
+            && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false) {
+            other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
 
-                other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
-                behaviour.inQuestioning = true;
-                behaviour.FaceTarget(other.GetComponent<Transform>());
-                StartCoroutine(Questioning(5f));
-            }
+            other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
+            behaviour.inQuestioning = true;
+            behaviour.FaceTarget(other.GetComponent<Transform>());
+            StartCoroutine(Questioning(5f));
+        }
     }
 }

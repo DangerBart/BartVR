@@ -53,6 +53,7 @@ public class NPCBehaviour : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate() {
         if (inQuestioning == false) {
+            agent.isStopped = false;
             //if timeout overflows OR NPC has reached destination find a new destination
             if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
             this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius) && (this.transform.position.z
