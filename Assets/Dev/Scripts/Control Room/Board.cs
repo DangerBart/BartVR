@@ -19,7 +19,8 @@ public class Board : MonoBehaviour
     Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
     // NEW
-    private DLinkedList[] notificationsArray;
+    private LinkedList<DLinkedList> notificationlist;
+    private int notificationIndexCounter;
 
     void Start() {
         LoadItems(m_Path);
@@ -60,86 +61,73 @@ public class Board : MonoBehaviour
     // NEW
     private void FillAndConnectNotificationsList()
     {
-        notificationsArray = new DLinkedList[nc.notifications.Count(x => !x.ReactionTo.HasValue)];
-
-        //Needed for optimization
-        int difference = nc.notifications.Count - nc.notifications.Count(x => !x.ReactionTo.HasValue);
-        int count = 0;
+        notificationlist = new LinkedList<DLinkedList>();
 
         foreach (Notification notif in nc.notifications)
         {
-            //Debug.Log("ID: " + note.Id + ", reaction to: " + note.ReactionTo + ", postable: " + note.Postable);
-            if (!notif.ReactionTo.HasValue) {
-                notificationsArray[count] = new DLinkedList(notif);
-                count++;
-            } else {
+            if (!notif.ReactionTo.HasValue)
+                notificationlist.AddLast(new DLinkedList(notif));
+            else
+            {
                 // Notification is a reaction and needs to be connected
-                int startLookingAt = (int)notif.ReactionTo - difference;
-                if (startLookingAt < 0)
-                    startLookingAt = 0;
-
-                for (int i = startLookingAt; i < count; i++)
+                foreach (DLinkedList item in notificationlist)
                 {
-                    if (notificationsArray[i].FindAndInsertByNotificationId(notif))
+                    if (item.FindAndInsertByNotificationId(notif))
                         break;
                 }
             }
         }
     }
-    
+
 
     private void Test()
     {
-        Debug.Log("=======================");
-        foreach (DLinkedList notif in notificationsArray)
+        Debug.Log("=========== 2 ===========");
+        foreach (DLinkedList notif in notificationlist)
         {
             notif.TraverseFront();
         }
     }
 
-
-    //public void LoadRandomRelevantNotification()
-    //{
-
-    //    int currentPOI = POIManager.GetCurrentPOI();
-
-    //    if (notificationsPerPOI[currentPOI].Count != 0)
-    //    {
-    //        int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
-    //        Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
-
-    //        // Making sure relevant notifications are not displayed twice
-    //        notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
-
-    //        notification.POILocation = POIManager.GetPOILocation();
-
-    //        SetNotificationPlatformLogo(notification);
-
-    //        notificationControl.CreateMessagePanel(notification);
-    //    }
-    //}
-
-    public void LoadRandomIrrelevantNotification() {
+    public void ShowNotification() {
 
         //ToDo think of a good structure to keep track of what messages need to be displayed. 
 
-        Debug.Log("Found " + notificationsArray.Count() + " notifications");
-        int i = 0;
+        Debug.Log("Found " + notificationlist.Count() + " notifications");
 
-        Notification notificationItem = notificationsArray[i].GetData();
+        Notification notificationItem = notificationlist.First.Value.GetData();
 
-        // OLD
-        //// Reset counter if needed
-        //if (irrelevantNotificationCount >= notificationsPerPOI[0].Count){
-        //    //irrelevantNotificationCount = 0;
-        //}
+        foreach(DLinkedList item in notificationlist)
+        {
+            if (!item.GetData().WaitingForPost)
+            {
+                notificationItem = item.GetData();
+                if (item.HasNext())
+                {
+                    DLinkedList temporary = item.GetNext();
+                    if (item.GetData().Postable)
+                        temporary.GetData().WaitingForPost = true;
 
-        //Notification notification = notificationsPerPOI[0][irrelevantNotificationCount];
+                    notificationlist.AddFirst(temporary);
+                }
+                notificationlist.Remove(item);
+                break;
+            }
+            else
+            {
+                Debug.Log("Found a message thats waitig for a post");
+            }
+        }
 
-       SetNotificationPlatformLogo(notificationItem);
+        if (notificationItem != null) {
+            SetNotificationPlatformLogo(notificationItem);
 
-        //irrelevantNotificationCount++;
-        notificationControl.CreateMessagePanel(notificationItem);
+            notificationControl.CreateMessagePanel(notificationItem);
+        }
+        else
+        {
+            Debug.Log("List is empty");
+        }
     }
 
     private void SetNotificationPlatformLogo(Notification notification) {

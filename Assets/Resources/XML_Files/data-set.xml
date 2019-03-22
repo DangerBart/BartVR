@@ -23,7 +23,7 @@
 			<Autor>Jordaan038</Autor>
 			<Message>Waar is dit gebeurd?</Message>
 			<Platform>Twitter</Platform>
-			<Postable>false</Postable>
+			<Postable>true</Postable>
 		</Notification>
 		<Notification>
 			<Id>3</Id>

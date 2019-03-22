@@ -42,6 +42,16 @@ class DLinkedList
         return data;
     }
 
+    public DLinkedList GetNext()
+    {
+        return next;
+    }
+
+    public bool HasNext()
+    {
+        return next != null;
+    }
+
     public bool FindAndInsertByNotificationId(Notification notif) {
         return FindAndInsertByNotificationId(this, notif);
     }
