@@ -97,6 +97,9 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         DeletePanel();
     }
     public void SendImageToVRUser(){
+        if (tablet == null)
+            tablet = GameObject.Find("TabletImage").GetComponent<TabletDisplay>();
+
         tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
