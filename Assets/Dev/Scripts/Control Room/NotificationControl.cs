@@ -19,12 +19,12 @@ public class NotificationControl : MonoBehaviour
         minimapControl = minimap.GetComponent<MinimapControl>();
     }
 
-    public void CreateMessagePanel(Notification notification) {
+    public void CreateRelevantMessagePanel(Notification notification) {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
         message.SetActive(true);
         
-        message.GetComponent<NotificationPanel>().Setup(notification);
+        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
 
         message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
 
@@ -34,10 +34,10 @@ public class NotificationControl : MonoBehaviour
     public void CreatePostableMessagePanel(Notification notification)
     {
         //Make a copy of the hidden panel
-        GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
+        GameObject message = Instantiate(postableNotificationPanel) as GameObject;
         message.SetActive(true);
 
-        message.GetComponent<NotificationPanel>().Setup(notification);
+        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Postable);
 
         message.transform.SetParent(postableNotificationPanel.transform.parent, false);
 
@@ -47,7 +47,7 @@ public class NotificationControl : MonoBehaviour
     public void ToggleFavoritePanel(GameObject originalPanel, Notification notification) {
         //Make a copy of the originalpanel
         GameObject message = Instantiate(originalPanel) as GameObject;
-        message.GetComponent<NotificationPanel>().Setup(notification);
+        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
         message.SetActive(true);
 
         //Place it on the boardpanel or the receive notificationpanel

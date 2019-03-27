@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+public enum KindOfNotification
+{
+    Relevant,
+    Irrelevant,
+    Postable
+}
+
 public class Notification{
 
     // Attributes

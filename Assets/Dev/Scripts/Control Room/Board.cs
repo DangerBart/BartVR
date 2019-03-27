@@ -116,7 +116,7 @@ public class Board : MonoBehaviour
             if(notificationItem.Postable)
                 notificationControl.CreatePostableMessagePanel(notificationItem);
             else
-                notificationControl.CreateMessagePanel(notificationItem);
+                notificationControl.CreateRelevantMessagePanel(notificationItem);
         } else
             Debug.Log("List is empty");
     }

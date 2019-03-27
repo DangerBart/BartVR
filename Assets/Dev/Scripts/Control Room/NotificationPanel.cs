@@ -23,11 +23,11 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
-    public void Setup(Notification notification) {
+    public void Setup(Notification notification, KindOfNotification kind) {
         SetGameObjects();
-        SetComponents();
+        SetComponents(kind);
         this.notification = notification;
-        SetupPanelInformation(notification);
+        SetupPanelInformation(notification, kind);
     }
 
     public Vector2 GetMinimapLocation() {
@@ -43,25 +43,36 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     private void SetGameObjects() {
-        imageButton = this.transform.Find("Show Button").gameObject;
+        imageButton = transform.Find("Show Button").gameObject;
     }
 
-    private void SetComponents() {
-        username = this.transform.Find("UserName").GetComponent<Text>();
-        message = this.transform.Find("Message").GetComponent<Text>();
-        mediaPlaform = this.transform.Find("MediaPlatform").GetComponent<Image>();
-        favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
-        Date = this.transform.Find("Date").GetComponent<Text>();
+    private void SetComponents(KindOfNotification kind) {
+        username = transform.Find("UserName").GetComponent<Text>();
+        message = transform.Find("Message").GetComponent<Text>();
+        mediaPlaform = transform.Find("MediaPlatform").GetComponent<Image>();
+
+        if (kind == KindOfNotification.Relevant || kind == KindOfNotification.Irrelevant)
+        {
+            favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
+            Date = this.transform.Find("Date").GetComponent<Text>();
+        }
     }
 
-    private void SetupPanelInformation(Notification notification) {
+    private void SetupPanelInformation(Notification notification, KindOfNotification kind) {
+        this.notification = notification;
         username.text = notification.Autor;
         message.text = notification.Message;
         mediaPlaform.sprite = notification.PlatformLogo;
-        SetImage(notification.Img);
-        SetTime();
 
-        this.notification = notification;
+        if (kind == KindOfNotification.Relevant || kind == KindOfNotification.Irrelevant)
+        {
+            SetImage(notification.Img);
+            SetTime();
+        } else {
+            // Postable notification
+            username.text = "Politie ✔";
+            notification.Autor = "Politie ✔"; ;
+        }
     }
 
     public void SetImage(Sprite img) {
@@ -89,12 +100,10 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             notification.IsFavorite = true;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
-
-        //notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
-        //ControlroomScreen.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel();
     }
-    public void SendImageToVRUser(){
+
+    public void SendImageToVRUser() {
         tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
@@ -108,7 +117,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-        Debug.Log("Detected click on panel");
         GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
     }
 
