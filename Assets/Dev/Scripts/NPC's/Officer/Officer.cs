@@ -207,7 +207,8 @@ public class Officer : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))
-            && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false && other.GetInstanceID() == target.GetInstanceID()) {
+            && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false && other.gameObject.GetInstanceID() == target.GetInstanceID()) {
+
             other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
 
             other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
