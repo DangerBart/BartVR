@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NotificationControl : MonoBehaviour
 {
@@ -8,8 +6,12 @@ public class NotificationControl : MonoBehaviour
     private GameObject minimap;
     private MinimapControl minimapControl;
 
-    public GameObject defaultNotificationPanel;
-    public GameObject defaultBoardPanel;
+    [SerializeField]
+    private GameObject relevantNotificationPanel;
+    [SerializeField]
+    private GameObject postableNotificationPanel;
+    [SerializeField]
+    private GameObject favoritePanel;
 
     private GameObject selectedNotficationObject;
 
@@ -19,12 +21,25 @@ public class NotificationControl : MonoBehaviour
 
     public void CreateMessagePanel(Notification notification) {
         //Make a copy of the hidden panel
-        GameObject message = Instantiate(defaultNotificationPanel) as GameObject;
+        GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
         message.SetActive(true);
         
         message.GetComponent<NotificationPanel>().Setup(notification);
 
-        message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
+        message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
+
+        minimapControl.SetNotificationMinimapLocation(notification);
+    }
+
+    public void CreatePostableMessagePanel(Notification notification)
+    {
+        //Make a copy of the hidden panel
+        GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
+        message.SetActive(true);
+
+        message.GetComponent<NotificationPanel>().Setup(notification);
+
+        message.transform.SetParent(postableNotificationPanel.transform.parent, false);
 
         minimapControl.SetNotificationMinimapLocation(notification);
     }
@@ -37,7 +52,7 @@ public class NotificationControl : MonoBehaviour
 
         //Place it on the boardpanel or the receive notificationpanel
         if(notification.IsFavorite) {
-            message.transform.SetParent(defaultBoardPanel.transform.parent, false);
+            message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
 
             if (!notification.IsSelected) {
                 // Create marker when notfication is not selected
@@ -45,7 +60,7 @@ public class NotificationControl : MonoBehaviour
             }
         }
         else {
-            message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
+            message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
             minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
         }
 

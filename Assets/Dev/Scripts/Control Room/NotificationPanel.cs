@@ -7,7 +7,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     //image needs to be public to be able to clone
     public Sprite image;
     public GameObject panelImage;
-    public GameObject notificationMenu;
     public GameObject Timestamp;
 
     private Notification notification;
@@ -91,7 +90,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
 
-        notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
+        //notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
+        //ControlroomScreen.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel();
     }
     public void SendImageToVRUser(){
@@ -103,17 +103,13 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void DeleteButtonClicked() {
-        if (notification.IsFavorite || notification.IsSelected) {
-            // Make sure the marker gets deleted as well
-            notificationMenu.GetComponent<NotificationControl>().NotificationPanelRemoved(notification.MinimapLocation);
-        }
-
         DeletePanel();
     }
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-        notificationMenu.GetComponent<NotificationControl>().NotificationSelected(gameObject);
+        Debug.Log("Detected click on panel");
+        GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
     }
 
     public void TogglePanelColor() {

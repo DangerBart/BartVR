@@ -4,8 +4,6 @@ using System.Linq;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject notificationMenu;
     private NotificationControl notificationControl;
 
     // POI
@@ -30,9 +28,8 @@ public class Board : MonoBehaviour
 
         // NEW
         FillAndConnectNotificationsList();
-        Test();
 
-        notificationControl = notificationMenu.GetComponent<NotificationControl>();
+        notificationControl = GetComponent<NotificationControl>();
 
         POIManager = POISystem.GetComponent<POIManager>();
         // Count -1 as we don't need a POI on the map for irrelevant messages
@@ -90,9 +87,6 @@ public class Board : MonoBehaviour
     }
 
     public void ShowNotification() {
-
-        //ToDo think of a good structure to keep track of what messages need to be displayed. 
-
         Debug.Log("Found " + notificationlist.Count() + " notifications");
 
         Notification notificationItem = notificationlist.First.Value.GetData();
@@ -112,22 +106,19 @@ public class Board : MonoBehaviour
                 }
                 notificationlist.Remove(item);
                 break;
-            }
-            else
-            {
+            } else
                 Debug.Log("Found a message thats waitig for a post");
-            }
         }
 
         if (notificationItem != null) {
             SetNotificationPlatformLogo(notificationItem);
 
-            notificationControl.CreateMessagePanel(notificationItem);
-        }
-        else
-        {
+            if(notificationItem.Postable)
+                notificationControl.CreatePostableMessagePanel(notificationItem);
+            else
+                notificationControl.CreateMessagePanel(notificationItem);
+        } else
             Debug.Log("List is empty");
-        }
     }
 
     private void SetNotificationPlatformLogo(Notification notification) {
