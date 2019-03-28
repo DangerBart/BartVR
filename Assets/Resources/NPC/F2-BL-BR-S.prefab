@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 114821168434738420}
   - component: {fileID: 65105937704614524}
   m_Layer: 10
-  m_Name: F2-BL-BR
+  m_Name: F2-BL-BR-S
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4827,7 +4827,6 @@ MonoBehaviour:
   questioned: 0
   inQuestioning: 0
   officerQuestioning: {fileID: 0}
-  timeout: 0
   agent: {fileID: 0}
 --- !u!114 &114742526617307524
 MonoBehaviour:
@@ -4854,7 +4853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  role: 1
+  role: 3
   gender: 2
   topPiece: 8
   bottomPiece: 9

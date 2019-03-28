@@ -9,7 +9,7 @@ public class NPCMaker : MonoBehaviour {
     private List<int> civilianModelIndexes = new List<int>();
 
     //Node attributes
-    private readonly Node[] nodeList = new Node[59];
+    public static readonly Node[] nodeList = new Node[59];
     private readonly Node[] spawnList = new Node[46];
 
     // Use this for initialization

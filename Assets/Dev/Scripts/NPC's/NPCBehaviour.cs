@@ -1,49 +1,50 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPCBehaviour : MonoBehaviour {
-
+    // GameObject references and serializable variables
     public GameObject checkpointContainer;
-
-    private readonly int radius = 4;
     [SerializeField]
     private float minSpeed;
     [SerializeField]
     private float maxSpeed;
+
+    // Private logic variables
     private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
     private Node[] spawnList;
-
+    private int randX, randZ;
+    // Private variables not to be changed
+    private readonly int radius = 4;
+    // Logic variables that need referencing in other scripts (mostly Officer.cs)
     public bool questioned;
     public bool inQuestioning;
     public GameObject officerQuestioning;
-    public int timeout;
     public NavMeshAgent agent = new NavMeshAgent();
-    private int randX, randZ;
-    private readonly int overflow = 1200;
 
-    // Use this for initialization
+
     void Start() {
-
-        //initialize values
+        // initialize values
         int randomSpawnLocation = Random.Range(0, spawnList.Length);
         randX = Random.Range(0, radius);
         randZ = Random.Range(0, radius);
         agent = GetComponent<NavMeshAgent>();
 
-        //Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other, Using Warp() rather than position
-        //because transform.position unsyncs NPC from navmesh making it unable to walk across it
+        // Set NPC's position on a random node with a slight offset so NPC's don't spawn inside each other, Using Warp() rather than position
+        // because transform.position unsyncs NPC from navmesh making it unable to walk across it
         this.agent.Warp(spawnList[randomSpawnLocation].GetTransformData().position + new Vector3(randX, 0, randZ));
 
-        //Prevent NPC's from spawning on clutter heavy checkpoints
+        // Prevent NPC's from spawning on clutter heavy checkpoints
         currentCheckpoint = spawnList[randomSpawnLocation];
 
-        //Randomize NPC's speed and set autoRepath to true so NPC's don't walk to invalid points on map
+        // Randomize NPC's speed and set autoRepath to true so NPC's don't walk to invalid points on map
         agent.speed = Random.Range(minSpeed, maxSpeed);
         agent.autoRepath = true;
 
         //Find target to walk to
-        FindNewTarget();
+        FindNewCheckpoint();
     }
 
     public void SetSpawnList(Node[] spawnlist) {
@@ -54,43 +55,35 @@ public class NPCBehaviour : MonoBehaviour {
     void FixedUpdate() {
         if (inQuestioning == false) {
             agent.isStopped = false;
-            //if timeout overflows OR NPC has reached destination find a new destination
-            if (timeout > overflow || ((this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
-            this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius) && (this.transform.position.z
-            >= nextCheckpoint.GetTransformData().position.z - radius && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius))) {
+            // if timeout overflows OR NPC has reached destination find a new destination
+            if (ReachedNode()) {
                 previousCheckpoint = currentCheckpoint;
                 currentCheckpoint = nextCheckpoint;
 
-                FindNewTarget();
-                timeout = 0;
-
+                FindNewCheckpoint();
             }
         } else {
+            // Stop for questioning
+            FaceTarget(officerQuestioning.transform);
             agent.isStopped = true;
-            if (this.GetComponent<Identification>().role != Roles.Officer)
-                FaceTarget(officerQuestioning.transform);
             questioned = true;
         }
-        if (inQuestioning == false)
-            timeout++;
     }
 
-    private void FindNewTarget() {
-        //initialize values
+    private void FindNewCheckpoint() {
+        // initialize values
         bool foundValidCheckpoint = false;
         randX = Random.Range(0, radius);
         randZ = Random.Range(0, radius);
-        int randNextCheckpoint = Random.Range(0, currentCheckpoint.GetLength());
 
-        //Set random option as destination
-        nextCheckpoint = currentCheckpoint.GetOption(randNextCheckpoint);
+        // Set random option as destination
+        nextCheckpoint = currentCheckpoint.GetOption(Random.Range(0, currentCheckpoint.GetLength()));
 
-        //Confirm that nextCheckpoint is not equal to previousCheckpoint so NPC's don't walk back and forth between the same points
+        // Confirm that nextCheckpoint is not equal to previousCheckpoint so NPC's don't walk back and forth between the same points
         if (currentCheckpoint.GetLength() != 1) {
             while (!foundValidCheckpoint) {
                 if (nextCheckpoint == previousCheckpoint) {
-                    randNextCheckpoint = Random.Range(0, currentCheckpoint.GetLength());
-                    nextCheckpoint = currentCheckpoint.GetOption(randNextCheckpoint);
+                    nextCheckpoint = currentCheckpoint.GetOption(Random.Range(0, currentCheckpoint.GetLength()));
                 } else {
                     foundValidCheckpoint = true;
                 }
@@ -98,15 +91,57 @@ public class NPCBehaviour : MonoBehaviour {
         }
         agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
 
-        //Face the destination
+        // Face the destination
         FaceTarget(nextCheckpoint.GetTransformData());
+    }
+
+    private bool ReachedNode() {
+        if (this.transform.position.x >= nextCheckpoint.GetTransformData().position.x - radius &&
+                this.transform.position.x <= nextCheckpoint.GetTransformData().position.x + radius
+                && this.transform.position.z >= nextCheckpoint.GetTransformData().position.z - radius
+                && this.transform.position.z <= nextCheckpoint.GetTransformData().position.z + radius)
+            return true;
+        return false;
     }
 
     public void MoveToTarget(GameObject target) {
         agent.SetDestination(target.transform.position);
     }
 
-    //Function extracted from Brackey's tutorial on making an RPG in Unity, NPC sets it's rotation to look towards the target it is walking towards
+    /// <summary> 
+    /// Reset this NPC's currentCheckpoint to a new Node, Node is calculated with given coordinates by finding the nearest Node 
+    /// </summary>
+    /// <param name="coordinates">Coordinates on the map of the general location this NPC should move to</param>
+    public void RelocateToTarget(Vector3 coordinates) {
+        // initialize variables
+        List<GameObject> distances = new List<GameObject>();
+        GameObject closestNode = null;
+        Node nodeTarget;
+        float? minDistance = null;
+        coordinates.y = 0.1f;
+        
+
+        //Find add all the nodes
+        foreach (Transform node in GameObject.Find("CheckpointContainer").transform) {
+            Vector3 nodePos = new Vector3(node.gameObject.transform.position.x, 0.1f, node.gameObject.transform.position.z);
+
+            if(Vector3.Distance(coordinates, nodePos) < minDistance || minDistance == null) {
+                closestNode = node.gameObject;
+                minDistance = Vector3.Distance(coordinates, nodePos);
+            }
+        }
+
+        // Get index of checkpoint from it's name since the number in the name matches it's index number and set that as the target
+        nodeTarget = NPCMaker.nodeList[int.Parse(Regex.Replace(closestNode.name, @"[^\d]", ""))];
+
+        //Override all navigation variables to effectively relocate NPC
+        currentCheckpoint = nodeTarget;
+        previousCheckpoint = nodeTarget;
+        nextCheckpoint = nodeTarget;
+
+        agent.SetDestination(nodeTarget.GetTransformData().position);
+    }
+
     public void FaceTarget(Transform target) {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));

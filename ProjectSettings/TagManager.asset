@@ -16,6 +16,8 @@ TagManager:
   - FxTemporaire
   - NPC
   - Officer
+  - VRUIButton
+  - Node
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - PostProcessing
   - Officer
   - Suspect
-  - 
+  - Node
   - 
   - 
   - 

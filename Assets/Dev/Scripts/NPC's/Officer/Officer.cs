@@ -67,6 +67,19 @@ public class Officer : MonoBehaviour {
             else
                 behaviour.agent.isStopped = false;
         }
+
+        // START OF TEST
+        Identification test = new Identification();
+
+        test.gender = Genders.Female;
+        test.topPiece = Colors.None;
+        test.bottomPiece = Colors.None;
+
+        if (Input.GetKeyDown(KeyCode.N))
+            behaviour.RelocateToTarget(new Vector3(-30, 0, -4));
+        if (Input.GetKeyDown(KeyCode.M))
+            SetId(test);
+        // END OF TEST
     }
 
     /// <summary>
@@ -142,10 +155,7 @@ public class Officer : MonoBehaviour {
                 return Check.None;
         }
     }
-
-    /// <summary>
-    /// Check if the compare Identification is equal to the origin, this comparison happens based on what to look for using LookFor
-    /// </summary>
+    
     private bool IsEqual(Identification origin, Identification compare, Check check) {
         switch (check) {
             case Check.Gender:
@@ -214,7 +224,11 @@ public class Officer : MonoBehaviour {
 
         hasQuestioned = true;
         behaviour.inQuestioning = false;
-        behaviour.timeout = 1199;
+        /* TEST THIS LATER ---------------------------------------------------------------------------------
+        behaviour.RelocateToTarget(this.transform.position);
+        behaviour.timeout = 1100;
+        ----------------------------------------------------------------------------------------------------
+        */
         target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
         target = null;
         this.GetComponent<SphereCollider>().enabled = true;
@@ -237,9 +251,6 @@ public class Officer : MonoBehaviour {
             }
     }
 
-    /// <summary>
-    /// Used for receiving input from the control room
-    /// </summary>
     public static void SetId(Identification set) {
         id.gender = set.gender;
         id.topPiece = set.topPiece;
