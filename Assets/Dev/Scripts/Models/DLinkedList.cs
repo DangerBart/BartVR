@@ -18,6 +18,29 @@ public class DLinkedList
         prev = null;
     }
 
+    public bool FindAndInsertByNotificationId(Notification notif) {
+        return FindAndInsertByNotificationId(this, notif);
+    }
+
+    public bool FindAndInsertByNotificationId(DLinkedList node, Notification notif) {
+        if (node == null)
+            node = this;
+
+        while ((node != null) && (node.data.Id != notif.ReactionTo))
+            node = node.next;
+
+        if (node != null) {
+            // Postable messages are made by professionals
+            if (node.GetData().Postable)
+                node.GetData().Autor = "Politie ✔";
+
+            node.InsertNext(notif);
+            return true;
+        }
+
+        return false;
+    }
+
     public DLinkedList InsertNext(Notification notif) {
         DLinkedList node = new DLinkedList(notif);
         if (this.next == null) {
@@ -37,47 +60,19 @@ public class DLinkedList
         return node;
     }
 
-    public Notification GetData()
-    {
+    public Notification GetData() {
         return data;
     }
 
-    public DLinkedList GetNext()
-    {
+    public DLinkedList GetNext() {
         return next;
     }
 
-    public bool HasNext()
-    {
+    public bool HasNext() {
         return next != null;
     }
 
-    public bool FindAndInsertByNotificationId(Notification notif) {
-        return FindAndInsertByNotificationId(this, notif);
-    }
-
-    public bool FindAndInsertByNotificationId(DLinkedList node, Notification notif) {
-        if (node == null)
-            node = this;
-
-        Debug.Log("Traversing in Forward Direction");
-
-        while ((node != null) && (node.data.Id != notif.ReactionTo)) {
-            Debug.Log(node.data.Id);
-            node = node.next;
-        }
-
-        if (node != null) {
-            Debug.Log("Found Notif");
-            node.InsertNext(notif);
-            return true;
-        }
-
-        return false;
-    }
-
-    public DLinkedList InsertPrev(Notification notif)
-    {
+    public DLinkedList InsertPrev(Notification notif) {
         DLinkedList node = new DLinkedList(notif);
 
         if (this.prev == null) {

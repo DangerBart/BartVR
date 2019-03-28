@@ -30,6 +30,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         SetupPanelInformation(notification.GetData(), kind);
     }
 
+    // Getters
     public Vector2 GetMinimapLocation() {
         return notification.GetData().MinimapLocation;
     }
@@ -46,6 +47,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         imageButton = transform.Find("Show Button").gameObject;
     }
 
+    // Setup functions
+
     private void SetComponents(KindOfNotification kind) {
         // General settings
         username = transform.Find("UserName").GetComponent<Text>();
@@ -61,9 +64,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     private void SetupPanelInformation(Notification notif, KindOfNotification kind) {
-        if (kind == KindOfNotification.Postable)
-            notif.Autor = "Politie ✔";
-
         // General settings
         username.text = notif.Autor;
         message.text = notif.Message;
@@ -89,6 +89,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         Date.text = string.Format("{0} {1}", time.text, date.text);
     }
 
+    // Event functions
+
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
     }
@@ -108,12 +110,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
-    private void DeletePanel() {
+    public void DeletePanel() {
         Destroy(gameObject);
-    }
-
-    public void DeleteButtonClicked() {
-        DeletePanel();
     }
 
     public void OnPointerClick(PointerEventData eventData) {
@@ -123,7 +121,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void PostButtonClicked()
     {
-        Debug.Log("Post button was clicked");
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
         DeletePanel();
