@@ -47,10 +47,12 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     private void SetComponents(KindOfNotification kind) {
+        // General settings
         username = transform.Find("UserName").GetComponent<Text>();
         message = transform.Find("Message").GetComponent<Text>();
         mediaPlaform = transform.Find("MediaPlatform").GetComponent<Image>();
 
+        // Specifiq to kind of panel
         if (kind == KindOfNotification.Relevant || kind == KindOfNotification.Irrelevant)
         {
             favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
@@ -59,6 +61,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     private void SetupPanelInformation(Notification notification, KindOfNotification kind) {
+        // General settings
         this.notification = notification;
         username.text = notification.Autor;
         message.text = notification.Message;
@@ -118,6 +121,12 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
         GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
+    }
+
+    public void PostButtonClicked()
+    {
+        Debug.Log("Post button was clicked");
+        GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.Id);
     }
 
     public void TogglePanelColor() {

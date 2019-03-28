@@ -6,34 +6,19 @@ public class Board : MonoBehaviour
 {
     private NotificationControl notificationControl;
 
-    // POI
-    [SerializeField]
-    private GameObject POISystem;
-    private POIManager POIManager;
-
     private NotificationContainer nc;
-    private int irrelevantNotificationCount;
     public string m_Path = "XML_Files/data-set";
-    Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
 
     // NEW
     private LinkedList<DLinkedList> notificationlist;
-    private int notificationIndexCounter;
 
     void Start() {
         LoadItems(m_Path);
-
-        //ToDo remove old way of sorting notifications
-        FillDictionaryWithNotificationsPerPOI();
 
         // NEW
         FillAndConnectNotificationsList();
 
         notificationControl = GetComponent<NotificationControl>();
-
-        POIManager = POISystem.GetComponent<POIManager>();
-        // Count -1 as we don't need a POI on the map for irrelevant messages
-        POIManager.Setup(notificationsPerPOI.Count - 1);
 
         //Setup second display for VR camera
         if (Display.displays.Length > 1)
@@ -42,17 +27,6 @@ public class Board : MonoBehaviour
 
     void LoadItems(string path) {
         nc = NotificationContainer.Load(path);
-    }
-
-    void FillDictionaryWithNotificationsPerPOI() {
-        foreach (Notification note in nc.notifications) {
-
-            if (!notificationsPerPOI.ContainsKey(note.POI)){
-                notificationsPerPOI.Add(note.POI, new List<Notification>());
-            }
-          
-            notificationsPerPOI[note.POI].Add(note);
-        }
     }
     
     // NEW
@@ -86,6 +60,13 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void SetNotificationWaitingForPost(bool value, int id)
+    {
+        Debug.Log("Owo");
+        DLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
+        Debug.Log("FoundNotif message: " + foundNotif.GetData().Message);
+    }
+
     public void ShowNotification() {
         Debug.Log("Found " + notificationlist.Count() + " notifications");
 
@@ -106,8 +87,7 @@ public class Board : MonoBehaviour
                 }
                 notificationlist.Remove(item);
                 break;
-            } else
-                Debug.Log("Found a message thats waitig for a post");
+            }
         }
 
         if (notificationItem != null) {
@@ -127,8 +107,4 @@ public class Board : MonoBehaviour
             notification.Img = Resources.Load<Sprite>("Images/" + notification.Image);
         }
     }
-
-
-
-
-    }
+}
