@@ -1436,7 +1436,7 @@ GameObject:
   - component: {fileID: 114440783399803374}
   - component: {fileID: 65114461511823502}
   m_Layer: 10
-  m_Name: F3-PU-BL-S
+  m_Name: F3-PU-BL
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4826,8 +4826,10 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  questioned: 0
   inQuestioning: 0
   officerQuestioning: {fileID: 0}
+  timeout: 0
   agent: {fileID: 0}
 --- !u!114 &114440783399803374
 MonoBehaviour:

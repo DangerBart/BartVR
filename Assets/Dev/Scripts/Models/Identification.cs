@@ -17,7 +17,7 @@ public enum Genders {
 public enum Colors {
     None,
     White,
-    BLack,
+    Black,
     Grey,
     Yellow,
     Green,

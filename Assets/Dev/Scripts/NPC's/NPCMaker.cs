@@ -142,7 +142,7 @@ public class NPCMaker : MonoBehaviour {
         Colors color;
         switch (colorCode.ToUpper()) {
             case "B":
-                color = Colors.BLack;
+                color = Colors.Black;
                 break;
             case "G":
                 color = Colors.Green;

@@ -11,13 +11,16 @@ public class Officer : MonoBehaviour {
     private Rigidbody rb;
     private GameObject target;
 
-    //TEMPORARY REMOVE ONCE FINISHED
-    private Identification id;
+    private GameObject gameOverText;
+    private GameObject gameOverScreen;
+
+    private static Identification id;
 
     private bool canQuestion;
     private bool hasQuestioned;
+    private static bool startSearching;
 
-    enum Check {
+    private enum Check {
         None,
         Gender,
         TopPiece,
@@ -30,53 +33,45 @@ public class Officer : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-
+        // Get the NPC container to loop through for searching for the suspect
         if (GameObject.Find("NPCContainer") == null)
             throw new Exception("No NPCContainer found, make sure the name matches in casing");
         npcContainer = GameObject.Find("NPCContainer");
 
+        // Initialize the NPCBehaviour for this officer
         behaviour = this.GetComponent<NPCBehaviour>();
-        rb = this.GetComponent<Rigidbody>();
 
+        // Setup this GameObject's collider and rigidbody to only interact with other NPCs
+        rb = this.GetComponent<Rigidbody>();
         rb.isKinematic = true;
         rb.detectCollisions = true;
-        // Set this gameObject to the 'Officer' layer for collision ignoring
         this.gameObject.layer = 9;
         this.GetComponent<SphereCollider>().isTrigger = true;
 
         id = new Identification();
-        id.gender = Genders.Male;
-        id.topPiece = Colors.None;
-        id.bottomPiece = Colors.None;
 
         target = null;
     }
 
     // Update is called once per frame
     void Update() {
-        // TODO:
-        //  - check for input from the control room. Once input is given start looking for given description.
-        //  - arrest suspect when description is complete
-        //  - arrest suspect if he is found while talking to an NPC with a partial description
-        //  - Make officer not walk to NPC last location after questioning
+        // Once input is received from the control room, start searching for the given Identification
+        if (startSearching) {
+            if (target == null)
+                StartCoroutine(Search(id, Roles.Officer, 1.5f));
+            else
+                PursueSuspect(target);
 
-        if (target == null) {
-            StartCoroutine(Search(id, Roles.Officer, 1.5f));
-        } else
-            QuestionSuspect(target);
-
-
-        if (behaviour.inQuestioning) {
-            behaviour.agent.isStopped = true;
-        } else {
-            behaviour.agent.isStopped = false;
+            if (behaviour.inQuestioning)
+                behaviour.agent.isStopped = true;
+            else
+                behaviour.agent.isStopped = false;
         }
     }
 
     /// <summary>
     /// Checks if wanted identification is in the field of vision of the gameObject this function is called from.
     /// </summary>
-    /// <param name="wanted"></param>
     public IEnumerator Search(Identification wanted, Roles searcher, float interval) {
         yield return new WaitForSeconds(interval);
         // loop through every NPC
@@ -113,6 +108,9 @@ public class Officer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Check what values of the given Identification are set, this way the officer knows what to compare the NPC's to
+    /// </summary>
     private Check LookFor(Identification id) {
         char[] isSet = { '0', '0', '0' };
 
@@ -145,6 +143,9 @@ public class Officer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Check if the compare Identification is equal to the origin, this comparison happens based on what to look for using LookFor
+    /// </summary>
     private bool IsEqual(Identification origin, Identification compare, Check check) {
         switch (check) {
             case Check.Gender:
@@ -180,15 +181,20 @@ public class Officer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Checks if the given GameObject is within a 90 degree field of view in front of the GameObject this function is called from
+    /// </summary>
     private bool IsInFront(GameObject npc) {
         Vector3 directionToTarget = transform.position - npc.transform.position;
         float angle = Vector3.Angle(transform.forward, directionToTarget);
+
         if (Mathf.Abs(angle) > 90 || Mathf.Abs(angle) > 270)
             return true;
         return false;
     }
 
-    private void QuestionSuspect(GameObject target) {
+
+    private void PursueSuspect(GameObject target) {
         if (this.GetComponent<NavMeshAgent>() != null)
             this.GetComponent<NavMeshAgent>().speed = 2.5f;
         canQuestion = true;
@@ -196,26 +202,49 @@ public class Officer : MonoBehaviour {
         behaviour.MoveToTarget(target);
     }
 
+    /// <summary>
+    /// Question the suspect by facing the target and holding for 'time' amount of seconds. If target is the suspect, arrest them
+    /// </summary>
     private IEnumerator Questioning(float time) {
+        behaviour.FaceTarget(target.transform);
         yield return new WaitForSeconds(time);
+        if (target.GetComponent<Identification>().role == Roles.Suspect)
+            EventHandler.End();
+
+
         hasQuestioned = true;
         behaviour.inQuestioning = false;
+        behaviour.timeout = 1199;
         target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
         target = null;
         this.GetComponent<SphereCollider>().enabled = true;
     }
 
+    /// <summary>
+    /// Once a collision is detected with an NPC check if they match the target and if so, question them
+    /// </summary>
     private void OnTriggerEnter(Collider other) {
-        if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))
-            && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false && other.gameObject.GetInstanceID() == target.GetInstanceID()) {
+        if (other != null)
+            if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))
+                && canQuestion && other.GetComponent<NPCBehaviour>().questioned == false && other.gameObject.GetInstanceID() == target.GetInstanceID()) {
 
-            other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
+                other.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = true;
 
-            other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
-            behaviour.inQuestioning = true;
-            behaviour.FaceTarget(other.GetComponent<Transform>());
-            this.GetComponent<SphereCollider>().enabled = false;
-            StartCoroutine(Questioning(5f));
-        }
+                other.GetComponent<Collider>().GetComponent<NPCBehaviour>().officerQuestioning = this.gameObject;
+                behaviour.inQuestioning = true;
+                this.GetComponent<SphereCollider>().enabled = false;
+                StartCoroutine(Questioning(5f));
+            }
+    }
+
+    /// <summary>
+    /// Used for receiving input from the control room
+    /// </summary>
+    public static void SetId(Identification set) {
+        id.gender = set.gender;
+        id.topPiece = set.topPiece;
+        id.bottomPiece = set.bottomPiece;
+
+        startSearching = true;
     }
 }

@@ -14,13 +14,13 @@ public class NPCBehaviour : MonoBehaviour {
     private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
     private Node[] spawnList;
 
+    public bool questioned;
     public bool inQuestioning;
     public GameObject officerQuestioning;
+    public int timeout;
     public NavMeshAgent agent = new NavMeshAgent();
     private int randX, randZ;
-    private int timeout;
     private readonly int overflow = 1200;
-    public bool questioned;
 
     // Use this for initialization
     void Start() {
