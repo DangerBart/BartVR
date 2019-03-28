@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class DLinkedList
+﻿public class DLinkedList
 {
     private Notification data;
     private DLinkedList next;
@@ -90,38 +88,5 @@ public class DLinkedList
         }
 
         return node;
-    }
-
-    public void TraverseFront() {
-        TraverseFront(this);
-    }
-
-    public void TraverseFront(DLinkedList node) {
-        if (node == null)
-            node = this;
-
-        string toPrint = "";
-
-        while (node != null) {
-            toPrint += node.data.Id + ", ";
-            node = node.next;
-        }
-        Debug.Log(toPrint);
-    }
-
-    public void TraverseBack() {
-        TraverseBack(this);
-    }
-
-    public void TraverseBack(DLinkedList node) {
-        if (node == null)
-            node = this;
-
-        Debug.Log("Traversing in Backward Direction");
-
-        while (node != null) {
-            Debug.Log(node.data);
-            node = node.prev;
-        }
     }
 }

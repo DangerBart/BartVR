@@ -26,7 +26,7 @@ public class NotificationTimer : MonoBehaviour {
     }
 
     void ShowNotification() {
-        //Give the sign that a new noptification should be posted.
+        //Give the sign that a new notification should be posted.
         GetComponent<Board>().ShowNotification();
     }
 }

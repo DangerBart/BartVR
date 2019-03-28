@@ -6,6 +6,7 @@ public class NotificationControl : MonoBehaviour
     private GameObject minimap;
     private MinimapControl minimapControl;
 
+    // Panels
     [SerializeField]
     private GameObject relevantNotificationPanel;
     [SerializeField]
@@ -80,29 +81,23 @@ public class NotificationControl : MonoBehaviour
             //Remove previous selected marker
             minimapControl.DeleteSpecifiqMarker(selectedNotificationPanel.GetMinimapLocation());
 
+            // As the selected marker(yellow) has been romoved we have to create a new purple marker
             if (selectedNotificationPanel.IsFavorite())
-            {
-                // As the selected marker(yellow) has been romoved we have to create a new purple marker
                 minimapControl.CreateNewMarker(selectedNotificationPanel.GetMinimapLocation());
-            }
         }
 
-        if (notificationPanel.IsFavorite()) {
+        if (notificationPanel.IsFavorite())
             minimapControl.DeleteSpecifiqMarker(notificationPanel.GetMinimapLocation());
-        }
-        
+          
         if (selectedNotficationObject != notificationObject) {
-            // Currently selected panel an previous are not the same
-
+            // Currently selected and previous panel are not the same
             notificationPanel.TogglePanelColor();
             selectedNotficationObject = notificationObject;
 
             //Place new minimap marker
             minimapControl.CreateNewMarker(notificationPanel.GetMinimapLocation(), true);
-        }
-        else {
+        } else
             selectedNotficationObject = null;
-        }
     }
 
     public void NotificationPanelRemoved(Vector2 minimapLocation) {

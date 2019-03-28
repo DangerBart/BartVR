@@ -135,7 +135,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             panel.color = panelColorWhite;
         }
 
-        // Set IsSelected value
         notification.GetData().IsSelected = !notification.GetData().IsSelected;
     }
 }
