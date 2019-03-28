@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class DLinkedList
+public class DLinkedList
 {
     private Notification data;
     private DLinkedList next;

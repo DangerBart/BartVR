@@ -9,7 +9,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public GameObject panelImage;
     public GameObject Timestamp;
 
-    private Notification notification;
+    private DLinkedList notification;
     public TabletDisplay tablet;
     public bool isFavorite;
     private Text username;
@@ -23,23 +23,23 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
-    public void Setup(Notification notification, KindOfNotification kind) {
+    public void Setup(DLinkedList notification, KindOfNotification kind) {
         SetGameObjects();
         SetComponents(kind);
         this.notification = notification;
-        SetupPanelInformation(notification, kind);
+        SetupPanelInformation(notification.GetData(), kind);
     }
 
     public Vector2 GetMinimapLocation() {
-        return notification.MinimapLocation;
+        return notification.GetData().MinimapLocation;
     }
 
     public bool IsFavorite() {
-        return notification.IsFavorite;
+        return notification.GetData().IsFavorite;
     }
 
     public bool IsSelected() {
-        return notification.IsSelected;
+        return notification.GetData().IsSelected;
     }
 
     private void SetGameObjects() {
@@ -60,21 +60,19 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void SetupPanelInformation(Notification notification, KindOfNotification kind) {
+    private void SetupPanelInformation(Notification notif, KindOfNotification kind) {
+        if (kind == KindOfNotification.Postable)
+            notif.Autor = "Politie ✔";
+
         // General settings
-        this.notification = notification;
-        username.text = notification.Autor;
-        message.text = notification.Message;
-        mediaPlaform.sprite = notification.PlatformLogo;
+        username.text = notif.Autor;
+        message.text = notif.Message;
+        mediaPlaform.sprite = notif.PlatformLogo;
 
         if (kind == KindOfNotification.Relevant || kind == KindOfNotification.Irrelevant)
         {
-            SetImage(notification.Img);
+            SetImage(notif.Img);
             SetTime();
-        } else {
-            // Postable notification
-            username.text = "Politie ✔";
-            notification.Autor = "Politie ✔"; ;
         }
     }
 
@@ -96,11 +94,11 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void ToggleFavoriteButton() {
-        if (notification.IsFavorite) {
-            notification.IsFavorite = false;
+        if (notification.GetData().IsFavorite) {
+            notification.GetData().IsFavorite = false;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
         } else {
-            notification.IsFavorite = true;
+            notification.GetData().IsFavorite = true;
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
         }
         DeletePanel();
@@ -126,19 +124,21 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void PostButtonClicked()
     {
         Debug.Log("Post button was clicked");
-        GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.Id);
+        GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
+        GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
+        DeletePanel();
     }
 
     public void TogglePanelColor() {
         Image panel = gameObject.GetComponent<Image>();
 
-        if (!notification.IsSelected) {
+        if (!notification.GetData().IsSelected) {
             panel.color = panelColorYellow;
         } else {
             panel.color = panelColorWhite;
         }
 
         // Set IsSelected value
-        notification.IsSelected = !notification.IsSelected;
+        notification.GetData().IsSelected = !notification.GetData().IsSelected;
     }
 }

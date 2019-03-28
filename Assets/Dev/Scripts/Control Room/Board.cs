@@ -65,18 +65,20 @@ public class Board : MonoBehaviour
         Debug.Log("Owo");
         DLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
         Debug.Log("FoundNotif message: " + foundNotif.GetData().Message);
+        if (foundNotif != null)
+            foundNotif.GetData().WaitingForPost = value;
     }
 
     public void ShowNotification() {
         Debug.Log("Found " + notificationlist.Count() + " notifications");
 
-        Notification notificationItem = notificationlist.First.Value.GetData();
+        DLinkedList notificationItem = notificationlist.First();
 
         foreach(DLinkedList item in notificationlist)
         {
             if (!item.GetData().WaitingForPost)
             {
-                notificationItem = item.GetData();
+                notificationItem = item;
                 if (item.HasNext())
                 {
                     DLinkedList temporary = item.GetNext();
@@ -91,9 +93,9 @@ public class Board : MonoBehaviour
         }
 
         if (notificationItem != null) {
-            SetNotificationPlatformLogo(notificationItem);
+            SetNotificationPlatformLogo(notificationItem.GetData());
 
-            if(notificationItem.Postable)
+            if(notificationItem.GetData().Postable)
                 notificationControl.CreatePostableMessagePanel(notificationItem);
             else
                 notificationControl.CreateRelevantMessagePanel(notificationItem);

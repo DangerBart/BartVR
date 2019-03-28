@@ -19,7 +19,7 @@ public class NotificationControl : MonoBehaviour
         minimapControl = minimap.GetComponent<MinimapControl>();
     }
 
-    public void CreateRelevantMessagePanel(Notification notification) {
+    public void CreateRelevantMessagePanel(DLinkedList notification) {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
         message.SetActive(true);
@@ -28,10 +28,10 @@ public class NotificationControl : MonoBehaviour
 
         message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
 
-        minimapControl.SetNotificationMinimapLocation(notification);
+        minimapControl.SetNotificationMinimapLocation(notification.GetData());
     }
 
-    public void CreatePostableMessagePanel(Notification notification)
+    public void CreatePostableMessagePanel(DLinkedList notification)
     {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(postableNotificationPanel) as GameObject;
@@ -41,30 +41,30 @@ public class NotificationControl : MonoBehaviour
 
         message.transform.SetParent(postableNotificationPanel.transform.parent, false);
 
-        minimapControl.SetNotificationMinimapLocation(notification);
+        minimapControl.SetNotificationMinimapLocation(notification.GetData());
     }
 
-    public void ToggleFavoritePanel(GameObject originalPanel, Notification notification) {
+    public void ToggleFavoritePanel(GameObject originalPanel, DLinkedList notification) {
         //Make a copy of the originalpanel
         GameObject message = Instantiate(originalPanel) as GameObject;
         message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
         message.SetActive(true);
 
         //Place it on the boardpanel or the receive notificationpanel
-        if(notification.IsFavorite) {
+        if(notification.GetData().IsFavorite) {
             message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
 
-            if (!notification.IsSelected) {
+            if (!notification.GetData().IsSelected) {
                 // Create marker when notfication is not selected
-                minimapControl.CreateNewMarker(notification.MinimapLocation);
+                minimapControl.CreateNewMarker(notification.GetData().MinimapLocation);
             }
         }
         else {
             message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
-            minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
+            minimapControl.DeleteSpecifiqMarker(notification.GetData().MinimapLocation);
         }
 
-        if (notification.IsSelected) {
+        if (notification.GetData().IsSelected) {
             // Making sure selectedNotificationObject is updated
             selectedNotficationObject = message;
         }
