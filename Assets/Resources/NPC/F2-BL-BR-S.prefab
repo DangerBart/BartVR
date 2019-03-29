@@ -4828,6 +4828,7 @@ MonoBehaviour:
   inQuestioning: 0
   officerQuestioning: {fileID: 0}
   agent: {fileID: 0}
+  relocating: 0
 --- !u!114 &114742526617307524
 MonoBehaviour:
   m_ObjectHideFlags: 1

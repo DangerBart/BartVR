@@ -23,7 +23,7 @@ public class NPCBehaviour : MonoBehaviour {
     public bool inQuestioning;
     public GameObject officerQuestioning;
     public NavMeshAgent agent = new NavMeshAgent();
-
+    public bool relocating;
 
     void Start() {
         // initialize values
@@ -57,6 +57,10 @@ public class NPCBehaviour : MonoBehaviour {
             agent.isStopped = false;
             // if timeout overflows OR NPC has reached destination find a new destination
             if (ReachedNode()) {
+                // Set false so Officer script knows the officer finished relocating
+                if (relocating)
+                    relocating = false;
+
                 previousCheckpoint = currentCheckpoint;
                 currentCheckpoint = nextCheckpoint;
 
@@ -115,6 +119,7 @@ public class NPCBehaviour : MonoBehaviour {
     /// <param name="coordinates">Coordinates on the map of the general location this NPC should move to</param>
     public void RelocateToTarget(Vector3 coordinates) {
         // initialize variables
+        relocating = true;
         List<GameObject> distances = new List<GameObject>();
         GameObject closestNode = null;
         Node nodeTarget;

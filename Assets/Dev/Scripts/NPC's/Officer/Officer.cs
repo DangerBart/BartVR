@@ -56,7 +56,7 @@ public class Officer : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // Once input is received from the control room, start searching for the given Identification
-        if (startSearching) {
+        if (startSearching && !behaviour.relocating) {
             if (target == null)
                 StartCoroutine(Search(id, Roles.Officer, 1.5f));
             else
@@ -66,9 +66,11 @@ public class Officer : MonoBehaviour {
                 behaviour.agent.isStopped = true;
             else
                 behaviour.agent.isStopped = false;
+        } else {
+            target = null;
         }
 
-        // START OF TEST
+        // START OF TEST -----------------------------------------------------------
         Identification test = new Identification();
 
         test.gender = Genders.Female;
@@ -79,7 +81,7 @@ public class Officer : MonoBehaviour {
             behaviour.RelocateToTarget(new Vector3(-30, 0, -4));
         if (Input.GetKeyDown(KeyCode.M))
             SetId(test);
-        // END OF TEST
+        // END OF TEST -------------------------------------------------------------
     }
 
     /// <summary>
