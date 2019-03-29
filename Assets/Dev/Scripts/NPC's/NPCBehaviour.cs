@@ -64,7 +64,8 @@ public class NPCBehaviour : MonoBehaviour {
             }
         } else {
             // Stop for questioning
-            FaceTarget(officerQuestioning.transform);
+            if (officerQuestioning != null)
+                FaceTarget(officerQuestioning.transform);
             agent.isStopped = true;
             questioned = true;
         }
@@ -119,13 +120,13 @@ public class NPCBehaviour : MonoBehaviour {
         Node nodeTarget;
         float? minDistance = null;
         coordinates.y = 0.1f;
-        
+
 
         //Find add all the nodes
         foreach (Transform node in GameObject.Find("CheckpointContainer").transform) {
             Vector3 nodePos = new Vector3(node.gameObject.transform.position.x, 0.1f, node.gameObject.transform.position.z);
 
-            if(Vector3.Distance(coordinates, nodePos) < minDistance || minDistance == null) {
+            if (Vector3.Distance(coordinates, nodePos) < minDistance || minDistance == null) {
                 closestNode = node.gameObject;
                 minDistance = Vector3.Distance(coordinates, nodePos);
             }
