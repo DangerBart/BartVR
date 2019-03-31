@@ -226,11 +226,6 @@ public class Officer : MonoBehaviour {
 
         hasQuestioned = true;
         behaviour.inQuestioning = false;
-        /* TEST THIS LATER ---------------------------------------------------------------------------------
-        behaviour.RelocateToTarget(this.transform.position);
-        behaviour.timeout = 1100;
-        ----------------------------------------------------------------------------------------------------
-        */
         target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
         target = null;
         this.GetComponent<SphereCollider>().enabled = true;
