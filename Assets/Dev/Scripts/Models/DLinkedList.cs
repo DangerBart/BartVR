@@ -70,6 +70,16 @@
         return next != null;
     }
 
+    public DLinkedList GetPrevious()
+    {
+        return prev;
+    }
+
+    public bool HasPrevious()
+    {
+        return prev != null;
+    }
+
     public DLinkedList InsertPrev(Notification notif) {
         DLinkedList node = new DLinkedList(notif);
 

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 {
-    //image needs to be public to be able to clone
+    // Image needs to be public to be able to clone
     public Sprite image;
     public GameObject panelImage;
     public GameObject Timestamp;
@@ -24,10 +24,16 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
     public void Setup(DLinkedList notification, KindOfNotification kind) {
+        notification.GetData().Kind = kind;
+
         SetGameObjects();
         SetComponents(kind);
         this.notification = notification;
-        SetupPanelInformation(notification.GetData(), kind);
+
+        if (notification.HasPrevious())
+            SetupPanelInformation(notification.GetData(), kind, notification.GetPrevious().GetData().Autor);
+        else
+            SetupPanelInformation(notification.GetData(), kind);
     }
 
     // Getters
@@ -63,9 +69,12 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void SetupPanelInformation(Notification notif, KindOfNotification kind) {
+    private void SetupPanelInformation(Notification notif, KindOfNotification kind, string reactionTo = "") {
         // General settings
         username.text = notif.Autor;
+        if (reactionTo != string.Empty)
+            username.text += " ↳ Reactie op " + reactionTo;
+
         message.text = notif.Message;
         mediaPlaform.sprite = notif.PlatformLogo;
 
@@ -86,7 +95,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void SetTime() {
         Text date = Timestamp.transform.Find("Date").GetComponent<Text>();
         Text time = Timestamp.transform.Find("Time").GetComponent<Text>();
-        Date.text = string.Format("{0} {1}", time.text, date.text);
+        Date.text = string.Format("{0}", time.text);
     }
 
     // Event functions
@@ -116,7 +125,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-        GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
+        if (notification.GetData().Kind != KindOfNotification.Postable)
+            GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
     }
 
     public void PostButtonClicked()
@@ -129,11 +139,10 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void TogglePanelColor() {
         Image panel = gameObject.GetComponent<Image>();
 
-        if (!notification.GetData().IsSelected) {
+        if (!notification.GetData().IsSelected)
             panel.color = panelColorYellow;
-        } else {
+        else
             panel.color = panelColorWhite;
-        }
 
         notification.GetData().IsSelected = !notification.GetData().IsSelected;
     }
