@@ -44,8 +44,7 @@ public class Officer : MonoBehaviour {
         // Setup this GameObject's collider and rigidbody to only interact with other NPCs
         rb = this.GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        rb.detectCollisions = true;
-        this.gameObject.layer = 9;
+        rb.detectCollisions = true; 
         this.GetComponent<SphereCollider>().isTrigger = true;
 
         id = new Identification();
@@ -83,10 +82,8 @@ public class Officer : MonoBehaviour {
             SetId(test);
         // END OF TEST -------------------------------------------------------------
     }
-
-    /// <summary>
+    
     /// Checks if wanted identification is in the field of vision of the gameObject this function is called from.
-    /// </summary>
     public IEnumerator Search(Identification wanted, Roles searcher, float interval) {
         yield return new WaitForSeconds(interval);
         // loop through every NPC
@@ -122,10 +119,8 @@ public class Officer : MonoBehaviour {
             }
         }
     }
-
-    /// <summary>
+    
     /// Check what values of the given Identification are set, this way the officer knows what to compare the NPC's to
-    /// </summary>
     private Check LookFor(Identification id) {
         char[] isSet = { '0', '0', '0' };
 
@@ -192,10 +187,8 @@ public class Officer : MonoBehaviour {
                 return false;
         }
     }
-
-    /// <summary>
+    
     /// Checks if the given GameObject is within a 90 degree field of view in front of the GameObject this function is called from
-    /// </summary>
     private bool IsInFront(GameObject npc) {
         Vector3 directionToTarget = transform.position - npc.transform.position;
         float angle = Vector3.Angle(transform.forward, directionToTarget);
@@ -213,10 +206,8 @@ public class Officer : MonoBehaviour {
 
         behaviour.MoveToTarget(target);
     }
-
-    /// <summary>
+    
     /// Question the suspect by facing the target and holding for 'time' amount of seconds. If target is the suspect, arrest them
-    /// </summary>
     private IEnumerator Questioning(float time) {
         behaviour.FaceTarget(target.transform);
         yield return new WaitForSeconds(time);
@@ -230,10 +221,8 @@ public class Officer : MonoBehaviour {
         target = null;
         this.GetComponent<SphereCollider>().enabled = true;
     }
-
-    /// <summary>
+    
     /// Once a collision is detected with an NPC check if they match the target and if so, question them
-    /// </summary>
     private void OnTriggerEnter(Collider other) {
         if (other != null)
             if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))

@@ -47,7 +47,6 @@ public class NPCMaker : MonoBehaviour {
         GameObject suspect = GetNPCModelByIndex(randomindex);
 
         // Set this gameObject to the 'Suspect' layer for collision ignoring
-        suspect.layer = 10;
         suspect.GetComponent<BoxCollider>().isTrigger = true;
 
         InstantiateNPC(suspect, Roles.Suspect);

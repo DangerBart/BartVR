@@ -77,7 +77,6 @@ public class NPCBehaviour : MonoBehaviour {
 
     private void FindNewCheckpoint() {
         // initialize values
-        bool foundValidCheckpoint = false;
         randX = Random.Range(0, radius);
         randZ = Random.Range(0, radius);
 
@@ -85,18 +84,11 @@ public class NPCBehaviour : MonoBehaviour {
         nextCheckpoint = currentCheckpoint.GetOption(Random.Range(0, currentCheckpoint.GetLength()));
 
         // Confirm that nextCheckpoint is not equal to previousCheckpoint so NPC's don't walk back and forth between the same points
-        if (currentCheckpoint.GetLength() != 1) {
-            while (!foundValidCheckpoint) {
-                if (nextCheckpoint == previousCheckpoint) {
-                    nextCheckpoint = currentCheckpoint.GetOption(Random.Range(0, currentCheckpoint.GetLength()));
-                } else {
-                    foundValidCheckpoint = true;
-                }
-            }
-        }
-        agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
+        while (nextCheckpoint == previousCheckpoint && currentCheckpoint.GetLength() != 1)
+            nextCheckpoint = currentCheckpoint.GetOption(Random.Range(0, currentCheckpoint.GetLength()));
 
-        // Face the destination
+        agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
+        
         FaceTarget(nextCheckpoint.GetTransformData());
     }
 
@@ -113,9 +105,7 @@ public class NPCBehaviour : MonoBehaviour {
         agent.SetDestination(target.transform.position);
     }
 
-    /// <summary> 
     /// Reset this NPC's currentCheckpoint to a new Node, Node is calculated with given coordinates by finding the nearest Node 
-    /// </summary>
     /// <param name="coordinates">Coordinates on the map of the general location this NPC should move to</param>
     public void RelocateToTarget(Vector3 coordinates) {
         // initialize variables
