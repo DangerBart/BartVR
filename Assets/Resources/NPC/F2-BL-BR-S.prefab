@@ -143,9 +143,10 @@ GameObject:
   - component: {fileID: 114687002305896530}
   - component: {fileID: 114834088273136310}
   - component: {fileID: 114821168434738420}
-  m_Layer: 0
+  - component: {fileID: 65105937704614524}
+  m_Layer: 10
   m_Name: F2-BL-BR-S
-  m_TagString: Civilian
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4767,6 +4768,18 @@ Transform:
   m_Father: {fileID: 4313832388773404}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65105937704614524
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1031930914827232}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 1.2, z: 1.2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95413836072746188
 Animator:
   serializedVersion: 3
@@ -4811,6 +4824,11 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  questioned: 0
+  inQuestioning: 0
+  officerQuestioning: {fileID: 0}
+  agent: {fileID: 0}
+  relocating: 0
 --- !u!114 &114742526617307524
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4836,6 +4854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 3
+  gender: 2
+  topPiece: 8
+  bottomPiece: 9
 --- !u!114 &114834088273136310
 MonoBehaviour:
   m_ObjectHideFlags: 1

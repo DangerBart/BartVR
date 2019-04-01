@@ -1,30 +1,31 @@
 ﻿using UnityEngine;
 
 // Enum's
-public enum Roles
-{
+public enum Roles {
+    None,
     Civilian,
     Officer,
     Suspect
 }
 
-public enum Genders
-{
+public enum Genders { 
+    None,
     Male,
     Female
 }
 
-public enum Colors
-{
+public enum Colors {
+    None,
     White,
-    BLack,
+    Black,
     Grey,
     Yellow,
     Green,
     Pink,
     Purple,
     Blue,
-    Brown
+    Brown,
+    Red
 }
 
 [System.Serializable]
@@ -35,4 +36,5 @@ public class Identification : MonoBehaviour {
     public Genders gender;
     public Colors topPiece;
     public Colors bottomPiece;
+
 }

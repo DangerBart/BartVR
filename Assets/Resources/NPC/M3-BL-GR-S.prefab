@@ -413,9 +413,10 @@ GameObject:
   - component: {fileID: 114688049440742082}
   - component: {fileID: 114732848114262070}
   - component: {fileID: 114935347525113106}
-  m_Layer: 0
+  - component: {fileID: 65151714795407280}
+  m_Layer: 10
   m_Name: M3-BL-GR-S
-  m_TagString: Civilian
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4798,6 +4799,18 @@ Transform:
   m_Father: {fileID: 4866801194062794}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65151714795407280
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183327159975868}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 1.2, z: 1.2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95173570859474610
 Animator:
   serializedVersion: 3
@@ -4844,6 +4857,11 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  questioned: 0
+  inQuestioning: 0
+  officerQuestioning: {fileID: 0}
+  agent: {fileID: 0}
+  relocating: 0
 --- !u!114 &114732848114262070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4879,10 +4897,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  role: 0
-  gender: 0
-  topPiece: 7
-  bottomPiece: 2
+  role: 3
+  gender: 1
+  topPiece: 8
+  bottomPiece: 3
 --- !u!137 &137911272546732634
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
