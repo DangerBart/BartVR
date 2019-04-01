@@ -13,7 +13,7 @@ public class NPCMaker : MonoBehaviour {
     private readonly Node[] spawnList = new Node[46];
 
     // Use this for initialization
-    void Start () {}
+    void Start() { }
 
     public void Setup(string npcPrefabsPath, GameObject checkpointContainer) {
         npcModels = Resources.LoadAll(npcPrefabsPath, typeof(GameObject));
@@ -34,8 +34,7 @@ public class NPCMaker : MonoBehaviour {
         List<int> suspectModelsIndexes = new List<int>();
 
         // Make list with available suspect models
-        for (int i = 0; i < npcModels.Length; i++)
-        {
+        for (int i = 0; i < npcModels.Length; i++) {
             if (npcModels[i].name.ToUpper().Contains("S"))
                 suspectModelsIndexes.Add(i);
         }
@@ -48,6 +47,8 @@ public class NPCMaker : MonoBehaviour {
 
         // Set this gameObject to the 'Suspect' layer for collision ignoring
         suspect.GetComponent<BoxCollider>().isTrigger = true;
+        if (suspect.GetComponent<SuspectB>() == null)
+            suspect.AddComponent<SuspectB>();
 
         InstantiateNPC(suspect, Roles.Suspect);
 
@@ -61,7 +62,7 @@ public class NPCMaker : MonoBehaviour {
 
         int index = Random.Range(0, civilianModelIndexes.Count);
         index = civilianModelIndexes[index];
-        
+
         InstantiateNPC(index, Roles.Civilian);
     }
 
@@ -70,8 +71,7 @@ public class NPCMaker : MonoBehaviour {
         List<int> ModelIndexes = new List<int>();
         string[] receivedModelName = SplitStringInRightFormat(modelName);
 
-        for (int i = 0; i < npcModels.Length; i++)
-        {
+        for (int i = 0; i < npcModels.Length; i++) {
             string[] foundModelName = SplitStringInRightFormat(npcModels[i].name);
             // Check if model does not have the same identifications
             if (!(receivedModelName[0] == foundModelName[0] && receivedModelName[1] == foundModelName[1] && receivedModelName[2] == foundModelName[2]))

@@ -82,8 +82,10 @@ public class Officer : MonoBehaviour {
             SetId(test);
         // END OF TEST -------------------------------------------------------------
     }
-    
+
+    /// <summary>
     /// Checks if wanted identification is in the field of vision of the gameObject this function is called from.
+    /// </summary>
     public IEnumerator Search(Identification wanted, Roles searcher, float interval) {
         yield return new WaitForSeconds(interval);
         // loop through every NPC
@@ -93,34 +95,38 @@ public class Officer : MonoBehaviour {
                 case Roles.Officer:
                     // Only loop through civilians and suspect
                     if (idToCompare.role != Roles.Officer) {
-
-                        // Linecasting information
                         Vector3 npcPosition = new Vector3(idToCompare.GetComponent<Transform>().position.x, 1, idToCompare.GetComponent<Transform>().position.z);
-                        Vector3 ownPosition = new Vector3(this.transform.position.x, 1, this.transform.position.z);
-                        RaycastHit hit;
 
-                        // Find out who we need to look for and then check if who we are looking for is in our field of vision
-                        if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
-                            lookingFor = wanted;
-                            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                                if (hit.collider.tag == "NPC" && IsInFront(idToCompare.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
-                                    // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
-                                    if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted)) && !hit.collider.GetComponent<NPCBehaviour>().questioned) {
-                                        target = hit.collider.gameObject;
-                                    }
-                                }
-                            }
-                        }
+                        target = SearchForWanted(npcPosition, wanted, idToCompare);
                     }
                     break;
                 case Roles.Suspect:
                     // IMPLEMENT SUSPECT BEHAVIOUR ONCE OFFICER IS SPOTTED
+                    Debug.Log("doing suspicious stuff");
                     break;
             }
         }
     }
-    
-    /// Check what values of the given Identification are set, this way the officer knows what to compare the NPC's to
+
+    private GameObject SearchForWanted(Vector3 npcPosition, Identification wanted, Identification idToCompare) {
+        Vector3 ownPosition = new Vector3(this.transform.position.x, 1, this.transform.position.z);
+        RaycastHit hit;
+        // Find out who we need to look for and then check if who we are looking for is in our field of vision
+        if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
+            lookingFor = wanted;
+            if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
+                if (hit.collider.tag == "NPC" && IsInFront(idToCompare.gameObject) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
+                    // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
+                    if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted)) && !hit.collider.GetComponent<NPCBehaviour>().questioned) {
+                        return hit.collider.gameObject;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    // Check what values of the given Identification are set, this way the officer knows what to compare the NPC's to
     private Check LookFor(Identification id) {
         char[] isSet = { '0', '0', '0' };
 
@@ -188,7 +194,7 @@ public class Officer : MonoBehaviour {
         }
     }
     
-    /// Checks if the given GameObject is within a 90 degree field of view in front of the GameObject this function is called from
+    // Checks if the given GameObject is within a 90 degree field of view in front of the GameObject this function is called from
     private bool IsInFront(GameObject npc) {
         Vector3 directionToTarget = transform.position - npc.transform.position;
         float angle = Vector3.Angle(transform.forward, directionToTarget);
@@ -207,7 +213,7 @@ public class Officer : MonoBehaviour {
         behaviour.MoveToTarget(target);
     }
     
-    /// Question the suspect by facing the target and holding for 'time' amount of seconds. If target is the suspect, arrest them
+    // Question the suspect by facing the target and holding for 'time' amount of seconds. If target is the suspect, arrest them
     private IEnumerator Questioning(float time) {
         behaviour.FaceTarget(target.transform);
         yield return new WaitForSeconds(time);
@@ -222,7 +228,7 @@ public class Officer : MonoBehaviour {
         this.GetComponent<SphereCollider>().enabled = true;
     }
     
-    /// Once a collision is detected with an NPC check if they match the target and if so, question them
+    // Once a collision is detected with an NPC check if they match the target and if so, question them
     private void OnTriggerEnter(Collider other) {
         if (other != null)
             if (other.GetComponent<Collider>().tag == "NPC" && IsEqual(other.GetComponent<Collider>().GetComponent<Identification>(), lookingFor, LookFor(lookingFor))
