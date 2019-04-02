@@ -13,7 +13,7 @@ public class NPCBehaviour : MonoBehaviour {
     private float maxSpeed;
 
     // Private logic variables
-    private Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
+    public Node nextCheckpoint, currentCheckpoint, previousCheckpoint;
     private Node[] spawnList;
     private int randX, randZ;
     // Private variables not to be changed
@@ -60,6 +60,8 @@ public class NPCBehaviour : MonoBehaviour {
                 // Set false so Officer script knows the officer finished relocating
                 if (relocating)
                     relocating = false;
+                if (SuspectB.running)
+                    SuspectB.running = false;
 
                 previousCheckpoint = currentCheckpoint;
                 currentCheckpoint = nextCheckpoint;
