@@ -17,6 +17,8 @@ public class Board : MonoBehaviour
     private string PostableTabDefaultText;
     private LinkedList<DLinkedList> notificationlist;
 
+    public object MyProperty { get; set; }
+
     void Start() {
         LoadItems(m_Path);
         FillAndConnectNotificationsList();

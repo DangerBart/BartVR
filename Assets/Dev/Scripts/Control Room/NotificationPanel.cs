@@ -129,8 +129,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
     }
 
-    public void PostButtonClicked()
-    {
+    public void PostButtonClicked() {
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
         DeletePanel();
