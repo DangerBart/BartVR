@@ -341,9 +341,10 @@ GameObject:
   - component: {fileID: 114401353553596058}
   - component: {fileID: 114771445684109978}
   - component: {fileID: 114540257088387960}
+  - component: {fileID: 65529819726394818}
   m_Layer: 0
   m_Name: F1-G-B
-  m_TagString: Civilian
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4761,6 +4762,18 @@ Transform:
   m_Father: {fileID: 4641844903743630}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65529819726394818
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1129341407557916}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 1.2, z: 1.2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &95911329590896808
 Animator:
   serializedVersion: 3
@@ -4793,6 +4806,9 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  inQuestioning: 0
+  officerQuestioning: {fileID: 0}
+  agent: {fileID: 0}
 --- !u!114 &114540257088387960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4804,6 +4820,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  role: 1
+  gender: 2
+  topPiece: 5
+  bottomPiece: 2
 --- !u!114 &114577732655460616
 MonoBehaviour:
   m_ObjectHideFlags: 1

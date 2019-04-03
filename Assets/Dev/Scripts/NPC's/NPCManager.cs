@@ -7,6 +7,8 @@ public class NPCManager : MonoBehaviour
     [SerializeField]
     private string NpcPrefabsPath;
 
+    string officerModelsPath = "Officers";
+
     // Use this for initialization
     void Start() {
         NPCMaker npcMaker = GetComponent<NPCMaker>();
@@ -14,6 +16,7 @@ public class NPCManager : MonoBehaviour
 
         // Create suspect
         npcMaker.CreateSuspect();
+        npcMaker.CreateOfficer(officerModelsPath);
 
         // Create all civilians
         for (int i = 0; i < Gamemanager.amountOfNpcsToSpawn; i++)

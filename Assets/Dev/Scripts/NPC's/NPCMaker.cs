@@ -9,7 +9,7 @@ public class NPCMaker : MonoBehaviour {
     private List<int> civilianModelIndexes = new List<int>();
 
     //Node attributes
-    private readonly Node[] nodeList = new Node[59];
+    public static readonly Node[] nodeList = new Node[59];
     private readonly Node[] spawnList = new Node[46];
 
     // Use this for initialization
@@ -19,6 +19,15 @@ public class NPCMaker : MonoBehaviour {
         npcModels = Resources.LoadAll(npcPrefabsPath, typeof(GameObject));
         this.checkpointContainer = checkpointContainer;
         InitializeNodes();
+    }
+
+    public void CreateOfficer(string officerModelPath) {
+        Object[] officerModels = Resources.LoadAll(officerModelPath, typeof(GameObject));
+        if (officerModels.Length == 0)
+            throw new System.Exception("No valid models for officers were found");
+
+        GameObject randomModel = (GameObject)officerModels[Random.Range(0, officerModels.Length)];
+        InstantiateNPC(randomModel, Roles.Officer);
     }
 
     public void CreateSuspect() {
@@ -37,6 +46,9 @@ public class NPCMaker : MonoBehaviour {
         int randomindex = suspectModelsIndexes[Random.Range(0, suspectModelsIndexes.Count)];
         GameObject suspect = GetNPCModelByIndex(randomindex);
 
+        // Set this gameObject to the 'Suspect' layer for collision ignoring
+        suspect.GetComponent<BoxCollider>().isTrigger = true;
+
         InstantiateNPC(suspect, Roles.Suspect);
 
         // Making sure the suspsect is unique by setting avaiable civilian models
@@ -49,6 +61,7 @@ public class NPCMaker : MonoBehaviour {
 
         int index = Random.Range(0, civilianModelIndexes.Count);
         index = civilianModelIndexes[index];
+        
         InstantiateNPC(index, Roles.Civilian);
     }
 
@@ -83,6 +96,7 @@ public class NPCMaker : MonoBehaviour {
 
     private void InstantiateNPC(int modelIndex, Roles role) {
         GameObject npc = GetNPCModelByIndex(modelIndex);
+        npc.GetComponent<BoxCollider>().size = new Vector3(1.2f, 1.2f, 1.2f);
         InstantiateNPC(npc, role);
     }
 
@@ -127,7 +141,7 @@ public class NPCMaker : MonoBehaviour {
         Colors color;
         switch (colorCode.ToUpper()) {
             case "B":
-                color = Colors.BLack;
+                color = Colors.Black;
                 break;
             case "G":
                 color = Colors.Green;
@@ -137,6 +151,9 @@ public class NPCMaker : MonoBehaviour {
                 break;
             case "Y":
                 color = Colors.Yellow;
+                break;
+            case "R":
+                color = Colors.Red;
                 break;
             case "BL":
                 color = Colors.Blue;
