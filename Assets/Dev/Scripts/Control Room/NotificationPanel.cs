@@ -105,13 +105,13 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void ToggleFavoriteButton() {
-        if (notification.GetData().IsFavorite) {
-            notification.GetData().IsFavorite = false;
+        if (notification.GetData().IsFavorite)
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
-        } else {
-            notification.GetData().IsFavorite = true;
+        else
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
-        }
+
+        notification.GetData().IsFavorite = !notification.GetData().IsFavorite;
+        GetComponentInParent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel();
     }
 

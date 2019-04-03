@@ -51,24 +51,23 @@ public class NotificationControl : MonoBehaviour
         message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
         message.SetActive(true);
 
-        //Place it on the boardpanel or the receive notificationpanel
         if(notification.GetData().IsFavorite) {
-            message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
+            // Place on favorite board
+            message.transform.SetParent(favoritePanel.transform.parent, false);
 
-            if (!notification.GetData().IsSelected) {
-                // Create marker when notfication is not selected
+            // Create marker when notfication is not selected
+            if (!notification.GetData().IsSelected)
                 minimapControl.CreateNewMarker(notification.GetData().MinimapLocation);
-            }
         }
         else {
+            // return to original place, either releveant or irrelevant board
             message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
             minimapControl.DeleteSpecifiqMarker(notification.GetData().MinimapLocation);
         }
 
-        if (notification.GetData().IsSelected) {
-            // Making sure selectedNotificationObject is updated
+        // Making sure selectedNotificationObject is updated
+        if (notification.GetData().IsSelected)
             selectedNotficationObject = message;
-        }
     }
 
     public void NotificationSelected(GameObject notificationObject) {
