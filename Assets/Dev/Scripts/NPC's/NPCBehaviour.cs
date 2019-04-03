@@ -60,8 +60,8 @@ public class NPCBehaviour : MonoBehaviour {
                 // Set false so Officer script knows the officer finished relocating
                 if (relocating)
                     relocating = false;
-                if (SuspectB.running)
-                    SuspectB.running = false;
+                if (Suspect.running)
+                    Suspect.running = false;
 
                 previousCheckpoint = currentCheckpoint;
                 currentCheckpoint = nextCheckpoint;
@@ -90,7 +90,7 @@ public class NPCBehaviour : MonoBehaviour {
             nextCheckpoint = currentCheckpoint.GetOption(Random.Range(0, currentCheckpoint.GetLength()));
 
         agent.SetDestination(nextCheckpoint.GetTransformData().position + new Vector3(randX, 0, randZ));
-        
+
         FaceTarget(nextCheckpoint.GetTransformData());
     }
 
@@ -120,7 +120,7 @@ public class NPCBehaviour : MonoBehaviour {
 
 
         //Find add all the nodes
-        foreach (Transform node in GameObject.Find("CheckpointContainer").transform) {
+        foreach (Transform node in GetNodes()) {
             Vector3 nodePos = new Vector3(node.gameObject.transform.position.x, 0.1f, node.gameObject.transform.position.z);
 
             if (Vector3.Distance(coordinates, nodePos) < minDistance || minDistance == null) {
@@ -144,5 +144,12 @@ public class NPCBehaviour : MonoBehaviour {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+
+    public List<Transform> GetNodes() {
+        List<Transform> list = new List<Transform>();
+        foreach (Transform node in GameObject.Find("CheckpointContainer").transform)
+            list.Add(node);
+        return list;
     }
 }

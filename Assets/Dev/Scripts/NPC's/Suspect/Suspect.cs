@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
-public class SuspectB : MonoBehaviour {
+public class Suspect : MonoBehaviour {
     private Identification cop;
     private Officer off;
     private GameObject npcContainer;
-    private static NavMeshAgent agent;
     private static NPCBehaviour behaviour;
+    private static readonly float maxDistance = 75f;
+
     public static bool running;
+
 
     void Start() {
         cop = new Identification();
@@ -28,30 +31,25 @@ public class SuspectB : MonoBehaviour {
 
     public static void MoveAwayFromTarget(GameObject target, GameObject self) {
         if (!running) {
-            behaviour.RelocateToTarget(FindRandomPointBehindGameObject(20, self));
+            List<Transform> validNodes = new List<Transform>();
+
+            foreach (Transform node in behaviour.GetNodes()) {
+                if (IsBehind(node.position, self.transform.position) && Vector3.Distance(self.transform.position, node.position) < maxDistance) {
+                    validNodes.Add(node);
+                }
+            }
+            Transform rand = validNodes[Random.Range(0, validNodes.Count)];
+
+            behaviour.RelocateToTarget(rand.position);
             running = true;
         }
-    }
-
-    private static Vector3 FindRandomPointBehindGameObject(float radius, GameObject origin) {
-        Vector2 randomPoint = Random.insideUnitCircle * radius;
-
-        Vector3 random3DPoint = origin.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
-        Debug.Log("Relocating");
-        Debug.DrawLine(origin.transform.position, random3DPoint, Color.yellow, 5f);
-        while (!IsBehind(random3DPoint, origin.transform.position)) {
-            randomPoint = Random.insideUnitCircle * radius;
-            random3DPoint = origin.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
-        }
-
-        return origin.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
     }
 
     private static bool IsBehind(Vector3 point, Vector3 self) {
         Vector3 directionToTarget = self - point;
         float angle = Vector3.Angle(self, directionToTarget);
 
-        if (Mathf.Abs(angle) > 0 || Mathf.Abs(angle) > 180)
+        if (Mathf.Abs(angle) > 0 || Mathf.Abs(angle) < 180)
             return true;
         return false;
     }

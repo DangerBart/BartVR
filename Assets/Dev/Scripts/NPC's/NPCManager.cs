@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class NPCManager : MonoBehaviour
-{
+public class NPCManager : MonoBehaviour {
     [SerializeField]
     private GameObject CheckpointContainer;
     [SerializeField]
@@ -16,6 +15,16 @@ public class NPCManager : MonoBehaviour
 
         // Create suspect
         npcMaker.CreateSuspect();
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
         npcMaker.CreateOfficer(officerModelsPath);
         npcMaker.CreateOfficer(officerModelsPath);
 
