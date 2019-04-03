@@ -60,7 +60,7 @@ public class NotificationControl : MonoBehaviour
                 minimapControl.CreateNewMarker(notification.GetData().MinimapLocation);
         }
         else {
-            // return to original place, either releveant or irrelevant board
+            // return to original place, either relevant or irrelevant tab
             message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
             minimapControl.DeleteSpecifiqMarker(notification.GetData().MinimapLocation);
         }

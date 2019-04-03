@@ -112,14 +112,17 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         notification.GetData().IsFavorite = !notification.GetData().IsFavorite;
         GetComponentInParent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
-        DeletePanel();
+        DeletePanel(false);
     }
 
     public void SendImageToVRUser() {
         tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
-    public void DeletePanel() {
+    public void DeletePanel(bool deleteMarker) {
+        if ((notification.GetData().IsFavorite || notification.GetData().IsSelected) && deleteMarker)
+            GetComponentInParent<NotificationControl>().NotificationPanelRemoved(notification.GetData().MinimapLocation);
+
         Destroy(gameObject);
     }
 
@@ -132,7 +135,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void PostButtonClicked() {
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
-        DeletePanel();
+        DeletePanel(true);
     }
 
     public void TogglePanelColor() {
