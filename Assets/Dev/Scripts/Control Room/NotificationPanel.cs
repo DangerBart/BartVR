@@ -1,24 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 {
-    //image needs to be public to be able to clone
+    // Image needs to be public to be able to clone
     public Sprite image;
     public GameObject panelImage;
-    public GameObject notificationMenu;
     public GameObject Timestamp;
 
-    private Notification notification;
+    private DoublyLinkedList notification;
     public TabletDisplay tablet;
-    public bool isFavorite;
     private Text username;
     private Text message;
     private Image mediaPlaform;
-    private Sprite imageForVR;
     private GameObject imageButton;
     private Image favoriteButton;
     private Text Date;
@@ -26,45 +21,63 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
-    public void Setup(Notification notification) {
+    public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
+        notification.GetData().Kind = kind;
+
         SetGameObjects();
-        SetComponents();
+        SetComponents(kind);
         this.notification = notification;
-        SetupPanelInformation(notification);
+
+        if (notification.HasPrevious())
+            SetupPanelInformation(notification.GetData(), kind, notification.GetPrevious().GetData().Autor);
+        else
+            SetupPanelInformation(notification.GetData(), kind);
     }
 
+    // Getters
     public Vector2 GetMinimapLocation() {
-        return notification.MinimapLocation;
+        return notification.GetData().MinimapLocation;
     }
 
     public bool IsFavorite() {
-        return notification.IsFavorite;
+        return notification.GetData().IsFavorite;
     }
 
     public bool IsSelected() {
-        return notification.IsSelected;
+        return notification.GetData().IsSelected;
     }
 
     private void SetGameObjects() {
-        imageButton = this.transform.Find("Show Button").gameObject;
+        imageButton = transform.Find("Show Button").gameObject;
     }
 
-    private void SetComponents() {
-        username = this.transform.Find("UserName").GetComponent<Text>();
-        message = this.transform.Find("Message").GetComponent<Text>();
-        mediaPlaform = this.transform.Find("MediaPlatform").GetComponent<Image>();
-        favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
-        Date = this.transform.Find("Date").GetComponent<Text>();
+    // Setup functions
+    private void SetComponents(KindOfNotification kind) {
+        // General settings
+        username = transform.Find("UserName").GetComponent<Text>();
+        message = transform.Find("Message").GetComponent<Text>();
+        mediaPlaform = transform.Find("MediaPlatform").GetComponent<Image>();
+
+        // Specifiq to kind of panel
+        if (kind != KindOfNotification.Postable){
+            favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
+            Date = this.transform.Find("Date").GetComponent<Text>();
+        }
     }
 
-    private void SetupPanelInformation(Notification notification) {
-        username.text = notification.Name;
-        message.text = notification.Message;
-        mediaPlaform.sprite = notification.PlatformLogo;
-        SetImage(notification.Img);
-        SetTime();
+    private void SetupPanelInformation(Notification notif, KindOfNotification kind, string reactionTo = "") {
+        // General settings
+        username.text = notif.Autor;
+        if (reactionTo != string.Empty)
+            username.text += " ↳ Reactie op " + reactionTo;
 
-        this.notification = notification;
+        message.text = notif.Message;
+        mediaPlaform.sprite = notif.PlatformLogo;
+
+        if (kind != KindOfNotification.Postable) {
+            SetImage(notif.Img);
+            SetTime();
+        }
     }
 
     public void SetImage(Sprite img) {
@@ -77,60 +90,56 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void SetTime() {
         Text date = Timestamp.transform.Find("Date").GetComponent<Text>();
         Text time = Timestamp.transform.Find("Time").GetComponent<Text>();
-        Date.text = string.Format("{0} {1}", time.text, date.text);
+        Date.text = string.Format("{0}", time.text);
     }
 
+    // Event functions
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
     }
 
     public void ToggleFavoriteButton() {
-        if (notification.IsFavorite) {
-            notification.IsFavorite = false;
+        if (notification.GetData().IsFavorite)
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
-        } else {
-            notification.IsFavorite = true;
+        else
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
-        }
 
-        notificationMenu.GetComponent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
-        DeletePanel();
+        notification.GetData().IsFavorite = !notification.GetData().IsFavorite;
+        GetComponentInParent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
+        DeletePanel(false);
     }
-    public void SendImageToVRUser(){
-        if (tablet == null)
-            tablet = GameObject.Find("TabletImage").GetComponent<TabletDisplay>();
 
+    public void SendImageToVRUser() {
         tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
-    private void DeletePanel() {
+    public void DeletePanel(bool deleteMarker) {
+        if ((notification.GetData().IsFavorite || notification.GetData().IsSelected) && deleteMarker)
+            GetComponentInParent<NotificationControl>().NotificationPanelRemoved(notification.GetData().MinimapLocation);
+
         Destroy(gameObject);
-    }
-
-    public void DeleteButtonClicked() {
-        if (notification.IsFavorite || notification.IsSelected) {
-            // Make sure the marker gets deleted as well
-            notificationMenu.GetComponent<NotificationControl>().NotificationPanelRemoved(notification.MinimapLocation);
-        }
-
-        DeletePanel();
     }
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-        notificationMenu.GetComponent<NotificationControl>().NotificationSelected(gameObject);
+        if (notification.GetData().Kind != KindOfNotification.Postable)
+            GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
+    }
+
+    public void PostButtonClicked() {
+        GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
+        GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
+        DeletePanel(true);
     }
 
     public void TogglePanelColor() {
         Image panel = gameObject.GetComponent<Image>();
 
-        if (!notification.IsSelected) {
+        if (!notification.GetData().IsSelected)
             panel.color = panelColorYellow;
-        } else {
+        else
             panel.color = panelColorWhite;
-        }
 
-        // Set IsSelected value
-        notification.IsSelected = !notification.IsSelected;
+        notification.GetData().IsSelected = !notification.GetData().IsSelected;
     }
 }

@@ -1,84 +1,103 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
     [SerializeField]
-    private GameObject notificationMenu;
-    private NotificationControl notificationControl;
-
-    // POI
+    private string m_Path = "XML_Files/data-set";
     [SerializeField]
-    private GameObject POISystem;
-    private POIManager POIManager;
+    private GameObject PostableNotifcationsContentContainer;
+    [SerializeField]
+    private Text PostableTabText;
 
     private NotificationContainer nc;
-    private int irrelevantNotificationCount;
-    public string m_Path = "XML_Files/data-set";
-    Dictionary<int, List<Notification>> notificationsPerPOI = new Dictionary<int, List<Notification>>();
+    private NotificationControl notificationControl;
+    private string PostableTabDefaultText;
+    private LinkedList<DoublyLinkedList> notificationlist;
 
     void Start() {
         LoadItems(m_Path);
-        FillDictionaryWithNotificationsPerPOI();
-        notificationControl = notificationMenu.GetComponent<NotificationControl>();
+        FillAndConnectNotificationsList();
+        notificationControl = GetComponent<NotificationControl>();
 
-        POIManager = POISystem.GetComponent<POIManager>();
-        // Count -1 as we don't need a POI on the map for irrelevant messages
-        POIManager.Setup(notificationsPerPOI.Count - 1);
+        PostableTabDefaultText = PostableTabText.text;
 
         //Setup second display for VR camera
         if (Display.displays.Length > 1)
             Display.displays[1].Activate();
     }
 
-    void LoadItems(string path) {
-        nc = NotificationContainer.Load(path);
-    }
+    public void ShowNotification() {
+        DoublyLinkedList notificationItem = notificationlist.First();
 
-    void FillDictionaryWithNotificationsPerPOI() {
-        foreach (Notification note in nc.notifications) {
+        foreach (DoublyLinkedList item in notificationlist) {
+            if (!item.GetData().WaitingForPost) {
 
-            if (!notificationsPerPOI.ContainsKey(note.POI)){
-                notificationsPerPOI.Add(note.POI, new List<Notification>());
+                notificationItem = item;
+                if (item.HasNext())
+                {
+                    DoublyLinkedList temporary = item.GetNext();
+
+                    //Set reaction message on wait mode
+                    if (item.GetData().Postable)
+                        temporary.GetData().WaitingForPost = true;
+
+                    notificationlist.AddFirst(temporary);
+                }
+                notificationlist.Remove(item);
+                break;
             }
-          
-            notificationsPerPOI[note.POI].Add(note);
+        }
+
+        // Tell notificationControl to create a panel for the message
+        if (notificationItem != null) {
+            SetNotificationPlatformLogo(notificationItem.GetData());
+
+            if (notificationItem.GetData().Postable)
+                notificationControl.CreatePostableMessagePanel(notificationItem);
+            else
+                notificationControl.CreateRelevantMessagePanel(notificationItem);
+
+            // Change tab text
+            ChangeTextBasedOnCount(PostableTabText, PostableTabDefaultText, PostableNotifcationsContentContainer.transform.childCount - 1);
         }
     }
 
-    public void LoadRandomRelevantNotification() {
+    private void ChangeTextBasedOnCount(Text textToChange, string defaultText, int count) {
+        string newText = defaultText;
 
-        int currentPOI = POIManager.GetCurrentPOI();
+        if (count > 0)
+            newText = newText + " (" + count + ")";
 
-        if (notificationsPerPOI[currentPOI].Count != 0) {
-            int randomNotificationID = Random.Range(0, notificationsPerPOI[currentPOI].Count);
-            Notification notification = notificationsPerPOI[currentPOI][randomNotificationID];
+        textToChange.text = newText;
+    }
 
-            // Making sure relevant notifications are not displayed twice
-            notificationsPerPOI[currentPOI].RemoveAt(randomNotificationID);
+    private void FillAndConnectNotificationsList() {
+        notificationlist = new LinkedList<DoublyLinkedList>();
 
-            notification.POILocation = POIManager.GetPOILocation();
-
-            SetNotificationPlatformLogo(notification);
-
-            notificationControl.CreateMessagePanel(notification);
+        foreach (Notification notif in nc.notifications) {
+            if (!notif.ReactionTo.HasValue)
+                notificationlist.AddLast(new DoublyLinkedList(notif));
+            else {
+                // Notification is a reaction and needs to be connected
+                foreach (DoublyLinkedList item in notificationlist)
+                    if (item.FindAndInsertByNotificationId(notif))
+                        break;
+            }
         }
     }
 
-    public void LoadRandomIrrelevantNotification() {
-        // Reset counter if needed
-        if (irrelevantNotificationCount >= notificationsPerPOI[0].Count){
-            irrelevantNotificationCount = 0;
-        }
+    public void SetNotificationWaitingForPost(bool value, int id) {
+        DoublyLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
 
-        Notification notification = notificationsPerPOI[0][irrelevantNotificationCount];
-
-        SetNotificationPlatformLogo(notification);
-
-        irrelevantNotificationCount++;
-        notificationControl.CreateMessagePanel(notification);
+        // If the notification was found
+        if (foundNotif != null)
+            foundNotif.GetData().WaitingForPost = value;
     }
 
+    // Make sure the image is loaded in
     private void SetNotificationPlatformLogo(Notification notification) {
         notification.PlatformLogo = Resources.Load<Sprite>("Mediaplatform/" + notification.Platform);
         if (notification.Image != null) {
@@ -86,4 +105,7 @@ public class Board : MonoBehaviour
         }
     }
 
+    void LoadItems(string path) {
+        nc = NotificationContainer.Load(path);
+    }
 }

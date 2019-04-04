@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NotificationControl : MonoBehaviour
 {
@@ -8,8 +6,13 @@ public class NotificationControl : MonoBehaviour
     private GameObject minimap;
     private MinimapControl minimapControl;
 
-    public GameObject defaultNotificationPanel;
-    public GameObject defaultBoardPanel;
+    // Panels
+    [SerializeField]
+    private GameObject relevantNotificationPanel;
+    [SerializeField]
+    private GameObject postableNotificationPanel;
+    [SerializeField]
+    private GameObject favoritePanel;
 
     private GameObject selectedNotficationObject;
 
@@ -17,42 +20,54 @@ public class NotificationControl : MonoBehaviour
         minimapControl = minimap.GetComponent<MinimapControl>();
     }
 
-    public void CreateMessagePanel(Notification notification) {
+    public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
         //Make a copy of the hidden panel
-        GameObject message = Instantiate(defaultNotificationPanel) as GameObject;
+        GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
         message.SetActive(true);
         
-        message.GetComponent<NotificationPanel>().Setup(notification);
+        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
 
-        message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
+        message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
 
-        minimapControl.SetNotificationMinimapLocation(notification);
+        minimapControl.SetNotificationMinimapLocation(notification.GetData());
     }
 
-    public void ToggleFavoritePanel(GameObject originalPanel, Notification notification) {
-        //Make a copy of the originalpanel
-        GameObject message = Instantiate(originalPanel) as GameObject;
-        message.GetComponent<NotificationPanel>().Setup(notification);
+    public void CreatePostableMessagePanel(DoublyLinkedList notification)
+    {
+        //Make a copy of the hidden panel
+        GameObject message = Instantiate(postableNotificationPanel) as GameObject;
         message.SetActive(true);
 
-        //Place it on the boardpanel or the receive notificationpanel
-        if(notification.IsFavorite) {
-            message.transform.SetParent(defaultBoardPanel.transform.parent, false);
+        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Postable);
 
-            if (!notification.IsSelected) {
-                // Create marker when notfication is not selected
-                minimapControl.CreateNewMarker(notification.MinimapLocation);
-            }
+        message.transform.SetParent(postableNotificationPanel.transform.parent, false);
+
+        minimapControl.SetNotificationMinimapLocation(notification.GetData());
+    }
+
+    public void ToggleFavoritePanel(GameObject originalPanel, DoublyLinkedList notification) {
+        //Make a copy of the originalpanel
+        GameObject message = Instantiate(originalPanel) as GameObject;
+        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
+        message.SetActive(true);
+
+        if(notification.GetData().IsFavorite) {
+            // Place on favorite board
+            message.transform.SetParent(favoritePanel.transform.parent, false);
+
+            // Create marker when notfication is not selected
+            if (!notification.GetData().IsSelected)
+                minimapControl.CreateNewMarker(notification.GetData().MinimapLocation);
         }
         else {
-            message.transform.SetParent(defaultNotificationPanel.transform.parent, false);
-            minimapControl.DeleteSpecifiqMarker(notification.MinimapLocation);
+            // return to original place, either relevant or irrelevant tab
+            message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
+            minimapControl.DeleteSpecifiqMarker(notification.GetData().MinimapLocation);
         }
 
-        if (notification.IsSelected) {
-            // Making sure selectedNotificationObject is updated
+        // Making sure selectedNotificationObject is updated
+        if (notification.GetData().IsSelected)
             selectedNotficationObject = message;
-        }
     }
 
     public void NotificationSelected(GameObject notificationObject) {
@@ -62,32 +77,26 @@ public class NotificationControl : MonoBehaviour
             NotificationPanel selectedNotificationPanel = selectedNotficationObject.GetComponent<NotificationPanel>();
 
             selectedNotificationPanel.TogglePanelColor();
-            //Remove previous selected marker
+            // Remove previous selected marker
             minimapControl.DeleteSpecifiqMarker(selectedNotificationPanel.GetMinimapLocation());
 
+            // As the selected marker(yellow) has been romoved we have to create a new purple marker
             if (selectedNotificationPanel.IsFavorite())
-            {
-                // As the selected marker(yellow) has been romoved we have to create a new purple marker
                 minimapControl.CreateNewMarker(selectedNotificationPanel.GetMinimapLocation());
-            }
         }
 
-        if (notificationPanel.IsFavorite()) {
+        if (notificationPanel.IsFavorite())
             minimapControl.DeleteSpecifiqMarker(notificationPanel.GetMinimapLocation());
-        }
-        
+          
         if (selectedNotficationObject != notificationObject) {
-            // Currently selected panel an previous are not the same
-
+            // Currently selected and previous panel are not the same
             notificationPanel.TogglePanelColor();
             selectedNotficationObject = notificationObject;
 
-            //Place new minimap marker
+            // Place new minimap marker
             minimapControl.CreateNewMarker(notificationPanel.GetMinimapLocation(), true);
-        }
-        else {
+        } else
             selectedNotficationObject = null;
-        }
     }
 
     public void NotificationPanelRemoved(Vector2 minimapLocation) {
