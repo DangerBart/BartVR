@@ -20,6 +20,7 @@ public class Officer : MonoBehaviour {
 
     private static Identification id;
 
+    private float maxDistance = 33f;
     private bool canQuestion;
     private bool hasQuestioned;
     private static bool startSearching;
@@ -124,11 +125,12 @@ public class Officer : MonoBehaviour {
 
     private GameObject SearchForWanted(Vector3 npcPosition, Vector3 ownPosition, Identification wanted, Identification idToCompare, GameObject self) {
         RaycastHit hit;
+
         // Find out who we need to look for and then check if who we are looking for is in our field of vision
         if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
             lookingFor = wanted;
             if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                if (IsInFront(idToCompare.gameObject, self) && Vector3.Distance(ownPosition, npcPosition) < 33f) {
+                if (IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
                     // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
                     switch (wanted.role) {
                         case Roles.Officer:
@@ -228,11 +230,15 @@ public class Officer : MonoBehaviour {
     }
 
     // Checks if the given GameObject is within a 90 degree field of view in front of the GameObject this function is called from
-    private bool IsInFront(GameObject npc, GameObject self) {
+    private bool IsInFront(GameObject npc, GameObject self, Roles role) {
+        if (role == Roles.Suspect)
+            maxDistance = 60f;
+
+
         Vector3 directionToTarget = self.transform.position - npc.transform.position;
         float angle = Vector3.Angle(self.transform.forward, directionToTarget);
 
-        if (Mathf.Abs(angle) > 90 || Mathf.Abs(angle) > 270)
+        if ((Mathf.Abs(angle) > 90 || Mathf.Abs(angle) > 270) && Vector3.Distance(self.transform.position, npc.transform.position) < maxDistance) 
             return true;
         return false;
     }

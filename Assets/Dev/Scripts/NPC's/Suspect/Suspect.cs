@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Suspect : MonoBehaviour {
     private Identification cop;
@@ -33,11 +32,10 @@ public class Suspect : MonoBehaviour {
         if (!running) {
             List<Transform> validNodes = new List<Transform>();
 
-            foreach (Transform node in behaviour.GetNodes()) {
-                if (IsBehind(node.position, self.transform.position) && Vector3.Distance(self.transform.position, node.position) < maxDistance) {
+            foreach (Transform node in behaviour.GetNodes())
+                if (IsBehind(node.position, self.transform.position) && Vector3.Distance(self.transform.position, node.position) < maxDistance)
                     validNodes.Add(node);
-                }
-            }
+
             Transform rand = validNodes[Random.Range(0, validNodes.Count)];
 
             behaviour.RelocateToTarget(rand.position);
@@ -49,7 +47,7 @@ public class Suspect : MonoBehaviour {
         Vector3 directionToTarget = self - point;
         float angle = Vector3.Angle(self, directionToTarget);
 
-        if (Mathf.Abs(angle) > 0 || Mathf.Abs(angle) < 180)
+        if (Mathf.Abs(angle) > 0 || Mathf.Abs(angle) > 180)
             return true;
         return false;
     }
