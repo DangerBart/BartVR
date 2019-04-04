@@ -20,7 +20,7 @@ public class NotificationControl : MonoBehaviour
         minimapControl = minimap.GetComponent<MinimapControl>();
     }
 
-    public void CreateRelevantMessagePanel(DLinkedList notification) {
+    public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
         message.SetActive(true);
@@ -32,7 +32,7 @@ public class NotificationControl : MonoBehaviour
         minimapControl.SetNotificationMinimapLocation(notification.GetData());
     }
 
-    public void CreatePostableMessagePanel(DLinkedList notification)
+    public void CreatePostableMessagePanel(DoublyLinkedList notification)
     {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(postableNotificationPanel) as GameObject;
@@ -45,7 +45,7 @@ public class NotificationControl : MonoBehaviour
         minimapControl.SetNotificationMinimapLocation(notification.GetData());
     }
 
-    public void ToggleFavoritePanel(GameObject originalPanel, DLinkedList notification) {
+    public void ToggleFavoritePanel(GameObject originalPanel, DoublyLinkedList notification) {
         //Make a copy of the originalpanel
         GameObject message = Instantiate(originalPanel) as GameObject;
         message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
@@ -77,7 +77,7 @@ public class NotificationControl : MonoBehaviour
             NotificationPanel selectedNotificationPanel = selectedNotficationObject.GetComponent<NotificationPanel>();
 
             selectedNotificationPanel.TogglePanelColor();
-            //Remove previous selected marker
+            // Remove previous selected marker
             minimapControl.DeleteSpecifiqMarker(selectedNotificationPanel.GetMinimapLocation());
 
             // As the selected marker(yellow) has been romoved we have to create a new purple marker
@@ -93,7 +93,7 @@ public class NotificationControl : MonoBehaviour
             notificationPanel.TogglePanelColor();
             selectedNotficationObject = notificationObject;
 
-            //Place new minimap marker
+            // Place new minimap marker
             minimapControl.CreateNewMarker(notificationPanel.GetMinimapLocation(), true);
         } else
             selectedNotficationObject = null;

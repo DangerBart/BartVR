@@ -1,28 +1,22 @@
-﻿public class DLinkedList
-{
+﻿public class DoublyLinkedList {
     private Notification data;
-    private DLinkedList next;
-    private DLinkedList prev;
+    private DoublyLinkedList next;
+    private DoublyLinkedList prev;
 
-    public DLinkedList() {
+    public DoublyLinkedList() {
         data = new Notification();
         next = null;
         prev = null;
     }
 
-    public DLinkedList(Notification value) {
+    public DoublyLinkedList(Notification value) {
         data = value;
         next = null;
         prev = null;
     }
 
     public bool FindAndInsertByNotificationId(Notification notif) {
-        return FindAndInsertByNotificationId(this, notif);
-    }
-
-    public bool FindAndInsertByNotificationId(DLinkedList node, Notification notif) {
-        if (node == null)
-            node = this;
+        DoublyLinkedList node = this;
 
         while ((node != null) && (node.data.Id != notif.ReactionTo))
             node = node.next;
@@ -39,16 +33,15 @@
         return false;
     }
 
-    public DLinkedList InsertNext(Notification notif) {
-        DLinkedList node = new DLinkedList(notif);
+    public DoublyLinkedList InsertNext(Notification notif) {
+        DoublyLinkedList node = new DoublyLinkedList(notif);
         if (this.next == null) {
-            // Easy to handle
             node.prev = this;
             node.next = null; // already set in constructor
             this.next = node;
         } else {
             // Insert in the middle
-            DLinkedList temp = this.next;
+            DoublyLinkedList temp = this.next;
             node.prev = this;
             node.next = temp;
             this.next = node;
@@ -62,7 +55,7 @@
         return data;
     }
 
-    public DLinkedList GetNext() {
+    public DoublyLinkedList GetNext() {
         return next;
     }
 
@@ -70,18 +63,16 @@
         return next != null;
     }
 
-    public DLinkedList GetPrevious()
-    {
+    public DoublyLinkedList GetPrevious() {
         return prev;
     }
 
-    public bool HasPrevious()
-    {
+    public bool HasPrevious() {
         return prev != null;
     }
 
-    public DLinkedList InsertPrev(Notification notif) {
-        DLinkedList node = new DLinkedList(notif);
+    public DoublyLinkedList InsertPrev(Notification notif) {
+        DoublyLinkedList node = new DoublyLinkedList(notif);
 
         if (this.prev == null) {
             node.prev = null; // already set on constructor
@@ -89,7 +80,7 @@
             this.prev = node;
         } else {
             // Insert in the middle
-            DLinkedList temp = this.prev;
+            DoublyLinkedList temp = this.prev;
             node.prev = temp;
             node.next = this;
             this.prev = node;

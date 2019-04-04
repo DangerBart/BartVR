@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public enum KindOfNotification
-{
+public enum KindOfNotification {
     Relevant,
     Irrelevant,
     Postable
@@ -26,8 +25,4 @@ public class Notification{
     public bool IsFavorite;
     public bool IsSelected;
     public bool WaitingForPost;
-
-    // To be removed
-    public int POI;
-    public Vector3 POILocation;
 }

@@ -9,13 +9,11 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public GameObject panelImage;
     public GameObject Timestamp;
 
-    private DLinkedList notification;
+    private DoublyLinkedList notification;
     public TabletDisplay tablet;
-    public bool isFavorite;
     private Text username;
     private Text message;
     private Image mediaPlaform;
-    private Sprite imageForVR;
     private GameObject imageButton;
     private Image favoriteButton;
     private Text Date;
@@ -23,7 +21,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
-    public void Setup(DLinkedList notification, KindOfNotification kind) {
+    public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
         notification.GetData().Kind = kind;
 
         SetGameObjects();
@@ -54,7 +52,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     // Setup functions
-
     private void SetComponents(KindOfNotification kind) {
         // General settings
         username = transform.Find("UserName").GetComponent<Text>();
@@ -62,8 +59,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         mediaPlaform = transform.Find("MediaPlatform").GetComponent<Image>();
 
         // Specifiq to kind of panel
-        if (kind == KindOfNotification.Relevant || kind == KindOfNotification.Irrelevant)
-        {
+        if (kind != KindOfNotification.Postable){
             favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
             Date = this.transform.Find("Date").GetComponent<Text>();
         }
@@ -78,8 +74,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         message.text = notif.Message;
         mediaPlaform.sprite = notif.PlatformLogo;
 
-        if (kind == KindOfNotification.Relevant || kind == KindOfNotification.Irrelevant)
-        {
+        if (kind != KindOfNotification.Postable) {
             SetImage(notif.Img);
             SetTime();
         }
@@ -99,7 +94,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     // Event functions
-
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
     }

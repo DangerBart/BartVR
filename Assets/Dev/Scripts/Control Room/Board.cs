@@ -15,7 +15,7 @@ public class Board : MonoBehaviour
     private NotificationContainer nc;
     private NotificationControl notificationControl;
     private string PostableTabDefaultText;
-    private LinkedList<DLinkedList> notificationlist;
+    private LinkedList<DoublyLinkedList> notificationlist;
 
     void Start() {
         LoadItems(m_Path);
@@ -30,17 +30,17 @@ public class Board : MonoBehaviour
     }
 
     public void ShowNotification() {
-        DLinkedList notificationItem = notificationlist.First();
+        DoublyLinkedList notificationItem = notificationlist.First();
 
-        foreach (DLinkedList item in notificationlist) {
+        foreach (DoublyLinkedList item in notificationlist) {
             if (!item.GetData().WaitingForPost) {
 
                 notificationItem = item;
                 if (item.HasNext())
                 {
-                    DLinkedList temporary = item.GetNext();
+                    DoublyLinkedList temporary = item.GetNext();
 
-                    //Set reaction message to wait mode
+                    //Set reaction message on wait mode
                     if (item.GetData().Postable)
                         temporary.GetData().WaitingForPost = true;
 
@@ -65,8 +65,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void ChangeTextBasedOnCount(Text textToChange, string defaultText, int count)
-    {
+    private void ChangeTextBasedOnCount(Text textToChange, string defaultText, int count) {
         string newText = defaultText;
 
         if (count > 0)
@@ -76,25 +75,22 @@ public class Board : MonoBehaviour
     }
 
     private void FillAndConnectNotificationsList() {
-        notificationlist = new LinkedList<DLinkedList>();
+        notificationlist = new LinkedList<DoublyLinkedList>();
 
-        foreach (Notification notif in nc.notifications)
-        {
+        foreach (Notification notif in nc.notifications) {
             if (!notif.ReactionTo.HasValue)
-                notificationlist.AddLast(new DLinkedList(notif));
+                notificationlist.AddLast(new DoublyLinkedList(notif));
             else {
                 // Notification is a reaction and needs to be connected
-                foreach (DLinkedList item in notificationlist)
-                {
+                foreach (DoublyLinkedList item in notificationlist)
                     if (item.FindAndInsertByNotificationId(notif))
                         break;
-                }
             }
         }
     }
 
     public void SetNotificationWaitingForPost(bool value, int id) {
-        DLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
+        DoublyLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
 
         // If the notification was found
         if (foundNotif != null)
