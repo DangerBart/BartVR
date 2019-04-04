@@ -32,12 +32,13 @@ public class Suspect : MonoBehaviour {
         if (!running) {
             List<Transform> validNodes = new List<Transform>();
 
+            // Get all nodes behind the suspect and within a maximum distance
             foreach (Transform node in behaviour.GetNodes())
                 if (IsBehind(node.position, self.transform.position) && Vector3.Distance(self.transform.position, node.position) < maxDistance)
                     validNodes.Add(node);
 
             Transform rand = validNodes[Random.Range(0, validNodes.Count)];
-
+            
             behaviour.RelocateToTarget(rand.position);
             running = true;
         }
