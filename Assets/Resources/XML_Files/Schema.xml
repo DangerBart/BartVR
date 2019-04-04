@@ -2,18 +2,22 @@
   <NotificationCollection>
     <Notifications>
       <Notification>
-        <Name>Daan</Name>
+	<Id>1</Id>
+	<ReactionTo></ReactionTo>
+        <Autor>Daan</Autor>
         <Message>Ik heb niets gezien.</Message>
-        <POI>0</POI>
         <Platform>/Mediaplatform/Facebook.png</Platform>
 		    <Image></Image>
+	<Postable>false</Postable>
       </Notification>
       <Notification>
-        <Name>Sanne</Name>
-        <Message>Is dit al opgelost?</Message>
-        <POI>0</POI>
+	<Id>2</Id>
+	<ReactionTo></ReactionTo>
+        <Autor>Rob</Autor>
+        <Message>Waar is dit gebeurd?</Message>
         <Platform>/Mediaplatform/Twitter.png</Platform>
 		    <Image>/Images/Image.png</Image>
+	<Postable>false</Postable>
       </Notification>
     </Notifications>
   </NotificationCollection>
