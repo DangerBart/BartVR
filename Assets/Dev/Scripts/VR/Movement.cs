@@ -76,6 +76,10 @@ public class Movement : MonoBehaviour {
         cameraEye.GetComponent<TeleportVive>().enabled = true;
     }
 
+    public void UpdateMovement() {
+        movementSwitch = (int)Gamemanager.currentMovement;
+    }
+
     //Because Unity uses this as a measure of detecting collisions we have to use this
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag != "POI")
