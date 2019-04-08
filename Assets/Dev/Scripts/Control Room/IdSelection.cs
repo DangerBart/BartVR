@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,6 +41,7 @@ public class IdSelection : MonoBehaviour {
         bottomPieceImageToChange.sprite = bottomPieceOptions[selectedBottomPieceIndex].image;
     }
 
+    // ======== Public functions =========
     public void LeftSelectionGender() {
         if (selectedGenderIndex != 0)
             selectedGenderIndex--;
@@ -56,16 +56,25 @@ public class IdSelection : MonoBehaviour {
         genderImageToChange.sprite = genderOptions[selectedGenderIndex].image;
     }
 
-    public void LeftSelectionTopPiece()
-    {
+    public void LeftSelectionTopPiece() {
         ChangeColorValueAndDisplayedImage(topPieceImageToChange, topPieceOptions, ref selectedTopPieceIndex, false);
     }
 
-    public void RightSelectionTopPiece()
-    {
+    public void RightSelectionTopPiece() {
         ChangeColorValueAndDisplayedImage(topPieceImageToChange, topPieceOptions, ref selectedTopPieceIndex, true);
     }
 
+    public void SendID() {
+        Identification id = new Identification {
+            gender = genderOptions[selectedGenderIndex].value,
+            topPiece = topPieceOptions[selectedTopPieceIndex].value,
+            bottomPiece = bottomPieceOptions[selectedBottomPieceIndex].value,
+        };
+
+        Debug.Log("Id has been set, gender: " + id.gender);
+    }
+
+    // ========= Private functions =========
     private void ChangeColorValueAndDisplayedImage(Image imageToChange, NamedColorImage[] Options, ref int index, bool increment) {
         if (increment) {
             if (index < Options.Length - 1)
