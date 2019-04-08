@@ -5,36 +5,76 @@ using UnityEngine.UI;
 
 public class IdSelection : MonoBehaviour {
     // Needs to set in inspector
+    public NamedGenderImage[] genderOptions;
     public Image genderImageToChange;
-    public NamedGenderImage[] GenderOptions;
+    public NamedColorImage[] topPieceOptions;
+    public Image topPieceImageToChange;
+    public NamedColorImage[] bottomPieceOptions;
+    public Image bottomPieceImageToChange;
+   
+    // Private variables needed to keep track of selection
+    private int selectedGenderIndex;
+    private int selectedTopPieceIndex;
+    private int selectedBottomPieceIndex;
 
     [Serializable]
-    public struct NamedGenderImage
-    {
+    public struct NamedGenderImage {
         public Genders value;
-        public Texture2D image;
+        public Sprite image;
     }
 
     [Serializable]
-    public struct NamedColorImage
-    {
-        public Color value;
-        public Texture2D image;
+    public struct NamedColorImage {
+        public Colors value;
+        public Sprite image;
     }
 
     // Use this for initialization
     void Start () {
-     
+        // Set defaults which is none
+        selectedGenderIndex = 0;
+        selectedTopPieceIndex = 0;
+        selectedBottomPieceIndex = 0;
 
+        // Set default images
+        genderImageToChange.sprite = genderOptions[selectedGenderIndex].image;
+        topPieceImageToChange.sprite = topPieceOptions[selectedTopPieceIndex].image;
+        bottomPieceImageToChange.sprite = bottomPieceOptions[selectedBottomPieceIndex].image;
     }
 
-    public void LeftSelection()
-    {
+    public void LeftSelectionGender() {
+        if (selectedGenderIndex != 0)
+            selectedGenderIndex--;
 
+        genderImageToChange.sprite = genderOptions[selectedGenderIndex].image;
     }
 
-    public void RightSelection()
-    {
+    public void RightSelectionGender() {
+        if (selectedGenderIndex < genderOptions.Length - 1)
+            selectedGenderIndex++;
 
+        genderImageToChange.sprite = genderOptions[selectedGenderIndex].image;
+    }
+
+    public void LeftSelectionTopPiece()
+    {
+        ChangeColorValueAndDisplayedImage(topPieceImageToChange, topPieceOptions, ref selectedTopPieceIndex, false);
+    }
+
+    public void RightSelectionTopPiece()
+    {
+        ChangeColorValueAndDisplayedImage(topPieceImageToChange, topPieceOptions, ref selectedTopPieceIndex, true);
+    }
+
+    private void ChangeColorValueAndDisplayedImage(Image imageToChange, NamedColorImage[] Options, ref int index, bool increment) {
+        if (increment) {
+            if (index < Options.Length - 1)
+                index++;
+        } else {
+            if (index != 0)
+                index--;
+        }
+
+        imageToChange.sprite = Options[index].image;
     }
 }
