@@ -4,7 +4,7 @@ using UnityEngine;
 public class EventHandler : MonoBehaviour {
 
     private readonly string pictureRoot = "Assets/Resources/Snapshots/";
-    
+
     public static GameObject gameOverScreen;
     public static GameObject gameOverText;
 
@@ -12,10 +12,17 @@ public class EventHandler : MonoBehaviour {
     private GameObject gameOverS;
     [SerializeField]
     private GameObject gameOverT;
+    [SerializeField]
+    private GameObject escapeMenu;
 
     private void Start() {
         gameOverScreen = gameOverS;
         gameOverText = gameOverT;
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            escapeMenu.SetActive(!escapeMenu.activeInHierarchy);
     }
 
     //Delete screenshots after application quit
