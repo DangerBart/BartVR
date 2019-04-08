@@ -5,16 +5,38 @@ using UnityEngine.UI;
 
 public class Gamemanager : MonoBehaviour {
     [SerializeField]
-    private Dropdown movement;
-    [SerializeField]
     private GameObject inputRequired;
     [SerializeField]
     private InputField amountOfNpcs;
+    
+    enum InputSetting {
+        None,
+        Movement,
+        Role,
+        Scenario
+    }
 
-    public static int movementValue;
+    public enum Roles {
+        Officer,
+        Civilian
+    }
+
+    public enum Movement {
+        FacingDirection,
+        ControllerDirection,
+        Teleport
+    }
+
+    public enum Scenario {
+        Mugging
+    }
+
     public static int amountOfNpcsToSpawn;
+    public static Roles currentRole = Roles.Officer;
+    public static Movement currentMovement = Movement.FacingDirection;
+    public static Scenario currentScenario = Scenario.Mugging;
 
-	public void StartGame() {
+    public void StartGame() {
         // First digit has to be between 1 and 9, following digits have to be numbers
         Regex regex = new Regex(@"^[1-9]\d*$");
         Match match = regex.Match(amountOfNpcs.text);
@@ -29,8 +51,92 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    public void UpdateMovement() {
-        movementValue = movement.value;
+    public void Next(GameObject go) {
+        InputSetting setting = GetSetting(go.name);
+
+        switch (setting) {
+            case InputSetting.Role:
+                if (currentRole == Roles.Officer)
+                    currentRole = Roles.Civilian;
+                else
+                    currentRole = Roles.Officer;
+                SetRoleText(go);
+                break;
+            case InputSetting.Movement:
+                if ((int)currentMovement < 2)
+                    currentMovement++;
+                else
+                    currentMovement = Movement.FacingDirection;
+                SetMovementText(go);
+                break;
+        }
+    }
+
+    public void Previous(GameObject go) {
+        InputSetting setting = GetSetting(go.name);
+
+        switch (setting) {
+            case InputSetting.Role:
+                if (currentRole == Roles.Officer)
+                    currentRole = Roles.Civilian;
+                else
+                    currentRole = Roles.Officer;
+                SetRoleText(go);
+                break;
+            case InputSetting.Movement:
+                if (currentMovement > 0)
+                    currentMovement--;
+                else
+                    currentMovement = Movement.Teleport;
+                SetMovementText(go);
+                break;
+        }
+    }
+
+    private InputSetting GetSetting(string name) {
+        switch (name) {
+            case "PlayerRoleInputField":
+                return InputSetting.Role;
+            case "MovementInputField":
+                return InputSetting.Movement;
+            case "ScenarioInputField":
+                return InputSetting.Scenario;
+            default:
+                return InputSetting.None;
+        }
+    }
+
+    private void SetMovementText(GameObject go) {
+        switch (currentMovement) {
+            case Movement.ControllerDirection:
+                go.GetComponent<InputField>().text = "Lopen richting controller";
+                break;
+            case Movement.Teleport:
+                go.GetComponent<InputField>().text = "Teleporteren";
+                break;
+            default:
+                go.GetComponent<InputField>().text = "Lopen richting kijkrichting";
+                break;
+        }
+    }
+
+    private void SetRoleText(GameObject go) {
+        switch (currentRole) {
+            case Roles.Civilian:
+                go.GetComponent<InputField>().text = "Burger";
+                break;
+            default:
+                go.GetComponent<InputField>().text = "Agent";
+                break;
+        }
+    }
+
+    private void SetScenarioText(GameObject go) {
+        switch (currentScenario) {
+            default:
+                go.GetComponent<InputField>().text = "Straatroof";
+                break;
+        }
     }
 
     public void EnteredNPCValue() {
