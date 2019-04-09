@@ -59,21 +59,32 @@ public class Officer : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         // Once input is received from the control room, start searching for the given Identification
+        Debug.Log("target: " + target);
+
         if (startSearching && !behaviour.relocating) {
+
             if (target == null)
+            {
                 StartCoroutine(Search(id, Roles.Officer, 1.5f, npcContainer, this.gameObject));
+            }
             else if (!target.GetComponent<NPCBehaviour>().inQuestioning)
                 PursueSuspect(target);
 
             if (behaviour.inQuestioning)
+            {
                 behaviour.agent.isStopped = true;
+                Debug.Log("questioning");
+            }
             else
+            {
                 behaviour.agent.isStopped = false;
-        } else {
+                Debug.Log("Not questioning");
+            }
+        } else
             target = null;
-        }
+        
 
         // START OF TEST -----------------------------------------------------------
         test = GameObject.Find("TestIdentification").GetComponent<Identification>();
@@ -105,7 +116,10 @@ public class Officer : MonoBehaviour {
                 case Roles.Officer:
                     // Only loop through civilians and suspect
                     if (idToCompare.role != Roles.Officer && wanted != null)
+                    {
                         target = SearchForWanted(npcPosition, ownPosition, wanted, idToCompare, self);
+                    }
+
                     break;
 
                 case Roles.Suspect:
@@ -130,7 +144,7 @@ public class Officer : MonoBehaviour {
         if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
             lookingFor = wanted;
             if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                if (IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
+                if (hit.collider != null && IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
                     // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
                     switch (wanted.role) {
                         case Roles.Officer:
@@ -138,12 +152,14 @@ public class Officer : MonoBehaviour {
                                 return hit.collider.gameObject;
                             break;
                         default:
+                            Debug.Log("Hit: " + hit.collider.GetComponent<Identification>().gender);
+                            Debug.Log("Wanted: " + wanted.gender);
+                            Debug.Log("Equal? : " + IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted)));
                             if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted))
                                 && !hit.collider.GetComponent<NPCBehaviour>().questioned && !hit.collider.GetComponent<NPCBehaviour>().inQuestioning
-                                && hit.collider.tag == "NPC") {
-
-                                return hit.collider.gameObject;
-                            }
+                                && hit.collider.tag == "NPC") 
+                                    return hit.collider.gameObject;
+                            
                             break;
                     }
 
@@ -249,6 +265,8 @@ public class Officer : MonoBehaviour {
             this.GetComponent<NavMeshAgent>().speed = 2.5f;
         canQuestion = true;
 
+        Debug.Log("Pursuing ssssss");
+
         behaviour.MoveToTarget(target);
     }
 
@@ -288,5 +306,7 @@ public class Officer : MonoBehaviour {
         id.bottomPiece = set.bottomPiece;
 
         startSearching = true;
+
+        Debug.Log("Id has been set");
     }
 }
