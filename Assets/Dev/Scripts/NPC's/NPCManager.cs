@@ -16,6 +16,7 @@ public class NPCManager : MonoBehaviour {
         // Create suspect
         npcMaker.CreateSuspect();
         npcMaker.CreateOfficer(officerModelsPath);
+        npcMaker.CreateOfficer(officerModelsPath);
 
         // Create all civilians
         for (int i = 0; i < Gamemanager.amountOfNpcsToSpawn; i++)

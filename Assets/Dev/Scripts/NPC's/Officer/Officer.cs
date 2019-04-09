@@ -66,29 +66,16 @@ public class Officer : MonoBehaviour {
             } else if (!target.GetComponent<NPCBehaviour>().inQuestioning)
                 PursueSuspect(target);
 
-            if (behaviour.inQuestioning) {
+            if (behaviour.inQuestioning)
                 behaviour.agent.isStopped = true;
-                Debug.Log("questioning");
-            } else {
+            else
                 behaviour.agent.isStopped = false;
-                Debug.Log("Not questioning");
-            }
         } else
             target = null;
-            
 
-
-        // START OF TEST -----------------------------------------------------------
-        test = GameObject.Find("TestIdentification").GetComponent<Identification>();
-
-        test.gender = Genders.Female;
-        test.topPiece = Colors.None;
-        test.bottomPiece = Colors.None;
-
+        // TEST
         if (Input.GetKeyDown(KeyCode.N))
             behaviour.RelocateToTarget(new Vector3(-30, 0, -4));
-        if (Input.GetKeyDown(KeyCode.M))
-            SetId(test);
         // END OF TEST -------------------------------------------------------------
     }
 
@@ -296,7 +283,5 @@ public class Officer : MonoBehaviour {
         id.bottomPiece = set.bottomPiece;
 
         startSearching = true;
-
-        Debug.Log("Id has been set");
     }
 }

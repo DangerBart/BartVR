@@ -71,8 +71,6 @@ public class IdSelection : MonoBehaviour {
             bottomPiece = bottomPieceOptions[selectedBottomPieceIndex].value,
         };
 
-        Debug.Log("Id has been set, gender: " + id.gender + ", Toppiece: " + id.topPiece);
-
         Officer.SetId(id);
     }
 
