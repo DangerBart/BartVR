@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EventHandler : MonoBehaviour {
 
@@ -8,8 +9,6 @@ public class EventHandler : MonoBehaviour {
 
     public static GameObject gameOverScreen;
     public static GameObject gameOverText;
-
-    private GameObject movement;
 
     [SerializeField]
     private GameObject gameOverS;
@@ -21,14 +20,17 @@ public class EventHandler : MonoBehaviour {
     private void Start() {
         gameOverScreen = gameOverS;
         gameOverText = gameOverT;
-        movement = GameObject.Find("Controller (left)");
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            escapeMenu.SetActive(!escapeMenu.activeInHierarchy);
-            ReturnToGame();
-            Time.timeScale = 0;
+            if (escapeMenu.activeInHierarchy) {
+                ReturnToGame();
+                escapeMenu.SetActive(false);
+            } else {
+                Time.timeScale = 0;
+                escapeMenu.SetActive(true);
+            }
         }
     }
 
@@ -50,7 +52,37 @@ public class EventHandler : MonoBehaviour {
 
     public void ReturnToGame() {
         escapeMenu.SetActive(false);
-        movement.GetComponent<Movement>().UpdateMovement();
+        FindObjectOfType<Movement>().UpdateMovement();
+    }
+
+    public void Next(GameObject go) {
+        if ((int)Gamemanager.currentMovement < 2)
+            Gamemanager.currentMovement++;
+        else
+            Gamemanager.currentMovement = Gamemanager.Movement.FacingDirection;
+        SetMovementText(go);
+    }
+
+    public void Previous(GameObject go) {
+        if (Gamemanager.currentMovement > 0)
+            Gamemanager.currentMovement--;
+        else
+            Gamemanager.currentMovement = Gamemanager.Movement.Teleport;
+        SetMovementText(go);
+    }
+
+    private void SetMovementText(GameObject go) {
+        switch (Gamemanager.currentMovement) {
+            case Gamemanager.Movement.ControllerDirection:
+                go.GetComponent<InputField>().text = "Lopen richting controller";
+                break;
+            case Gamemanager.Movement.Teleport:
+                go.GetComponent<InputField>().text = "Teleporteren";
+                break;
+            default:
+                go.GetComponent<InputField>().text = "Lopen richting kijkrichting";
+                break;
+        }
     }
 
     public static void End() {
