@@ -54,37 +54,29 @@ public class Officer : MonoBehaviour {
         this.GetComponent<SphereCollider>().isTrigger = true;
 
         id = GameObject.Find("EventSystem").GetComponent<Identification>();
-
-        target = null;
     }
 
     // Update is called once per frame
     void FixedUpdate() {
         // Once input is received from the control room, start searching for the given Identification
-        Debug.Log("target: " + target);
-
         if (startSearching && !behaviour.relocating) {
 
-            if (target == null)
-            {
+            if (target == null) {
                 StartCoroutine(Search(id, Roles.Officer, 1.5f, npcContainer, this.gameObject));
-            }
-            else if (!target.GetComponent<NPCBehaviour>().inQuestioning)
+            } else if (!target.GetComponent<NPCBehaviour>().inQuestioning)
                 PursueSuspect(target);
 
-            if (behaviour.inQuestioning)
-            {
+            if (behaviour.inQuestioning) {
                 behaviour.agent.isStopped = true;
                 Debug.Log("questioning");
-            }
-            else
-            {
+            } else {
                 behaviour.agent.isStopped = false;
                 Debug.Log("Not questioning");
             }
         } else
             target = null;
-        
+            
+
 
         // START OF TEST -----------------------------------------------------------
         test = GameObject.Find("TestIdentification").GetComponent<Identification>();
@@ -105,6 +97,8 @@ public class Officer : MonoBehaviour {
     /// </summary>
     public IEnumerator Search(Identification wanted, Roles searcher, float interval, GameObject npcContainer, GameObject self) {
         yield return new WaitForSeconds(interval);
+        GameObject npc;
+
         // loop through every NPC
         foreach (Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {
             Vector3 npcPosition = new Vector3(idToCompare.GetComponent<Transform>().position.x, 1, idToCompare.GetComponent<Transform>().position.z);
@@ -115,11 +109,11 @@ public class Officer : MonoBehaviour {
             switch (searcher) {
                 case Roles.Officer:
                     // Only loop through civilians and suspect
-                    if (idToCompare.role != Roles.Officer && wanted != null)
-                    {
-                        target = SearchForWanted(npcPosition, ownPosition, wanted, idToCompare, self);
+                    if (idToCompare.role != Roles.Officer && wanted != null) {
+                        npc = SearchForWanted(npcPosition, ownPosition, wanted, idToCompare, self);
+                        if (npc != null)
+                            target = npc;
                     }
-
                     break;
 
                 case Roles.Suspect:
@@ -144,7 +138,7 @@ public class Officer : MonoBehaviour {
         if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
             lookingFor = wanted;
             if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                if (hit.collider != null && IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
+                if (hit.collider.GetComponent<Identification>() != null && IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
                     // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
                     switch (wanted.role) {
                         case Roles.Officer:
@@ -152,14 +146,10 @@ public class Officer : MonoBehaviour {
                                 return hit.collider.gameObject;
                             break;
                         default:
-                            Debug.Log("Hit: " + hit.collider.GetComponent<Identification>().gender);
-                            Debug.Log("Wanted: " + wanted.gender);
-                            Debug.Log("Equal? : " + IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted)));
                             if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted))
                                 && !hit.collider.GetComponent<NPCBehaviour>().questioned && !hit.collider.GetComponent<NPCBehaviour>().inQuestioning
                                 && hit.collider.tag == "NPC") 
-                                    return hit.collider.gameObject;
-                            
+                                return hit.collider.gameObject;
                             break;
                     }
 
@@ -207,6 +197,7 @@ public class Officer : MonoBehaviour {
     }
 
     private bool IsEqual(Identification origin, Identification compare, Check check) {
+
         switch (check) {
             case Check.Gender:
                 if (origin.gender.Equals(compare.gender))
@@ -254,7 +245,7 @@ public class Officer : MonoBehaviour {
         Vector3 directionToTarget = self.transform.position - npc.transform.position;
         float angle = Vector3.Angle(self.transform.forward, directionToTarget);
 
-        if ((Mathf.Abs(angle) > 90 || Mathf.Abs(angle) > 270) && Vector3.Distance(self.transform.position, npc.transform.position) < maxDistance) 
+        if ((Mathf.Abs(angle) > 90 || Mathf.Abs(angle) > 270) && Vector3.Distance(self.transform.position, npc.transform.position) < maxDistance)
             return true;
         return false;
     }
@@ -264,9 +255,7 @@ public class Officer : MonoBehaviour {
         if (this.GetComponent<NavMeshAgent>() != null)
             this.GetComponent<NavMeshAgent>().speed = 2.5f;
         canQuestion = true;
-
-        Debug.Log("Pursuing ssssss");
-
+        
         behaviour.MoveToTarget(target);
     }
 
@@ -282,6 +271,7 @@ public class Officer : MonoBehaviour {
         behaviour.inQuestioning = false;
         target.GetComponent<Collider>().GetComponent<NPCBehaviour>().inQuestioning = false;
         target = null;
+        behaviour.RelocateToTarget(this.transform.position);
         this.GetComponent<SphereCollider>().enabled = true;
     }
 
