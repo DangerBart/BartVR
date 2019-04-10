@@ -4866,7 +4866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5c457aab1254b7dbbbb489739fcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  role: 1
+  role: 3
   gender: 2
   topPiece: 8
   bottomPiece: 9

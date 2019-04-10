@@ -64,6 +64,15 @@ public class IdSelection : MonoBehaviour {
         ChangeColorValueAndDisplayedImage(topPieceImageToChange, topPieceOptions, ref selectedTopPieceIndex, true);
     }
 
+    public void LeftSelectionBottomPiece() {
+        ChangeColorValueAndDisplayedImage(bottomPieceImageToChange, bottomPieceOptions, ref selectedBottomPieceIndex, false);
+    }
+
+    public void RightSelectionBottomPiece() {
+        ChangeColorValueAndDisplayedImage(bottomPieceImageToChange, bottomPieceOptions, ref selectedBottomPieceIndex, true);
+    }
+
+
     public void SendID() {
         Identification id = new Identification {
             gender = genderOptions[selectedGenderIndex].value,
