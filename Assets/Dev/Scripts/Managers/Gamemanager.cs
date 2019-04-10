@@ -28,7 +28,8 @@ public class Gamemanager : MonoBehaviour {
     }
 
     public enum Scenario {
-        Mugging
+        Mugging,
+        Shoplifting
     }
 
     public static int amountOfNpcsToSpawn;
@@ -42,7 +43,7 @@ public class Gamemanager : MonoBehaviour {
         Match match = regex.Match(amountOfNpcs.text);
 
         if (match.Success && amountOfNpcsToSpawn <= 150) {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene((int)currentScenario + 1);
             //Start time
             Time.timeScale = 1;
         } else {
@@ -69,6 +70,13 @@ public class Gamemanager : MonoBehaviour {
                     currentMovement = Movement.FacingDirection;
                 SetMovementText(go);
                 break;
+            case InputSetting.Scenario:
+                if (currentScenario == Scenario.Mugging)
+                    currentScenario = Scenario.Shoplifting;
+                else
+                    currentScenario = Scenario.Mugging;
+                SetScenarioText(go);
+                break;
         }
     }
 
@@ -89,6 +97,13 @@ public class Gamemanager : MonoBehaviour {
                 else
                     currentMovement = Movement.Teleport;
                 SetMovementText(go);
+                break;
+            case InputSetting.Scenario:
+                if (currentScenario == Scenario.Mugging)
+                    currentScenario = Scenario.Shoplifting;
+                else
+                    currentScenario = Scenario.Mugging;
+                SetScenarioText(go);
                 break;
         }
     }
@@ -133,6 +148,9 @@ public class Gamemanager : MonoBehaviour {
 
     private void SetScenarioText(GameObject go) {
         switch (currentScenario) {
+            case Scenario.Shoplifting:
+                go.GetComponent<InputField>().text = "Winkeldiefstal";
+                break;
             default:
                 go.GetComponent<InputField>().text = "Straatroof";
                 break;
