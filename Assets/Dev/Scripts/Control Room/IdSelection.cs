@@ -85,6 +85,7 @@ public class IdSelection : MonoBehaviour {
 
     // ========= Private functions =========
     private void ChangeColorValueAndDisplayedImage(Image imageToChange, NamedColorImage[] Options, ref int index, bool increment) {
+
         if (increment) {
             if (index < Options.Length - 1)
                 index++;
