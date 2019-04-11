@@ -1122,7 +1122,7 @@ MonoBehaviour:
   map: {fileID: 1882612063984116}
   plane: {fileID: 0}
   cameraRig: {fileID: 0}
-  offsetx: -0.85
+  offsetx: -1.06
   offsety: -3.79
 --- !u!114 &114195006187765128
 MonoBehaviour:
