@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Officer : MonoBehaviour {
+public class Officer : MonoBehaviour
+{
 
     private GameObject npcContainer;
     private NPCBehaviour behaviour;
@@ -11,19 +12,13 @@ public class Officer : MonoBehaviour {
     private Rigidbody rb;
     private GameObject target;
 
-    //TEST
-    private Identification test;
-    //TEST
-
-    private GameObject gameOverText;
-    private GameObject gameOverScreen;
-
     private static Identification id;
 
     private float maxDistance = 33f;
     private bool canQuestion;
     private bool hasQuestioned;
     private static bool startSearching;
+
 
     private enum Check {
         None,
@@ -63,8 +58,9 @@ public class Officer : MonoBehaviour {
 
             if (target == null) {
                 StartCoroutine(Search(id, Roles.Officer, 1.5f, npcContainer, this.gameObject));
-            } else if (!target.GetComponent<NPCBehaviour>().inQuestioning)
+            } else if (!target.GetComponent<NPCBehaviour>().inQuestioning) {
                 PursueSuspect(target);
+            }
 
             if (behaviour.inQuestioning)
                 behaviour.agent.isStopped = true;
@@ -125,21 +121,20 @@ public class Officer : MonoBehaviour {
         if (IsEqual(wanted, idToCompare, LookFor(wanted))) {
             lookingFor = wanted;
             if (Physics.Linecast(ownPosition, npcPosition, out hit)) {
-                if (hit.collider.GetComponent<Identification>() != null && IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
-                    // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
+                if (IsInFront(idToCompare.gameObject, self, self.GetComponent<Identification>().role)) {
                     switch (wanted.role) {
                         case Roles.Officer:
                             if (hit.collider.tag == "Officer")
                                 return hit.collider.gameObject;
                             break;
                         default:
+                            // Check if the NPC we hit has the description we are looking for (in case some NPC blocked the linecast), and if the NPC hasn't been questioned already
                             if (IsEqual(hit.collider.GetComponent<Identification>(), wanted, LookFor(wanted))
                                 && !hit.collider.GetComponent<NPCBehaviour>().questioned && !hit.collider.GetComponent<NPCBehaviour>().inQuestioning
-                                && hit.collider.tag == "NPC") 
+                                && hit.collider.tag == "NPC")
                                 return hit.collider.gameObject;
                             break;
                     }
-
                 }
             }
         }
@@ -163,6 +158,7 @@ public class Officer : MonoBehaviour {
 
 
         string s = new string(isSet);
+
         switch (s) {
             case "001":
                 return Check.BottomPiece;
@@ -184,7 +180,6 @@ public class Officer : MonoBehaviour {
     }
 
     private bool IsEqual(Identification origin, Identification compare, Check check) {
-
         switch (check) {
             case Check.Gender:
                 if (origin.gender.Equals(compare.gender))
@@ -215,7 +210,7 @@ public class Officer : MonoBehaviour {
                     return true;
                 return false;
             case Check.Complete:
-                if (origin.Equals(compare))
+                if (origin.gender.Equals(compare.gender) && origin.topPiece.Equals(compare.topPiece) && origin.bottomPiece.Equals(compare.bottomPiece))
                     return true;
                 return false;
             default:
@@ -242,7 +237,7 @@ public class Officer : MonoBehaviour {
         if (this.GetComponent<NavMeshAgent>() != null)
             this.GetComponent<NavMeshAgent>().speed = 2.5f;
         canQuestion = true;
-        
+
         behaviour.MoveToTarget(target);
     }
 

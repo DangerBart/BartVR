@@ -1435,7 +1435,7 @@ GameObject:
   - component: {fileID: 114747642500718602}
   - component: {fileID: 114440783399803374}
   - component: {fileID: 65114461511823502}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: F3-PU-BL
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -4829,8 +4829,8 @@ MonoBehaviour:
   questioned: 0
   inQuestioning: 0
   officerQuestioning: {fileID: 0}
-  timeout: 0
   agent: {fileID: 0}
+  relocating: 0
 --- !u!114 &114440783399803374
 MonoBehaviour:
   m_ObjectHideFlags: 1

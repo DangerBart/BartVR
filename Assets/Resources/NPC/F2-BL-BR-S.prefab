@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 114821168434738420}
   - component: {fileID: 65105937704614524}
   - component: {fileID: 114809076841520510}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: F2-BL-BR-S
   m_TagString: NPC
   m_Icon: {fileID: 0}
