@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 114935347525113106}
   - component: {fileID: 65151714795407280}
   - component: {fileID: 114021233189403212}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: M3-BL-GR-S
   m_TagString: NPC
   m_Icon: {fileID: 0}

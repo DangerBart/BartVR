@@ -4832,9 +4832,11 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   minSpeed: 2
   maxSpeed: 2
+  questioned: 0
   inQuestioning: 0
   officerQuestioning: {fileID: 0}
   agent: {fileID: 0}
+  relocating: 0
 --- !u!114 &114489884684024572
 MonoBehaviour:
   m_ObjectHideFlags: 1
