@@ -1,13 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class LocationSync : MonoBehaviour
 {
+    [Serializable]
+    public struct NpcImageOption
+    {
+        public GameObject npc;
+        public GameObject minimapImage;
+    }
 
+    // Public viarables
     public GameObject map;
     public GameObject plane;
-    public GameObject officerInVR;
+    public NpcImageOption[] NpcToDisplayOnMinimap;
+    /// <summary>
+    ///  Needed to look for suspect
+    /// </summary>
+    /// Temporry
+    public GameObject npcContainer;
+    public GameObject suspectIcon;
+
+    // Private viarables 
     private Vector2 mapSize;
     private Vector2 planeSize;
     private float xScale;
@@ -16,13 +30,33 @@ public class LocationSync : MonoBehaviour
     public float offsety = 2f;
     private Vector2 officerOnMap;
     
-
+    // Private methods
     private void Start() {
         UpdateMapSizeAndScale();
+        GetSuspect();
+    }
+
+    // Doesnt work yet
+    private NpcImageOption GetSuspect()
+    {
+        NpcImageOption toReturn = new NpcImageOption();
+
+        foreach (GameObject foundNpc in npcContainer.GetComponentsInChildren<GameObject>())
+        {
+            if (foundNpc.GetComponent<Identification>().role == Roles.Suspect)
+            {
+                Debug.Log("Found suspect");
+                toReturn.npc = foundNpc;
+                toReturn.minimapImage = suspectIcon;
+                break;
+            }    
+        }
+
+        return toReturn;
     }
 
     void Update() {
-        ScaleOfficerOnMap();
+        ScaleNpcOnMap(NpcToDisplayOnMinimap[0]);
     }
 
     private void UpdateMapSizeAndScale() {
@@ -31,8 +65,8 @@ public class LocationSync : MonoBehaviour
         xScale = planeSize.x / mapSize.x + offsetx;
         yScale = planeSize.y / mapSize.y + offsety;
     }
-    private void ScaleOfficerOnMap() {
-        this.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (officerInVR.transform.position.x * xScale),
-                                                                                 -1 * (officerInVR.transform.position.z * yScale));
+    private void ScaleNpcOnMap(NpcImageOption NpcOption) {
+        NpcOption.minimapImage.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (NpcOption.npc.transform.position.x * xScale),
+                                                                                 -1 * (NpcOption.npc.transform.position.z * yScale));
     }
 }
