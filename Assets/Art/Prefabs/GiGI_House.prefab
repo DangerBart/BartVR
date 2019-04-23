@@ -25,8 +25,8 @@ GameObject:
   m_Name: Brievenbus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_NavMeshLayer: 4
+  m_StaticEditorFlags: 26
   m_IsActive: 1
 --- !u!1 &1111225915041652
 GameObject:
@@ -42,8 +42,8 @@ GameObject:
   m_Name: Deurnob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_NavMeshLayer: 4
+  m_StaticEditorFlags: 26
   m_IsActive: 1
 --- !u!1 &1200763842982506
 GameObject:
@@ -60,8 +60,8 @@ GameObject:
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_NavMeshLayer: 4
+  m_StaticEditorFlags: 26
   m_IsActive: 1
 --- !u!1 &1715264919228864
 GameObject:
@@ -77,8 +77,8 @@ GameObject:
   m_Name: GiGI_House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_NavMeshLayer: 4
+  m_StaticEditorFlags: 26
   m_IsActive: 1
 --- !u!1 &1829280970929852
 GameObject:
@@ -95,8 +95,8 @@ GameObject:
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_NavMeshLayer: 4
+  m_StaticEditorFlags: 26
   m_IsActive: 1
 --- !u!4 &4133632229119038
 Transform:
