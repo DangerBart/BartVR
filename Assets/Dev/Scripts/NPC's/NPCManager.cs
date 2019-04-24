@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class NPCManager : MonoBehaviour
-{
+public class NPCManager : MonoBehaviour {
     [SerializeField]
     private GameObject CheckpointContainer;
     [SerializeField]

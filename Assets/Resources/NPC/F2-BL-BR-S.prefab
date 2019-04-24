@@ -144,7 +144,8 @@ GameObject:
   - component: {fileID: 114834088273136310}
   - component: {fileID: 114821168434738420}
   - component: {fileID: 65105937704614524}
-  m_Layer: 10
+  - component: {fileID: 114809076841520510}
+  m_Layer: 0
   m_Name: F2-BL-BR-S
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -4843,6 +4844,17 @@ MonoBehaviour:
   stateType: 0
   blend: 0
   IsGettingUp: 0
+--- !u!114 &114809076841520510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1031930914827232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9fdc9548a276754987d2a6a1f3d7c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114821168434738420
 MonoBehaviour:
   m_ObjectHideFlags: 1

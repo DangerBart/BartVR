@@ -1481,7 +1481,7 @@ GameObject:
   - component: {fileID: 23975792862688510}
   - component: {fileID: 135665199170403592}
   - component: {fileID: 114359250139664368}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Radius
   m_TagString: Suspect
   m_Icon: {fileID: 0}
@@ -4943,8 +4943,8 @@ MonoBehaviour:
   questioned: 0
   inQuestioning: 0
   officerQuestioning: {fileID: 0}
-  timeout: 0
   agent: {fileID: 0}
+  relocating: 0
 --- !u!114 &114698226482186310
 MonoBehaviour:
   m_ObjectHideFlags: 1
