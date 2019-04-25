@@ -30,6 +30,7 @@ public class NotificationControl : MonoBehaviour
         message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
 
         minimapControl.SetNotificationMinimapLocation(notification.GetData());
+        minimapControl.CreateNewMarker(notification.GetData().MinimapLocation, true);
     }
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification)
