@@ -16,7 +16,7 @@ public class Gamemanager : MonoBehaviour {
         Scenario
     }
 
-    public enum Roles {
+    public enum PlayableRole {
         Officer,
         Civilian
     }
@@ -33,7 +33,7 @@ public class Gamemanager : MonoBehaviour {
     }
 
     public static int amountOfNpcsToSpawn;
-    public static Roles currentRole = Roles.Officer;
+    public static PlayableRole currentRole = PlayableRole.Officer;
     public static Movement currentMovement = Movement.FacingDirection;
     public static Scenario currentScenario = Scenario.Mugging;
 
@@ -52,58 +52,58 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    public void Next(GameObject go) {
-        InputSetting setting = GetSetting(go.name);
+    public void Next(GameObject settingField) {
+        InputSetting setting = GetSetting(settingField.name);
 
         switch (setting) {
             case InputSetting.Role:
-                if (currentRole == Roles.Officer)
-                    currentRole = Roles.Civilian;
+                if (currentRole == PlayableRole.Officer)
+                    currentRole = PlayableRole.Civilian;
                 else
-                    currentRole = Roles.Officer;
-                SetRoleText(go);
+                    currentRole = PlayableRole.Officer;
+                SetRoleText(settingField);
                 break;
             case InputSetting.Movement:
                 if ((int)currentMovement < 2)
                     currentMovement++;
                 else
                     currentMovement = Movement.FacingDirection;
-                SetMovementText(go);
+                SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
                 if (currentScenario == Scenario.Mugging)
                     currentScenario = Scenario.Shoplifting;
                 else
                     currentScenario = Scenario.Mugging;
-                SetScenarioText(go);
+                SetScenarioText(settingField);
                 break;
         }
     }
 
-    public void Previous(GameObject go) {
-        InputSetting setting = GetSetting(go.name);
+    public void Previous(GameObject settingField) {
+        InputSetting setting = GetSetting(settingField.name);
 
         switch (setting) {
             case InputSetting.Role:
-                if (currentRole == Roles.Officer)
-                    currentRole = Roles.Civilian;
+                if (currentRole == PlayableRole.Officer)
+                    currentRole = PlayableRole.Civilian;
                 else
-                    currentRole = Roles.Officer;
-                SetRoleText(go);
+                    currentRole = PlayableRole.Officer;
+                SetRoleText(settingField);
                 break;
             case InputSetting.Movement:
                 if (currentMovement > 0)
                     currentMovement--;
                 else
                     currentMovement = Movement.Teleport;
-                SetMovementText(go);
+                SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
                 if (currentScenario == Scenario.Mugging)
                     currentScenario = Scenario.Shoplifting;
                 else
                     currentScenario = Scenario.Mugging;
-                SetScenarioText(go);
+                SetScenarioText(settingField);
                 break;
         }
     }
@@ -121,38 +121,38 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    private void SetMovementText(GameObject go) {
+    private void SetMovementText(GameObject settingField) {
         switch (currentMovement) {
             case Movement.ControllerDirection:
-                go.GetComponent<InputField>().text = "Lopen richting controller";
+                settingField.GetComponent<InputField>().text = "Lopen richting controller";
                 break;
             case Movement.Teleport:
-                go.GetComponent<InputField>().text = "Teleporteren";
+                settingField.GetComponent<InputField>().text = "Teleporteren";
                 break;
             default:
-                go.GetComponent<InputField>().text = "Lopen richting kijkrichting";
+                settingField.GetComponent<InputField>().text = "Lopen richting kijkrichting";
                 break;
         }
     }
 
-    private void SetRoleText(GameObject go) {
+    private void SetRoleText(GameObject settingField) {
         switch (currentRole) {
-            case Roles.Civilian:
-                go.GetComponent<InputField>().text = "Burger";
+            case PlayableRole.Civilian:
+                settingField.GetComponent<InputField>().text = "Burger";
                 break;
             default:
-                go.GetComponent<InputField>().text = "Agent";
+                settingField.GetComponent<InputField>().text = "Agent";
                 break;
         }
     }
 
-    private void SetScenarioText(GameObject go) {
+    private void SetScenarioText(GameObject settingField) {
         switch (currentScenario) {
             case Scenario.Shoplifting:
-                go.GetComponent<InputField>().text = "Winkeldiefstal";
+                settingField.GetComponent<InputField>().text = "Winkeldiefstal";
                 break;
             default:
-                go.GetComponent<InputField>().text = "Straatroof";
+                settingField.GetComponent<InputField>().text = "Straatroof";
                 break;
         }
     }

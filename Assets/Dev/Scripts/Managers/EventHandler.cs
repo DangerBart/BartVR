@@ -57,20 +57,20 @@ public class EventHandler : MonoBehaviour {
         FindObjectOfType<Movement>().UpdateMovement();
     }
 
-    public void Next(GameObject go) {
+    public void Next(GameObject movementSelection) {
         if ((int)Gamemanager.currentMovement < 2)
             Gamemanager.currentMovement++;
         else
             Gamemanager.currentMovement = Gamemanager.Movement.FacingDirection;
-        SetMovementText(go);
+        SetMovementText(movementSelection);
     }
 
-    public void Previous(GameObject go) {
+    public void Previous(GameObject movementSelection) {
         if (Gamemanager.currentMovement > 0)
             Gamemanager.currentMovement--;
         else
             Gamemanager.currentMovement = Gamemanager.Movement.Teleport;
-        SetMovementText(go);
+        SetMovementText(movementSelection);
     }
 
     private void SetMovementText(GameObject go) {
