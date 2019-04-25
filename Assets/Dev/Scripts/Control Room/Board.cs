@@ -3,10 +3,8 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class Board : MonoBehaviour
-{
-    [SerializeField]
-    private string m_Path = "XML_Files/data-set";
+public class Board : MonoBehaviour {
+    private string m_Path = "XML_Files/";
     [SerializeField]
     private GameObject PostableNotifcationsContentContainer;
     [SerializeField]
@@ -18,7 +16,7 @@ public class Board : MonoBehaviour
     private LinkedList<DoublyLinkedList> notificationlist;
 
     void Start() {
-        LoadItems(m_Path);
+        LoadItems(m_Path + string.Format("Scenario{0}", (int)Gamemanager.currentScenario));
         FillAndConnectNotificationsList();
         notificationControl = GetComponent<NotificationControl>();
 
