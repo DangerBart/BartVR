@@ -22,15 +22,16 @@ public class NotificationControl : MonoBehaviour
 
     public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
         //Make a copy of the hidden panel
-        GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
-        message.SetActive(true);
-        
-        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
+        //GameObject message = Instantiate(relevantNotificationPanel) as GameObject;
+        //message.SetActive(true);
 
-        message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
+        //message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Relevant);
 
-        minimapControl.SetNotificationMinimapLocation(notification.GetData());
-        minimapControl.CreateNewMarker(notification.GetData().MinimapLocation, true);
+        //message.transform.SetParent(relevantNotificationPanel.transform.parent, false);
+
+        //minimapControl.SetNotificationMinimapLocation(notification.GetData());
+        //minimapControl.CreateNewMarker(notification.GetData().MinimapLocation, true);
+        minimapControl.CreateNewMarker2(notification.GetData());
     }
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification)

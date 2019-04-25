@@ -7,5 +7,5 @@ public class MainNotification : MonoBehaviour {
     public string keyNote;
     public DateTime timeLatestNotification;
     public Vector2 MinimapLocation;
-    List<Notification> notifications;
+    public List<Notification> notifications = new List<Notification>();
 }
