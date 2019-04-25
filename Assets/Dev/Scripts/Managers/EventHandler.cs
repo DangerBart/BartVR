@@ -38,6 +38,8 @@ public class EventHandler : MonoBehaviour {
     private void OnApplicationQuit() {
         DirectoryInfo di = new DirectoryInfo(pictureRoot);
 
+        if (di == null)
+            return;
         foreach (FileInfo file in di.GetFiles())
             file.Delete();
     }
