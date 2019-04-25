@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -57,24 +58,24 @@ public class Gamemanager : MonoBehaviour {
 
         switch (setting) {
             case InputSetting.Role:
-                if (currentRole == PlayableRole.Officer)
-                    currentRole = PlayableRole.Civilian;
+                if ((int)currentRole < Enum.GetNames(typeof(PlayableRole)).Length - 1)
+                    currentRole++;
                 else
-                    currentRole = PlayableRole.Officer;
+                    currentRole = 0;
                 SetRoleText(settingField);
                 break;
             case InputSetting.Movement:
-                if ((int)currentMovement < 2)
+                if ((int)currentMovement < Enum.GetNames(typeof(Movement)).Length - 1)
                     currentMovement++;
                 else
-                    currentMovement = Movement.FacingDirection;
+                    currentMovement = 0;
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (currentScenario == Scenario.Mugging)
-                    currentScenario = Scenario.Shoplifting;
+                if ((int)currentScenario < Enum.GetNames(typeof(Scenario)).Length - 1)
+                    currentScenario++;
                 else
-                    currentScenario = Scenario.Mugging;
+                    currentScenario = 0;
                 SetScenarioText(settingField);
                 break;
         }
@@ -85,24 +86,24 @@ public class Gamemanager : MonoBehaviour {
 
         switch (setting) {
             case InputSetting.Role:
-                if (currentRole == PlayableRole.Officer)
-                    currentRole = PlayableRole.Civilian;
+                if (currentRole > 0)
+                    currentRole--;
                 else
-                    currentRole = PlayableRole.Officer;
+                    currentRole = (PlayableRole)Enum.GetNames(typeof(PlayableRole)).Length - 1;
                 SetRoleText(settingField);
                 break;
             case InputSetting.Movement:
                 if (currentMovement > 0)
                     currentMovement--;
                 else
-                    currentMovement = Movement.Teleport;
+                    currentMovement = (Movement)Enum.GetNames(typeof(Movement)).Length - 1;
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (currentScenario == Scenario.Mugging)
-                    currentScenario = Scenario.Shoplifting;
+                if (currentScenario > 0)
+                    currentScenario--;
                 else
-                    currentScenario = Scenario.Mugging;
+                    currentScenario = (Scenario)Enum.GetNames(typeof(Scenario)).Length - 1;
                 SetScenarioText(settingField);
                 break;
         }
