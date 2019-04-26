@@ -35,15 +35,18 @@ using UnityEngine; using UnityEngine.UI;  public class MinimapControl : Mo
             if (mainNotif != foundMainNotif && (CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) < 120) && (CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y) < 120))
             {
                 Debug.Log("Difference x,y: " + CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) + ", " + CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y));
-                Debug.Log("Combined: " + CombineMainNotifications(mainNotif, foundMainNotif).keyNote);
+
+                CreateMarker(CombineMainNotifications(mainNotif, foundMainNotif));
 
                 DeleteSpecifiqMarker(mainNotif.MinimapLocation);
                 DeleteSpecifiqMarker(foundMainNotif.MinimapLocation);
+                break;
             }
 
         }
     } 
     private MainNotification CombineMainNotifications(MainNotification mainNotif1, MainNotification mainNotif2) {
+        // Create marker first then get the component to fix warning
         MainNotification CombinedMainNotif = new MainNotification();
         float x = (mainNotif1.MinimapLocation.x + mainNotif2.MinimapLocation.x) / 2;
         float y = (mainNotif1.MinimapLocation.y + mainNotif2.MinimapLocation.y) / 2;
@@ -63,16 +66,27 @@ using UnityEngine; using UnityEngine.UI;  public class MinimapControl : Mo
     private float CalculateDifference(float nr1, float nr2) {
         return System.Math.Abs(nr1 - nr2);
     }      private void SetRelevantNotificationLocation(Notification notification) {
-        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;     }      private void CreateMarker(Notification notification) {         GameObject marker = Instantiate(MarkerPrefab) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = notification.MinimapLocation;          // Set up main notification data         SetUpMainNotification(marker, notification);     }
+        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;     }      private void CreateMarker(Notification notif) {         GameObject marker = Instantiate(MarkerPrefab) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = notif.MinimapLocation;          // Set up main notification data         SetUpMainNotification(marker, notif);     }
+
+    private void CreateMarker(MainNotification mainNotif)
+    {
+        GameObject marker = Instantiate(MarkerPrefab) as GameObject;
+        marker.SetActive(true);
+        marker.transform.SetParent(markersContainer.transform, false);
+
+        // Set marker on correct location
+        marker.transform.localPosition = mainNotif.MinimapLocation;
+
+        MainNotification markerMainNoftif = marker.GetComponent<MainNotification>();
+        markerMainNoftif = mainNotif;
+    }
 
     private void DeleteSpecifiqMarker(Vector2 minimapLocation)
     {
         // Begin at 2 as the first two items are the playerIcon and the marker prefab
         foreach(Transform marker in markersContainer.GetComponentInChildren<Transform>())
         {
-
-            if (minimapLocation == (Vector2)marker.localPosition)
-            {
+            if (minimapLocation == (Vector2)marker.localPosition) {
                 Destroy(marker.gameObject);
                 break;
             }
