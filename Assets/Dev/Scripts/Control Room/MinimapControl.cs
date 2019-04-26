@@ -1,24 +1,83 @@
-﻿using UnityEngine; using UnityEngine.UI;  public class MinimapControl : MonoBehaviour {      // Viarables set in Unity Editor     [SerializeField]     private GameObject MarkerPrefab;     [SerializeField]     private GameObject markersContainer;      // Private viarables     private GameObject plane;     private GameObject minimap;     private LocationSync locationSync;      private float xScale;     private float yScale;      private float minRangeX;
+﻿using System.Collections;
+using UnityEngine; using UnityEngine.UI;  public class MinimapControl : MonoBehaviour {      // Viarables set in Unity Editor     [SerializeField]     private GameObject MarkerPrefab;     [SerializeField]     private GameObject markersContainer;
+    [SerializeField]
+    private GameObject plane;      // Private viarables     private GameObject minimap;     private LocationSync locationSync;      private float xScale;     private float yScale;      private float minRangeX;
     private float maxRangeX;
     private float minRangeY;
     private float maxRangeY;      // Use this for initialization     void Start () {         minimap = this.transform.gameObject;
-        Setup();     }       // Public Functions     public void SetNotificationMinimapLocation (Notification notification) {
-                 // As all notifications are relevant now         SetRelevantNotificationLocation(notification);     }      public void InitiateNotificationOnMinimap(Notification notification) {
-        // Set location nearby suspect         SetRelevantNotificationLocation(notification);         CreateNewMarker(notification.MinimapLocation);
+        Setup();     }
+
+
+    #region Public Functions     public void InitiateNotificationOnMinimap(Notification notification) {
+        // Set location nearby suspect
+        SetRelevantNotificationLocation(notification);         CreateMarker(notification);
+        Debug.Log("Ay");
+
+        // Coroutine
+        StartCoroutine("LookForMergableNotificartionsAfterTime", 5);     }      public void SetNotificationMinimapLocation (Notification notification) {
+                 // As all notifications are relevant now         SetRelevantNotificationLocation(notification);     }
+    #endregion
+
+    #region Private Functions     private IEnumerator LookForMergableNotificartionsAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
+        foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>())
+        {
+            FindNearbyMarkers(foundMainNotif);
+        }
     }
 
-    // Not needed for now, perhaps in the future
-    private void SetIrrelevantNotificationLocation(Notification notification) {         float corX = Random.Range(minRangeX, maxRangeX);         float corY = Random.Range(minRangeY, maxRangeY);         notification.MinimapLocation = new Vector2(corX, corY);
+    private void FindNearbyMarkers(MainNotification mainNotif)
+    {
+        foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>()) {
+            if (mainNotif != foundMainNotif && (CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) < 120) && (CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y) < 120))
+            {
+                Debug.Log("Difference x,y: " + CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) + ", " + CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y));
+                Debug.Log("Combined: " + CombineMainNotifications(mainNotif, foundMainNotif).keyNote);
+
+                DeleteSpecifiqMarker(mainNotif.MinimapLocation);
+                DeleteSpecifiqMarker(foundMainNotif.MinimapLocation);
+            }
+
+        }
+    } 
+    private MainNotification CombineMainNotifications(MainNotification mainNotif1, MainNotification mainNotif2) {
+        MainNotification CombinedMainNotif = new MainNotification();
+        float x = (mainNotif1.MinimapLocation.x + mainNotif2.MinimapLocation.x) / 2;
+        float y = (mainNotif1.MinimapLocation.y + mainNotif2.MinimapLocation.y) / 2;
+
+        CombinedMainNotif.MinimapLocation = new Vector2(x, y);
+        CombinedMainNotif.keyNote = mainNotif1.keyNote += mainNotif2.keyNote;
+
+        foreach(Notification notif in mainNotif1.notifications)
+            CombinedMainNotif.notifications.Add(notif);
+
+        foreach (Notification notif in mainNotif2.notifications)
+            CombinedMainNotif.notifications.Add(notif);
+
+        return CombinedMainNotif;
+    }
+
+    private float CalculateDifference(float nr1, float nr2) {
+        return System.Math.Abs(nr1 - nr2);
     }      private void SetRelevantNotificationLocation(Notification notification) {
-        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;     }      public void CreateNewMarker(Vector2 minimapLocation, bool selectedMarker = false) {
-        GameObject marker = Instantiate(MarkerPrefab) as GameObject;          if (selectedMarker)
-            marker.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");          marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = minimapLocation;
-    }      //New     public void CreateNewMarker2(Notification notification) {         SetRelevantNotificationLocation(notification);         GameObject marker = Instantiate(MarkerPrefab) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = notification.MinimapLocation;          // Set up main notification data         SetUpMainNotification(marker, notification);     }      public void DeleteSpecifiqMarker(Vector2 minimapLocation) {         // Begin at 2 as the first two items are the playerIcon and the marker prefab
-        for (int i = 2; i < transform.childCount; i++) {
-            Vector2 markerlocation = transform.GetChild(i).localPosition;              if (minimapLocation == markerlocation) {                 Destroy(transform.GetChild(i).gameObject);                 break;
+        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;     }      private void CreateMarker(Notification notification) {         GameObject marker = Instantiate(MarkerPrefab) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = notification.MinimapLocation;          // Set up main notification data         SetUpMainNotification(marker, notification);     }
+
+    private void DeleteSpecifiqMarker(Vector2 minimapLocation)
+    {
+        // Begin at 2 as the first two items are the playerIcon and the marker prefab
+        foreach(Transform marker in markersContainer.GetComponentInChildren<Transform>())
+        {
+
+            if (minimapLocation == (Vector2)marker.localPosition)
+            {
+                Destroy(marker.gameObject);
+                break;
             }
         }
-    }      // Private functions     private void SetUpMainNotification(GameObject marker, Notification notif) {
+    }      private void SetUpMainNotification(GameObject marker, Notification notif) {
         MainNotification mainNotif = marker.GetComponent<MainNotification>();         mainNotif.MinimapLocation = notif.MinimapLocation;         mainNotif.keyNote = GetKeyNotes(notif.Message);         mainNotif.notifications.Add(notif);
     }      private string GetKeyNotes(string message)
     {
@@ -34,4 +93,10 @@
     }      private void CalculateBoundries() {
         float saveMargin = 100f; 
         minRangeX = (minimap.GetComponent<RectTransform>().sizeDelta.x / 2 * -1) + saveMargin;         maxRangeX = (minimap.GetComponent<RectTransform>().sizeDelta.x / 2) - saveMargin;         minRangeY = (minimap.GetComponent<RectTransform>().sizeDelta.y / 2 * -1) + saveMargin;         maxRangeY = (minimap.GetComponent<RectTransform>().sizeDelta.y / 2) - saveMargin;
-    }  } 
+    }
+
+    // Not needed for now, perhaps in the future
+    private void SetIrrelevantNotificationLocation(Notification notification)
+    {         float corX = Random.Range(minRangeX, maxRangeX);         float corY = Random.Range(minRangeY, maxRangeY);         notification.MinimapLocation = new Vector2(corX, corY);     }
+    #endregion 
+} 
