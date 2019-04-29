@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine; using UnityEngine.UI;  public class MinimapControl : MonoBehaviour {      // Viarables set in Unity Editor     [SerializeField]     private GameObject MarkerPrefab;     [SerializeField]     private GameObject markersContainer;
     [SerializeField]
-    private GameObject plane;      // Private viarables     private GameObject minimap;     private LocationSync locationSync;      private float xScale;     private float yScale;      private float minRangeX;
+    private GameObject plane;      // Private viarables     private GameObject minimap;     private LocationSync locationSync;
+    private GameObject lastAddedMarker;      private float xScale;     private float yScale;      private float minRangeX;
     private float maxRangeX;
     private float minRangeY;
     private float maxRangeY;      // Use this for initialization     void Start () {         minimap = this.transform.gameObject;
@@ -10,23 +11,21 @@ using UnityEngine; using UnityEngine.UI;  public class MinimapControl : Mo
 
     #region Public Functions     public void InitiateNotificationOnMinimap(Notification notification) {
         // Set location nearby suspect
-        SetRelevantNotificationLocation(notification);         CreateMarker(notification);
+        SetRelevantNotificationLocation(notification);         lastAddedMarker = CreateMarker(notification);
         Debug.Log("Ay");
 
         // Coroutine
-        StartCoroutine("LookForMergableNotificartionsAfterTime", 5);     }      public void SetNotificationMinimapLocation (Notification notification) {
+        StartCoroutine("LookForMergableNotificationsAfterTime", 3);     }      public void SetNotificationMinimapLocation (Notification notification) {
                  // As all notifications are relevant now         SetRelevantNotificationLocation(notification);     }
     #endregion
 
-    #region Private Functions     private IEnumerator LookForMergableNotificartionsAfterTime(float time)
+    #region Private Functions     private IEnumerator LookForMergableNotificationsAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
 
+        Debug.Log("Looking to merge");
         // Code to execute after the delay
-        foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>())
-        {
-            FindNearbyMarkers(foundMainNotif);
-        }
+        FindNearbyMarkers(lastAddedMarker.GetComponent<MainNotification>());
     }
 
     private void FindNearbyMarkers(MainNotification mainNotif)
@@ -36,10 +35,16 @@ using UnityEngine; using UnityEngine.UI;  public class MinimapControl : Mo
             {
                 Debug.Log("Difference x,y: " + CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) + ", " + CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y));
 
-                CreateMarker(CombineMainNotifications(mainNotif, foundMainNotif));
+                MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
+                // Also update last Added Marker
+                lastAddedMarker = CreateMarker(combinedMainNotif);
 
+                // Delete old markers
                 DeleteSpecifiqMarker(mainNotif.MinimapLocation);
                 DeleteSpecifiqMarker(foundMainNotif.MinimapLocation);
+
+                // Look for nearby markers again after merge
+                StartCoroutine("LookForMergableNotificationsAfterTime", 3);
                 break;
             }
 
@@ -66,9 +71,11 @@ using UnityEngine; using UnityEngine.UI;  public class MinimapControl : Mo
     private float CalculateDifference(float nr1, float nr2) {
         return System.Math.Abs(nr1 - nr2);
     }      private void SetRelevantNotificationLocation(Notification notification) {
-        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;     }      private void CreateMarker(Notification notif) {         GameObject marker = Instantiate(MarkerPrefab) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = notif.MinimapLocation;          // Set up main notification data         SetUpMainNotification(marker, notif);     }
+        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;     }      private GameObject CreateMarker(Notification notif) {         GameObject marker = Instantiate(MarkerPrefab) as GameObject;         marker.SetActive(true);         marker.transform.SetParent(markersContainer.transform, false);          // Set marker on correct location         marker.transform.localPosition = notif.MinimapLocation;          // Set up main notification data         SetUpMainNotification(marker, notif);
 
-    private void CreateMarker(MainNotification mainNotif)
+        return marker;     }
+
+    private GameObject CreateMarker(MainNotification mainNotif)
     {
         GameObject marker = Instantiate(MarkerPrefab) as GameObject;
         marker.SetActive(true);
@@ -79,6 +86,8 @@ using UnityEngine; using UnityEngine.UI;  public class MinimapControl : Mo
 
         MainNotification markerMainNoftif = marker.GetComponent<MainNotification>();
         markerMainNoftif = mainNotif;
+
+        return marker;
     }
 
     private void DeleteSpecifiqMarker(Vector2 minimapLocation)
