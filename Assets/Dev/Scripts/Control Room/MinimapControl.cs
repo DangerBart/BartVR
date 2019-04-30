@@ -29,15 +29,13 @@ public class MinimapControl : MonoBehaviour
     private float maxRangeY;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         minimap = this.transform.gameObject;
         Setup();
     }
 
     #region Public Functions
-    public void InitiateNotificationOnMinimap(Notification notification)
-    {
+    public void InitiateNotificationOnMinimap(Notification notification) {
         // Set location of marker near suspect
         SetRelevantNotificationLocation(notification);
         MainNotification MainNotification = ConvertNotificationToMainNotification(notification);
@@ -47,8 +45,7 @@ public class MinimapControl : MonoBehaviour
         StartCoroutine("LookForMergableNotificationsAfterTime", 5);
     }
 
-    public void SetNotificationMinimapLocation(Notification notification)
-    {
+    public void SetNotificationMinimapLocation(Notification notification) {
 
         // As all notifications are relevant now
         SetRelevantNotificationLocation(notification);
@@ -56,30 +53,19 @@ public class MinimapControl : MonoBehaviour
     #endregion
 
     #region Private Functions
-    private IEnumerator LookForMergableNotificationsAfterTime(float time)
-    {
+    private IEnumerator LookForMergableNotificationsAfterTime(float time) {
         yield return new WaitForSeconds(time);
 
         // Code to execute after the delay
         FindNearbyMarkersAndCombine(lastAddedMarker.GetComponent<MainNotification>());
     }
 
-    private void FindNearbyMarkersAndCombine(MainNotification mainNotif)
-    {
-        Debug.Log("Yaho");
+    private void FindNearbyMarkersAndCombine(MainNotification mainNotif) {
         foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>())
         {
-            // TODO: If statement doesn't work correctly
-            
-            Debug.Log(foundMainNotif.MinimapLocation);
-            //Debug.Log("Difference x: " + CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) + ", y: " + CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y));
-            //Debug.Log("Same notification: " + (mainNotif == foundMainNotif));
-            Debug.Log((mainNotif != foundMainNotif && (CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) < MergeDistance && (CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y) < MergeDistance))));
-            if (mainNotif != foundMainNotif && (CalculateDifference(mainNotif.MinimapLocation.x, foundMainNotif.MinimapLocation.x) < MergeDistance && (CalculateDifference(mainNotif.MinimapLocation.y, foundMainNotif.MinimapLocation.y) < MergeDistance)))
-            {
+            if (mainNotif != foundMainNotif && CloseEnoughToEachOther(mainNotif.MinimapLocation, foundMainNotif.MinimapLocation, MergeDistance)) {
                 // Found notifications close enought to each other
                 //MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
-              
 
                 Debug.Log("Found match");
 
@@ -95,18 +81,11 @@ public class MinimapControl : MonoBehaviour
         }
     }
 
-    private float CalculateDifference(float nr1, float nr2)
-    {
-        return System.Math.Abs(nr1 - nr2);
-    }
-
-    private void SetRelevantNotificationLocation(Notification notification)
-    {
+    private void SetRelevantNotificationLocation(Notification notification) {
         notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;
     }
 
-    private GameObject CreateMarker(MainNotification mainNotif)
-    {
+    private GameObject CreateMarker(MainNotification mainNotif) {
         GameObject marker = Instantiate(MarkerPrefab) as GameObject;
         marker.SetActive(true);
         marker.transform.SetParent(markersContainer.transform, false);
@@ -121,12 +100,10 @@ public class MinimapControl : MonoBehaviour
         markerMainNotif.MinimapLocation = mainNotif.MinimapLocation;
         markerMainNotif.notifications = mainNotif.notifications;
 
-        Debug.Log(markerMainNotif.MinimapLocation);
         return marker.gameObject;
     }
 
-    private MainNotification ConvertNotificationToMainNotification(Notification notif)
-    {
+    private MainNotification ConvertNotificationToMainNotification(Notification notif) {
         MainNotification mainNotif = new MainNotification
         {
             keyNote = GetKeyNotes(notif.Message),
@@ -156,14 +133,10 @@ public class MinimapControl : MonoBehaviour
         return CombinedMainNotif;
     }
 
-    private void DeleteSpecifiqMarker(Vector2 minimapLocation)
-    {
-        Debug.Log("Recieved location: " + minimapLocation);
-        // Begin at 2 as the first two items are the playerIcon and the marker prefab
-        foreach (Transform marker in markersContainer.GetComponentInChildren<Transform>())
-        {
-            if (minimapLocation == (Vector2)marker.localPosition)
-            {
+    private void DeleteSpecifiqMarker(Vector2 minimapLocation) {
+        foreach (Transform marker in markersContainer.GetComponentInChildren<Transform>()) {
+
+            if (minimapLocation == (Vector2)marker.localPosition) {
 
                 Destroy(marker.gameObject);
                 break;
@@ -171,29 +144,35 @@ public class MinimapControl : MonoBehaviour
         }
     }
 
-    private void SetUpMainNotification(GameObject marker, Notification notif)
-    {
+    private void SetUpMainNotification(GameObject marker, Notification notif) {
         MainNotification mainNotif = marker.GetComponent<MainNotification>();
         mainNotif.MinimapLocation = notif.MinimapLocation;
         mainNotif.keyNote = GetKeyNotes(notif.Message);
         mainNotif.notifications.Add(notif);
     }
 
-    private string GetKeyNotes(string message)
-    {
+    private string GetKeyNotes(string message) {
         return message;
         //ToDo actualy get the keynotes
     }
 
-    private void Setup()
-    {
+    private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance) {
+        float differenceX = System.Math.Abs(v1.x - v2.x);
+        float differenceY = System.Math.Abs(v1.y - v2.y);
+        Debug.Log(v1 + " and " + v2);
+        Debug.Log("x: " + differenceX + "y: " + differenceY);
+        Debug.Log("Maxdistance: " + maxDisbtance);
+       
+        return (differenceX <= maxDisbtance && differenceY <= maxDisbtance);
+    }
+
+    private void Setup() {
         locationSync = this.GetComponent<LocationSync>();
         CalculateScale();
         CalculateBoundries();
     }
 
-    private void CalculateScale()
-    {
+    private void CalculateScale() {
         float offsetX = 1.7f;
         float offsetY = 2f;
 
@@ -203,8 +182,7 @@ public class MinimapControl : MonoBehaviour
         yScale = planeSize.y / mapSize.y + offsetY;
     }
 
-    private void CalculateBoundries()
-    {
+    private void CalculateBoundries() {
         float saveMargin = 100f;
 
         minRangeX = (minimap.GetComponent<RectTransform>().sizeDelta.x / 2 * -1) + saveMargin;
@@ -214,8 +192,7 @@ public class MinimapControl : MonoBehaviour
     }
 
     // Not needed for now, perhaps in the future
-    private void SetIrrelevantNotificationLocation(Notification notification)
-    {
+    private void SetIrrelevantNotificationLocation(Notification notification) {
         float corX = Random.Range(minRangeX, maxRangeX);
         float corY = Random.Range(minRangeY, maxRangeY);
         notification.MinimapLocation = new Vector2(corX, corY);
