@@ -12,7 +12,7 @@
 			<Id>1</Id>
 			<ReactionTo>0</ReactionTo>
 			<Autor>LisaNL12</Autor>
-			<Message>TEST</Message>
+			<Message>geslacht, [geslacht</Message>
 			<Platform>Twitter</Platform>
 			<Image>Running</Image>
 			<Postable>false</Postable>
@@ -21,14 +21,14 @@
 			<Id>2</Id>
 			<ReactionTo>1</ReactionTo>
 			<Autor>Jordaan038</Autor>
-			<Message>TEST</Message>
+			<Message>[other] [not important]</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
 		<Notification>
 			<Id>3</Id>
 			<Autor>Fluffy06</Autor>
-			<Message>TEST</Message>
+			<Message>[geslacht], [ geslacht ]</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
