@@ -54,8 +54,10 @@ public class MinimapControl : MonoBehaviour
     }
 
     private void FindNearbyMarkersAndCombine(MainNotification mainNotif) {
-        foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>())
-        {
+        MainNotification lastAddedMarkerBeforeLooking = mainNotif;
+
+        foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>()) {
+
             if (mainNotif != foundMainNotif && CloseEnoughToEachOther(mainNotif.MinimapLocation, foundMainNotif.MinimapLocation, MergeDistance)) {
                 // Found notifications close enought to each other
                 MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
@@ -70,8 +72,11 @@ public class MinimapControl : MonoBehaviour
                 DeleteSpecifiqMarker(foundMainNotif.MinimapLocation);
                 break;
             }
-
         }
+
+        // Search again when notifications were merged
+        if (lastAddedMarkerBeforeLooking != lastAddedMarker.GetComponent<MainNotification>())
+            StartCoroutine("LookForMergableNotificationsAfterTime", 2);
     }
 
     private void SetRelevantNotificationLocation(Notification notification) {
@@ -94,6 +99,14 @@ public class MinimapControl : MonoBehaviour
         markerMainNotif.notifications = mainNotif.notifications;
 
         return marker.gameObject;
+    }
+
+    private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance)
+    {
+        float differenceX = System.Math.Abs(v1.x - v2.x);
+        float differenceY = System.Math.Abs(v1.y - v2.y);
+
+        return (differenceX <= maxDisbtance && differenceY <= maxDisbtance);
     }
 
     private MainNotification ConvertNotificationToMainNotification(Notification notif) {
@@ -146,13 +159,6 @@ public class MinimapControl : MonoBehaviour
     private string GetKeyNotes(string message) {
         return message;
         //ToDo actualy get the keynotes
-    }
-
-    private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance) {
-        float differenceX = System.Math.Abs(v1.x - v2.x);
-        float differenceY = System.Math.Abs(v1.y - v2.y);
-       
-        return (differenceX <= maxDisbtance && differenceY <= maxDisbtance);
     }
 
     private void Setup() {

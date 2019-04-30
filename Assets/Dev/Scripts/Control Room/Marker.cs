@@ -20,21 +20,18 @@ public class Marker : MonoBehaviour{
 	}
 
     #region Public Functions
-    public void OnMouseClick()
-    {
+    public void OnMouseClick() {
         // Detected click on panel
         Debug.Log("Detected panel click");
+        MainNotification mainNotif = GetComponent<MainNotification>();
+        Debug.Log("This marker contains " + mainNotif.notifications.Count + " notfifications");
     }
 
-    public void OnMouseEnter()
-    {
-        Debug.Log("Mouse Enter");
+    public void OnMouseEnter() {
         SetActiveMarkerImage();
     }
 
-    public void OnMouseExit()
-    {
-        Debug.Log("Mouse leave");
+    public void OnMouseExit() {
         SetInnactiveMarkerImage();
     }
     #endregion
