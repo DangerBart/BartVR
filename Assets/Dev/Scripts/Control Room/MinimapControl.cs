@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MinimapControl : MonoBehaviour
 {
@@ -44,12 +43,6 @@ public class MinimapControl : MonoBehaviour
         // Coroutine
         StartCoroutine("LookForMergableNotificationsAfterTime", 5);
     }
-
-    public void SetNotificationMinimapLocation(Notification notification) {
-
-        // As all notifications are relevant now
-        SetRelevantNotificationLocation(notification);
-    }
     #endregion
 
     #region Private Functions
@@ -65,12 +58,12 @@ public class MinimapControl : MonoBehaviour
         {
             if (mainNotif != foundMainNotif && CloseEnoughToEachOther(mainNotif.MinimapLocation, foundMainNotif.MinimapLocation, MergeDistance)) {
                 // Found notifications close enought to each other
-                //MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
+                MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
 
                 Debug.Log("Found match");
 
                 // Update marker location and update latest marker
-                //lastAddedMarker = CreateMarker(combinedMainNotif);
+                lastAddedMarker = CreateMarker(combinedMainNotif);
 
                 // Delete old markers
                 DeleteSpecifiqMarker(mainNotif.MinimapLocation);
@@ -114,8 +107,7 @@ public class MinimapControl : MonoBehaviour
         return mainNotif;
     }
 
-    private MainNotification CombineMainNotifications(MainNotification mainNotif1, MainNotification mainNotif2)
-    {
+    private MainNotification CombineMainNotifications(MainNotification mainNotif1, MainNotification mainNotif2) {
         // Create marker first then get the component to fix warning
         MainNotification CombinedMainNotif = new MainNotification();
         float x = (mainNotif1.MinimapLocation.x + mainNotif2.MinimapLocation.x) / 2;
@@ -159,9 +151,6 @@ public class MinimapControl : MonoBehaviour
     private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance) {
         float differenceX = System.Math.Abs(v1.x - v2.x);
         float differenceY = System.Math.Abs(v1.y - v2.y);
-        Debug.Log(v1 + " and " + v2);
-        Debug.Log("x: " + differenceX + "y: " + differenceY);
-        Debug.Log("Maxdistance: " + maxDisbtance);
        
         return (differenceX <= maxDisbtance && differenceY <= maxDisbtance);
     }

@@ -105,7 +105,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
 
         notification.GetData().IsFavorite = !notification.GetData().IsFavorite;
-        GetComponentInParent<NotificationControl>().ToggleFavoritePanel(gameObject, notification);
         DeletePanel(false);
     }
 
@@ -114,16 +113,14 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void DeletePanel(bool deleteMarker) {
-        if ((notification.GetData().IsFavorite || notification.GetData().IsSelected) && deleteMarker)
-            GetComponentInParent<NotificationControl>().NotificationPanelRemoved(notification.GetData().MinimapLocation);
+
 
         Destroy(gameObject);
     }
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-        if (notification.GetData().Kind != KindOfNotification.Postable)
-            GetComponentInParent<NotificationControl>().NotificationSelected(gameObject);
+
     }
 
     public void PostButtonClicked() {
