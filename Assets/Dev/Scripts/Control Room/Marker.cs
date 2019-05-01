@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class Marker : MonoBehaviour{
 
     #region Variables
-
     private MainNotification MainNotif;
 
     #endregion
@@ -12,6 +11,7 @@ public class Marker : MonoBehaviour{
     // Use this for initialization
     void Start () {
         MainNotif = GetComponent<MainNotification>();
+        //notificationDisplayer = GetComponentInParent<NotificationOverview>();
     }
 	
 	// Update is called once per frame
