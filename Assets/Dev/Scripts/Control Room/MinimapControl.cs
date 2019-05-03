@@ -13,6 +13,8 @@ public class MinimapControl : MonoBehaviour
     private GameObject plane;
     [SerializeField]
     private int MergeDistance;
+    [SerializeField]
+    private NotificationOverview notificationOverview;
 
     // Private viarables
     private GameObject minimap;
@@ -66,6 +68,8 @@ public class MinimapControl : MonoBehaviour
 
                 // Update marker location and update latest marker
                 lastAddedMarker = CreateMarker(combinedMainNotif);
+                bool selected = (mainNotif.GetComponent<Marker>().GetSelected() || foundMainNotif.GetComponent<Marker>().GetSelected());
+                //lastAddedMarker.GetComponent<Marker>().SetSelected();
 
                 // Delete old markers
                 DeleteSpecifiqMarker(mainNotif.MinimapLocation);
@@ -87,6 +91,7 @@ public class MinimapControl : MonoBehaviour
         GameObject marker = Instantiate(MarkerPrefab) as GameObject;
         marker.SetActive(true);
         marker.transform.SetParent(markersContainer.transform, false);
+        marker.GetComponent<Marker>().SetNotifOverview(notificationOverview);
 
         // Set marker on correct location
         marker.transform.localPosition = mainNotif.MinimapLocation;
