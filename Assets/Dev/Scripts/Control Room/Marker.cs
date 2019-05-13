@@ -13,6 +13,12 @@ public class Marker : MonoBehaviour{
     // Use this for initialization
     void Start () {
         MainNotif = GetComponent<MainNotification>();
+        notifOverview = FindObjectOfType<NotificationOverview>();
+  
+        if (notifOverview)
+            Debug.Log("GUITexture object found: " + notifOverview.name);
+        else
+            Debug.Log("No GUITexture object could be found");
     }
 	
 	// Update is called once per frame
@@ -24,6 +30,9 @@ public class Marker : MonoBehaviour{
     public void OnMouseClick() {
         MainNotification mainNotif = GetComponent<MainNotification>();
         SetSelected(true);
+
+        Debug.Log(mainNotif.keyNote);
+
         notifOverview.ShowContentsOfNotificaiton(mainNotif);
     }
 

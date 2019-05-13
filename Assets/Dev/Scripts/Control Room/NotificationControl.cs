@@ -11,8 +11,6 @@ public class NotificationControl : MonoBehaviour
     private GameObject relevantNotificationPanel;
     [SerializeField]
     private GameObject postableNotificationPanel;
-    [SerializeField]
-    private GameObject favoritePanel;
 
     private GameObject selectedNotficationObject;
 

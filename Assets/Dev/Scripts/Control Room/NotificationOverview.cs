@@ -23,9 +23,11 @@ public class NotificationOverview : MonoBehaviour {
 	}
 
     public void ShowContentsOfNotificaiton(MainNotification mainNotif) {
+        Debug.Log("Hewwo");
         mainNotificationToShow = mainNotif;
         keynote.text = mainNotificationToShow.keyNote;
-        Debug.Log("Hewwo");
+
+        CreateNotificationPanel(mainNotif.notifications[0]);
     }
 
     private void CreateNotificationPanel(Notification notif) {
