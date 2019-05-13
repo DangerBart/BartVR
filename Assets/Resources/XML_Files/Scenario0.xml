@@ -12,7 +12,7 @@
 			<Id>1</Id>
 			<ReactionTo>0</ReactionTo>
 			<Autor>LisaNL12</Autor>
-			<Message>Een man stal een tas van een vrouw.</Message>
+			<Message>Een [geslacht] stal een tas van een vrouw.</Message>
 			<Platform>Twitter</Platform>
 			<Image>Running</Image>
 			<Postable>false</Postable>
@@ -42,7 +42,7 @@
 		<Notification>
 			<Id>5</Id>
 			<Autor>Kees1999</Autor>
-			<Message>De man rende hier gauw weg!</Message>
+			<Message>De[geslacht] rende hier gauw weg!</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -63,7 +63,7 @@
 		<Notification>
 			<Id>8</Id>
 			<Autor>Ricky4</Autor>
-			<Message>Ik zag iemand hier wegrennen met een tas!</Message>
+			<Message>Ik zag iemand hier wegrennen met een tas en een [bovenstuk] bovenstuk!</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -92,7 +92,7 @@
 		<Notification>
 			<Id>12</Id>
 			<Autor>Niels</Autor>
-			<Message>De persoon die de tas dumpte had een zwart shirt aan.</Message>
+			<Message>De persoon die de tas dumpte had een [bovenstuk] shirt aan.</Message>
 			<Platform>Whatsapp</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -134,7 +134,7 @@
 		<Notification>
 			<Id>18</Id>
 			<Autor>Sandra</Autor>
-			<Message>De overvaller loopt hier volgens mij.</Message>
+			<Message>De overvaller loopt hier volgens mij. De [geslacht] draagt een [onderstuk] onderstuk! </Message>
 			<Platform>Twitter</Platform>
 			<Image>Verdachte</Image>
 			<Postable>false</Postable>
