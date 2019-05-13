@@ -4,7 +4,7 @@
 		<Notification>
 			<Id>0</Id>
 			<Autor>Nummer 06000000001</Autor>
-			<Message>Iemand heeft hier een mobiel uit mijn winkel gestolen</Message>
+			<Message>Een [geslacht] heeft hier een mobiel uit mijn winkel gestolen</Message>
 			<Platform>Bellen</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -12,7 +12,7 @@
 			<Id>1</Id>
 			<ReactionTo>0</ReactionTo>
 			<Autor>LisaNL12</Autor>
-			<Message>TEST</Message>
+			<Message>geslacht, [geslacht</Message>
 			<Platform>Twitter</Platform>
 			<Image>Running</Image>
 			<Postable>false</Postable>
@@ -21,14 +21,14 @@
 			<Id>2</Id>
 			<ReactionTo>1</ReactionTo>
 			<Autor>Jordaan038</Autor>
-			<Message>TEST</Message>
+			<Message>[other] [not important]</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
 		<Notification>
 			<Id>3</Id>
 			<Autor>Fluffy06</Autor>
-			<Message>TEST</Message>
+			<Message>[geslacht], [ geslacht ]</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -42,7 +42,7 @@
 		<Notification>
 			<Id>5</Id>
 			<Autor>Kees1999</Autor>
-			<Message>De man rende hier gauw weg!</Message>
+			<Message>De [geslacht] rende hier gauw weg!</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -63,7 +63,7 @@
 		<Notification>
 			<Id>8</Id>
 			<Autor>Ricky4</Autor>
-			<Message>Ik zag iemand hier wegrennen met een tas!</Message>
+			<Message>Ik zag iemand hier wegrennen met een [bovenstuk] bovenstuk!</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -77,7 +77,7 @@
 		<Notification>
 			<Id>10</Id>
 			<Autor>Lisa</Autor>
-			<Message>Loop hij hier nog ergens rond?</Message>
+			<Message>Loopt die persoon met het [onderstuk] onderstuk hier nog ergens rond?</Message>
 			<Platform>SMS</Platform>
 			<Postable>false</Postable>
 		</Notification>

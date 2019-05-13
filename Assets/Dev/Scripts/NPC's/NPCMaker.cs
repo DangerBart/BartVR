@@ -6,6 +6,11 @@ public class NPCMaker : MonoBehaviour {
     private GameObject checkpointContainer;
     private Object[] npcModels;
 
+    // suspect info
+    public static Genders suspectGender;
+    public static Colors suspectTopPiece;
+    public static Colors suspectBottomPiece;
+
     private List<int> civilianModelIndexes = new List<int>();
 
     //Node attributes
@@ -124,6 +129,11 @@ public class NPCMaker : MonoBehaviour {
         SetRightGender(gender, idModel);
         idModel.topPiece = GetColorBasedOfString(topPiece);
         idModel.bottomPiece = GetColorBasedOfString(bottomPiece);
+        if (role == Roles.Suspect) {
+            suspectGender = idModel.gender;
+            suspectTopPiece = idModel.topPiece;
+            suspectBottomPiece = idModel.bottomPiece;
+        }
     }
 
     private void SetRightGender(string genderCode, Identification idModel) {
