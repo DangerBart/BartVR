@@ -45,6 +45,13 @@ public class MinimapControl : MonoBehaviour
         // Coroutine
         StartCoroutine("LookForMergableNotificationsAfterTime", 5);
     }
+
+    public void DeselectMarkersExcept(MainNotification notif) {
+        foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>()) {
+            if (foundMainNotif != notif)
+                foundMainNotif.GetComponent<Marker>().SetSelected(false);
+        }
+    }
     #endregion
 
     #region Private Functions
@@ -69,7 +76,7 @@ public class MinimapControl : MonoBehaviour
                 // Update marker location and update latest marker
                 lastAddedMarker = CreateMarker(combinedMainNotif);
                 bool selected = (mainNotif.GetComponent<Marker>().GetSelected() || foundMainNotif.GetComponent<Marker>().GetSelected());
-                //lastAddedMarker.GetComponent<Marker>().SetSelected();
+                lastAddedMarker.GetComponent<Marker>().SetSelected(selected);
 
                 // Delete old markers
                 DeleteSpecifiqMarker(mainNotif.MinimapLocation);

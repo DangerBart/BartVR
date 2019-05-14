@@ -6,6 +6,7 @@ public class Marker : MonoBehaviour{
     #region Variables
     private MainNotification MainNotif;
     private NotificationOverview notifOverview;
+    private NotificationControl notificationControl;
     private bool selected;
 
     #endregion
@@ -14,7 +15,8 @@ public class Marker : MonoBehaviour{
     void Start () {
         MainNotif = GetComponent<MainNotification>();
         notifOverview = FindObjectOfType<NotificationOverview>();
-  
+        notificationControl = FindObjectOfType<NotificationControl>();
+
         if (notifOverview)
             Debug.Log("GUITexture object found: " + notifOverview.name);
         else
@@ -32,8 +34,7 @@ public class Marker : MonoBehaviour{
         SetSelected(true);
 
         Debug.Log(mainNotif.keyNote);
-
-        notifOverview.ShowContentsOfNotificaiton(mainNotif);
+        notificationControl.MarkerClicked(gameObject);
     }
 
     public void SetNotifOverview(NotificationOverview notifOverview) {
@@ -62,6 +63,7 @@ public class Marker : MonoBehaviour{
             SetInnactiveMarkerImage();
 
     }
+
     #endregion
 
     #region Private Functions 

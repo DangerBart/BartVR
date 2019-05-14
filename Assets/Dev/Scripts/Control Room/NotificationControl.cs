@@ -5,6 +5,7 @@ public class NotificationControl : MonoBehaviour
     [SerializeField]
     private GameObject minimap;
     private MinimapControl minimapControl;
+    private NotificationOverview notificationOverview;
 
     // Panels
     [SerializeField]
@@ -12,10 +13,9 @@ public class NotificationControl : MonoBehaviour
     [SerializeField]
     private GameObject postableNotificationPanel;
 
-    private GameObject selectedNotficationObject;
-
     void Start() {
         minimapControl = minimap.GetComponent<MinimapControl>();
+        notificationOverview = FindObjectOfType<NotificationOverview>();
     }
 
     public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
@@ -33,4 +33,10 @@ public class NotificationControl : MonoBehaviour
         message.transform.SetParent(postableNotificationPanel.transform.parent, false);
     }
 
+    // Let all be done through NotifControl
+    public void MarkerClicked(GameObject marker)
+    {
+        minimapControl.DeselectMarkersExcept(marker.GetComponent<MainNotification>());
+        notificationOverview.ShowContentsOfNotificaiton(marker.GetComponent<MainNotification>());
+    }
 }
