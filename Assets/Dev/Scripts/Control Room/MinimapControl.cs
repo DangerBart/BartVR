@@ -17,6 +17,7 @@ public class MinimapControl : MonoBehaviour {
     private GameObject minimap;
     private LocationSync locationSync;
     private GameObject lastAddedMarker;
+    private NotificationControl notificationControl;
 
     private float xScale;
     private float yScale;
@@ -78,6 +79,11 @@ public class MinimapControl : MonoBehaviour {
                 // Delete old markers
                 DeleteSpecifiqMarker(mainNotif.MinimapLocation);
                 DeleteSpecifiqMarker(foundMainNotif.MinimapLocation);
+
+                // Let control know a selected marker was merged
+                if(selected)
+                    notificationControl.SelecedMarkerMerged(lastAddedMarker);
+
                 break;
             }
         }
@@ -170,7 +176,8 @@ public class MinimapControl : MonoBehaviour {
     }
 
     private void Setup() {
-        locationSync = this.GetComponent<LocationSync>();
+        locationSync = GetComponent<LocationSync>();
+        notificationControl = FindObjectOfType<NotificationControl>();
         CalculateScale();
         CalculateBoundries();
     }
