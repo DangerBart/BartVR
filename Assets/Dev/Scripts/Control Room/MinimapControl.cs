@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class MinimapControl : MonoBehaviour
-{
+public class MinimapControl : MonoBehaviour {
 
     // Viarables set in Unity Editor
     [SerializeField]
@@ -13,8 +12,6 @@ public class MinimapControl : MonoBehaviour
     private GameObject plane;
     [SerializeField]
     private int MergeDistance;
-    [SerializeField]
-    private NotificationOverview notificationOverview;
 
     // Private viarables
     private GameObject minimap;
@@ -98,7 +95,6 @@ public class MinimapControl : MonoBehaviour
         GameObject marker = Instantiate(MarkerPrefab) as GameObject;
         marker.SetActive(true);
         marker.transform.SetParent(markersContainer.transform, false);
-        marker.GetComponent<Marker>().SetNotifOverview(notificationOverview);
 
         // Set marker on correct location
         marker.transform.localPosition = mainNotif.MinimapLocation;

@@ -54,6 +54,7 @@ public class Board : MonoBehaviour
         // Tell notificationControl to create a panel for the message
         if (notificationItem != null) {
             SetNotificationPlatformLogo(notificationItem.GetData());
+            notificationItem.GetData().PostTime =GameObject.Find("Time").GetComponent<Text>().text;
 
             if (notificationItem.GetData().Postable)
                 notificationControl.CreatePostableMessagePanel(notificationItem);

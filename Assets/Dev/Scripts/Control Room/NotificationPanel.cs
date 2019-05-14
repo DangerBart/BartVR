@@ -7,7 +7,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     // Image needs to be public to be able to clone
     public Sprite image;
     public GameObject panelImage;
-    public GameObject Timestamp;
 
     private DoublyLinkedList notification;
     public TabletDisplay tablet;
@@ -20,6 +19,9 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
+
+    void Start() {
+    }
 
     public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
         notification.GetData().Kind = kind;
@@ -35,7 +37,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void Setup(Notification notif) {
-        Debug.Log("hewwo");
+        Debug.Log("hewwo, time: " + notif.PostTime);
+
 
         SetGameObjects();
         SetComponents(KindOfNotification.Relevant);
@@ -82,10 +85,10 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         message.text = notif.Message;
         mediaPlaform.sprite = notif.PlatformLogo;
+        Date.text = notif.PostTime;
 
         if (kind != KindOfNotification.Postable) {
             SetImage(notif.Img);
-            //SetTime();
         }
     }
 
@@ -94,12 +97,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             this.image = img;
             imageButton.SetActive(true);
         }
-    }
-
-    public void SetTime() {
-        Text date = Timestamp.transform.Find("Date").GetComponent<Text>();
-        Text time = Timestamp.transform.Find("Time").GetComponent<Text>();
-        Date.text = string.Format("{0}", time.text);
     }
 
     // Event functions

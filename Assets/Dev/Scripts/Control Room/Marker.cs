@@ -5,7 +5,6 @@ public class Marker : MonoBehaviour{
 
     #region Variables
     private MainNotification MainNotif;
-    private NotificationOverview notifOverview;
     private NotificationControl notificationControl;
     private bool selected;
 
@@ -14,13 +13,7 @@ public class Marker : MonoBehaviour{
     // Use this for initialization
     void Start () {
         MainNotif = GetComponent<MainNotification>();
-        notifOverview = FindObjectOfType<NotificationOverview>();
         notificationControl = FindObjectOfType<NotificationControl>();
-
-        if (notifOverview)
-            Debug.Log("GUITexture object found: " + notifOverview.name);
-        else
-            Debug.Log("No GUITexture object could be found");
     }
 	
 	// Update is called once per frame
@@ -35,10 +28,6 @@ public class Marker : MonoBehaviour{
 
         Debug.Log(mainNotif.keyNote);
         notificationControl.MarkerClicked(gameObject);
-    }
-
-    public void SetNotifOverview(NotificationOverview notifOverview) {
-        this.notifOverview = notifOverview;
     }
 
     public void OnMouseEnter() {

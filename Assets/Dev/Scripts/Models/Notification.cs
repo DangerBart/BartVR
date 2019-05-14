@@ -14,6 +14,7 @@ public class Notification{
     public string Autor;
     public string Message;
     public string Platform;
+    public string PostTime;
     public string Image;
     public bool Postable;
     public KindOfNotification Kind;

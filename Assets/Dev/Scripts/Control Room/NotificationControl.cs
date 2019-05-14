@@ -37,4 +37,8 @@ public class NotificationControl : MonoBehaviour
         minimapControl.DeselectMarkersExcept(marker.GetComponent<MainNotification>());
         notificationOverview.ShowContentsOfNotificaiton(marker.GetComponent<MainNotification>());
     }
+
+    public void SelecedMarkerMerged(GameObject marker) {
+        notificationOverview.ShowContentsOfNotificaiton(marker.GetComponent<MainNotification>());
+    }
 }
