@@ -22,8 +22,7 @@ public class NotificationControl : MonoBehaviour
         minimapControl.InitiateNotificationOnMinimap(notification.GetData());
     }
 
-    public void CreatePostableMessagePanel(DoublyLinkedList notification)
-    {
+    public void CreatePostableMessagePanel(DoublyLinkedList notification) {
         //Make a copy of the hidden panel
         GameObject message = Instantiate(postableNotificationPanel) as GameObject;
         message.SetActive(true);
@@ -34,8 +33,7 @@ public class NotificationControl : MonoBehaviour
     }
 
     // Let all be done through NotifControl
-    public void MarkerClicked(GameObject marker)
-    {
+    public void MarkerClicked(GameObject marker) {
         minimapControl.DeselectMarkersExcept(marker.GetComponent<MainNotification>());
         notificationOverview.ShowContentsOfNotificaiton(marker.GetComponent<MainNotification>());
     }

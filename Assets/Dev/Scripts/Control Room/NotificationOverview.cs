@@ -23,11 +23,12 @@ public class NotificationOverview : MonoBehaviour {
 	}
 
     public void ShowContentsOfNotificaiton(MainNotification mainNotif) {
-        Debug.Log("Hewwo");
         mainNotificationToShow = mainNotif;
         keynote.text = mainNotificationToShow.keyNote;
+        EmptyNotificationContainer();
 
-        CreateNotificationPanel(mainNotif.notifications[0]);
+        foreach (Notification notif in mainNotif.notifications)
+            CreateNotificationPanel(notif);
     }
 
     private void CreateNotificationPanel(Notification notif) {
@@ -35,7 +36,7 @@ public class NotificationOverview : MonoBehaviour {
         message.SetActive(true);
 
         //ToDO Make notificationPanel work in new structure
-        //message.GetComponent<NotificationPanel>().Setup(notif, KindOfNotification.Postable);
+        message.GetComponent<NotificationPanel>().Setup(notif);
 
         message.transform.SetParent(notificationContainer.transform, false);
     }
@@ -46,7 +47,7 @@ public class NotificationOverview : MonoBehaviour {
 
     private void EmptyNotificationContainer() {
         foreach (Transform child in notificationContainer.transform)
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
     }
 
 }

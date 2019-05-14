@@ -34,6 +34,15 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             SetupPanelInformation(notification.GetData(), kind);
     }
 
+    public void Setup(Notification notif) {
+        Debug.Log("hewwo");
+
+        SetGameObjects();
+        SetComponents(KindOfNotification.Relevant);
+        SetupPanelInformation(notif, KindOfNotification.Relevant);
+         
+    }
+
     // Getters
     public Vector2 GetMinimapLocation() {
         return notification.GetData().MinimapLocation;
@@ -60,7 +69,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         // Specifiq to kind of panel
         if (kind != KindOfNotification.Postable){
-            favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
+            //favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
             Date = this.transform.Find("Date").GetComponent<Text>();
         }
     }
@@ -76,7 +85,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         if (kind != KindOfNotification.Postable) {
             SetImage(notif.Img);
-            SetTime();
+            //SetTime();
         }
     }
 
