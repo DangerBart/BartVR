@@ -18,7 +18,7 @@ public class NPCManager : MonoBehaviour {
         npcMaker.CreateOfficer(officerModelsPath);
 
         // Create all civilians
-        for (int i = 0; i < Gamemanager.amountOfNpcsToSpawn; i++)
+        for (int i = 0; i < GameManager.amountOfNpcsToSpawn; i++)
             npcMaker.CreateCivilian();
     }
 }

@@ -58,27 +58,27 @@ public class EventHandler : MonoBehaviour {
     }
 
     public void Next(GameObject movementSelection) {
-        if ((int)Gamemanager.currentMovement < 2)
-            Gamemanager.currentMovement++;
+        if ((int)GameManager.currentMovement < 2)
+            GameManager.currentMovement++;
         else
-            Gamemanager.currentMovement = Gamemanager.Movement.FacingDirection;
+            GameManager.currentMovement = GameManager.Movement.FacingDirection;
         SetMovementText(movementSelection);
     }
 
     public void Previous(GameObject movementSelection) {
-        if (Gamemanager.currentMovement > 0)
-            Gamemanager.currentMovement--;
+        if (GameManager.currentMovement > 0)
+            GameManager.currentMovement--;
         else
-            Gamemanager.currentMovement = Gamemanager.Movement.Teleport;
+            GameManager.currentMovement = GameManager.Movement.Teleport;
         SetMovementText(movementSelection);
     }
 
     private void SetMovementText(GameObject go) {
-        switch (Gamemanager.currentMovement) {
-            case Gamemanager.Movement.ControllerDirection:
+        switch (GameManager.currentMovement) {
+            case GameManager.Movement.ControllerDirection:
                 go.GetComponent<InputField>().text = "Lopen richting controller";
                 break;
-            case Gamemanager.Movement.Teleport:
+            case GameManager.Movement.Teleport:
                 go.GetComponent<InputField>().text = "Teleporteren";
                 break;
             default:

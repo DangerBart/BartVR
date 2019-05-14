@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
-public class Gamemanager : MonoBehaviour {
+public class GameManager : MonoBehaviour {
     [SerializeField]
-    private GameObject inputRequired;
+    private GameObject NPCValueText;
     [SerializeField]
-    private InputField amountOfNpcs;
+    private Slider NPCValueSlider;
     
     enum InputSetting {
         None,
         Movement,
-        Role,
+        Mode,
         Scenario
     }
 
-    public enum PlayableRole {
-        Officer,
-        Civilian
+    public enum PlayingMode {
+        Multiplayer,
+        Singleplayer
     }
 
     public enum Movement {
@@ -34,35 +34,38 @@ public class Gamemanager : MonoBehaviour {
     }
 
     public static int amountOfNpcsToSpawn;
-    public static PlayableRole currentRole = PlayableRole.Officer;
+    public static PlayingMode currentMode = PlayingMode.Multiplayer;
     public static Movement currentMovement = Movement.FacingDirection;
     public static Scenario currentScenario = Scenario.Mugging;
 
     public void StartGame() {
-        // First digit has to be between 1 and 9, following digits have to be numbers
-        Regex regex = new Regex(@"^[1-9]\d*$");
-        Match match = regex.Match(amountOfNpcs.text);
-
-        if (match.Success && amountOfNpcsToSpawn <= 150) {
+        if (amountOfNpcsToSpawn > 0) {
             SceneManager.LoadScene((int)currentScenario + 1);
             //Start time
             Time.timeScale = 1;
-        } else {
-            inputRequired.GetComponent<Text>().text = "Vul een geldig tussen 0 en 150 getal in";
-            inputRequired.SetActive(true);
         }
+    }
+
+    public void StartSingleplayerGame() {
+        SceneManager.LoadScene((int)currentScenario + 1);
+        //Start time
+        Time.timeScale = 1;
+    }
+
+    private void Awake() {
+        Debug.Log("Awake, hmd in use is: " + XRDevice.model);
     }
 
     public void Next(GameObject settingField) {
         InputSetting setting = GetSetting(settingField.name);
 
         switch (setting) {
-            case InputSetting.Role:
-                if ((int)currentRole < Enum.GetNames(typeof(PlayableRole)).Length - 1)
-                    currentRole++;
+            case InputSetting.Mode:
+                if ((int)currentMode < Enum.GetNames(typeof(PlayingMode)).Length - 1)
+                    currentMode++;
                 else
-                    currentRole = 0;
-                SetRoleText(settingField);
+                    currentMode = 0;
+                SetModeText(settingField);
                 break;
             case InputSetting.Movement:
                 if ((int)currentMovement < Enum.GetNames(typeof(Movement)).Length - 1)
@@ -85,12 +88,12 @@ public class Gamemanager : MonoBehaviour {
         InputSetting setting = GetSetting(settingField.name);
 
         switch (setting) {
-            case InputSetting.Role:
-                if (currentRole > 0)
-                    currentRole--;
+            case InputSetting.Mode:
+                if (currentMode > 0)
+                    currentMode--;
                 else
-                    currentRole = (PlayableRole)Enum.GetNames(typeof(PlayableRole)).Length - 1;
-                SetRoleText(settingField);
+                    currentMode = (PlayingMode)Enum.GetNames(typeof(PlayingMode)).Length - 1;
+                SetModeText(settingField);
                 break;
             case InputSetting.Movement:
                 if (currentMovement > 0)
@@ -111,8 +114,8 @@ public class Gamemanager : MonoBehaviour {
 
     private InputSetting GetSetting(string name) {
         switch (name) {
-            case "PlayerRoleInputField":
-                return InputSetting.Role;
+            case "PlayingModeInputField":
+                return InputSetting.Mode;
             case "MovementInputField":
                 return InputSetting.Movement;
             case "ScenarioInputField":
@@ -136,13 +139,13 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    private void SetRoleText(GameObject settingField) {
-        switch (currentRole) {
-            case PlayableRole.Civilian:
-                settingField.GetComponent<InputField>().text = "Burger";
+    private void SetModeText(GameObject settingField) {
+        switch (currentMode) {
+            case PlayingMode.Singleplayer:
+                settingField.GetComponent<InputField>().text = "Singleplayer";
                 break;
             default:
-                settingField.GetComponent<InputField>().text = "Agent";
+                settingField.GetComponent<InputField>().text = "Multiplayer";
                 break;
         }
     }
@@ -158,7 +161,8 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    public void EnteredNPCValue() {
-        amountOfNpcsToSpawn = int.Parse(amountOfNpcs.text);
+    public void ChangedNPCValue() {
+        NPCValueText.GetComponent<Text>().text = NPCValueSlider.value.ToString();
+        amountOfNpcsToSpawn = (int) NPCValueSlider.value;
     }
 }
