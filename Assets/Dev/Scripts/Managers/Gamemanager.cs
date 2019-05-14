@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -38,6 +39,9 @@ public class GameManager : MonoBehaviour {
     public static Movement currentMovement = Movement.FacingDirection;
     public static Scenario currentScenario = Scenario.Mugging;
 
+    private int multiplayerScenes;
+    private int singleplayerScenes;
+
     public void StartGame() {
         if (amountOfNpcsToSpawn > 0) {
             SceneManager.LoadScene((int)currentScenario + 1);
@@ -53,7 +57,18 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Awake() {
+        // READ AMOUNT OF SCENARIO'S AND ADD THEM TO A LIST AND LOOP THROUGH LIST IN MENU OPTIONS
         Debug.Log("Awake, hmd in use is: " + XRDevice.model);
+        DirectoryInfo multiDI = new DirectoryInfo("Scenes/Multiplayer Scenes");
+        DirectoryInfo singleDI = new DirectoryInfo("Scenes/Singleplayer Scenes");
+
+        foreach(FileInfo file in multiDI.GetFiles()) {
+            multiplayerScenes++;
+        }
+
+        foreach(FileInfo file in singleDI.GetFiles()) {
+            singleplayerScenes++;
+        }
     }
 
     public void Next(GameObject settingField) {
