@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,26 +11,35 @@ public class GameManager : MonoBehaviour {
     private GameObject NPCValueText;
     [SerializeField]
     private Slider NPCValueSlider;
-    
-    enum InputSetting {
+    [SerializeField]
+    private GameObject miniMenu;
+
+    enum InputSetting
+    {
         None,
         Movement,
         Mode,
         Scenario
     }
 
-    public enum PlayingMode {
+    public enum PlayingMode
+    {
         Multiplayer,
         Singleplayer
     }
 
-    public enum Movement {
+    public enum Movement
+    {
         FacingDirection,
         ControllerDirection,
         Teleport
     }
 
-    public enum Scenario {
+    private List<string> multiplayerScenes = new List<string>();
+    private List<string> singleplayerScenes = new List<string>();
+
+    public enum Scenario
+    {
         Mugging,
         Shoplifting
     }
@@ -37,37 +47,42 @@ public class GameManager : MonoBehaviour {
     public static int amountOfNpcsToSpawn;
     public static PlayingMode currentMode = PlayingMode.Multiplayer;
     public static Movement currentMovement = Movement.FacingDirection;
-    public static Scenario currentScenario = Scenario.Mugging;
-
-    private int multiplayerScenes;
-    private int singleplayerScenes;
+    public static int currentScenario;
+    public static bool DesktopMode = true;
 
     public void StartGame() {
-        if (amountOfNpcsToSpawn > 0) {
-            SceneManager.LoadScene((int)currentScenario + 1);
-            //Start time
-            Time.timeScale = 1;
+        if (DesktopMode) {
+            if (amountOfNpcsToSpawn > 0) {
+                SceneManager.LoadScene(currentScenario + 1);
+                //Start time
+                Time.timeScale = 1;
+            }
+        } else {
+            if (amountOfNpcsToSpawn > 0) {
+                SceneManager.LoadScene(multiplayerScenes.Count + currentScenario + 1);
+                //Start time
+                Time.timeScale = 1;
+            }
         }
-    }
-
-    public void StartSingleplayerGame() {
-        SceneManager.LoadScene((int)currentScenario + 1);
-        //Start time
-        Time.timeScale = 1;
     }
 
     private void Awake() {
-        // READ AMOUNT OF SCENARIO'S AND ADD THEM TO A LIST AND LOOP THROUGH LIST IN MENU OPTIONS
-        Debug.Log("Awake, hmd in use is: " + XRDevice.model);
-        DirectoryInfo multiDI = new DirectoryInfo("Scenes/Multiplayer Scenes");
-        DirectoryInfo singleDI = new DirectoryInfo("Scenes/Singleplayer Scenes");
-
-        foreach(FileInfo file in multiDI.GetFiles()) {
-            multiplayerScenes++;
+        if (XRDevice.model != "htc_vive" || XRDevice.model != "oculus_rift") {
+            miniMenu.SetActive(true);
+            DesktopMode = false;
         }
 
-        foreach(FileInfo file in singleDI.GetFiles()) {
-            singleplayerScenes++;
+        DirectoryInfo multiDI = new DirectoryInfo("Assets/Scenes/Multiplayer Scenes");
+        DirectoryInfo singleDI = new DirectoryInfo("Assets/Scenes/Singleplayer Scenes");
+
+        foreach (FileInfo file in multiDI.GetFiles("*.unity")) {
+            string scene = file.Name.Replace(".unity", "");
+            multiplayerScenes.Add(scene);
+        }
+
+        foreach (FileInfo file in singleDI.GetFiles("*.unity")) {
+            string scene = file.Name.Replace(".unity", "");
+            singleplayerScenes.Add(scene);
         }
     }
 
@@ -90,11 +105,19 @@ public class GameManager : MonoBehaviour {
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if ((int)currentScenario < Enum.GetNames(typeof(Scenario)).Length - 1)
-                    currentScenario++;
-                else
-                    currentScenario = 0;
-                SetScenarioText(settingField);
+                if (DesktopMode) {
+                    if (currentScenario < multiplayerScenes.Count - 1)
+                        currentScenario++;
+                    else
+                        currentScenario = 0;
+                    settingField.GetComponent<InputField>().text = multiplayerScenes[currentScenario];
+                } else {
+                    if (currentScenario < singleplayerScenes.Count - 1)
+                        currentScenario++;
+                    else
+                        currentScenario = 0;
+                    settingField.GetComponent<InputField>().text = singleplayerScenes[currentScenario];
+                }
                 break;
         }
     }
@@ -118,11 +141,20 @@ public class GameManager : MonoBehaviour {
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (currentScenario > 0)
-                    currentScenario--;
-                else
-                    currentScenario = (Scenario)Enum.GetNames(typeof(Scenario)).Length - 1;
-                SetScenarioText(settingField);
+                if (DesktopMode) {
+                    if (currentScenario > 0)
+                        currentScenario--;
+                    else
+                        currentScenario = multiplayerScenes.Count - 1;
+                    settingField.GetComponent<InputField>().text = multiplayerScenes[currentScenario];
+                } else {
+
+                    if (currentScenario > 0)
+                        currentScenario--;
+                    else
+                        currentScenario = singleplayerScenes.Count - 1;
+                    settingField.GetComponent<InputField>().text = singleplayerScenes[currentScenario];
+                }
                 break;
         }
     }
@@ -165,19 +197,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void SetScenarioText(GameObject settingField) {
-        switch (currentScenario) {
-            case Scenario.Shoplifting:
-                settingField.GetComponent<InputField>().text = "Winkeldiefstal";
-                break;
-            default:
-                settingField.GetComponent<InputField>().text = "Straatroof";
-                break;
-        }
-    }
-
     public void ChangedNPCValue() {
         NPCValueText.GetComponent<Text>().text = NPCValueSlider.value.ToString();
-        amountOfNpcsToSpawn = (int) NPCValueSlider.value;
+        amountOfNpcsToSpawn = (int)NPCValueSlider.value;
     }
 }
