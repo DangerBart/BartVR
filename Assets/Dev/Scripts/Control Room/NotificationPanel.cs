@@ -37,13 +37,9 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void Setup(Notification notif) {
-        Debug.Log("hewwo, time: " + notif.PostTime);
-
-
         SetGameObjects();
         SetComponents(KindOfNotification.Relevant);
         SetupPanelInformation(notif, KindOfNotification.Relevant);
-         
     }
 
     // Getters
@@ -72,7 +68,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         // Specifiq to kind of panel
         if (kind != KindOfNotification.Postable){
-            //favoriteButton = this.transform.Find("Favorite Button").GetComponent<Image>();
             Date = this.transform.Find("Date").GetComponent<Text>();
         }
     }
@@ -85,16 +80,16 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         message.text = notif.Message;
         mediaPlaform.sprite = notif.PlatformLogo;
-        Date.text = notif.PostTime;
 
         if (kind != KindOfNotification.Postable) {
+            Date.text = notif.PostTime;
             SetImage(notif.Img);
         }
     }
 
     public void SetImage(Sprite img) {
         if(img != null) {
-            this.image = img;
+            image = img;
             imageButton.SetActive(true);
         }
     }
@@ -111,16 +106,14 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
 
         notification.GetData().IsFavorite = !notification.GetData().IsFavorite;
-        DeletePanel(false);
+        DeletePanel();
     }
 
     public void SendImageToVRUser() {
         tablet.SetImage(panelImage.GetComponent<Image>().sprite);
     }
 
-    public void DeletePanel(bool deleteMarker) {
-
-
+    public void DeletePanel() {
         Destroy(gameObject);
     }
 
@@ -132,7 +125,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void PostButtonClicked() {
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
-        DeletePanel(true);
+        DeletePanel();
     }
 
     public void TogglePanelColor() {
