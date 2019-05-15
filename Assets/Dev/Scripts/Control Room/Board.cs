@@ -9,8 +9,6 @@ public class Board : MonoBehaviour
     private string m_Path = "XML_Files/data-set";
     [SerializeField]
     private GameObject PostableNotifcationsContentContainer;
-    [SerializeField]
-    private Text PostableTabText;
 
     private NotificationContainer nc;
     private NotificationControl notificationControl;
@@ -21,8 +19,6 @@ public class Board : MonoBehaviour
         LoadItems(m_Path);
         FillAndConnectNotificationsList();
         notificationControl = GetComponent<NotificationControl>();
-
-        PostableTabDefaultText = PostableTabText.text;
 
         //Setup second display for VR camera
         if (Display.displays.Length > 1)
@@ -58,21 +54,13 @@ public class Board : MonoBehaviour
 
             if (notificationItem.GetData().Postable)
                 notificationControl.CreatePostableMessagePanel(notificationItem);
+            else if (notificationItem.GetData().WaitingForPost) {
+                // ToDo: check if it is a reaction or not and notify NotificationControl of this
+                Debug.Log("Message that's being posted is a reaction: " + notificationItem.GetData().Message);
+            }
             else
                 notificationControl.CreateRelevantMessagePanel(notificationItem);
-
-            // Change tab text
-            ChangeTextBasedOnCount(PostableTabText, PostableTabDefaultText, PostableNotifcationsContentContainer.transform.childCount - 1);
         }
-    }
-
-    private void ChangeTextBasedOnCount(Text textToChange, string defaultText, int count) {
-        string newText = defaultText;
-
-        if (count > 0)
-            newText = newText + " (" + count + ")";
-
-        textToChange.text = newText;
     }
 
     private void FillAndConnectNotificationsList() {
