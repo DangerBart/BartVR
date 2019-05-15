@@ -6,6 +6,7 @@ public class NotificationControl : MonoBehaviour
     private GameObject minimap;
     private MinimapControl minimapControl;
     private NotificationOverview notificationOverview;
+    private NotificationPostReactions notificationPostReactions;
 
     // Panels
     [SerializeField]
@@ -16,6 +17,7 @@ public class NotificationControl : MonoBehaviour
     void Start() {
         minimapControl = minimap.GetComponent<MinimapControl>();
         notificationOverview = FindObjectOfType<NotificationOverview>();
+        notificationPostReactions = FindObjectOfType<NotificationPostReactions>();
     }
 
     public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
@@ -24,12 +26,13 @@ public class NotificationControl : MonoBehaviour
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification) {
         //Make a copy of the hidden panel
-        GameObject message = Instantiate(postableNotificationPanel) as GameObject;
-        message.SetActive(true);
+        //GameObject message = Instantiate(postableNotificationPanel) as GameObject;
+        //message.SetActive(true);
 
-        message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Postable);
+        //message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Postable);
 
-        message.transform.SetParent(postableNotificationPanel.transform.parent, false);
+        //message.transform.SetParent(postableNotificationPanel.transform.parent, false);
+        notificationPostReactions.AddNewPostableNotification(notification);
     }
 
     // Let all be done through NotifControl

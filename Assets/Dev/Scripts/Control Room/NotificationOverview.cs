@@ -33,7 +33,6 @@ public class NotificationOverview : MonoBehaviour {
         GameObject message = Instantiate(notificationPanelPrefab) as GameObject;
         message.SetActive(true);
 
-        //ToDO Make notificationPanel work in new structure
         message.GetComponent<NotificationPanel>().Setup(notif);
 
         message.transform.SetParent(notificationContainer.transform, false);

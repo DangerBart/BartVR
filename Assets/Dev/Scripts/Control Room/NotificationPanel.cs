@@ -36,9 +36,9 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
             SetupPanelInformation(notification.GetData(), kind);
     }
 
-    public void Setup(Notification notif) {
+    public void Setup(Notification notif, KindOfNotification kind = KindOfNotification.Relevant) {
         SetGameObjects();
-        SetComponents(KindOfNotification.Relevant);
+        SetComponents(kind);
         SetupPanelInformation(notif, KindOfNotification.Relevant);
     }
 

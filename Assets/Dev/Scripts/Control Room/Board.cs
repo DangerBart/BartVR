@@ -36,16 +36,16 @@ public class Board : MonoBehaviour
             if (!item.GetData().WaitingForPost) {
 
                 notificationItem = item;
-                if (item.HasNext())
-                {
+                if (item.HasNext()) {
                     DoublyLinkedList temporary = item.GetNext();
 
                     //Set reaction message on wait mode
-                    if (item.GetData().Postable)
-                        temporary.GetData().WaitingForPost = true;
+                    if (item.GetData().Postable) 
+                        SetAllNextNotificationOnwaiting(item);
 
                     notificationlist.AddFirst(temporary);
                 }
+
                 notificationlist.Remove(item);
                 break;
             }
@@ -96,6 +96,15 @@ public class Board : MonoBehaviour
         // If the notification was found
         if (foundNotif != null)
             foundNotif.GetData().WaitingForPost = value;
+    }
+
+    private void SetAllNextNotificationOnwaiting(DoublyLinkedList notif) {
+        DoublyLinkedList loopTrough = notif;
+        while (loopTrough != null)
+        {
+            loopTrough.GetData().WaitingForPost = true;
+            loopTrough = loopTrough.GetNext();
+        }
     }
 
     // Make sure the image is loaded in
