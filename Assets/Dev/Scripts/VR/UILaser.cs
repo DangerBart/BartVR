@@ -29,7 +29,7 @@ public class UILaser : MonoBehaviour {
                 //If ray hit a button, trigger the button's onClick function
                 if (hit.collider.tag == "VRUIButton") {
                     hit.collider.gameObject.GetComponent<Button>().onClick.Invoke();
-                } 
+                }
             }
         }
     }

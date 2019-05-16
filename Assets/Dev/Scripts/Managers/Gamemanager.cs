@@ -14,22 +14,19 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject miniMenu;
 
-    enum InputSetting
-    {
+    enum InputSetting {
         None,
         Movement,
         Mode,
         Scenario
     }
 
-    public enum PlayingMode
-    {
+    public enum PlayingMode {
         Multiplayer,
         Singleplayer
     }
 
-    public enum Movement
-    {
+    public enum Movement {
         FacingDirection,
         ControllerDirection,
         Teleport
@@ -38,12 +35,6 @@ public class GameManager : MonoBehaviour {
     private List<string> multiplayerScenes = new List<string>();
     private List<string> singleplayerScenes = new List<string>();
 
-    public enum Scenario
-    {
-        Mugging,
-        Shoplifting
-    }
-
     public static int amountOfNpcsToSpawn;
     public static PlayingMode currentMode = PlayingMode.Multiplayer;
     public static Movement currentMovement = Movement.FacingDirection;
@@ -51,23 +42,21 @@ public class GameManager : MonoBehaviour {
     public static bool DesktopMode = true;
 
     public void StartGame() {
-        if (DesktopMode) {
-            if (amountOfNpcsToSpawn > 0) {
-                SceneManager.LoadScene(currentScenario + 1);
-                //Start time
-                Time.timeScale = 1;
-            }
-        } else {
-            if (amountOfNpcsToSpawn > 0) {
-                SceneManager.LoadScene(multiplayerScenes.Count + currentScenario + 1);
-                //Start time
-                Time.timeScale = 1;
-            }
-        }
+        Debug.Log("Starting up game");
+        if (DesktopMode) 
+            SceneManager.LoadScene(currentScenario + 1);
+         else 
+            SceneManager.LoadScene(multiplayerScenes.Count + currentScenario + 1);
+        //Start time
+        Time.timeScale = 1;
     }
 
     private void Awake() {
-        if (XRDevice.model != "htc_vive" || XRDevice.model != "oculus_rift") {
+        // Set initial value to 1
+        amountOfNpcsToSpawn = (int) FindObjectOfType<Slider>().value;
+
+        // ----------------------------------- CHANGE TO CHECK MODEL NAME FOR QUEST --------------------------------
+        if (!XRDevice.model.ToLower().Contains("vive") && !XRDevice.model.ToLower().Contains("cv") && !XRDevice.model.ToLower().Contains("rift")) {
             miniMenu.SetActive(true);
             DesktopMode = false;
         }
@@ -157,6 +146,14 @@ public class GameManager : MonoBehaviour {
                 }
                 break;
         }
+    }
+
+    public void IncrementSlider(Slider slider) {
+        slider.value += 10;
+    }
+
+    public void DecrementSlider(Slider slider) {
+        slider.value -= 10;
     }
 
     private InputSetting GetSetting(string name) {
