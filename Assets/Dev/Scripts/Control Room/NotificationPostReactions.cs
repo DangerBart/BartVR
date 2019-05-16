@@ -34,6 +34,7 @@ public class NotificationPostReactions : MonoBehaviour
 
     public void ReactionToPostableMessageHasBeenPosted(int id)
     {
+        Debug.Log("Recieved news tha Notification with ID " + id + " has been posted" );
         CreateReactionNotificationPanel(PostableNotifications[0].GetData());
         //SetWaitingForPost(id, false);
     }
