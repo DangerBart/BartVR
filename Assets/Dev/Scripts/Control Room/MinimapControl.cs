@@ -69,8 +69,6 @@ public class MinimapControl : MonoBehaviour {
                 // Found notifications close enought to each other
                 MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
 
-                Debug.Log("Found match");
-
                 // Update marker location and update latest marker
                 lastAddedMarker = CreateMarker(combinedMainNotif);
                 bool selected = (mainNotif.GetComponent<Marker>().GetSelected() || foundMainNotif.GetComponent<Marker>().GetSelected());
@@ -115,8 +113,7 @@ public class MinimapControl : MonoBehaviour {
         return marker.gameObject;
     }
 
-    private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance)
-    {
+    private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance) {
         float differenceX = System.Math.Abs(v1.x - v2.x);
         float differenceY = System.Math.Abs(v1.y - v2.y);
 

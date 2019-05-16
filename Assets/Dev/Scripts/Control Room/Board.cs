@@ -18,6 +18,8 @@ public class Board : MonoBehaviour
     void Start() {
         LoadItems(m_Path);
         FillAndConnectNotificationsList();
+        PrintAll();
+
         notificationControl = GetComponent<NotificationControl>();
 
         //Setup second display for VR camera
@@ -34,11 +36,6 @@ public class Board : MonoBehaviour
                 notificationItem = item;
                 if (item.HasNext()) {
                     DoublyLinkedList temporary = item.GetNext();
-
-                    //Set reaction message on wait mode
-                    if (item.GetData().Postable && item.HasNext())
-                        item.GetNext().GetData().WaitingForPost = true;
-
                     notificationlist.AddFirst(temporary);
                 }
 
@@ -47,17 +44,16 @@ public class Board : MonoBehaviour
             }
         }
 
-        //Debug.Log("Message to show: " + notificationItem.GetData().Message + ", waiting on post: " + notificationItem.GetData().WaitingForPost);
-
         // Tell notificationControl to create a panel for the message
         if (notificationItem != null) {
             SetNotificationPlatformLogo(notificationItem.GetData());
-            notificationItem.GetData().PostTime =GameObject.Find("Time").GetComponent<Text>().text;
+            notificationItem.GetData().PostTime = GameObject.Find("Time").GetComponent<Text>().text;
 
             if (notificationItem.GetData().Postable)
                 notificationControl.CreatePostableMessagePanel(notificationItem);
-            else
+            else {
                 notificationControl.CreateRelevantMessagePanel(notificationItem);
+            }
         }
     }
 
@@ -94,5 +90,22 @@ public class Board : MonoBehaviour
 
     void LoadItems(string path) {
         nc = NotificationContainer.Load(path);
+    }
+
+    // TEST
+    private void PrintAll()
+    {
+        foreach (DoublyLinkedList lol in notificationlist)
+        {
+            string oh = lol.GetData().Id + " " + lol.GetData().ReactionOfPostableNotif + ", ";
+
+            DoublyLinkedList ay = lol.GetNext();
+            while (ay != null)
+            {
+                oh += ay.GetData().Id + " " + ay.GetData().ReactionOfPostableNotif + ", ";
+                ay = ay.GetNext();
+            }
+            Debug.Log(oh);
+        }
     }
 }

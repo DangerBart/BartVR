@@ -27,6 +27,7 @@
 		</Notification>
 		<Notification>
 			<Id>3</Id>
+            <ReactionTo>2</ReactionTo>
 			<Autor>Fluffy06</Autor>
 			<Message>Heeft iemand de overvaller gezien?</Message>
 			<Platform>Twitter</Platform>
@@ -83,7 +84,7 @@
 		</Notification>
 		<Notification>
 			<Id>11</Id>
-			<ReactionTo>2</ReactionTo>
+			<ReactionTo>3</ReactionTo>
 			<Autor>Lars</Autor>
 			<Message>Is dit al opgelost?</Message>
 			<Platform>Facebook</Platform>
@@ -145,7 +146,7 @@
 			<Message>Ik zie een uitgeput persoon hier van het rennen.</Message>
 			<Platform>Whatsapp</Platform>
 			<Image>Suspect</Image>
-			<Postable>false</Postable>
+			<Postable>true</Postable>
 		</Notification>
 		<Notification>
 			<Id>20</Id>

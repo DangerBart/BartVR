@@ -30,8 +30,12 @@ public class DoublyLinkedList {
 
             notif.ReactionOfPostableNotif = IsReactionToPostableNotification(node);
 
+            //Debug.Log("Notif is: " + notif.Message);
             if (notif.ReactionOfPostableNotif)
-                Debug.Log("Notif: " + notif.Message);
+            {
+                Debug.Log("Postable!! ");
+                notif.WaitingForPost = true;
+            }
 
             node.InsertNext(notif);
             return true;
@@ -101,10 +105,8 @@ public class DoublyLinkedList {
     private bool IsReactionToPostableNotification(DoublyLinkedList notif){
         DoublyLinkedList looptrough = notif;
         while(looptrough != null) {
-            if (looptrough.GetData().Postable){
-                Debug.Log("Reaction to postable notif: ");
+            if (looptrough.GetData().Postable)
                 return true;
-            }
 
             looptrough = looptrough.GetPrevious();
         }
