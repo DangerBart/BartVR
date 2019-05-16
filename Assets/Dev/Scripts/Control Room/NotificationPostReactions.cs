@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class NotificationPostReactions : MonoBehaviour {
     [SerializeField]
@@ -10,6 +11,7 @@ public class NotificationPostReactions : MonoBehaviour {
     [SerializeField]
     private GameObject reactionNotificationContainer;
 
+    private List<DoublyLinkedList> PostableNotifications = new List<DoublyLinkedList>();
 
     void Start () {
 		
@@ -20,12 +22,16 @@ public class NotificationPostReactions : MonoBehaviour {
         DoublyLinkedList lol = notif;
         while (lol != null)
         {
-            Debug.Log(lol.GetData().Message);
+            Debug.Log(lol.GetData().Message + ", waiting: " + lol.GetData().WaitingForPost);
             lol = lol.GetNext();
         }
 
         CreatePostableNotificationPanel(notif);
 
+    }
+
+    public void ReactionToPostableMessageHasBeenPosted(int id){
+        Debug.Log("Notification with id " + id + " has beenb posted");
     }
 
     public void ShowReactionsOfPostableMessages() {
@@ -37,6 +43,8 @@ public class NotificationPostReactions : MonoBehaviour {
         message.SetActive(true);
         message.GetComponent<NotificationPanel>().Setup(notif, KindOfNotification.Postable);
         message.transform.SetParent(postableNotificationContainer.transform, false);
+
+        PostableNotifications.Add(notif);
     }
 
 

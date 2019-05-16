@@ -1,4 +1,6 @@
-﻿public class DoublyLinkedList {
+﻿using UnityEngine;
+
+public class DoublyLinkedList {
     private Notification data;
     private DoublyLinkedList next;
     private DoublyLinkedList prev;
@@ -25,6 +27,11 @@
             // Postable messages are made by professionals
             if (node.GetData().Postable)
                 node.GetData().Autor = "Politie ✔";
+
+            notif.ReactionOfPostableNotif = IsReactionToPostableNotification(node);
+
+            if (notif.ReactionOfPostableNotif)
+                Debug.Log("Notif: " + notif.Message);
 
             node.InsertNext(notif);
             return true;
@@ -89,5 +96,19 @@
         }
 
         return node;
+    }
+
+    private bool IsReactionToPostableNotification(DoublyLinkedList notif){
+        DoublyLinkedList looptrough = notif;
+        while(looptrough != null) {
+            if (looptrough.GetData().Postable){
+                Debug.Log("Reaction to postable notif: ");
+                return true;
+            }
+
+            looptrough = looptrough.GetPrevious();
+        }
+
+        return false;
     }
 }

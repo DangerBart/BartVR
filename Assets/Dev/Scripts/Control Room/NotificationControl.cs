@@ -22,16 +22,12 @@ public class NotificationControl : MonoBehaviour
 
     public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
         minimapControl.InitiateNotificationOnMinimap(notification.GetData());
+
+        if (notification.GetData().ReactionOfPostableNotif)
+            notificationPostReactions.ReactionToPostableMessageHasBeenPosted(notification.GetData().Id);
     }
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification) {
-        //Make a copy of the hidden panel
-        //GameObject message = Instantiate(postableNotificationPanel) as GameObject;
-        //message.SetActive(true);
-
-        //message.GetComponent<NotificationPanel>().Setup(notification, KindOfNotification.Postable);
-
-        //message.transform.SetParent(postableNotificationPanel.transform.parent, false);
         notificationPostReactions.AddNewPostableNotification(notification);
     }
 

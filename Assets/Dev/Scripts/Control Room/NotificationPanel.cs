@@ -14,7 +14,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Text message;
     private Image mediaPlaform;
     private GameObject imageButton;
-    private Image favoriteButton;
     private Text Date;
 
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
@@ -97,16 +96,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     // Event functions
     public void ShowImage() {
         panelImage.GetComponent<Image>().sprite = image;
-    }
-
-    public void ToggleFavoriteButton() {
-        if (notification.GetData().IsFavorite)
-            favoriteButton.sprite = Resources.Load<Sprite>("Notification/EmptyStar");
-        else
-            favoriteButton.sprite = Resources.Load<Sprite>("Notification/FilledStar");
-
-        notification.GetData().IsFavorite = !notification.GetData().IsFavorite;
-        DeletePanel();
     }
 
     public void SendImageToVRUser() {

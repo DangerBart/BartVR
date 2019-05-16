@@ -36,8 +36,8 @@ public class Board : MonoBehaviour
                     DoublyLinkedList temporary = item.GetNext();
 
                     //Set reaction message on wait mode
-                    if (item.GetData().Postable) 
-                        SetAllNextNotificationOnwaiting(item);
+                    if (item.GetData().Postable && item.HasNext())
+                        item.GetNext().GetData().WaitingForPost = true;
 
                     notificationlist.AddFirst(temporary);
                 }
@@ -47,6 +47,8 @@ public class Board : MonoBehaviour
             }
         }
 
+        //Debug.Log("Message to show: " + notificationItem.GetData().Message + ", waiting on post: " + notificationItem.GetData().WaitingForPost);
+
         // Tell notificationControl to create a panel for the message
         if (notificationItem != null) {
             SetNotificationPlatformLogo(notificationItem.GetData());
@@ -54,10 +56,6 @@ public class Board : MonoBehaviour
 
             if (notificationItem.GetData().Postable)
                 notificationControl.CreatePostableMessagePanel(notificationItem);
-            else if (notificationItem.GetData().WaitingForPost) {
-                // ToDo: check if it is a reaction or not and notify NotificationControl of this
-                Debug.Log("Message that's being posted is a reaction: " + notificationItem.GetData().Message);
-            }
             else
                 notificationControl.CreateRelevantMessagePanel(notificationItem);
         }
@@ -84,15 +82,6 @@ public class Board : MonoBehaviour
         // If the notification was found
         if (foundNotif != null)
             foundNotif.GetData().WaitingForPost = value;
-    }
-
-    private void SetAllNextNotificationOnwaiting(DoublyLinkedList notif) {
-        DoublyLinkedList loopTrough = notif;
-        while (loopTrough != null)
-        {
-            loopTrough.GetData().WaitingForPost = true;
-            loopTrough = loopTrough.GetNext();
-        }
     }
 
     // Make sure the image is loaded in
