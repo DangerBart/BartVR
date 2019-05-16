@@ -29,6 +29,16 @@ public class InputHandler : MonoBehaviour {
             buttons[directions.IndexOf(currentDirection)].GetComponent<Button>().Select();
     }
     
+    public bool GetTriggerDown(SteamVR_Controller.Device device) {
+        if (device.GetHairTriggerDown())
+            return true;
+        return false;
+    }
+
+    public Vector2 FingerPositionOnTouchpad(SteamVR_Controller.Device device) {
+        return device.GetAxis();
+    }
+
     /// <summary>
     /// Returns direction of a press on the touchpad of device
     /// </summary>
