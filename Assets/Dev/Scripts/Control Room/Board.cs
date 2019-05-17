@@ -18,7 +18,6 @@ public class Board : MonoBehaviour
     void Start() {
         LoadItems(m_Path);
         FillAndConnectNotificationsList();
-        //PrintAll();
 
         notificationControl = GetComponent<NotificationControl>();
 
@@ -31,8 +30,9 @@ public class Board : MonoBehaviour
         DoublyLinkedList notificationItem = notificationlist.First();
 
         foreach (DoublyLinkedList item in notificationlist) {
-            if(item.GetData().WaitingForPost)
-                Debug.Log("Found notif that's waiting for post: " + item.GetData().Id);
+            if (item.GetData().WaitingForPost && !item.GetPrevious().GetData().WaitingForPost && !item.GetPrevious().GetData().Postable)
+                SetNotificationWaitingForPost(false, item.GetData().Id);
+
             if (!item.GetData().WaitingForPost) {
 
                 notificationItem = item;
@@ -78,12 +78,15 @@ public class Board : MonoBehaviour
         DoublyLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
 
         // If the notification was found
+        //if (foundNotif != null)
+            //while(foundNotif != null)
+            //{
+            //    foundNotif.GetData().WaitingForPost = value;
+            //    foundNotif = foundNotif.GetNext();
+            //}
+
         if (foundNotif != null)
-            while(foundNotif != null)
-            {
-                foundNotif.GetData().WaitingForPost = value;
-                foundNotif = foundNotif.GetNext();
-            }
+            foundNotif.GetData().WaitingForPost = value;
     }
 
     // Make sure the image is loaded in

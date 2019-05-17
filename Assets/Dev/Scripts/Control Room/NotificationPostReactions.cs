@@ -19,8 +19,7 @@ public class NotificationPostReactions : MonoBehaviour
 
     }
 
-    public void AddNewPostableNotification(DoublyLinkedList notif)
-    {
+    public void AddNewPostableNotification(DoublyLinkedList notif) {
 
         DoublyLinkedList lol = notif;
         while (lol != null)
@@ -28,6 +27,9 @@ public class NotificationPostReactions : MonoBehaviour
             Debug.Log(lol.GetData().Message + ", waiting: " + lol.GetData().WaitingForPost);
             lol = lol.GetNext();
         }
+
+        PostableNotifications.Add(notif);
+        PrintAll();
         CreatePostableNotificationPanel(notif);
 
     }
@@ -36,12 +38,18 @@ public class NotificationPostReactions : MonoBehaviour
     {
         Debug.Log("Recieved news tha Notification with ID " + id + " has been posted" );
         CreateReactionNotificationPanel(PostableNotifications[0].GetData());
+        PrintAll();
         //SetWaitingForPost(id, false);
     }
 
-    public void ShowReactionsOfPostableMessages()
-    {
+    public void ShowReactionsOfPostableMessages(int id) {
+        DoublyLinkedList foundNotif = PostableNotifications.Find(nc => nc.GetData().Id == id);
+        Debug.Log("Found it: " + foundNotif != null);
+    }
 
+    public void EmptyNotificationReactionContainer() {
+        foreach (Transform child in reactionNotificationContainer.transform)
+            Destroy(child.gameObject);
     }
 
     private void CreatePostableNotificationPanel(DoublyLinkedList notif) {
@@ -50,8 +58,6 @@ public class NotificationPostReactions : MonoBehaviour
         message.SetActive(true);
         message.GetComponent<NotificationPanel>().Setup(notif, KindOfNotification.Postable);
         message.transform.SetParent(postableNotificationContainer.transform, false);
-
-        PostableNotifications.Add(notif);
     }
 
 

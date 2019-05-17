@@ -18,7 +18,6 @@ public class Notification{
     public string Image;
     public bool Postable;
     public bool ReactionOfPostableNotif;
-    public KindOfNotification Kind;
     public Sprite PlatformLogo;
     public Sprite Img;
     public Vector2 MinimapLocation;

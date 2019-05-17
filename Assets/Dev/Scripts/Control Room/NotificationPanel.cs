@@ -7,9 +7,10 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     // Image needs to be public to be able to clone
     public Sprite image;
     public GameObject panelImage;
+    public TabletDisplay tablet;
 
     private DoublyLinkedList notification;
-    public TabletDisplay tablet;
+    private KindOfNotification kindOfNotification;
     private Text username;
     private Text message;
     private Image mediaPlaform;
@@ -23,7 +24,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
-        notification.GetData().Kind = kind;
+        kindOfNotification = kind;
 
         SetGameObjects();
         SetComponents(kind);
@@ -36,6 +37,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void Setup(Notification notif, KindOfNotification kind = KindOfNotification.Relevant) {
+        kindOfNotification = kind;
         SetGameObjects();
         SetComponents(kind);
         SetupPanelInformation(notif, KindOfNotification.Relevant);
@@ -108,13 +110,16 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-
+        if(kindOfNotification == KindOfNotification.Postable)
+            Debug.Log("Detected panel click");
     }
 
     public void PostButtonClicked() {
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
-        DeletePanel();
+        //Todo: Delete buttons so no further action markers can be created
+        Destroy(transform.Find("PostButton").gameObject);
+        Destroy(transform.Find("NotPostButton").gameObject);
     }
 
     public void TogglePanelColor() {
@@ -127,4 +132,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
         notification.GetData().IsSelected = !notification.GetData().IsSelected;
     }
+
+
 }
