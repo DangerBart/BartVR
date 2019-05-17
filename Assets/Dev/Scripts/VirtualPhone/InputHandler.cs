@@ -30,13 +30,15 @@ public class InputHandler : MonoBehaviour {
     }
     
     public bool GetTriggerDown(SteamVR_Controller.Device device) {
-        if (device.GetHairTriggerDown())
-            return true;
-        return false;
+        return device.GetHairTriggerDown();
     }
 
     public Vector2 FingerPositionOnTouchpad(SteamVR_Controller.Device device) {
         return device.GetAxis();
+    }
+
+    public bool GetButtonDown(SteamVR_Controller.Device device, Valve.VR.EVRButtonId button) {
+        return device.GetPressDown(button);
     }
 
     /// <summary>

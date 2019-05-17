@@ -18,6 +18,7 @@ TagManager:
   - Officer
   - VRUIButton
   - Node
+  - Marker
   layers:
   - Default
   - TransparentFX

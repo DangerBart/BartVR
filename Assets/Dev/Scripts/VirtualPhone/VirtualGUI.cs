@@ -148,10 +148,10 @@ public class VirtualGUI : MonoBehaviour {
     // MAP APP
 
     private void RunMap() {
-        // center view on player
-        //SnapTo(icon);
-        SnapTo(cursor);
+        if (iHandler.GetButtonDown(device, Valve.VR.EVRButtonId.k_EButton_ApplicationMenu))
+            Debug.Log("Pressed tiny lil button");
 
+        SnapTo(cursor);
 
         Vector2 finger = iHandler.FingerPositionOnTouchpad(device);
         // Temp is used because C# does not allow for changing a member of a struct returned from a property (localPostion.x or .y)
