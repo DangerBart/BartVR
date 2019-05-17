@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class DoublyLinkedList {
+﻿public class DoublyLinkedList {
     private Notification data;
     private DoublyLinkedList next;
     private DoublyLinkedList prev;
@@ -30,12 +28,8 @@ public class DoublyLinkedList {
 
             notif.ReactionOfPostableNotif = IsReactionToPostableNotification(node);
 
-            //Debug.Log("Notif is: " + notif.Message);
             if (notif.ReactionOfPostableNotif)
-            {
-                Debug.Log("Postable!! ");
                 notif.WaitingForPost = true;
-            }
 
             node.InsertNext(notif);
             return true;
@@ -102,7 +96,7 @@ public class DoublyLinkedList {
         return node;
     }
 
-    private bool IsReactionToPostableNotification(DoublyLinkedList notif){
+    private bool IsReactionToPostableNotification(DoublyLinkedList notif) {
         DoublyLinkedList looptrough = notif;
         while(looptrough != null) {
             if (looptrough.GetData().Postable)

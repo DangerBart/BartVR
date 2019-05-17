@@ -33,10 +33,14 @@ public class NotificationControl : MonoBehaviour
         notificationPostReactions.AddNewPostableNotification(notification);
     }
 
-    // Let all be done through NotifControl
     public void MarkerClicked(GameObject marker) {
         minimapControl.DeselectMarkersExcept(marker.GetComponent<MainNotification>());
         notificationOverview.ShowContentsOfNotificaiton(marker.GetComponent<MainNotification>());
+    }
+
+    public void PostedNotificationPanelClicked(int id) {
+        notificationPostReactions.DeselectAllPostableNotificationsExcept(id);
+        notificationPostReactions.SelectNotification(id);
     }
 
     public void SelecedMarkerMerged(GameObject marker) {

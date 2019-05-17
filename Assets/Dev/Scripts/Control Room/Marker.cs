@@ -25,8 +25,6 @@ public class Marker : MonoBehaviour{
     public void OnMouseClick() {
         MainNotification mainNotif = GetComponent<MainNotification>();
         SetSelected(true);
-
-        Debug.Log(mainNotif.keyNote);
         notificationControl.MarkerClicked(gameObject);
     }
 

@@ -80,7 +80,7 @@
 			<Autor>Lisa</Autor>
 			<Message>Loop hij hier nog ergens rond?</Message>
 			<Platform>SMS</Platform>
-			<Postable>false</Postable>
+			<Postable>true</Postable>
 		</Notification>
 		<Notification>
 			<Id>11</Id>
@@ -92,6 +92,7 @@
 		</Notification>
 		<Notification>
 			<Id>12</Id>
+            <ReactionTo>10</ReactionTo>
 			<Autor>Niels</Autor>
 			<Message>De persoon die de tas dumpte had een zwart shirt aan.</Message>
 			<Platform>Whatsapp</Platform>
@@ -113,6 +114,7 @@
 		</Notification>
 		<Notification>
 			<Id>15</Id>
+            <ReactionTo>12</ReactionTo>
 			<Autor>Tom</Autor>
 			<Message>De overvaller leek geen wapen bij zich te hebben.</Message>
 			<Platform>Bellen</Platform>

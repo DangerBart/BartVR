@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NotificationPostReactions : MonoBehaviour
@@ -13,43 +14,53 @@ public class NotificationPostReactions : MonoBehaviour
     private GameObject reactionNotificationContainer;
 
     private List<DoublyLinkedList> PostableNotifications = new List<DoublyLinkedList>();
-
-    void Start()
-    {
-
-    }
+    private DoublyLinkedList selectedNotification;
 
     public void AddNewPostableNotification(DoublyLinkedList notif) {
-
-        DoublyLinkedList lol = notif;
-        while (lol != null)
-        {
-            Debug.Log(lol.GetData().Message + ", waiting: " + lol.GetData().WaitingForPost);
-            lol = lol.GetNext();
-        }
-
+       
         PostableNotifications.Add(notif);
         PrintAll();
         CreatePostableNotificationPanel(notif);
-
     }
 
-    public void ReactionToPostableMessageHasBeenPosted(int id)
-    {
-        Debug.Log("Recieved news tha Notification with ID " + id + " has been posted" );
-        CreateReactionNotificationPanel(PostableNotifications[0].GetData());
-        PrintAll();
-        //SetWaitingForPost(id, false);
-    }
-
-    public void ShowReactionsOfPostableMessages(int id) {
+    public void SelectNotification(int id) {
         DoublyLinkedList foundNotif = PostableNotifications.Find(nc => nc.GetData().Id == id);
-        Debug.Log("Found it: " + foundNotif != null);
+        selectedNotification = foundNotif;
+
+        if (foundNotif == null)
+            throw new Exception("Id was not found, make sure to send an ID of a postable notification");
+
+        ResetDisplayedReactions();
+    }
+
+    public void ReactionToPostableMessageHasBeenPosted(int id) {
+        ResetDisplayedReactions();
     }
 
     public void EmptyNotificationReactionContainer() {
         foreach (Transform child in reactionNotificationContainer.transform)
             Destroy(child.gameObject);
+    }
+
+    public void DeselectAllPostableNotificationsExcept(int id) {
+        DoublyLinkedList foundNotif = PostableNotifications.Find(nc => nc.GetData().Id == id);
+
+        foreach (NotificationPanel panel in postableNotificationContainer.GetComponentsInChildren<NotificationPanel>()) {
+            if (panel.GetNotification() == foundNotif)
+                panel.SetPanelColor(true);
+            else
+                panel.SetPanelColor(false);
+        }
+    }
+
+    private void ResetDisplayedReactions() {
+        DoublyLinkedList reaction = selectedNotification.GetNext();
+        EmptyNotificationReactionContainer();
+
+        while (reaction != null && !reaction.GetData().WaitingForPost) {
+            CreateReactionNotificationPanel(reaction.GetData());
+            reaction = reaction.GetNext();
+        }
     }
 
     private void CreatePostableNotificationPanel(DoublyLinkedList notif) {
@@ -67,33 +78,6 @@ public class NotificationPostReactions : MonoBehaviour
         message.SetActive(true);
         message.GetComponent<NotificationPanel>().Setup(notif);
         message.transform.SetParent(reactionNotificationContainer.transform, false);
-    }
-
-    private bool SetWaitingForPost(int id, bool value) {
-        //Find Notification
-        Notification foundNotif = findById(id);
-        if (foundNotif != null) {
-            foundNotif.WaitingForPost = value;
-            return true;
-        }
-
-        return false;
-    }
-
-    private Notification findById(int id) {
-        foreach (DoublyLinkedList foundNotif in PostableNotifications) {
-            DoublyLinkedList next = foundNotif;
-            while (next != null) {
-                if (next.GetData().Id == id)
-                    break;
-
-                next = next.GetNext();
-            }
-
-            if (next != null)
-                return next.GetData();
-        }
-        return null;
     }
 
     // Test

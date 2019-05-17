@@ -56,6 +56,10 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         return notification.GetData().IsSelected;
     }
 
+    public DoublyLinkedList GetNotification() {
+        return notification;
+    }
+
     private void SetGameObjects() {
         imageButton = transform.Find("Show Button").gameObject;
     }
@@ -110,27 +114,30 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
-        if(kindOfNotification == KindOfNotification.Postable)
+        if(kindOfNotification == KindOfNotification.Postable) {
             Debug.Log("Detected panel click");
+            GetComponentInParent<NotificationControl>().PostedNotificationPanelClicked(notification.GetData().Id);
+            SetPanelColor(true);
+        }
     }
 
     public void PostButtonClicked() {
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
-        //Todo: Delete buttons so no further action markers can be created
+        GetComponentInParent<NotificationControl>().PostedNotificationPanelClicked(notification.GetData().Id);
+
+        // Delete buttons
         Destroy(transform.Find("PostButton").gameObject);
         Destroy(transform.Find("NotPostButton").gameObject);
     }
 
-    public void TogglePanelColor() {
+    public void SetPanelColor(bool selected) {
         Image panel = gameObject.GetComponent<Image>();
 
-        if (!notification.GetData().IsSelected)
+        if (selected)
             panel.color = panelColorYellow;
         else
             panel.color = panelColorWhite;
-
-        notification.GetData().IsSelected = !notification.GetData().IsSelected;
     }
 
 
