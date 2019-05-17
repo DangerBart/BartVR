@@ -8,7 +8,7 @@ public enum Direction {
     up = 1,
     right = 2,
     down = 3,
-    standby = 4
+    standby = 4 
 }
 
 public class InputHandler : MonoBehaviour {
@@ -25,7 +25,7 @@ public class InputHandler : MonoBehaviour {
         
         // Check if current direction of finger on touchpad is in the list of button directions
         if (directions.Contains(currentDirection)) 
-            // If the finger is in the direction of a button, highlight that button
+            // Highlight selected button
             buttons[directions.IndexOf(currentDirection)].GetComponent<Button>().Select();
     }
     
@@ -33,12 +33,12 @@ public class InputHandler : MonoBehaviour {
         return device.GetHairTriggerDown();
     }
 
-    public Vector2 FingerPositionOnTouchpad(SteamVR_Controller.Device device) {
-        return device.GetAxis();
+    public bool TouchpadIsPressed(SteamVR_Controller.Device device) {
+        return (!(GetPress(device) == Direction.standby) || GetPress(device) == Direction.standby);
     }
 
-    public bool GetButtonDown(SteamVR_Controller.Device device, Valve.VR.EVRButtonId button) {
-        return device.GetPressDown(button);
+    public Vector2 FingerPositionOnTouchpad(SteamVR_Controller.Device device) {
+        return device.GetAxis();
     }
 
     /// <summary>

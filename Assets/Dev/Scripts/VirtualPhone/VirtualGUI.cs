@@ -65,6 +65,8 @@ public class VirtualGUI : MonoBehaviour {
     [SerializeField]
     private float offsetY;
     private float cursorSpeed = 35f;
+    private float cursorMargin = 0.15f;
+
 
     // Use this for initialization
     void Start() {
@@ -111,7 +113,8 @@ public class VirtualGUI : MonoBehaviour {
         RunCameraPopUp(confirmPanel.activeInHierarchy);
     }
 
-    // MAIN MENU
+    // MAIN MENU ----
+
 
     private App CurrentApp() {
         for (int i = 0; i <= apps.Count; i++) {
@@ -139,31 +142,38 @@ public class VirtualGUI : MonoBehaviour {
     }
 
     private void LaunchApp(int app) {
-        // Set main menu false
-        apps[(int)App.menu].SetActive(false);
-        // set selected app true
+        // hide current app
+        apps[(int)CurrentApp()].SetActive(false);
+        // show new app
         apps[app].SetActive(true);
     }
 
-    // MAP APP
+    // MAP APP ----
+
 
     private void RunMap() {
-        if (iHandler.GetButtonDown(device, Valve.VR.EVRButtonId.k_EButton_ApplicationMenu))
-            Debug.Log("Pressed tiny lil button");
+        if (iHandler.TouchpadIsPressed(device) && CursorHandler.OnMarker) {
+            // CURSOR IS ON MARKER AND A PRESS WAS DETECTED... SELECT THE MARKER
+            // Use the public staitc GameObject marker from CursorHandler to extract needed info
+        }
 
         SnapTo(cursor);
 
         Vector2 finger = iHandler.FingerPositionOnTouchpad(device);
-        // Temp is used because C# does not allow for changing a member of a struct returned from a property (localPostion.x or .y)
-        Vector3 temp = cursor.transform.localPosition;
+        
 
-        // finger.x is multiplied by 2 since the width is twice as large as the height.
-        temp += new Vector3(finger.x * 2f, finger.y, 0) * Time.deltaTime * cursorSpeed;
+        if(!IsBetween(finger.x, -cursorMargin, cursorMargin) && !IsBetween(finger.y, -cursorMargin, cursorMargin)) {
+            // Temp is used because C# does not allow for changing a member of a struct returned from a property (localPostion.x or .y)
+            Vector3 temp = cursor.transform.localPosition;
 
-        temp.x = Mathf.Clamp(temp.x, -1 * contentPanel.rect.width / 2, contentPanel.rect.width / 2);
-        temp.y = Mathf.Clamp(temp.y, -1 * contentPanel.rect.height / 2, contentPanel.rect.height / 2);
+            // finger.x is multiplied by 2 since the width is twice as large as the height.
+            temp += new Vector3(finger.x * 2f, finger.y, 0) * Time.deltaTime * cursorSpeed;
 
-        cursor.transform.localPosition = temp;
+            temp.x = Mathf.Clamp(temp.x, -1 * contentPanel.rect.width / 2, contentPanel.rect.width / 2);
+            temp.y = Mathf.Clamp(temp.y, -1 * contentPanel.rect.height / 2, contentPanel.rect.height / 2);
+
+            cursor.transform.localPosition = temp;
+        }
     }
 
     void SnapTo(RectTransform target) {
@@ -174,7 +184,12 @@ public class VirtualGUI : MonoBehaviour {
         contentPanel.anchoredPosition += new Vector2(offsetX, offsetY);
     }
 
-    // CAMERA APP
+    private bool IsBetween(float val, float low, float high) {
+        return val > low && val < high;
+    }
+
+    // CAMERA APP ----
+
 
     private void RunCamera() {
         if (confirmPanel.activeInHierarchy == false) {
