@@ -162,7 +162,7 @@ public class VirtualGUI : MonoBehaviour {
         Vector2 finger = iHandler.FingerPositionOnTouchpad(device);
         
 
-        if(!IsBetween(finger.x, -cursorMargin, cursorMargin) && !IsBetween(finger.y, -cursorMargin, cursorMargin)) {
+        if(!IsBetween(finger.x, -cursorMargin, cursorMargin) || !IsBetween(finger.y, -cursorMargin, cursorMargin)) {
             // Temp is used because C# does not allow for changing a member of a struct returned from a property (localPostion.x or .y)
             Vector3 temp = cursor.transform.localPosition;
 
