@@ -9,7 +9,7 @@ public class NPCManager : MonoBehaviour {
     string officerModelsPath = "Officers";
 
     // Use this for initialization
-    void Start() {
+    void Awake() {
         NPCMaker npcMaker = GetComponent<NPCMaker>();
         npcMaker.Setup(NpcPrefabsPath, CheckpointContainer);
 

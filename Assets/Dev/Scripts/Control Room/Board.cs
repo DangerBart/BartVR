@@ -3,20 +3,14 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class Board : MonoBehaviour
-{
-    [SerializeField]
-    private string m_Path = "XML_Files/data-set";
-    [SerializeField]
-    private GameObject PostableNotifcationsContentContainer;
-
+public class Board : MonoBehaviour {
+    private string m_Path = "XML_Files/";
     private NotificationContainer nc;
     private NotificationControl notificationControl;
-    private string PostableTabDefaultText;
     private LinkedList<DoublyLinkedList> notificationlist;
 
     void Start() {
-        LoadItems(m_Path);
+        LoadItems(m_Path + string.Format("Scenario{0}", (int)Gamemanager.currentScenario));
         FillAndConnectNotificationsList();
 
         notificationControl = GetComponent<NotificationControl>();
@@ -27,36 +21,40 @@ public class Board : MonoBehaviour
     }
 
     public void ShowNotification() {
-        DoublyLinkedList notificationItem = notificationlist.First();
+        if(notificationlist.Count != 0) {
+            DoublyLinkedList notificationItem = notificationlist.First();
 
-        foreach (DoublyLinkedList item in notificationlist) {
-            if (item.GetData().WaitingForPost && !item.GetPrevious().GetData().WaitingForPost && !item.GetPrevious().GetData().Postable)
-                SetNotificationWaitingForPost(false, item.GetData().Id);
+            foreach (DoublyLinkedList item in notificationlist)
+            {
+                if (item.GetData().WaitingForPost && !item.GetPrevious().GetData().WaitingForPost && !item.GetPrevious().GetData().Postable)
+                    SetNotificationWaitingForPost(false, item.GetData().Id);
 
-            if (!item.GetData().WaitingForPost) {
+                if (!item.GetData().WaitingForPost) {
 
-                notificationItem = item;
-                if (item.HasNext()) {
-                    DoublyLinkedList temporary = item.GetNext();
-                    notificationlist.AddFirst(temporary);
+                    notificationItem = item;
+                    if (item.HasNext()){
+                        DoublyLinkedList temporary = item.GetNext();
+                        notificationlist.AddFirst(temporary);
+                    }
+
+                    notificationlist.Remove(item);
+                    break;
                 }
+            }
 
-                notificationlist.Remove(item);
-                break;
+            // Tell notificationControl to create a panel for the message
+            if (notificationItem != null) {
+                SetNotificationPlatformLogo(notificationItem.GetData());
+                notificationItem.GetData().PostTime = GameObject.Find("Time").GetComponent<Text>().text;
+
+                if (notificationItem.GetData().Postable)
+                    notificationControl.CreatePostableMessagePanel(notificationItem);
+                else {
+                    notificationControl.CreateRelevantMessagePanel(notificationItem);
+                }
             }
         }
 
-        // Tell notificationControl to create a panel for the message
-        if (notificationItem != null) {
-            SetNotificationPlatformLogo(notificationItem.GetData());
-            notificationItem.GetData().PostTime = GameObject.Find("Time").GetComponent<Text>().text;
-
-            if (notificationItem.GetData().Postable)
-                notificationControl.CreatePostableMessagePanel(notificationItem);
-            else {
-                notificationControl.CreateRelevantMessagePanel(notificationItem);
-            }
-        }
     }
 
     private void FillAndConnectNotificationsList() {

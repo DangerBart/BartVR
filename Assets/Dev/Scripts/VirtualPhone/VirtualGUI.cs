@@ -22,16 +22,16 @@ public class VirtualGUI : MonoBehaviour {
     private List<GameObject> menuApps = new List<GameObject>();
 
     // CameraButtons
-    [Header("Add app buttons in order of takepicture, back, deselect")]
+    [Header("Add app buttons in order of back, takepicture, deselect")]
     [SerializeField]
     private List<GameObject> cameraButtons = new List<GameObject>();
 
-    // mapButtons
+    // MapButtons
     [Header("Add app buttons in order of back, deselect")]
     [SerializeField]
     private List<GameObject> mapButtons = new List<GameObject>();
 
-    // confirmButtons
+    // ConfirmButtons
     [Header("Add app buttons in order of yes, no, deselect")]
     [SerializeField]
     private List<GameObject> confirmButtons = new List<GameObject>();
@@ -165,9 +165,9 @@ public class VirtualGUI : MonoBehaviour {
         if (confirmPanel.activeInHierarchy == false) {
             iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButtons, device);
 
-            if (iHandler.GetPress(device) == Direction.left) {
+            if (iHandler.GetPress(device) == Direction.right) {
                 StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
-            } else if (iHandler.GetPress(device) == Direction.right) {
+            } else if (iHandler.GetPress(device) == Direction.left) {
                 ReturnToMenu(App.camera);
             }
         }
