@@ -15,11 +15,6 @@ public class NotificationOverview : MonoBehaviour {
     private MainNotification mainNotificationToShow;
     #endregion
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-
     public void ShowContentsOfNotificaiton(MainNotification mainNotif) {
         mainNotificationToShow = mainNotif;
         keynote.text = mainNotificationToShow.keyNote;

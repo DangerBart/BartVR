@@ -77,14 +77,6 @@ public class Board : MonoBehaviour
     public void SetNotificationWaitingForPost(bool value, int id) {
         DoublyLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
 
-        // If the notification was found
-        //if (foundNotif != null)
-            //while(foundNotif != null)
-            //{
-            //    foundNotif.GetData().WaitingForPost = value;
-            //    foundNotif = foundNotif.GetNext();
-            //}
-
         if (foundNotif != null)
             foundNotif.GetData().WaitingForPost = value;
     }
@@ -99,22 +91,5 @@ public class Board : MonoBehaviour
 
     void LoadItems(string path) {
         nc = NotificationContainer.Load(path);
-    }
-
-    // TEST
-    private void PrintAll()
-    {
-        foreach (DoublyLinkedList lol in notificationlist)
-        {
-            string oh = lol.GetData().Id + " " + lol.GetData().ReactionOfPostableNotif + ", ";
-
-            DoublyLinkedList ay = lol.GetNext();
-            while (ay != null)
-            {
-                oh += ay.GetData().Id + " " + ay.GetData().ReactionOfPostableNotif + ", ";
-                ay = ay.GetNext();
-            }
-            Debug.Log(oh);
-        }
     }
 }

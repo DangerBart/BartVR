@@ -17,9 +17,7 @@ public class NotificationPostReactions : MonoBehaviour
     private DoublyLinkedList selectedNotification;
 
     public void AddNewPostableNotification(DoublyLinkedList notif) {
-       
         PostableNotifications.Add(notif);
-        PrintAll();
         CreatePostableNotificationPanel(notif);
     }
 
@@ -78,21 +76,5 @@ public class NotificationPostReactions : MonoBehaviour
         message.SetActive(true);
         message.GetComponent<NotificationPanel>().Setup(notif);
         message.transform.SetParent(reactionNotificationContainer.transform, false);
-    }
-
-    // Test
-    private void PrintAll()
-    {
-        foreach (DoublyLinkedList lol in PostableNotifications)
-        {
-            string oh = lol.GetData().Id.ToString() + "(" + lol.GetData().WaitingForPost + "), ";
-
-            DoublyLinkedList ay = lol.GetNext();
-            while (ay != null) {
-                oh +=  ay.GetData().Id + "(" + ay.GetData().WaitingForPost + "),";
-                ay = ay.GetNext();
-            }
-            Debug.Log(oh);
-        }
     }
 }

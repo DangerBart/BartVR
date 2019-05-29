@@ -43,8 +43,7 @@ public class LocationSync : MonoBehaviour
         ReplaceArrayAndAddNpc(GetSuspect(suspectIcon));
     }
 
-    private void ReplaceArrayAndAddNpc(NpcImageOption toAddNpc)
-    {
+    private void ReplaceArrayAndAddNpc(NpcImageOption toAddNpc) {
         NpcImageOption[] newArray = new NpcImageOption[NpcToDisplayOnMinimap.Length + 1];
         for (int i = 0; i < NpcToDisplayOnMinimap.Length; i++) {
             newArray[i] = NpcToDisplayOnMinimap[i];
@@ -57,8 +56,7 @@ public class LocationSync : MonoBehaviour
         NpcToDisplayOnMinimap = newArray;
     }
 
-    private NpcImageOption GetSuspect(GameObject iconToAttatch)
-    {
+    private NpcImageOption GetSuspect(GameObject iconToAttatch) {
         NpcImageOption toReturn = new NpcImageOption();
 
         foreach (Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {

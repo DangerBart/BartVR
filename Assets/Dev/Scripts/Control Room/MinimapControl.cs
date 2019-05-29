@@ -66,7 +66,7 @@ public class MinimapControl : MonoBehaviour {
         foreach (MainNotification foundMainNotif in markersContainer.GetComponentsInChildren<MainNotification>()) {
 
             if (mainNotif != foundMainNotif && CloseEnoughToEachOther(mainNotif.MinimapLocation, foundMainNotif.MinimapLocation, MergeDistance)) {
-                // Found notifications close enought to each other
+                // Found notifications close enough to each other
                 MainNotification combinedMainNotif = CombineMainNotifications(mainNotif, foundMainNotif);
 
                 // Update marker location and update latest marker

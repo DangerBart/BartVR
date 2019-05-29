@@ -115,7 +115,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData) {
         // Detected click on panel
         if(kindOfNotification == KindOfNotification.Postable) {
-            Debug.Log("Detected panel click");
             GetComponentInParent<NotificationControl>().PostedNotificationPanelClicked(notification.GetData().Id);
             SetPanelColor(true);
         }
@@ -139,6 +138,4 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         else
             panel.color = panelColorWhite;
     }
-
-
 }

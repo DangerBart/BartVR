@@ -15,11 +15,6 @@ public class Marker : MonoBehaviour{
         MainNotif = GetComponent<MainNotification>();
         notificationControl = FindObjectOfType<NotificationControl>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     #region Public Functions
     public void OnMouseClick() {
