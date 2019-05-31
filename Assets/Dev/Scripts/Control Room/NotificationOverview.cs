@@ -33,10 +33,6 @@ public class NotificationOverview : MonoBehaviour {
         message.transform.SetParent(notificationContainer.transform, false);
     }
 
-    public void HideContentsOfNotification() {
-
-    }
-
     private void EmptyNotificationContainer() {
         foreach (Transform child in notificationContainer.transform)
             Destroy(child.gameObject);

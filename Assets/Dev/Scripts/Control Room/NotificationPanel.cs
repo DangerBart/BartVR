@@ -20,9 +20,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
     private Color panelColorYellow = new Color32(255, 255, 0, 180);
 
-    void Start() {
-    }
-
     public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
         kindOfNotification = kind;
 
