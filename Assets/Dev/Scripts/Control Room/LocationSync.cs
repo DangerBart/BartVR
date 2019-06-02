@@ -1,13 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class LocationSync : MonoBehaviour
 {
+    [Serializable]
+    public struct NpcImageOption
+    {
+        public GameObject npc;
+        public GameObject minimapImage;
+    }
 
+    // Public viarables
     public GameObject map;
     public GameObject plane;
-    public GameObject officerInVR;
+    public NpcImageOption[] NpcToDisplayOnMinimap;
+    /// <summary>
+    ///  Needed to look for suspect
+    /// </summary>
+    /// Temporry
+    public GameObject npcContainer;
+    public GameObject suspectIcon;
+
+    // Private viarables 
     private Vector2 mapSize;
     private Vector2 planeSize;
     private float xScale;
@@ -16,13 +30,49 @@ public class LocationSync : MonoBehaviour
     public float offsety = 2f;
     private Vector2 officerOnMap;
     
+    // Public methods
+    public Vector2 GetSuspectMinimapLocation()
+    {
+        // Last item in array is suspect
+        return NpcToDisplayOnMinimap[NpcToDisplayOnMinimap.Length-1].minimapImage.GetComponent<RectTransform>().transform.localPosition;
+    }
 
+    // Private methods
     private void Start() {
         UpdateMapSizeAndScale();
+        ReplaceArrayAndAddNpc(GetSuspect(suspectIcon));
+    }
+
+    private void ReplaceArrayAndAddNpc(NpcImageOption toAddNpc) {
+        NpcImageOption[] newArray = new NpcImageOption[NpcToDisplayOnMinimap.Length + 1];
+        for (int i = 0; i < NpcToDisplayOnMinimap.Length; i++) {
+            newArray[i] = NpcToDisplayOnMinimap[i];
+        }
+
+        // Add npc as last item in array
+        newArray[newArray.Length - 1] = toAddNpc;
+
+        // Replace array with new one
+        NpcToDisplayOnMinimap = newArray;
+    }
+
+    private NpcImageOption GetSuspect(GameObject iconToAttatch) {
+        NpcImageOption toReturn = new NpcImageOption();
+
+        foreach (Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {
+            if (idToCompare.role == Roles.Suspect)
+            {
+                toReturn.npc = idToCompare.gameObject;
+                toReturn.minimapImage = iconToAttatch;
+                break;
+            }
+        }
+        return toReturn;
     }
 
     void Update() {
-        ScaleOfficerOnMap();
+        foreach(NpcImageOption npc in NpcToDisplayOnMinimap)
+            ScaleNpcOnMap(npc);
     }
 
     private void UpdateMapSizeAndScale() {
@@ -31,8 +81,8 @@ public class LocationSync : MonoBehaviour
         xScale = planeSize.x / mapSize.x + offsetx;
         yScale = planeSize.y / mapSize.y + offsety;
     }
-    private void ScaleOfficerOnMap() {
-        this.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (officerInVR.transform.position.x * xScale),
-                                                                                 -1 * (officerInVR.transform.position.z * yScale));
+    private void ScaleNpcOnMap(NpcImageOption NpcOption) {
+        NpcOption.minimapImage.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (NpcOption.npc.transform.position.x * xScale),
+                                                                                 -1 * (NpcOption.npc.transform.position.z * yScale));
     }
 }

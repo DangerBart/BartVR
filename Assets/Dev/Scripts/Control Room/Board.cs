@@ -5,22 +5,15 @@ using UnityEngine.UI;
 
 public class Board : MonoBehaviour {
     private string m_Path = "XML_Files/";
-    [SerializeField]
-    private GameObject PostableNotifcationsContentContainer;
-    [SerializeField]
-    private Text PostableTabText;
-
     private NotificationContainer nc;
     private NotificationControl notificationControl;
-    private string PostableTabDefaultText;
     private LinkedList<DoublyLinkedList> notificationlist;
 
     void Start() {
         LoadItems(m_Path + string.Format("Scenario{0}", (int)Gamemanager.currentScenario));
         FillAndConnectNotificationsList();
-        notificationControl = GetComponent<NotificationControl>();
 
-        PostableTabDefaultText = PostableTabText.text;
+        notificationControl = GetComponent<NotificationControl>();
 
         //Setup second display for VR camera
         if (Display.displays.Length > 1)
@@ -28,48 +21,40 @@ public class Board : MonoBehaviour {
     }
 
     public void ShowNotification() {
-        DoublyLinkedList notificationItem = notificationlist.First();
+        if(notificationlist.Count != 0) {
+            DoublyLinkedList notificationItem = notificationlist.First();
 
-        foreach (DoublyLinkedList item in notificationlist) {
-            if (!item.GetData().WaitingForPost) {
+            foreach (DoublyLinkedList item in notificationlist)
+            {
+                if (item.GetData().WaitingForPost && !item.GetPrevious().GetData().WaitingForPost && !item.GetPrevious().GetData().Postable)
+                    SetNotificationWaitingForPost(false, item.GetData().Id);
 
-                notificationItem = item;
-                if (item.HasNext())
-                {
-                    DoublyLinkedList temporary = item.GetNext();
+                if (!item.GetData().WaitingForPost) {
 
-                    //Set reaction message on wait mode
-                    if (item.GetData().Postable)
-                        temporary.GetData().WaitingForPost = true;
+                    notificationItem = item;
+                    if (item.HasNext()){
+                        DoublyLinkedList temporary = item.GetNext();
+                        notificationlist.AddFirst(temporary);
+                    }
 
-                    notificationlist.AddFirst(temporary);
+                    notificationlist.Remove(item);
+                    break;
                 }
-                notificationlist.Remove(item);
-                break;
+            }
+
+            // Tell notificationControl to create a panel for the message
+            if (notificationItem != null) {
+                SetNotificationPlatformLogo(notificationItem.GetData());
+                notificationItem.GetData().PostTime = GameObject.Find("Time").GetComponent<Text>().text;
+
+                if (notificationItem.GetData().Postable)
+                    notificationControl.CreatePostableMessagePanel(notificationItem);
+                else {
+                    notificationControl.CreateRelevantMessagePanel(notificationItem);
+                }
             }
         }
 
-        // Tell notificationControl to create a panel for the message
-        if (notificationItem != null) {
-            SetNotificationPlatformLogo(notificationItem.GetData());
-
-            if (notificationItem.GetData().Postable)
-                notificationControl.CreatePostableMessagePanel(notificationItem);
-            else
-                notificationControl.CreateRelevantMessagePanel(notificationItem);
-
-            // Change tab text
-            ChangeTextBasedOnCount(PostableTabText, PostableTabDefaultText, PostableNotifcationsContentContainer.transform.childCount - 1);
-        }
-    }
-
-    private void ChangeTextBasedOnCount(Text textToChange, string defaultText, int count) {
-        string newText = defaultText;
-
-        if (count > 0)
-            newText = newText + " (" + count + ")";
-
-        textToChange.text = newText;
     }
 
     private void FillAndConnectNotificationsList() {
@@ -90,7 +75,6 @@ public class Board : MonoBehaviour {
     public void SetNotificationWaitingForPost(bool value, int id) {
         DoublyLinkedList foundNotif = notificationlist.FirstOrDefault(nc => nc.GetData().Id == id);
 
-        // If the notification was found
         if (foundNotif != null)
             foundNotif.GetData().WaitingForPost = value;
     }

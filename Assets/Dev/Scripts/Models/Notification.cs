@@ -14,9 +14,10 @@ public class Notification{
     public string Autor;
     public string Message;
     public string Platform;
+    public string PostTime;
     public string Image;
     public bool Postable;
-    public KindOfNotification Kind;
+    public bool ReactionOfPostableNotif;
     public Sprite PlatformLogo;
     public Sprite Img;
     public Vector2 MinimapLocation;
