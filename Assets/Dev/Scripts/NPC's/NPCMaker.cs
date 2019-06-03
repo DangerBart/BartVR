@@ -36,7 +36,6 @@ public class NPCMaker : MonoBehaviour {
     }
 
     public void CreateSuspect() {
-        Debug.Log("Create suspect");
         List<int> suspectModelsIndexes = new List<int>();
 
         // Make list with available suspect models
