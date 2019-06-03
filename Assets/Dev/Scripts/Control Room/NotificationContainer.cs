@@ -26,6 +26,7 @@ public class NotificationContainer
     }
 
     private static NotificationContainer ParseVariables(NotificationContainer notifications) {
+        Debug.Log("Weet ik veel, parse of zo");
         string match;
         foreach (Notification notif in notifications.notifications) {
             Match m = Regex.Match(notif.Message, @"\[(.*?)\]");

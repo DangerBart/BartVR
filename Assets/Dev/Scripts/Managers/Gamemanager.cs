@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour {
     public static bool DesktopMode = true;
 
     public void StartGame() {
-        Debug.Log("Starting up game");
         if (DesktopMode) 
             SceneManager.LoadScene(currentScenario + 1);
          else 
