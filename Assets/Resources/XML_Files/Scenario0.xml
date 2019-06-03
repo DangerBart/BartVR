@@ -27,6 +27,7 @@
 		</Notification>
 		<Notification>
 			<Id>3</Id>
+            <ReactionTo>2</ReactionTo>
 			<Autor>Fluffy06</Autor>
 			<Message>Heeft iemand de overvaller gezien?</Message>
 			<Platform>Twitter</Platform>
@@ -79,11 +80,11 @@
 			<Autor>Lisa</Autor>
 			<Message>Loop hij hier nog ergens rond?</Message>
 			<Platform>SMS</Platform>
-			<Postable>false</Postable>
+			<Postable>true</Postable>
 		</Notification>
 		<Notification>
 			<Id>11</Id>
-			<ReactionTo>2</ReactionTo>
+			<ReactionTo>3</ReactionTo>
 			<Autor>Lars</Autor>
 			<Message>Is dit al opgelost?</Message>
 			<Platform>Facebook</Platform>
@@ -91,6 +92,7 @@
 		</Notification>
 		<Notification>
 			<Id>12</Id>
+            <ReactionTo>10</ReactionTo>
 			<Autor>Niels</Autor>
 			<Message>De persoon die de tas dumpte had een [bovenstuk] shirt aan.</Message>
 			<Platform>Whatsapp</Platform>
@@ -112,6 +114,7 @@
 		</Notification>
 		<Notification>
 			<Id>15</Id>
+            <ReactionTo>12</ReactionTo>
 			<Autor>Tom</Autor>
 			<Message>De overvaller leek geen wapen bij zich te hebben.</Message>
 			<Platform>Bellen</Platform>
@@ -145,7 +148,7 @@
 			<Message>Ik zie een uitgeput persoon hier van het rennen.</Message>
 			<Platform>Whatsapp</Platform>
 			<Image>Suspect</Image>
-			<Postable>false</Postable>
+			<Postable>true</Postable>
 		</Notification>
 		<Notification>
 			<Id>20</Id>

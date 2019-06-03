@@ -23,6 +23,7 @@ public class EventHandler : MonoBehaviour {
     }
 
     private void Update() {
+        // Check if menu needs to be opened
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (escapeMenu.activeInHierarchy) {
                 ReturnToGame();
@@ -34,7 +35,7 @@ public class EventHandler : MonoBehaviour {
         }
     }
 
-    //Delete screenshots after application quit
+    // Delete screenshots after application quit
     private void OnApplicationQuit() {
         DirectoryInfo di = new DirectoryInfo(pictureRoot);
 
@@ -53,6 +54,7 @@ public class EventHandler : MonoBehaviour {
     }
 
     public void ReturnToGame() {
+        Time.timeScale = 1;
         escapeMenu.SetActive(false);
         FindObjectOfType<Movement>().UpdateMovement();
     }

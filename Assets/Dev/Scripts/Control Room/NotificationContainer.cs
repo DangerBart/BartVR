@@ -40,8 +40,6 @@ public class NotificationContainer
                 case "[onderstuk]":
                     notif.Message = notif.Message.Replace(match, colors[(int)NPCMaker.suspectBottomPiece - 1]);
                     break;
-                default:
-                    break;
             }
         }
         return notifications;

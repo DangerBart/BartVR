@@ -26,6 +26,11 @@
             if (node.GetData().Postable)
                 node.GetData().Autor = "Politie ✔";
 
+            notif.ReactionOfPostableNotif = IsReactionToPostableNotification(node);
+
+            if (notif.ReactionOfPostableNotif)
+                notif.WaitingForPost = true;
+
             node.InsertNext(notif);
             return true;
         }
@@ -89,5 +94,17 @@
         }
 
         return node;
+    }
+
+    private bool IsReactionToPostableNotification(DoublyLinkedList notif) {
+        DoublyLinkedList looptrough = notif;
+        while(looptrough != null) {
+            if (looptrough.GetData().Postable)
+                return true;
+
+            looptrough = looptrough.GetPrevious();
+        }
+
+        return false;
     }
 }
