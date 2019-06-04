@@ -157,7 +157,10 @@ public class VirtualGUI : MonoBehaviour {
             // Use the public staitc GameObject marker from CursorHandler to extract needed info
         }
 
-        SnapTo(cursor);
+        if(GameManager.DesktopMode)
+            SnapTo(icon);
+        else
+            SnapTo(cursor);
 
         Vector2 finger = iHandler.FingerPositionOnTouchpad(device);
         
