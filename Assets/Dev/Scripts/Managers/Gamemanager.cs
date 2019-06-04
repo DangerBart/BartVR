@@ -6,6 +6,27 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
+enum InputSetting
+{
+    None,
+    Movement,
+    Mode,
+    Scenario
+}
+
+public enum PlayingMode
+{
+    Multiplayer,
+    Singleplayer
+}
+
+public enum Movement
+{
+    FacingDirection,
+    ControllerDirection,
+    Teleport
+}
+
 public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject NPCValueText;
@@ -13,24 +34,6 @@ public class GameManager : MonoBehaviour {
     private Slider NPCValueSlider;
     [SerializeField]
     private GameObject miniMenu;
-
-    enum InputSetting {
-        None,
-        Movement,
-        Mode,
-        Scenario
-    }
-
-    public enum PlayingMode {
-        Multiplayer,
-        Singleplayer
-    }
-
-    public enum Movement {
-        FacingDirection,
-        ControllerDirection,
-        Teleport
-    }
 
     private List<string> multiplayerScenes = new List<string>();
     private List<string> singleplayerScenes = new List<string>();
