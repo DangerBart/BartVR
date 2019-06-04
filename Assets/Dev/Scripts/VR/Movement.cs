@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         trackedObject = GetComponent<SteamVR_TrackedObject>();
-        movementSwitch = (int)Gamemanager.currentMovement + 1;
+        movementSwitch = (int)GameManager.currentMovement + 1;
     }
 
     void Update() {
@@ -77,7 +77,7 @@ public class Movement : MonoBehaviour {
     }
 
     public void UpdateMovement() {
-        movementSwitch = (int)Gamemanager.currentMovement;
+        movementSwitch = (int)GameManager.currentMovement;
     }
 
     //Because Unity uses this as a measure of detecting collisions we have to use this
