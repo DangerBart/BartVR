@@ -109,6 +109,7 @@ public class NPCMaker : MonoBehaviour {
         SetIDProperties(npc, role);
         npc = Instantiate(npc);
 
+
         NPCBehaviour npcBehaviour = npc.GetComponent<NPCBehaviour>();
         npcBehaviour.checkpointContainer = checkpointContainer;
         npcBehaviour.SetSpawnList(spawnList);
