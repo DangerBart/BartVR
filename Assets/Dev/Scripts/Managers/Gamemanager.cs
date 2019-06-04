@@ -6,26 +6,24 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
-enum InputSetting
-{
+enum InputSetting {
     None,
     Movement,
     Mode,
     Scenario
 }
 
-public enum PlayingMode
-{
+public enum PlayingMode {
     Multiplayer,
     Singleplayer
 }
 
-public enum Movement
-{
+public enum MovementMode {
     FacingDirection,
     ControllerDirection,
     Teleport
 }
+
 
 public class GameManager : MonoBehaviour {
     [SerializeField]
@@ -40,7 +38,7 @@ public class GameManager : MonoBehaviour {
 
     public static int amountOfNpcsToSpawn;
     public static PlayingMode currentMode = PlayingMode.Multiplayer;
-    public static Movement currentMovement = Movement.FacingDirection;
+    public static MovementMode currentMovement = MovementMode.FacingDirection;
     public static int currentScenario;
     public static bool DesktopMode = true;
 
@@ -89,7 +87,7 @@ public class GameManager : MonoBehaviour {
                 SetModeText(settingField);
                 break;
             case InputSetting.Movement:
-                if ((int)currentMovement < Enum.GetNames(typeof(Movement)).Length - 1)
+                if ((int)currentMovement < Enum.GetNames(typeof(MovementMode)).Length - 1)
                     currentMovement++;
                 else
                     currentMovement = 0;
@@ -128,7 +126,7 @@ public class GameManager : MonoBehaviour {
                 if (currentMovement > 0)
                     currentMovement--;
                 else
-                    currentMovement = (Movement)Enum.GetNames(typeof(Movement)).Length - 1;
+                    currentMovement = (MovementMode)Enum.GetNames(typeof(MovementMode)).Length - 1;
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
@@ -173,10 +171,10 @@ public class GameManager : MonoBehaviour {
 
     private void SetMovementText(GameObject settingField) {
         switch (currentMovement) {
-            case Movement.ControllerDirection:
+            case MovementMode.ControllerDirection:
                 settingField.GetComponent<InputField>().text = "Lopen richting controller";
                 break;
-            case Movement.Teleport:
+            case MovementMode.Teleport:
                 settingField.GetComponent<InputField>().text = "Teleporteren";
                 break;
             default:
