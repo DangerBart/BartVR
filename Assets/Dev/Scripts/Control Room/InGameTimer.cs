@@ -13,10 +13,11 @@ public class InGameTimer : MonoBehaviour {
 
 	// Use this for initialization
     void Start () {
-		timestamp = this.transform.Find("Timestamp").gameObject;
+        Debug.Log("Hewwo");
+		timestamp = transform.Find("Timestamp").gameObject;
         currentDate = timestamp.transform.Find("Date").GetComponent<Text>();
         currentTime = timestamp.transform.Find("Time").GetComponent<Text>();
-        currentDate.text = "Datum: " + System.DateTime.Now.ToString("dd/MM/yyyy");
+        currentDate.text = System.DateTime.Now.ToString("dd/MM/yyyy");
         LoadTime();
         //Get function so we can extract its name dynamically rather than literal string
         System.Action updateGameTimeAlias = UpdateGameTime;
@@ -42,7 +43,7 @@ public class InGameTimer : MonoBehaviour {
     }
 
 	private void ViewGameTime(){
-        currentTime.text = string.Format("Tijd: {0}:{1}", hour.ToString("00"), minute.ToString("00"));
+        currentTime.text = string.Format("{0}:{1}", hour.ToString("00"), minute.ToString("00"));
     }
 }
 
