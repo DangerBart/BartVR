@@ -58,7 +58,7 @@ public class NPCMaker : MonoBehaviour {
         InstantiateNPC(suspect, Roles.Suspect);
 
         // Making sure the suspsect is unique by setting avaiable civilian models
-        civilianModelIndexes = GetModelsIndexesWithDifferentId(suspect.name);
+        civilianModelIndexes = GetModelsIndexesWithDifferentId(suspect.name); 
     }
 
     public void CreateCivilian() {
@@ -108,6 +108,12 @@ public class NPCMaker : MonoBehaviour {
     private void InstantiateNPC(GameObject npc, Roles role) {
         SetIDProperties(npc, role);
         npc = Instantiate(npc);
+
+        if (npc.GetComponent<Identification>().role == Roles.Suspect) {
+            GameObject arrestBubble = Instantiate(Resources.Load("ArrestBubble")) as GameObject;
+            arrestBubble.transform.parent = npc.transform;
+            arrestBubble.transform.localPosition = new Vector3(0, 0, 0);
+        }
 
 
         NPCBehaviour npcBehaviour = npc.GetComponent<NPCBehaviour>();
