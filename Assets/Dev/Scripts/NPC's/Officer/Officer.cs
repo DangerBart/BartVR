@@ -3,9 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Officer : MonoBehaviour
-{
-
+public class Officer : MonoBehaviour {
     private GameObject npcContainer;
     private NPCBehaviour behaviour;
     private Identification lookingFor;
@@ -143,7 +141,7 @@ public class Officer : MonoBehaviour
 
 
     // Check what values of the given Identification are set, this way the officer knows what to compare the NPC's to
-    private Check LookFor(Identification id) {
+    private static Check LookFor(Identification id) {
         char[] isSet = { '0', '0', '0' };
 
         if (id.role == Roles.Officer)
@@ -276,6 +274,12 @@ public class Officer : MonoBehaviour
         id.gender = set.gender;
         id.topPiece = set.topPiece;
         id.bottomPiece = set.bottomPiece;
+        Check isSet = LookFor(id);
+        
+        // if more than 1 value is set, activate the arrestBubble
+        if (isSet != Check.Gender && isSet != Check.TopPiece && isSet != Check.BottomPiece && isSet != Check.None) {
+            FindObjectOfType<ArrestHandler>().gameObject.GetComponent<SphereCollider>().enabled = true;
+        }
 
         startSearching = true;
     }

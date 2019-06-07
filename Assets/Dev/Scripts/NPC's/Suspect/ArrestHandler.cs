@@ -3,8 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class ArrestHandler : MonoBehaviour { 
 
-    public GameObject gameOverText;
-    public GameObject gameOverScreen;
+    private GameObject gameOverText;
+    private GameObject gameOverScreen;
+
+    void Awake() {
+        gameOverScreen = GameObject.Find("GameOverScreen");
+        gameOverText = GameObject.Find("GameOverText");
+
+        gameOverScreen.SetActive(false);
+        gameOverText.SetActive(false);
+    }
 
     //When player enters within the radius of the suspect during the final POI, stop time and display game over
     void OnCollisionEnter(Collision collision) {
