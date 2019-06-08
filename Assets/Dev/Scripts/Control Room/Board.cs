@@ -10,7 +10,11 @@ public class Board : MonoBehaviour {
     private LinkedList<DoublyLinkedList> notificationlist;
 
     void Start() {
-        LoadItems(m_Path + string.Format("Scenario{0}", GameManager.currentScenario));
+        if (GameManager.currentMode == PlayingMode.Multiplayer) 
+            LoadItems(m_Path + string.Format("Multiplayer/Scenario{0}", GameManager.currentScenario));
+        else
+            LoadItems(m_Path + string.Format("Singleplayer/Scenario{0}", GameManager.currentScenario));
+
         FillAndConnectNotificationsList();
 
         notificationControl = GetComponent<NotificationControl>();

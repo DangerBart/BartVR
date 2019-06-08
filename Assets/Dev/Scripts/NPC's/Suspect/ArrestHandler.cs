@@ -12,9 +12,11 @@ public class ArrestHandler : MonoBehaviour {
         gameOverText = GameObject.Find("GameOverText");
         SPGameOverScreen = GameObject.Find("SPGameOverScreen");
 
-        gameOverScreen.SetActive(false);
-        gameOverText.SetActive(false);
-        SPGameOverScreen.SetActive(false);
+        if (GameManager.currentMode == PlayingMode.Multiplayer) {
+            gameOverScreen.SetActive(false);
+            gameOverText.SetActive(false);
+        } else 
+            SPGameOverScreen.SetActive(false);
     }
 
     //When player enters within the radius of the suspect during the final POI, stop time and display game over

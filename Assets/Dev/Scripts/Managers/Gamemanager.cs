@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour {
     private List<string> multiplayerScenes = new List<string>();
     private List<string> singleplayerScenes = new List<string>();
 
+
+    public static int amountOfMultiplayerScenes;
     public static int amountOfNpcsToSpawn;
     public static PlayingMode currentMode = PlayingMode.Multiplayer;
     public static MovementMode currentMovement = MovementMode.FacingDirection;
@@ -43,7 +45,7 @@ public class GameManager : MonoBehaviour {
     public static bool DesktopMode = true;
 
     public void StartGame() {
-        if (DesktopMode) 
+        if (currentMode == PlayingMode.Multiplayer) 
             SceneManager.LoadScene(currentScenario + 1);
          else 
             SceneManager.LoadScene(multiplayerScenes.Count + currentScenario + 1);
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour {
             string scene = file.Name.Replace(".unity", "");
             multiplayerScenes.Add(scene);
         }
+
+        amountOfMultiplayerScenes = multiplayerScenes.Count;
 
         foreach (FileInfo file in singleDI.GetFiles("*.unity")) {
             string scene = file.Name.Replace(".unity", "");
@@ -94,7 +98,7 @@ public class GameManager : MonoBehaviour {
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (DesktopMode) {
+                if (currentMode == PlayingMode.Multiplayer) {
                     if (currentScenario < multiplayerScenes.Count - 1)
                         currentScenario++;
                     else
@@ -130,14 +134,13 @@ public class GameManager : MonoBehaviour {
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (DesktopMode) {
+                if (currentMode == PlayingMode.Multiplayer) {
                     if (currentScenario > 0)
                         currentScenario--;
                     else
                         currentScenario = multiplayerScenes.Count - 1;
                     settingField.GetComponent<InputField>().text = multiplayerScenes[currentScenario];
                 } else {
-
                     if (currentScenario > 0)
                         currentScenario--;
                     else

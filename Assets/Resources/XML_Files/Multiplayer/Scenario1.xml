@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<NotificationCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Notifications>
+		<Notification>
+			<Id>0</Id>
+			<Autor>Nummer 06000000001</Autor>
+			<Message>Een [geslacht] heeft hier een mobiel uit mijn winkel gestolen</Message>
+			<Platform>Bellen</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>1</Id>
+			<ReactionTo>0</ReactionTo>
+			<Autor>LisaNL12</Autor>
+			<Message>geslacht, [geslacht</Message>
+			<Platform>Twitter</Platform>
+			<Image>Running</Image>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>2</Id>
+			<ReactionTo>1</ReactionTo>
+			<Autor>Jordaan038</Autor>
+			<Message>[other] [not important]</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>3</Id>
+			<Autor>Fluffy06</Autor>
+			<Message>[geslacht], [ geslacht ]</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>4</Id>
+			<Autor>Roos</Autor>
+			<Message>TEST</Message>
+			<Platform>Whatsapp</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>5</Id>
+			<Autor>Kees1999</Autor>
+			<Message>De [geslacht] rende hier gauw weg!</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>6</Id>
+			<Autor>FlobberBark</Autor>
+			<Message>Ik heb verder niets gezien.</Message>
+			<Platform>Facebook</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>7</Id>
+			<Autor>Natasha</Autor>
+			<Message>Is de verdachte gevaarlijk?</Message>
+			<Platform>Whatsapp</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>8</Id>
+			<Autor>Ricky4</Autor>
+			<Message>Ik zag iemand hier wegrennen met een [bovenstuk] bovenstuk!</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>9</Id>
+			<Autor>Marloesje</Autor>
+			<Message>Tas was hier gedumpt, heb het naar de politie gebracht.</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>10</Id>
+			<Autor>Lisa</Autor>
+			<Message>Loopt die persoon met het [onderstuk] onderstuk hier nog ergens rond?</Message>
+			<Platform>SMS</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>11</Id>
+			<ReactionTo>2</ReactionTo>
+			<Autor>Lars</Autor>
+			<Message>Is dit al opgelost?</Message>
+			<Platform>Facebook</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>12</Id>
+			<Autor>Niels</Autor>
+			<Message>De persoon die de tas dumpte had een zwart shirt aan.</Message>
+			<Platform>Whatsapp</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>13</Id>
+			<Autor>GentStudent</Autor>
+			<Message>Ik zag de overval voor mijn ogen gebeuren.</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>14</Id>
+			<Autor>VervelendeZeurpiet</Autor>
+			<Message>Ik was vandaag helaas niet in de stad.</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>15</Id>
+			<Autor>Tom</Autor>
+			<Message>De overvaller leek geen wapen bij zich te hebben.</Message>
+			<Platform>Bellen</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>16</Id>
+			<Autor>Geert</Autor>
+			<Message>Was de verdachte een vrouw?</Message>
+			<Platform>Bellen</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>17</Id>
+			<Autor>Sweet Tooth</Autor>
+			<Message>Hoe ziet de verdachte eruit?</Message>
+			<Platform>Facebook</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>18</Id>
+			<Autor>Sandra</Autor>
+			<Message>De overvaller loopt hier volgens mij.</Message>
+			<Platform>Twitter</Platform>
+			<Image>Verdachte</Image>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>19</Id>
+			<Autor>Femke</Autor>
+			<Message>Ik zie een uitgeput persoon hier van het rennen.</Message>
+			<Platform>Whatsapp</Platform>
+			<Image>Suspect</Image>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>20</Id>
+			<ReactionTo>19</ReactionTo>
+			<Autor>Anna</Autor>
+			<Message>Volgens mij verstopt hij zich hier in deze straat.</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>21</Id>
+			<Autor>Tim</Autor>
+			<Message>Uit mijn raam zag ik de verdachte.</Message>
+			<Platform>Bellen</Platform>
+			<Image>Walking</Image>
+			<Postable>false</Postable>
+		</Notification>
+		<Notification>
+			<Id>22</Id>
+			<Autor>Iris</Autor>
+			<Message>Een vrouw werdt hier overvallen, ze is niet gewond.</Message>
+			<Platform>Twitter</Platform>
+			<Postable>false</Postable>
+		</Notification>
+	</Notifications>
+</NotificationCollection>
