@@ -244,7 +244,7 @@ public class Officer : MonoBehaviour {
         behaviour.FaceTarget(target.transform);
         yield return new WaitForSeconds(time);
         if (target.GetComponent<Identification>().role == Roles.Suspect)
-            EventHandler.End();
+            GameObject.Find("EventSystem").GetComponent<EventHandler>().End();
 
 
         hasQuestioned = true;

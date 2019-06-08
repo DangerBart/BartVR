@@ -7,20 +7,8 @@ public class EventHandler : MonoBehaviour {
 
     private readonly string pictureRoot = "Assets/Resources/Snapshots/";
 
-    public static GameObject gameOverScreen;
-    public static GameObject gameOverText;
-
-    [SerializeField]
-    private GameObject gameOverS;
-    [SerializeField]
-    private GameObject gameOverT;
     [SerializeField]
     private GameObject escapeMenu;
-
-    private void Start() {
-        gameOverScreen = gameOverS;
-        gameOverText = gameOverT;
-    }
 
     private void Update() {
         // Check if menu needs to be opened
@@ -89,9 +77,7 @@ public class EventHandler : MonoBehaviour {
         }
     }
 
-    public static void End() {
-        Time.timeScale = 0;
-        gameOverText.SetActive(true);
-        gameOverScreen.SetActive(true);
+    public void End() {
+        ArrestHandler.EndGame();
     }
 }
