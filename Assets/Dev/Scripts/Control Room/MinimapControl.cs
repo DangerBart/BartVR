@@ -12,6 +12,8 @@ public class MinimapControl : MonoBehaviour {
     private GameObject plane;
     [SerializeField]
     private int MergeDistance;
+    [SerializeField]
+    private int RadiousAroundSuspect; // Used to be 100
 
     // Private viarables
     private GameObject minimap;
@@ -35,6 +37,8 @@ public class MinimapControl : MonoBehaviour {
 
     #region Public Functions
     public void InitiateNotificationOnMinimap(Notification notification) {
+        Debug.Log("Create marker");
+
         // Set location of marker near suspect
         SetRelevantNotificationLocation(notification);
         MainNotification MainNotification = ConvertNotificationToMainNotification(notification);
@@ -92,7 +96,7 @@ public class MinimapControl : MonoBehaviour {
     }
 
     private void SetRelevantNotificationLocation(Notification notification) {
-        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;
+        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * RadiousAroundSuspect;
     }
 
     private GameObject CreateMarker(MainNotification mainNotif) {

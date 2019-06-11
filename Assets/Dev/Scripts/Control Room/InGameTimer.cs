@@ -13,7 +13,6 @@ public class InGameTimer : MonoBehaviour {
 
 	// Use this for initialization
     void Start () {
-        Debug.Log("Hewwo");
 		timestamp = transform.Find("Timestamp").gameObject;
         currentDate = timestamp.transform.Find("Date").GetComponent<Text>();
         currentTime = timestamp.transform.Find("Time").GetComponent<Text>();

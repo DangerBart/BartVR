@@ -10,9 +10,18 @@ public class NotificationTimer : MonoBehaviour {
     //Enable scene loading check
     private void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // TEST
+        Debug.Log("Enabled");
+        System.Action addIrrelevantNotificationAlias = ShowNotification;
+
+        //Repeatedly call the addnotification function with an interval
+        InvokeRepeating(addIrrelevantNotificationAlias.Method.Name, 2, intervalTimeMessages);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Debug.Log("Scene loaded");
+
         //Get function so we can extract its name dynamically rather than literal string
         System.Action addIrrelevantNotificationAlias = ShowNotification;
 
@@ -27,6 +36,7 @@ public class NotificationTimer : MonoBehaviour {
 
     void ShowNotification() {
         //Give the sign that a new notification should be posted.
+        Debug.Log("Show notif");
         GetComponent<Board>().ShowNotification();
     }
 }

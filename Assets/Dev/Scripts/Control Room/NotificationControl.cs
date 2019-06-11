@@ -8,12 +8,6 @@ public class NotificationControl : MonoBehaviour
     private NotificationOverview notificationOverview;
     private NotificationPostReactions notificationPostReactions;
 
-    // Panels
-    [SerializeField]
-    private GameObject relevantNotificationPanel;
-    [SerializeField]
-    private GameObject postableNotificationPanel;
-
     void Start() {
         minimapControl = minimap.GetComponent<MinimapControl>();
         notificationOverview = FindObjectOfType<NotificationOverview>();
@@ -21,6 +15,8 @@ public class NotificationControl : MonoBehaviour
     }
 
     public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
+        Debug.Log("Recieved message to create notif in notifControl: " + notification.GetData().Message);
+
         minimapControl.InitiateNotificationOnMinimap(notification.GetData());
 
         if (notification.GetData().ReactionOfPostableNotif)
@@ -30,7 +26,8 @@ public class NotificationControl : MonoBehaviour
     }
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification) {
-        notificationPostReactions.AddNewPostableNotification(notification);
+        if (GameManager.currentMode != PlayingMode.Multiplayer)
+            notificationPostReactions.AddNewPostableNotification(notification);
     }
 
     public void MarkerClicked(GameObject marker) {

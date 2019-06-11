@@ -14,10 +14,6 @@ public class LocationSync : MonoBehaviour
     public GameObject map;
     public GameObject plane;
     public NpcImageOption[] NpcToDisplayOnMinimap;
-    /// <summary>
-    ///  Needed to look for suspect
-    /// </summary>
-    /// Temporry
     public GameObject npcContainer;
     public GameObject suspectIcon;
 
