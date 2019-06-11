@@ -11,6 +11,9 @@ public class OVRinputTest : MonoBehaviour {
     [SerializeField]
     private Text length;
 
+    [SerializeField]
+    private Text trigger;
+
     // Use this for initialization
     void Start () {
         controllers = Input.GetJoystickNames();
@@ -23,5 +26,7 @@ public class OVRinputTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         length.text = controllers.Length.ToString();
+
+        trigger.gameObject.SetActive(OVRInput.Get(OVRInput.Button.PrimaryHandTrigger));        
     }
 }
