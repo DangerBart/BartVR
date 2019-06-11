@@ -37,6 +37,21 @@ public class LocationSync : MonoBehaviour
     private void Start() {
         UpdateMapSizeAndScale();
         ReplaceArrayAndAddNpc(GetSuspect(suspectIcon));
+        Test();
+    }
+
+    private void Test() {
+        Debug.Log("=== TEST ==== ");
+
+        Debug.Log("Map: " + map.GetComponent<RectTransform>().sizeDelta);
+        Debug.Log("Plane AKA the map displayed: " + plane.GetComponent<RectTransform>().sizeDelta);
+        float x = plane.GetComponent<RectTransform>().sizeDelta.x / map.GetComponent<RectTransform>().sizeDelta.x;
+        Debug.Log("X: " + x);
+
+
+
+
+        Debug.Log("=== END TEST ===");
     }
 
     private void ReplaceArrayAndAddNpc(NpcImageOption toAddNpc) {
@@ -74,8 +89,8 @@ public class LocationSync : MonoBehaviour
     private void UpdateMapSizeAndScale() {
         mapSize = map.GetComponent<RectTransform>().sizeDelta;
         planeSize = plane.GetComponent<RectTransform>().sizeDelta;
-        xScale = planeSize.x / mapSize.x + offsetx;
-        yScale = planeSize.y / mapSize.y + offsety;
+        xScale = (planeSize.x / mapSize.x) + offsetx;
+        yScale = (planeSize.y / mapSize.y) + offsety;
     }
     private void ScaleNpcOnMap(NpcImageOption NpcOption) {
         NpcOption.minimapImage.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (NpcOption.npc.transform.position.x * xScale),
