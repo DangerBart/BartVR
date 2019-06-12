@@ -57,12 +57,12 @@ GameObject:
   - component: {fileID: 114876713477300556}
   - component: {fileID: 114859612474804216}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: MarkerPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1398852426050876
 GameObject:
   m_ObjectHideFlags: 1
@@ -150,7 +150,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 19
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -390,7 +390,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1613623196475322}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 0.4, y: 0.4000006, z: 0.5000006}
   m_Children: []
   m_Father: {fileID: 224793309974394866}
@@ -398,8 +398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.43, y: 2.8}
-  m_SizeDelta: {x: 305.81, y: 92.94}
+  m_AnchoredPosition: {x: -0.43, y: 4.15}
+  m_SizeDelta: {x: 305.81, y: 86.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224401301589359098
 RectTransform:
@@ -427,7 +427,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1001148435549344}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 0.4, y: 0.40000114, z: 0.5000013}
   m_Children: []
   m_Father: {fileID: 224793309974394866}
@@ -435,8 +435,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 72.95886, y: -21.060043}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 72.9, y: -19.95}
+  m_SizeDelta: {x: 160, y: 25.23}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224779312171974688
 RectTransform:

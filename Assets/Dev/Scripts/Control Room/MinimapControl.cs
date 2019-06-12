@@ -119,8 +119,8 @@ public class MinimapControl : MonoBehaviour {
 
         //if (GameManager.currentMode == PlayingMode.Singleplayer) {
         //ToDo: Fill in the panel with needed information
-        marker.transform.Find("Panel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
-        marker.transform.Find("Panel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
+        marker.transform.Find("MarkerPanel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
+        marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
 
         //}
 

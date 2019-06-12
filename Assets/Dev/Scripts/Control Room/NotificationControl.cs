@@ -15,8 +15,6 @@ public class NotificationControl : MonoBehaviour
     }
 
     public void CreateRelevantMessagePanel(DoublyLinkedList notification) {
-        Debug.Log("Recieved message to create notif in notifControl: " + notification.GetData().Message);
-
         minimapControl.InitiateNotificationOnMinimap(notification.GetData());
 
         if (notification.GetData().ReactionOfPostableNotif)

@@ -41,23 +41,18 @@ public class Marker : MonoBehaviour{
         SetActiveMarkerImage(newValue);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Enter marker");
-        if (other.CompareTag("Marker"))
-        {
-            other.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Cursor")) {
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");
+            transform.Find("MarkerPanel").gameObject.SetActive(true);
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Marker"))
-        {
-            other.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-purple");
+    private void OnTriggerExit(Collider other) {
+        if (other.CompareTag("Cursor")) {
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-purple");
+            transform.Find("MarkerPanel").gameObject.SetActive(false);
         }
-
-        Debug.Log("leave marker");
     }
 
     #endregion
