@@ -80,4 +80,8 @@ public class EventHandler : MonoBehaviour {
     public void End() {
         ArrestHandler.EndGame();
     }
+
+    public void ArrestedSuspect() {
+        ArrestHandler.ActivateGameOverScreen();
+    }
 }
