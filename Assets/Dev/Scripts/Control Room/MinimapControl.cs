@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MinimapControl : MonoBehaviour {
 
@@ -113,6 +114,17 @@ public class MinimapControl : MonoBehaviour {
         markerMainNotif.keyNote = mainNotif.keyNote;
         markerMainNotif.MinimapLocation = mainNotif.MinimapLocation;
         markerMainNotif.notifications = mainNotif.notifications;
+
+        //if (GameManager.currentMode == PlayingMode.Singleplayer) {
+        //ToDo: Fill in the panel with needed information
+        foreach (Transform t in marker.transform)
+        {
+            if (t.name == "KeyNote") {
+                t.GetComponent<Text>().text = mainNotif.keyNote;
+            }
+ 
+        }
+        //}
 
         return marker.gameObject;
     }

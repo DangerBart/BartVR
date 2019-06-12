@@ -25,6 +25,7 @@ public class Marker : MonoBehaviour{
 
     public void OnMouseEnter() {
         SetActiveMarkerImage();
+        Debug.Log("Mouse entered");
     }
 
     public void OnMouseExit() {
