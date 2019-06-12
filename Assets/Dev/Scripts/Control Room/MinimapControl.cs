@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MinimapControl : MonoBehaviour {
 
@@ -32,13 +34,12 @@ public class MinimapControl : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        minimap = this.transform.gameObject;
+        minimap = transform.gameObject;
         Setup();
     }
 
     #region Public Functions
     public void InitiateNotificationOnMinimap(Notification notification) {
-        Debug.Log("Create marker");
 
         // Set location of marker near suspect
         SetRelevantNotificationLocation(notification);
@@ -114,36 +115,33 @@ public class MinimapControl : MonoBehaviour {
         markerMainNotif.keyNote = mainNotif.keyNote;
         markerMainNotif.MinimapLocation = mainNotif.MinimapLocation;
         markerMainNotif.notifications = mainNotif.notifications;
+        markerMainNotif.timeLatestNotification = mainNotif.timeLatestNotification;
 
         //if (GameManager.currentMode == PlayingMode.Singleplayer) {
         //ToDo: Fill in the panel with needed information
-        foreach (Transform t in marker.transform)
-        {
-            if (t.name == "KeyNote") {
-                t.GetComponent<Text>().text = mainNotif.keyNote;
-            }
- 
-        }
+        marker.transform.Find("Panel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
+        marker.transform.Find("Panel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
+
         //}
 
         return marker.gameObject;
     }
 
     private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance) {
-        float differenceX = System.Math.Abs(v1.x - v2.x);
-        float differenceY = System.Math.Abs(v1.y - v2.y);
+        float differenceX = Math.Abs(v1.x - v2.x);
+        float differenceY = Math.Abs(v1.y - v2.y);
 
         return (differenceX <= maxDisbtance && differenceY <= maxDisbtance);
     }
 
     private MainNotification ConvertNotificationToMainNotification(Notification notif) {
-        MainNotification mainNotif = new MainNotification
-        {
+        MainNotification mainNotif = new MainNotification {
             keyNote = GetKeyNotes(notif.Message),
             MinimapLocation = notif.MinimapLocation
         };
-        mainNotif.notifications.Add(notif);
 
+        mainNotif.notifications.Add(notif);
+        mainNotif.timeLatestNotification = DateTime.Parse(notif.PostTime, System.Globalization.CultureInfo.CurrentCulture);
         return mainNotif;
     }
 
@@ -161,6 +159,8 @@ public class MinimapControl : MonoBehaviour {
 
         foreach (Notification notif in mainNotif2.notifications)
             CombinedMainNotif.notifications.Add(notif);
+
+        CombinedMainNotif.timeLatestNotification = GetLatestTime(mainNotif1.timeLatestNotification, mainNotif2.timeLatestNotification);
 
         return CombinedMainNotif;
     }
@@ -186,6 +186,15 @@ public class MinimapControl : MonoBehaviour {
     private string GetKeyNotes(string message) {
         return message;
         //ToDo actualy get the keynotes
+    }
+
+    private DateTime GetLatestTime(DateTime t1, DateTime t2) {
+        int i = DateTime.Compare(t1, t2);
+
+        if (i > 0)
+            return t1;
+        else
+            return t2;
     }
 
     private void Setup() {

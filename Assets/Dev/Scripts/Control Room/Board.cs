@@ -62,7 +62,6 @@ public class Board : MonoBehaviour {
     }
 
     private void FillAndConnectNotificationsList() {
-        Debug.Log("Fill list");
         notificationlist = new LinkedList<DoublyLinkedList>();
 
         foreach (Notification notif in nc.notifications) {
