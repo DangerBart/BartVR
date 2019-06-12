@@ -157,7 +157,7 @@ public class VirtualGUI : MonoBehaviour {
             // Use the public staitc GameObject marker from CursorHandler to extract needed info
         }
 
-        if(GameManager.DesktopMode)
+        if(GameManager.currentMode == PlayingMode.Multiplayer)
             SnapTo(icon);
         else
             SnapTo(cursor);
