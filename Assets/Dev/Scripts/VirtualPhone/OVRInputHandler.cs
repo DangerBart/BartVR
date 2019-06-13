@@ -14,7 +14,7 @@ public class OVRInputHandler : MonoBehaviour {
         Direction currentDirection = TouchpadDirection();
 
         // Check if current direction of finger on touchpad is in the list of button directions
-        if (directions.Contains(currentDirection))
+        if (directions.Contains(currentDirection)) 
             // Highlight selected button
             buttons[directions.IndexOf(currentDirection)].GetComponent<Button>().Select();
     }

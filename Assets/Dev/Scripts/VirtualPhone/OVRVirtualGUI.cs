@@ -64,6 +64,9 @@ public class OVRVirtualGUI : MonoBehaviour {
     private float cursorSpeed = 35f;
     private float cursorMargin = 0.15f;
 
+    //TESTING PURPOSES
+    public Text CameraActiveText;
+
 
     // Use this for initialization
     void Start() {
@@ -101,6 +104,7 @@ public class OVRVirtualGUI : MonoBehaviour {
                 ReturnToMenu(App.menu);
                 break;
         }
+        CameraActiveText.gameObject.SetActive(CurrentApp() == App.camera);
 
         RunCameraPopUp(confirmPanel.activeInHierarchy);
     }
@@ -191,6 +195,7 @@ public class OVRVirtualGUI : MonoBehaviour {
             ovrHandler.Highlight(new List<Direction> { Direction.down, Direction.standby }, cameraButtons);
 
             if (ovrHandler.GetPress() == Direction.down) {
+                Debug.Log("Taking a picture");
                 StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
             }
         }

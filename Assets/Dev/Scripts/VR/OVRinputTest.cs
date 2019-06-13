@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class OVRinputTest : MonoBehaviour {
     private string[] controllers;
 
+    public Text logText;
+
     [SerializeField]
     private Text text;
     [SerializeField]
@@ -21,6 +23,10 @@ public class OVRinputTest : MonoBehaviour {
 
     [SerializeField]
     private Text trigger;
+
+    void OnEnable() {
+        Application.logMessageReceived += HandleLog;
+    }
 
     // Use this for initialization
     void Start () {
@@ -44,5 +50,10 @@ public class OVRinputTest : MonoBehaviour {
         FingerY.text = ovrHandler.FingerPositionOnTouchpad().y.ToString();
         GetPressText.text = ovrHandler.GetPress().ToString();
         TouchpadDirectionText.text = ovrHandler.TouchpadDirection().ToString();
+    }
+
+    void HandleLog(string logString, string stackTrace, LogType type) {
+        if (type == LogType.Log)
+            logText.text += logString + "\n";
     }
 }
