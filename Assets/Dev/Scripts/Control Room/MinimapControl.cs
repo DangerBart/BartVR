@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -108,6 +109,7 @@ public class MinimapControl : MonoBehaviour {
 
         // Set marker on correct location
         marker.transform.localPosition = mainNotif.MinimapLocation;
+        Debug.Log("MinimapLocation: " + mainNotif.MinimapLocation);
 
         MainNotification markerMainNotif = marker.GetComponent<MainNotification>();
 
@@ -118,10 +120,13 @@ public class MinimapControl : MonoBehaviour {
         markerMainNotif.timeLatestNotification = mainNotif.timeLatestNotification;
 
         //if (GameManager.currentMode == PlayingMode.Singleplayer) {
-        //ToDo: Fill in the panel with needed information
-        marker.transform.Find("MarkerPanel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
-        marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
+            marker.transform.Find("MarkerPanel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
+            marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
+            var rt = marker.transform.Find("MarkerPanel").GetComponent<RectTransform>();
 
+        //Debug.Log("Position: " + rt.position);
+        //Debug.Log("Size panel: " + marker.transform.Find("MarkerPanel").GetComponent<RectTransform>().sizeDelta);
+        //rt.position = new Vector2(rt.position.x, rt.position.y);
         //}
 
         return marker.gameObject;
@@ -184,8 +189,10 @@ public class MinimapControl : MonoBehaviour {
     }
 
     private string GetKeyNotes(string message) {
-        return message;
-        //ToDo actualy get the keynotes
+        //ToDo Temporary
+        string[] removeList = { "ik", "hij", "de", "het", "heb", "een", "op", "onder", "over", "met", "naast" , "is" , "werd", "van", "is"};
+        string cleaned = Regex.Replace(message.ToLower(), "\\b" + string.Join("\\b|\\b", removeList) + "\\b", "");
+        return cleaned;
     }
 
     private DateTime GetLatestTime(DateTime t1, DateTime t2) {
