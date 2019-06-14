@@ -124,9 +124,21 @@ public class MinimapControl : MonoBehaviour {
             marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
             var rt = marker.transform.Find("MarkerPanel").GetComponent<RectTransform>();
 
-        //Debug.Log("Position: " + rt.position);
-        //Debug.Log("Size panel: " + marker.transform.Find("MarkerPanel").GetComponent<RectTransform>().sizeDelta);
-        //rt.position = new Vector2(rt.position.x, rt.position.y);
+        // Change location of panel to always be visible 
+        float x = rt.localPosition.x;
+        float y = rt.localPosition.y;
+      
+
+        if (mainNotif.MinimapLocation.x < 0)
+            x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
+        else if (mainNotif.MinimapLocation.x > 0)
+            x += -(rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
+
+        if (mainNotif.MinimapLocation.y > 0)
+            y += -rt.transform.GetComponent<RectTransform>().sizeDelta.y;
+
+            Vector2 v2 = new Vector2(x, y);
+        rt.localPosition = v2;
         //}
 
         return marker.gameObject;
@@ -190,7 +202,7 @@ public class MinimapControl : MonoBehaviour {
 
     private string GetKeyNotes(string message) {
         //ToDo Temporary
-        string[] removeList = { "ik", "hij", "de", "het", "heb", "een", "op", "onder", "over", "met", "naast" , "is" , "werd", "van", "is"};
+        string[] removeList = { "ik", "hij", "dat", "wat", "de", "het", "heb", "een", "op", "onder", "over", "met", "naast" , "is" , "werd", "van", "is"};
         string cleaned = Regex.Replace(message.ToLower(), "\\b" + string.Join("\\b|\\b", removeList) + "\\b", "");
         return cleaned;
     }
