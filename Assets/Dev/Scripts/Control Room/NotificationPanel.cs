@@ -18,7 +18,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Text Date;
 
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
-    private Color panelColorYellow = new Color32(255, 255, 0, 180);
+    private Color panelColorPurple = new Color32(240, 230, 245, 255);
 
     public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
         kindOfNotification = kind;
@@ -131,7 +131,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         Image panel = gameObject.GetComponent<Image>();
 
         if (selected)
-            panel.color = panelColorYellow;
+            panel.color = panelColorPurple;
         else
             panel.color = panelColorWhite;
     }

@@ -119,27 +119,27 @@ public class MinimapControl : MonoBehaviour {
         markerMainNotif.notifications = mainNotif.notifications;
         markerMainNotif.timeLatestNotification = mainNotif.timeLatestNotification;
 
-        //if (GameManager.currentMode == PlayingMode.Singleplayer) {
+        if (GameManager.currentMode == PlayingMode.Singleplayer) {
             marker.transform.Find("MarkerPanel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
             marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
             var rt = marker.transform.Find("MarkerPanel").GetComponent<RectTransform>();
 
-        // Change location of panel to always be visible 
-        float x = rt.localPosition.x;
-        float y = rt.localPosition.y;
+            // Change location of panel to always be visible 
+            float x = rt.localPosition.x;
+            float y = rt.localPosition.y;
       
 
-        if (mainNotif.MinimapLocation.x < 0)
-            x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
-        else if (mainNotif.MinimapLocation.x > 0)
-            x += -(rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
+            if (mainNotif.MinimapLocation.x < 0)
+                x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
+            else if (mainNotif.MinimapLocation.x > 0)
+                x += -(rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
 
-        if (mainNotif.MinimapLocation.y > 0)
-            y += -rt.transform.GetComponent<RectTransform>().sizeDelta.y;
+            if (mainNotif.MinimapLocation.y > 0)
+                y += -rt.transform.GetComponent<RectTransform>().sizeDelta.y;
 
             Vector2 v2 = new Vector2(x, y);
-        rt.localPosition = v2;
-        //}
+            rt.localPosition = v2;
+        }
 
         return marker.gameObject;
     }
