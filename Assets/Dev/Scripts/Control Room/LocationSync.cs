@@ -36,18 +36,6 @@ public class LocationSync : MonoBehaviour
     private void Start() {
         UpdateMapSizeAndScale();
         ReplaceArrayAndAddNpc(GetSuspect(suspectIcon));
-        Test();
-    }
-
-    private void Test() {
-        Debug.Log("=== TEST ==== ");
-
-        Debug.Log("Map: " + map.GetComponent<RectTransform>().sizeDelta);
-        Debug.Log("Plane AKA the map displayed: " + plane.GetComponent<RectTransform>().sizeDelta);
-        float x = plane.GetComponent<RectTransform>().sizeDelta.x / map.GetComponent<RectTransform>().sizeDelta.x;
-        Debug.Log("Officer position: " + NpcToDisplayOnMinimap[0].npc.transform.localPosition);
-
-        Debug.Log("=== END TEST ===");
     }
 
     private void ReplaceArrayAndAddNpc(NpcImageOption toAddNpc) {

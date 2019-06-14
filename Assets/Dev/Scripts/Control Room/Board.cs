@@ -15,16 +15,12 @@ public class Board : MonoBehaviour {
 
         notificationControl = GetComponent<NotificationControl>();
 
-        Debug.Log("hewwo");
-
         //Setup second display for VR camera
         if (Display.displays.Length > 1)
             Display.displays[1].Activate();
     }
 
     public void ShowNotification() {
-        Debug.Log("Have to show notif");
-
         if(notificationlist.Count != 0) {
             DoublyLinkedList notificationItem = notificationlist.First();
 

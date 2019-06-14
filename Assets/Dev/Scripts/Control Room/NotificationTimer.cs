@@ -17,8 +17,6 @@ public class NotificationTimer : MonoBehaviour {
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        Debug.Log("Scene loaded");
-
         //Get function so we can extract its name dynamically rather than literal string
         System.Action addIrrelevantNotificationAlias = ShowNotification;
 
@@ -33,7 +31,6 @@ public class NotificationTimer : MonoBehaviour {
 
     void ShowNotification() {
         //Give the sign that a new notification should be posted.
-        Debug.Log("Show notif");
         GetComponent<Board>().ShowNotification();
     }
 }

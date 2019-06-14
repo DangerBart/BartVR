@@ -109,8 +109,6 @@ public class MinimapControl : MonoBehaviour {
 
         // Set marker on correct location
         marker.transform.localPosition = mainNotif.MinimapLocation;
-        Debug.Log("MinimapLocation: " + mainNotif.MinimapLocation);
-
         MainNotification markerMainNotif = marker.GetComponent<MainNotification>();
 
         // Copy values
@@ -128,7 +126,6 @@ public class MinimapControl : MonoBehaviour {
             float x = rt.localPosition.x;
             float y = rt.localPosition.y;
       
-
             if (mainNotif.MinimapLocation.x < 0)
                 x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
             else if (mainNotif.MinimapLocation.x > 0)
