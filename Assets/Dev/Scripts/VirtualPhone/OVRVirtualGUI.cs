@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -104,7 +103,7 @@ public class OVRVirtualGUI : MonoBehaviour {
                 ReturnToMenu(App.menu);
                 break;
         }
-        CameraActiveText.gameObject.SetActive(CurrentApp() == App.camera);
+        CameraActiveText.gameObject.SetActive(confirmPanel.activeInHierarchy);
 
         RunCameraPopUp(confirmPanel.activeInHierarchy);
     }

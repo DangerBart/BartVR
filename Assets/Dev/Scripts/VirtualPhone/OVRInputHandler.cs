@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,7 +37,7 @@ public class OVRInputHandler : MonoBehaviour {
 
         Direction currentDirection = TouchpadDirection();
 
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryTouchpad))
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstick))
             return currentDirection;
 
         return Direction.standby;

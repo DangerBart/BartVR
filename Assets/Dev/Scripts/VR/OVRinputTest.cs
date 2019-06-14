@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class OVRinputTest : MonoBehaviour {
     private string[] controllers;
@@ -20,6 +21,8 @@ public class OVRinputTest : MonoBehaviour {
     public Text FingerY;
     public Text GetPressText;
     public Text TouchpadDirectionText;
+    public Text ActiveNPC;
+    public Text DeviceName;
 
     [SerializeField]
     private Text trigger;
@@ -37,6 +40,13 @@ public class OVRinputTest : MonoBehaviour {
         foreach (string controller in controllers) {
             text.text += controller + "\n";
         }
+
+        ActiveNPC.text = GameManager.amountOfNpcsToSpawn.ToString();
+        DeviceName.text = XRDevice.model;
+
+        //REMOVE THIS AFTER TESTING
+        FindObjectOfType<ArrestHandler>().gameObject.GetComponent<SphereCollider>().enabled = true;
+        //REMOVE ABOVE
     }
 	
 	// Update is called once per frame
@@ -53,7 +63,7 @@ public class OVRinputTest : MonoBehaviour {
     }
 
     void HandleLog(string logString, string stackTrace, LogType type) {
-        if (type == LogType.Log)
+        if (type == LogType.Log || type == LogType.Error)
             logText.text += logString + "\n";
     }
 }

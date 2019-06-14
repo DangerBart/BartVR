@@ -29,7 +29,11 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject NPCValueText;
     [SerializeField]
+    private GameObject NPCValueTextMiniMenu;
+    [SerializeField]
     private Slider NPCValueSlider;
+    [SerializeField]
+    private Slider NPCValueSliderMiniMenu;
     [SerializeField]
     private GameObject miniMenu;
 
@@ -45,10 +49,15 @@ public class GameManager : MonoBehaviour {
     public static bool DesktopMode = true;
 
     public void StartGame() {
+        /*
         if (currentMode == PlayingMode.Multiplayer) 
             SceneManager.LoadScene(currentScenario + 1);
          else 
             SceneManager.LoadScene(multiplayerScenes.Count + currentScenario + 1);
+        */
+        // TESTING PURPOSES ONLY REMOVE THE COMMENTS LINES ABOVE ONCE EVERYTHING IS FINISHED
+        SceneManager.LoadScene(1);
+
         //Start time
         Time.timeScale = 1;
     }
@@ -153,10 +162,14 @@ public class GameManager : MonoBehaviour {
 
     public void IncrementSlider(Slider slider) {
         slider.value += 10;
+        Debug.Log("Incremented slider");
+        ChangedNPCValueMiniMenu();
     }
 
     public void DecrementSlider(Slider slider) {
         slider.value -= 10;
+        Debug.Log("Decremented slider");
+        ChangedNPCValueMiniMenu();
     }
 
     private InputSetting GetSetting(string name) {
@@ -200,5 +213,11 @@ public class GameManager : MonoBehaviour {
     public void ChangedNPCValue() {
         NPCValueText.GetComponent<Text>().text = NPCValueSlider.value.ToString();
         amountOfNpcsToSpawn = (int)NPCValueSlider.value;
+    }
+
+    public void ChangedNPCValueMiniMenu() {
+        NPCValueTextMiniMenu.GetComponent<Text>().text = NPCValueSliderMiniMenu.value.ToString();
+        Debug.Log(NPCValueSliderMiniMenu.value);
+        amountOfNpcsToSpawn = (int)NPCValueSliderMiniMenu.value;
     }
 }

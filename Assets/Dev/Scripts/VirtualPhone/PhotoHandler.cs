@@ -36,6 +36,7 @@ public class PhotoHandler : MonoBehaviour {
         path = pictureRoot + filename;
         // Write to path (previous screenshots are overwritten)
         File.WriteAllBytes(path, bytes);
+
         SetPreview(preview, confirmPanel);
     }
 
@@ -43,6 +44,7 @@ public class PhotoHandler : MonoBehaviour {
         // Turn the screenshot into a sprite and set it onto the preview panel
         Sprite previewSprite = MakeSprite();
         preview.GetComponent<Image>().sprite = previewSprite;
+
         // Ask if player wants to send this picture to the OC
         confirmPanel.SetActive(true);
     }
