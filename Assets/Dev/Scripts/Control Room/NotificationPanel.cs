@@ -14,7 +14,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     private Text username;
     private Text message;
     private Image mediaPlaform;
-    private GameObject imageButton;
     private Text Date;
 
     private Color panelColorWhite = new Color32(255, 255, 255, 255);
@@ -22,8 +21,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void Setup(DoublyLinkedList notification, KindOfNotification kind) {
         kindOfNotification = kind;
-
-        SetGameObjects();
         SetComponents(kind);
         this.notification = notification;
 
@@ -35,7 +32,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public void Setup(Notification notif, KindOfNotification kind = KindOfNotification.Relevant) {
         kindOfNotification = kind;
-        SetGameObjects();
         SetComponents(kind);
         SetupPanelInformation(notif, KindOfNotification.Relevant);
     }
@@ -55,10 +51,6 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
 
     public DoublyLinkedList GetNotification() {
         return notification;
-    }
-
-    private void SetGameObjects() {
-        imageButton = transform.Find("Show Button").gameObject;
     }
 
     // Setup functions
@@ -90,10 +82,8 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
     }
 
     public void SetImage(Sprite img) {
-        if(img != null) {
+        if(img != null)
             image = img;
-            imageButton.SetActive(true);
-        }
     }
 
     // Event functions
@@ -121,6 +111,7 @@ public class NotificationPanel : MonoBehaviour, IPointerClickHandler
         GetComponentInParent<NotificationControl>().CreateRelevantMessagePanel(notification);
         GetComponentInParent<Board>().SetNotificationWaitingForPost(false, notification.GetNext().GetData().Id);
         GetComponentInParent<NotificationControl>().PostedNotificationPanelClicked(notification.GetData().Id);
+        transform.Find("PostedMessage").gameObject.SetActive(true);
 
         // Delete buttons
         Destroy(transform.Find("PostButton").gameObject);
