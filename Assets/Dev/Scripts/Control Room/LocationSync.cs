@@ -4,8 +4,7 @@ using UnityEngine;
 public class LocationSync : MonoBehaviour
 {
     [Serializable]
-    public struct NpcImageOption
-    {
+    public struct NpcImageOption {
         public GameObject npc;
         public GameObject minimapImage;
     }
@@ -46,10 +45,7 @@ public class LocationSync : MonoBehaviour
         Debug.Log("Map: " + map.GetComponent<RectTransform>().sizeDelta);
         Debug.Log("Plane AKA the map displayed: " + plane.GetComponent<RectTransform>().sizeDelta);
         float x = plane.GetComponent<RectTransform>().sizeDelta.x / map.GetComponent<RectTransform>().sizeDelta.x;
-        Debug.Log("X: " + x);
-
-
-
+        Debug.Log("Officer position: " + NpcToDisplayOnMinimap[0].npc.transform.localPosition);
 
         Debug.Log("=== END TEST ===");
     }
@@ -71,8 +67,8 @@ public class LocationSync : MonoBehaviour
         NpcImageOption toReturn = new NpcImageOption();
 
         foreach (Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {
-            if (idToCompare.role == Roles.Suspect)
-            {
+
+            if (idToCompare.role == Roles.Suspect) {
                 toReturn.npc = idToCompare.gameObject;
                 toReturn.minimapImage = iconToAttatch;
                 break;
@@ -92,6 +88,7 @@ public class LocationSync : MonoBehaviour
         xScale = (planeSize.x / mapSize.x) + offsetx;
         yScale = (planeSize.y / mapSize.y) + offsety;
     }
+
     private void ScaleNpcOnMap(NpcImageOption NpcOption) {
         NpcOption.minimapImage.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (NpcOption.npc.transform.position.x * xScale),
                                                                                  -1 * (NpcOption.npc.transform.position.z * yScale));

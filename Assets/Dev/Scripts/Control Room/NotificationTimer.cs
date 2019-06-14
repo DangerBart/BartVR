@@ -12,8 +12,8 @@ public class NotificationTimer : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         // ToDO REMOVE THIS!! It's for testing only
-        System.Action addIrrelevantNotificationAlias = ShowNotification;
-        InvokeRepeating(addIrrelevantNotificationAlias.Method.Name, 2, intervalTimeMessages);
+        //System.Action addIrrelevantNotificationAlias = ShowNotification;
+        //InvokeRepeating(addIrrelevantNotificationAlias.Method.Name, 2, intervalTimeMessages);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
