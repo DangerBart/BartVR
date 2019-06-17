@@ -117,6 +117,7 @@ public class MinimapControl : MonoBehaviour {
         markerMainNotif.notifications = mainNotif.notifications;
         markerMainNotif.timeLatestNotification = mainNotif.timeLatestNotification;
 
+        // Only excuted in singleplayer mode
         if (GameManager.currentMode == PlayingMode.Singleplayer) {
             marker.transform.Find("MarkerPanel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
             marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");

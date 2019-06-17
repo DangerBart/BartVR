@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <NotificationCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Notifications>
 		<Notification>
@@ -21,7 +21,7 @@
 			<Id>2</Id>
 			<ReactionTo>1</ReactionTo>
 			<Autor>Jordaan038</Autor>
-			<Message>Waar is dit gebeurd?</Message>
+			<Message>Zoeken naar dief, een getinte man van marrocaanse afkomst. Heb je iets gezien, laat het ons weten!</Message>
 			<Platform>Twitter</Platform>
 			<Postable>true</Postable>
 		</Notification>
@@ -29,14 +29,15 @@
 			<Id>3</Id>
             <ReactionTo>2</ReactionTo>
 			<Autor>Fluffy06</Autor>
-			<Message>Heeft iemand de overvaller gezien?</Message>
+			<Message>Wow... ik weet niet wat ik moet zeggen</Message>
 			<Platform>Twitter</Platform>
 			<Postable>false</Postable>
 		</Notification>
 		<Notification>
 			<Id>4</Id>
+            <ReactionTo>3</ReactionTo>
 			<Autor>Roos</Autor>
-			<Message>Schokkend dat het gebeurt op klaarlichte dag.</Message>
+			<Message>Ik heb hier een tas gevonden, moet ik dit brengen naar het politiebureau?</Message>
 			<Platform>Whatsapp</Platform>
 			<Postable>false</Postable>
 		</Notification>
@@ -86,7 +87,7 @@
 			<Id>11</Id>
 			<ReactionTo>3</ReactionTo>
 			<Autor>Lars</Autor>
-			<Message>Is dit al opgelost?</Message>
+			<Message>Dat kun je toch niet maken!! De Politie nog wel!!</Message>
 			<Platform>Facebook</Platform>
 			<Postable>false</Postable>
 		</Notification>
