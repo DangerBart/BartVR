@@ -152,13 +152,11 @@ public class VirtualGUI : MonoBehaviour {
 
 
     private void RunMap() {
-        if (iHandler.TouchpadIsPressed(device)) {
-            // Use the public staitc GameObject marker from CursorHandler to extract needed info
-        }
 
-        if(GameManager.currentMode == PlayingMode.Multiplayer)
+        if (GameManager.currentMode == PlayingMode.Multiplayer) { 
             SnapTo(icon);
-        else
+            cursor.gameObject.SetActive(false);
+        } else
             SnapTo(cursor);
 
         Vector2 finger = iHandler.FingerPositionOnTouchpad(device);
