@@ -7,20 +7,8 @@ public class EventHandler : MonoBehaviour {
 
     private readonly string pictureRoot = "Assets/Resources/Snapshots/";
 
-    public static GameObject gameOverScreen;
-    public static GameObject gameOverText;
-
-    [SerializeField]
-    private GameObject gameOverS;
-    [SerializeField]
-    private GameObject gameOverT;
     [SerializeField]
     private GameObject escapeMenu;
-
-    private void Start() {
-        gameOverScreen = gameOverS;
-        gameOverText = gameOverT;
-    }
 
     private void Update() {
         // Check if menu needs to be opened
@@ -60,27 +48,27 @@ public class EventHandler : MonoBehaviour {
     }
 
     public void Next(GameObject movementSelection) {
-        if ((int)Gamemanager.currentMovement < 2)
-            Gamemanager.currentMovement++;
+        if ((int)GameManager.currentMovement < 2)
+            GameManager.currentMovement++;
         else
-            Gamemanager.currentMovement = Gamemanager.Movement.FacingDirection;
+            GameManager.currentMovement = MovementMode.FacingDirection;
         SetMovementText(movementSelection);
     }
 
     public void Previous(GameObject movementSelection) {
-        if (Gamemanager.currentMovement > 0)
-            Gamemanager.currentMovement--;
+        if (GameManager.currentMovement > 0)
+            GameManager.currentMovement--;
         else
-            Gamemanager.currentMovement = Gamemanager.Movement.Teleport;
+            GameManager.currentMovement =MovementMode.Teleport;
         SetMovementText(movementSelection);
     }
 
     private void SetMovementText(GameObject go) {
-        switch (Gamemanager.currentMovement) {
-            case Gamemanager.Movement.ControllerDirection:
+        switch (GameManager.currentMovement) {
+            case MovementMode.ControllerDirection:
                 go.GetComponent<InputField>().text = "Lopen richting controller";
                 break;
-            case Gamemanager.Movement.Teleport:
+            case MovementMode.Teleport:
                 go.GetComponent<InputField>().text = "Teleporteren";
                 break;
             default:
@@ -89,9 +77,11 @@ public class EventHandler : MonoBehaviour {
         }
     }
 
-    public static void End() {
-        Time.timeScale = 0;
-        gameOverText.SetActive(true);
-        gameOverScreen.SetActive(true);
+    public void End() {
+        ArrestHandler.EndGame();
+    }
+
+    public void ArrestedSuspect() {
+        ArrestHandler.ActivateGameOverScreen();
     }
 }

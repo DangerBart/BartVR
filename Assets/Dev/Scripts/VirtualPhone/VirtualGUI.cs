@@ -26,11 +26,6 @@ public class VirtualGUI : MonoBehaviour {
     [SerializeField]
     private List<GameObject> cameraButtons = new List<GameObject>();
 
-    // MapButtons
-    [Header("Add app buttons in order of back, deselect")]
-    [SerializeField]
-    private List<GameObject> mapButtons = new List<GameObject>();
-
     // ConfirmButtons
     [Header("Add app buttons in order of yes, no, deselect")]
     [SerializeField]
@@ -61,14 +56,17 @@ public class VirtualGUI : MonoBehaviour {
     private RectTransform contentPanel;
     [SerializeField]
     private RectTransform icon;
+    [SerializeField]
+    private RectTransform cursor;
 
     // Logic variables
     [SerializeField]
     private float offsetX;
     [SerializeField]
     private float offsetY;
-    private string path = "";
-    private Sprite previewSprite;
+    private float cursorSpeed = 35f;
+    private float cursorMargin = 0.15f;
+
 
     // Use this for initialization
     void Start() {
@@ -80,6 +78,12 @@ public class VirtualGUI : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         device = SteamVR_Controller.Input((int)trackedObject.index);
+
+        if (iHandler.GetTriggerDown(device))
+            if (confirmPanel.activeInHierarchy)
+                confirmPanel.SetActive(false);
+            else 
+                ReturnToMenu(CurrentApp());
 
         switch (CurrentApp()) {
             case App.camera:
@@ -104,10 +108,13 @@ public class VirtualGUI : MonoBehaviour {
                 break;
         }
 
+
+
         RunCameraPopUp(confirmPanel.activeInHierarchy);
     }
 
-    // MAIN MENU
+    // MAIN MENU ----
+
 
     private App CurrentApp() {
         for (int i = 0; i <= apps.Count; i++) {
@@ -119,8 +126,10 @@ public class VirtualGUI : MonoBehaviour {
     }
 
     private void ReturnToMenu(App app) {
-        apps[(int)app].SetActive(false);
-        apps[(int)App.menu].SetActive(true);
+        if (app != App.menu) {
+            apps[(int)app].SetActive(false);
+            apps[(int)App.menu].SetActive(true);
+        }
     }
 
     private void RunMenu() {
@@ -133,21 +142,41 @@ public class VirtualGUI : MonoBehaviour {
     }
 
     private void LaunchApp(int app) {
-        // Set main menu false
-        apps[(int)App.menu].SetActive(false);
-        // set selected app true
+        // hide current app
+        apps[(int)CurrentApp()].SetActive(false);
+        // show new app
         apps[app].SetActive(true);
     }
 
-    // MAP APP
+    // MAP APP ----
+
 
     private void RunMap() {
-        iHandler.Highlight(new List<Direction> { Direction.down, Direction.standby }, mapButtons, device);
-        // center view on player
-        SnapTo(icon);
+        if (iHandler.TouchpadIsPressed(device) && CursorHandler.OnMarker) {
+            // CURSOR IS ON MARKER AND A PRESS WAS DETECTED... SELECT THE MARKER
+            // Use the public staitc GameObject marker from CursorHandler to extract needed info
+        }
 
-        if (iHandler.GetPress(device) == Direction.down) {
-            ReturnToMenu(App.map);
+        if (GameManager.currentMode == PlayingMode.Multiplayer) { 
+            SnapTo(icon);
+            cursor.gameObject.SetActive(false);
+        } else
+            SnapTo(cursor);
+
+        Vector2 finger = iHandler.FingerPositionOnTouchpad(device);
+        
+
+        if(!IsBetween(finger.x, -cursorMargin, cursorMargin) || !IsBetween(finger.y, -cursorMargin, cursorMargin)) {
+            // Temp is used because C# does not allow for changing a member of a struct returned from a property (localPostion.x or .y)
+            Vector3 temp = cursor.transform.localPosition;
+
+            // finger.x is multiplied by 2 since the width is twice as large as the height.
+            temp += new Vector3(finger.x * 2f, finger.y, 0) * Time.deltaTime * cursorSpeed;
+
+            temp.x = Mathf.Clamp(temp.x, -1 * contentPanel.rect.width / 2, contentPanel.rect.width / 2);
+            temp.y = Mathf.Clamp(temp.y, -1 * contentPanel.rect.height / 2, contentPanel.rect.height / 2);
+
+            cursor.transform.localPosition = temp;
         }
     }
 
@@ -159,16 +188,19 @@ public class VirtualGUI : MonoBehaviour {
         contentPanel.anchoredPosition += new Vector2(offsetX, offsetY);
     }
 
-    // CAMERA APP
+    private bool IsBetween(float val, float low, float high) {
+        return val > low && val < high;
+    }
+
+    // CAMERA APP ----
+
 
     private void RunCamera() {
         if (confirmPanel.activeInHierarchy == false) {
-            iHandler.Highlight(new List<Direction> { Direction.left, Direction.right, Direction.standby }, cameraButtons, device);
+            iHandler.Highlight(new List<Direction> { Direction.down, Direction.standby }, cameraButtons, device);
 
-            if (iHandler.GetPress(device) == Direction.right) {
+            if (iHandler.GetPress(device) == Direction.down) {
                 StartCoroutine(pHandler.TakeScreenShot(virtualCamera, preview, confirmPanel));
-            } else if (iHandler.GetPress(device) == Direction.left) {
-                ReturnToMenu(App.camera);
             }
         }
     }
