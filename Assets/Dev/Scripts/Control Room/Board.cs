@@ -4,6 +4,9 @@ using System.Linq;
 using UnityEngine.UI;
 
 public class Board : MonoBehaviour {
+    [SerializeField]
+    private GameObject mapAppOnVirualPhone;
+
     private string m_Path = "XML_Files/";
     private NotificationContainer nc;
     private NotificationControl notificationControl;
@@ -25,7 +28,7 @@ public class Board : MonoBehaviour {
     }
 
     public void ShowNotification() {
-        if(notificationlist.Count != 0) {
+        if(notificationlist.Count != 0 && AbleToPostMessage()) {
             DoublyLinkedList notificationItem = notificationlist.First();
 
             foreach (DoublyLinkedList item in notificationlist) {
@@ -73,6 +76,14 @@ public class Board : MonoBehaviour {
                         break;
             }
         }
+    }
+
+    // Needed for singplayer. If map app is not active means we can't post markers
+    private bool AbleToPostMessage() {
+        if (GameManager.currentMode == PlayingMode.Multiplayer || mapAppOnVirualPhone.activeInHierarchy)
+            return true;
+
+        return false;
     }
 
     public void SetNotificationWaitingForPost(bool value, int id) {
