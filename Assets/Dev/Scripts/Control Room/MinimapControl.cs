@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -200,9 +201,35 @@ public class MinimapControl : MonoBehaviour {
 
     private string GetKeyNotes(string message) {
         //ToDo Temporary
-        string[] removeList = { "ik", "hij", "dat", "wat", "de", "het", "heb", "een", "op", "onder", "over", "met", "naast" , "is" , "werd", "van", "is"};
-        string cleaned = Regex.Replace(message.ToLower(), "\\b" + string.Join("\\b|\\b", removeList) + "\\b", "");
-        return cleaned;
+        string[] words = GetWords(message);
+        string[] removeList = { "ik", "hij", "dat", "wat", "de", "het", "heb", "een", "op", "onder", "over", "met", "naast", "is", "werd", "van", "is", "hier", "daar"};
+        string validMessage = "";
+
+        foreach (string word in words) {
+            var q = removeList.Any(w => word.ToLower().Equals(w));
+            if (!q)
+                validMessage += word.ToLower() + " ";
+        }
+        return validMessage;
+    }
+
+    private string[] GetWords(string input) {
+        MatchCollection matches = Regex.Matches(input, @"\b[\w']*\b");
+
+        var words = from m in matches.Cast<Match>()
+                    where !string.IsNullOrEmpty(m.Value)
+                    select TrimSuffix(m.Value);
+
+        return words.ToArray();
+    }
+
+    private string TrimSuffix(string word) {
+        int apostropheLocation = word.IndexOf('\'');
+        if (apostropheLocation != -1) {
+            word = word.Substring(0, apostropheLocation);
+        }
+
+        return word;
     }
 
     private DateTime GetLatestTime(DateTime t1, DateTime t2) {
@@ -210,8 +237,8 @@ public class MinimapControl : MonoBehaviour {
 
         if (i > 0)
             return t1;
-        else
-            return t2;
+      
+        return t2;
     }
 
     private void Setup() {

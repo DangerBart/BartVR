@@ -28,8 +28,7 @@ public class Board : MonoBehaviour {
         if(notificationlist.Count != 0) {
             DoublyLinkedList notificationItem = notificationlist.First();
 
-            foreach (DoublyLinkedList item in notificationlist)
-            {
+            foreach (DoublyLinkedList item in notificationlist) {
                 if (item.GetData().WaitingForPost && !item.GetPrevious().GetData().WaitingForPost && !item.GetPrevious().GetData().Postable)
                     SetNotificationWaitingForPost(false, item.GetData().Id);
 
