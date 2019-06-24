@@ -28,8 +28,13 @@
 
             notif.ReactionOfPostableNotif = IsReactionToPostableNotification(node);
 
-            if (notif.ReactionOfPostableNotif)
+            if (notif.ReactionOfPostableNotif) {
                 notif.WaitingForPost = true;
+
+                // Make sure reactions are from the same platform
+                notif.Platform = node.GetData().Platform;
+                notif.PlatformLogo = node.GetData().PlatformLogo;
+            }
 
             node.InsertNext(notif);
             return true;
