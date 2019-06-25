@@ -55,7 +55,7 @@ public class OVRinputTest : MonoBehaviour {
 
         trigger.gameObject.SetActive(OVRInput.Get(OVRInput.Button.PrimaryHandTrigger));
 
-        TriggerDownCalled.gameObject.SetActive(ovrHandler.GetTriggerDown());
+        TriggerDownCalled.text = GameManager.currentMode.ToString();
         FingerX.text = ovrHandler.FingerPositionOnTouchpad().x.ToString();
         FingerY.text = ovrHandler.FingerPositionOnTouchpad().y.ToString();
         GetPressText.text = ovrHandler.GetPress().ToString();

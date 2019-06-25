@@ -63,13 +63,12 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Awake() {
-        // Set initial value to 1
-        amountOfNpcsToSpawn = (int) FindObjectOfType<Slider>().value;
-
         // ----------------------------------- CHANGE TO CHECK MODEL NAME FOR QUEST --------------------------------
-        if (!XRDevice.model.ToLower().Contains("vive") && !XRDevice.model.ToLower().Contains("cv") && !XRDevice.model.ToLower().Contains("rift")) {
+        if (XRDevice.model.ToLower().Contains("quest")) {
             miniMenu.SetActive(true);
             DesktopMode = false;
+            currentMode = PlayingMode.Singleplayer;
+            Debug.Log("QUEST DETECTED");
         }
 
         DirectoryInfo multiDI = new DirectoryInfo("Assets/Scenes/Multiplayer Scenes");
@@ -80,6 +79,7 @@ public class GameManager : MonoBehaviour {
             multiplayerScenes.Add(scene);
         }
 
+        // Maybe remove line below as it currently seems to serve no purpose (TEST THAT FIRST THOUGH)
         amountOfMultiplayerScenes = multiplayerScenes.Count;
 
         foreach (FileInfo file in singleDI.GetFiles("*.unity")) {
@@ -161,15 +161,15 @@ public class GameManager : MonoBehaviour {
     }
 
     public void IncrementSlider(Slider slider) {
+        if (!(amountOfNpcsToSpawn >= 150))
+            amountOfNpcsToSpawn += 10;
         slider.value += 10;
-        Debug.Log("Incremented slider");
-        ChangedNPCValueMiniMenu();
     }
 
     public void DecrementSlider(Slider slider) {
+        if (!(amountOfNpcsToSpawn <= 0))
+            amountOfNpcsToSpawn -= 10;
         slider.value -= 10;
-        Debug.Log("Decremented slider");
-        ChangedNPCValueMiniMenu();
     }
 
     private InputSetting GetSetting(string name) {
@@ -217,7 +217,6 @@ public class GameManager : MonoBehaviour {
 
     public void ChangedNPCValueMiniMenu() {
         NPCValueTextMiniMenu.GetComponent<Text>().text = NPCValueSliderMiniMenu.value.ToString();
-        Debug.Log(NPCValueSliderMiniMenu.value);
         amountOfNpcsToSpawn = (int)NPCValueSliderMiniMenu.value;
     }
 }

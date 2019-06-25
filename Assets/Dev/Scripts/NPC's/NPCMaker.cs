@@ -7,6 +7,7 @@ public class NPCMaker : MonoBehaviour {
     private Object[] npcModels;
 
     // suspect info
+    public static GameObject suspect;
     public static Genders suspectGender;
     public static Colors suspectTopPiece;
     public static Colors suspectBottomPiece;
@@ -140,6 +141,7 @@ public class NPCMaker : MonoBehaviour {
             suspectGender = idModel.gender;
             suspectTopPiece = idModel.topPiece;
             suspectBottomPiece = idModel.bottomPiece;
+            suspect = NPC;
         }
     }
 
