@@ -4,8 +4,7 @@ using UnityEngine;
 public class LocationSync : MonoBehaviour
 {
     [Serializable]
-    public struct NpcImageOption
-    {
+    public struct NpcImageOption {
         public GameObject npc;
         public GameObject minimapImage;
     }
@@ -14,10 +13,6 @@ public class LocationSync : MonoBehaviour
     public GameObject map;
     public GameObject plane;
     public NpcImageOption[] NpcToDisplayOnMinimap;
-    /// <summary>
-    ///  Needed to look for suspect
-    /// </summary>
-    /// Temporry
     public GameObject npcContainer;
     public GameObject suspectIcon;
 
@@ -60,8 +55,8 @@ public class LocationSync : MonoBehaviour
         NpcImageOption toReturn = new NpcImageOption();
 
         foreach (Identification idToCompare in npcContainer.GetComponentsInChildren<Identification>()) {
-            if (idToCompare.role == Roles.Suspect)
-            {
+
+            if (idToCompare.role == Roles.Suspect) {
                 toReturn.npc = idToCompare.gameObject;
                 toReturn.minimapImage = iconToAttatch;
                 break;
@@ -78,9 +73,10 @@ public class LocationSync : MonoBehaviour
     private void UpdateMapSizeAndScale() {
         mapSize = map.GetComponent<RectTransform>().sizeDelta;
         planeSize = plane.GetComponent<RectTransform>().sizeDelta;
-        xScale = planeSize.x / mapSize.x + offsetx;
-        yScale = planeSize.y / mapSize.y + offsety;
+        xScale = (planeSize.x / mapSize.x) + offsetx;
+        yScale = (planeSize.y / mapSize.y) + offsety;
     }
+
     private void ScaleNpcOnMap(NpcImageOption NpcOption) {
         NpcOption.minimapImage.GetComponent<RectTransform>().transform.localPosition = new Vector2(-1 * (NpcOption.npc.transform.position.x * xScale),
                                                                                  -1 * (NpcOption.npc.transform.position.z * yScale));

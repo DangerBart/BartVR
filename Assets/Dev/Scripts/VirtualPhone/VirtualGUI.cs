@@ -152,10 +152,6 @@ public class VirtualGUI : MonoBehaviour {
 
 
     private void RunMap() {
-        if (iHandler.TouchpadIsPressed(device) && CursorHandler.OnMarker) {
-            // CURSOR IS ON MARKER AND A PRESS WAS DETECTED... SELECT THE MARKER
-            // Use the public staitc GameObject marker from CursorHandler to extract needed info
-        }
 
         if (GameManager.currentMode == PlayingMode.Multiplayer) { 
             SnapTo(icon);

@@ -24,12 +24,12 @@ public class Marker : MonoBehaviour{
     }
 
     public void OnMouseEnter() {
-        SetActiveMarkerImage();
+        SetActiveMarkerImage(true);
     }
 
     public void OnMouseExit() {
         if (!selected)
-            SetInnactiveMarkerImage();
+            SetActiveMarkerImage(false);
     }
 
     public bool GetSelected() {
@@ -38,23 +38,31 @@ public class Marker : MonoBehaviour{
 
     public void SetSelected(bool newValue) {
         selected = newValue;
+        SetActiveMarkerImage(newValue);
+    }
 
-        if (newValue)
-            SetActiveMarkerImage();
-        else
-            SetInnactiveMarkerImage();
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Cursor")) {
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");
+            transform.Find("MarkerPanel").gameObject.SetActive(true);
+        }
+    }
 
+    private void OnTriggerExit(Collider other) {
+        if (other.CompareTag("Cursor")) {
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-purple");
+            transform.Find("MarkerPanel").gameObject.SetActive(false);
+        }
     }
 
     #endregion
 
     #region Private Functions 
-    private void SetActiveMarkerImage() {
-        GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");
-    }
-
-    private void SetInnactiveMarkerImage() {
-        GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-purple");
+    private void SetActiveMarkerImage(bool active) {
+        if (active)
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-yellow");
+        else
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Notification/location-pointer-purple");
     }
 
     #endregion

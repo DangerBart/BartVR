@@ -8,12 +8,6 @@ public class NotificationControl : MonoBehaviour
     private NotificationOverview notificationOverview;
     private NotificationPostReactions notificationPostReactions;
 
-    // Panels
-    [SerializeField]
-    private GameObject relevantNotificationPanel;
-    [SerializeField]
-    private GameObject postableNotificationPanel;
-
     void Start() {
         minimapControl = minimap.GetComponent<MinimapControl>();
         notificationOverview = FindObjectOfType<NotificationOverview>();
@@ -24,13 +18,12 @@ public class NotificationControl : MonoBehaviour
         minimapControl.InitiateNotificationOnMinimap(notification.GetData());
 
         if (notification.GetData().ReactionOfPostableNotif)
-        {
             notificationPostReactions.ReactionToPostableMessageHasBeenPosted(notification.GetData().Id);
-        }
     }
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification) {
-        notificationPostReactions.AddNewPostableNotification(notification);
+        if (GameManager.currentMode == PlayingMode.Multiplayer)
+            notificationPostReactions.AddNewPostableNotification(notification);
     }
 
     public void MarkerClicked(GameObject marker) {

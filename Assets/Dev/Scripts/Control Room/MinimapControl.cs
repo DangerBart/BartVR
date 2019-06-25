@@ -1,5 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MinimapControl : MonoBehaviour {
 
@@ -12,6 +17,8 @@ public class MinimapControl : MonoBehaviour {
     private GameObject plane;
     [SerializeField]
     private int MergeDistance;
+    [SerializeField]
+    private int RadiousAroundSuspect;
 
     // Private viarables
     private GameObject minimap;
@@ -29,12 +36,13 @@ public class MinimapControl : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        minimap = this.transform.gameObject;
+        minimap = transform.gameObject;
         Setup();
     }
 
     #region Public Functions
     public void InitiateNotificationOnMinimap(Notification notification) {
+
         // Set location of marker near suspect
         SetRelevantNotificationLocation(notification);
         MainNotification MainNotification = ConvertNotificationToMainNotification(notification);
@@ -92,7 +100,7 @@ public class MinimapControl : MonoBehaviour {
     }
 
     private void SetRelevantNotificationLocation(Notification notification) {
-        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * 100;
+        notification.MinimapLocation = locationSync.GetSuspectMinimapLocation() + Random.insideUnitCircle * RadiousAroundSuspect;
     }
 
     private GameObject CreateMarker(MainNotification mainNotif) {
@@ -101,33 +109,62 @@ public class MinimapControl : MonoBehaviour {
         marker.transform.SetParent(markersContainer.transform, false);
 
         // Set marker on correct location
-        marker.transform.localPosition = mainNotif.MinimapLocation;
+        if (GameManager.currentMode == PlayingMode.Multiplayer)
+            mainNotif.MinimapLocation = new Vector2(mainNotif.MinimapLocation.x, mainNotif.MinimapLocation.y);
+        else
+            mainNotif.MinimapLocation = new Vector2(mainNotif.MinimapLocation.x, mainNotif.MinimapLocation.y / 2);
 
+        marker.transform.localPosition = mainNotif.MinimapLocation;
         MainNotification markerMainNotif = marker.GetComponent<MainNotification>();
 
         // Copy values
         markerMainNotif.keyNote = mainNotif.keyNote;
         markerMainNotif.MinimapLocation = mainNotif.MinimapLocation;
         markerMainNotif.notifications = mainNotif.notifications;
+        markerMainNotif.timeLatestNotification = mainNotif.timeLatestNotification;
+
+        // Only excuted in singleplayer mode
+        if (GameManager.currentMode == PlayingMode.Singleplayer) {
+            marker.transform.Find("MarkerPanel").transform.Find("KeyNote").GetComponent<Text>().text = mainNotif.keyNote;
+            marker.transform.Find("MarkerPanel").transform.Find("TimeText").GetComponent<Text>().text = mainNotif.timeLatestNotification.ToString("HH:mm");
+            var rt = marker.transform.Find("MarkerPanel").GetComponent<RectTransform>();
+
+            // Change location of panel to always be visible 
+            float x = rt.localPosition.x;
+            float y = rt.localPosition.y;
+            float marginX = gameObject.GetComponent<RectTransform>().sizeDelta.x - rt.transform.GetComponent<RectTransform>().sizeDelta.x;
+            float marginY = gameObject.GetComponent<RectTransform>().sizeDelta.y - rt.transform.GetComponent<RectTransform>().sizeDelta.y;
+
+            if (mainNotif.MinimapLocation.x < -(marginX/2))
+                x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x * 2);
+            else if (mainNotif.MinimapLocation.x > marginX)
+                x += -(rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x * 2);
+
+            if (mainNotif.MinimapLocation.y > 0)
+                y += -rt.transform.GetComponent<RectTransform>().sizeDelta.y;
+
+            Vector2 v2 = new Vector2(x, y);
+            rt.localPosition = v2;
+        }
 
         return marker.gameObject;
     }
 
     private bool CloseEnoughToEachOther(Vector2 v1, Vector2 v2, int maxDisbtance) {
-        float differenceX = System.Math.Abs(v1.x - v2.x);
-        float differenceY = System.Math.Abs(v1.y - v2.y);
+        float differenceX = Math.Abs(v1.x - v2.x);
+        float differenceY = Math.Abs(v1.y - v2.y);
 
         return (differenceX <= maxDisbtance && differenceY <= maxDisbtance);
     }
 
     private MainNotification ConvertNotificationToMainNotification(Notification notif) {
-        MainNotification mainNotif = new MainNotification
-        {
+        MainNotification mainNotif = new MainNotification {
             keyNote = GetKeyNotes(notif.Message),
             MinimapLocation = notif.MinimapLocation
         };
-        mainNotif.notifications.Add(notif);
 
+        mainNotif.notifications.Add(notif);
+        mainNotif.timeLatestNotification = DateTime.Parse(notif.PostTime, System.Globalization.CultureInfo.CurrentCulture);
         return mainNotif;
     }
 
@@ -145,6 +182,8 @@ public class MinimapControl : MonoBehaviour {
 
         foreach (Notification notif in mainNotif2.notifications)
             CombinedMainNotif.notifications.Add(notif);
+
+        CombinedMainNotif.timeLatestNotification = GetLatestTime(mainNotif1.timeLatestNotification, mainNotif2.timeLatestNotification);
 
         return CombinedMainNotif;
     }
@@ -168,8 +207,45 @@ public class MinimapControl : MonoBehaviour {
     }
 
     private string GetKeyNotes(string message) {
-        return message;
-        //ToDo actualy get the keynotes
+        //ToDo Temporary
+        string[] words = GetWords(message);
+        string[] removeList = { "ik", "hij", "dat", "wat", "de", "het", "heb", "een", "op", "onder", "over", "met", "naast", "is", "werd", "van", "is", "hier", "daar"};
+        string validMessage = "";
+
+        foreach (string word in words) {
+            var q = removeList.Any(w => word.ToLower().Equals(w));
+            if (!q)
+                validMessage += word.ToLower() + " ";
+        }
+        return validMessage;
+    }
+
+    private string[] GetWords(string input) {
+        MatchCollection matches = Regex.Matches(input, @"\b[\w']*\b");
+
+        var words = from m in matches.Cast<Match>()
+                    where !string.IsNullOrEmpty(m.Value)
+                    select TrimSuffix(m.Value);
+
+        return words.ToArray();
+    }
+
+    private string TrimSuffix(string word) {
+        int apostropheLocation = word.IndexOf('\'');
+        if (apostropheLocation != -1) {
+            word = word.Substring(0, apostropheLocation);
+        }
+
+        return word;
+    }
+
+    private DateTime GetLatestTime(DateTime t1, DateTime t2) {
+        int i = DateTime.Compare(t1, t2);
+
+        if (i > 0)
+            return t1;
+      
+        return t2;
     }
 
     private void Setup() {
