@@ -18,7 +18,7 @@ public class MinimapControl : MonoBehaviour {
     [SerializeField]
     private int MergeDistance;
     [SerializeField]
-    private int RadiousAroundSuspect; // Used to be 100
+    private int RadiousAroundSuspect;
 
     // Private viarables
     private GameObject minimap;
@@ -109,6 +109,11 @@ public class MinimapControl : MonoBehaviour {
         marker.transform.SetParent(markersContainer.transform, false);
 
         // Set marker on correct location
+        if (GameManager.currentMode == PlayingMode.Multiplayer)
+            mainNotif.MinimapLocation = new Vector2(mainNotif.MinimapLocation.x, mainNotif.MinimapLocation.y);
+        else
+            mainNotif.MinimapLocation = new Vector2(mainNotif.MinimapLocation.x, mainNotif.MinimapLocation.y / 2);
+
         marker.transform.localPosition = mainNotif.MinimapLocation;
         MainNotification markerMainNotif = marker.GetComponent<MainNotification>();
 
@@ -127,11 +132,13 @@ public class MinimapControl : MonoBehaviour {
             // Change location of panel to always be visible 
             float x = rt.localPosition.x;
             float y = rt.localPosition.y;
-      
-            if (mainNotif.MinimapLocation.x < 0)
-                x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
-            else if (mainNotif.MinimapLocation.x > 0)
-                x += -(rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x);
+            float marginX = gameObject.GetComponent<RectTransform>().sizeDelta.x - rt.transform.GetComponent<RectTransform>().sizeDelta.x;
+            float marginY = gameObject.GetComponent<RectTransform>().sizeDelta.y - rt.transform.GetComponent<RectTransform>().sizeDelta.y;
+
+            if (mainNotif.MinimapLocation.x < -(marginX/2))
+                x += (rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x * 2);
+            else if (mainNotif.MinimapLocation.x > marginX)
+                x += -(rt.transform.GetComponent<RectTransform>().sizeDelta.x / 2 - marker.transform.GetComponent<RectTransform>().sizeDelta.x * 2);
 
             if (mainNotif.MinimapLocation.y > 0)
                 y += -rt.transform.GetComponent<RectTransform>().sizeDelta.y;

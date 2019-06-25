@@ -18,9 +18,7 @@ public class NotificationControl : MonoBehaviour
         minimapControl.InitiateNotificationOnMinimap(notification.GetData());
 
         if (notification.GetData().ReactionOfPostableNotif)
-        {
             notificationPostReactions.ReactionToPostableMessageHasBeenPosted(notification.GetData().Id);
-        }
     }
 
     public void CreatePostableMessagePanel(DoublyLinkedList notification) {
