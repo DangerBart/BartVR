@@ -45,7 +45,6 @@ public class LocationSync : MonoBehaviour
         foreach (Transform child in npcContainer.transform)
         {
             GameObject npc = child.gameObject;
-            Debug.Log("Foreach loop: " + npc);
             if (npc.tag == "Officer")
             {
                 NpcImageOption officer = new NpcImageOption();
