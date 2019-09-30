@@ -109,7 +109,7 @@ public class MinimapControl : MonoBehaviour {
         marker.transform.SetParent(markersContainer.transform, false);
 
         // Set marker on correct location
-        if (GameManager.currentMode == PlayingMode.Multiplayer)
+        if (GameManager.currentMode == PlayingMode.MultiplayerAM || GameManager.currentMode == PlayingMode.MultiplayerBM)
             mainNotif.MinimapLocation = new Vector2(mainNotif.MinimapLocation.x, mainNotif.MinimapLocation.y);
         else
             mainNotif.MinimapLocation = new Vector2(mainNotif.MinimapLocation.x, mainNotif.MinimapLocation.y / 2);

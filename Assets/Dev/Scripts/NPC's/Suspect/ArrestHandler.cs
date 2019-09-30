@@ -8,7 +8,7 @@ public class ArrestHandler : MonoBehaviour {
     private static GameObject SPGameOverScreen;
 
     void Awake() {
-        if (GameManager.currentMode == PlayingMode.Multiplayer) {
+        if (GameManager.currentMode == PlayingMode.MultiplayerAM || GameManager.currentMode == PlayingMode.MultiplayerBM) {
             gameOverScreen = GameObject.Find("GameOverScreen");
             gameOverText = GameObject.Find("GameOverText");
             gameOverScreen.SetActive(false);
@@ -22,7 +22,7 @@ public class ArrestHandler : MonoBehaviour {
     //When player enters within the radius of the suspect stop time and display game over
     void OnCollisionEnter(Collision collision) {
         Time.timeScale = 0;
-        if (GameManager.currentMode == PlayingMode.Multiplayer) {
+        if (GameManager.currentMode == PlayingMode.MultiplayerAM || GameManager.currentMode == PlayingMode.MultiplayerBM) {
             gameOverText.SetActive(true);
             gameOverScreen.SetActive(true);
         } else {
@@ -35,7 +35,7 @@ public class ArrestHandler : MonoBehaviour {
 
     public static void ActivateGameOverScreen() {
         Time.timeScale = 0;
-        if (GameManager.currentMode == PlayingMode.Multiplayer) {
+        if (GameManager.currentMode == PlayingMode.MultiplayerAM || GameManager.currentMode == PlayingMode.MultiplayerBM) {
             gameOverText.SetActive(true);
             gameOverScreen.SetActive(true);
         } else {
