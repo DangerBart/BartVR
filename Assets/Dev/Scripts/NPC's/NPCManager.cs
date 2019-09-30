@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class NPCManager : MonoBehaviour {
     [SerializeField]
@@ -15,7 +15,11 @@ public class NPCManager : MonoBehaviour {
 
         // Create suspect
         npcMaker.CreateSuspect();
-        npcMaker.CreateOfficer(officerModelsPath);
+
+        for(int i = 0; i < 5; i++)
+        {
+            npcMaker.CreateOfficer(officerModelsPath);
+        }
 
         // Create all civilians
         for (int i = 0; i < GameManager.amountOfNpcsToSpawn; i++)
