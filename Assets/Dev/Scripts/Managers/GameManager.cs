@@ -6,26 +6,31 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
-enum InputSetting {
+enum InputSetting
+{
     None,
     Movement,
     Mode,
     Scenario
 }
 
-public enum PlayingMode {
-    Multiplayer,
+public enum PlayingMode
+{
+    MultiplayerAM,
+    MultiplayerBM,
     Singleplayer
 }
 
-public enum MovementMode {
+public enum MovementMode
+{
     FacingDirection,
     ControllerDirection,
     Teleport
 }
 
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
     [SerializeField]
     private GameObject NPCValueText;
     [SerializeField]
@@ -33,56 +38,82 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject miniMenu;
 
-    private List<string> multiplayerScenes = new List<string>();
+    private List<string> multiplayerAMScenes = new List<string>();
+    private List<string> multiplayerBMScenes = new List<string>();
     private List<string> singleplayerScenes = new List<string>();
 
 
-    public static int amountOfMultiplayerScenes;
+    public static int amountOfMultiplayerAMScenes;
+    public static int amountOfMultiplayerBMScenes;
     public static int amountOfNpcsToSpawn;
-    public static PlayingMode currentMode = PlayingMode.Multiplayer;
+    public static PlayingMode currentMode = PlayingMode.MultiplayerBM;
     public static MovementMode currentMovement = MovementMode.FacingDirection;
     public static int currentScenario;
     public static bool DesktopMode = true;
 
-    public void StartGame() {
-        if (currentMode == PlayingMode.Multiplayer) 
+    public void StartGame()
+    {
+        if (currentMode == PlayingMode.MultiplayerAM)//Multiplayer Agent + Meldkamer
+        {
             SceneManager.LoadScene(currentScenario + 1);
-         else 
-            SceneManager.LoadScene(multiplayerScenes.Count + currentScenario + 1);
+        }
+        else if (currentMode == PlayingMode.MultiplayerBM)//Multiplayer Burger + Meldkamer
+        {
+            SceneManager.LoadScene(currentScenario + 1);
+        }
+        else if (currentMode == PlayingMode.Singleplayer)//Singleplayer
+        {
+            SceneManager.LoadScene(singleplayerScenes.Count + currentScenario + 1);
+        }
         //Start time
         Time.timeScale = 1;
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         // Set initial value to 1
-        amountOfNpcsToSpawn = (int) FindObjectOfType<Slider>().value;
+        amountOfNpcsToSpawn = (int)FindObjectOfType<Slider>().value;
 
         // ----------------------------------- CHANGE TO CHECK MODEL NAME FOR QUEST --------------------------------
-        if (!XRDevice.model.ToLower().Contains("vive") && !XRDevice.model.ToLower().Contains("cv") && !XRDevice.model.ToLower().Contains("rift")) {
+        if (!XRDevice.model.ToLower().Contains("vive") && !XRDevice.model.ToLower().Contains("cv") && !XRDevice.model.ToLower().Contains("rift"))
+        {
             miniMenu.SetActive(true);
             DesktopMode = false;
         }
 
-        DirectoryInfo multiDI = new DirectoryInfo("Assets/Scenes/Multiplayer Scenes");
+        DirectoryInfo multiDIAM = new DirectoryInfo("Assets/Scenes/Multiplayer Scenes (Agent + Meldkamer)");
+        DirectoryInfo multiDIBM = new DirectoryInfo("Assets/Scenes/Multiplayer (Burger + Meldkamer)");
         DirectoryInfo singleDI = new DirectoryInfo("Assets/Scenes/Singleplayer Scenes");
 
-        foreach (FileInfo file in multiDI.GetFiles("*.unity")) {
+        foreach (FileInfo file in multiDIAM.GetFiles("*.unity"))
+        {
             string scene = file.Name.Replace(".unity", "");
-            multiplayerScenes.Add(scene);
+            multiplayerAMScenes.Add(scene);
         }
 
-        amountOfMultiplayerScenes = multiplayerScenes.Count;
+        amountOfMultiplayerAMScenes = multiplayerAMScenes.Count;
 
-        foreach (FileInfo file in singleDI.GetFiles("*.unity")) {
+        foreach (FileInfo file in multiDIBM.GetFiles("*.unity"))
+        {
+            string scene = file.Name.Replace(".unity", "");
+            multiplayerBMScenes.Add(scene);
+        }
+
+        amountOfMultiplayerBMScenes = multiplayerBMScenes.Count;
+
+        foreach (FileInfo file in singleDI.GetFiles("*.unity"))
+        {
             string scene = file.Name.Replace(".unity", "");
             singleplayerScenes.Add(scene);
         }
     }
 
-    public void Next(GameObject settingField) {
+    public void Next(GameObject settingField)
+    {
         InputSetting setting = GetSetting(settingField.name);
 
-        switch (setting) {
+        switch (setting)
+        {
             case InputSetting.Mode:
                 if ((int)currentMode < Enum.GetNames(typeof(PlayingMode)).Length - 1)
                     currentMode++;
@@ -98,13 +129,28 @@ public class GameManager : MonoBehaviour {
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (currentMode == PlayingMode.Multiplayer) {
-                    if (currentScenario < multiplayerScenes.Count - 1)
+                if (currentMode == PlayingMode.MultiplayerAM)
+                {
+                    if (currentScenario < multiplayerAMScenes.Count - 1)
                         currentScenario++;
                     else
                         currentScenario = 0;
-                    settingField.GetComponent<InputField>().text = multiplayerScenes[currentScenario];
-                } else {
+                    settingField.GetComponent<InputField>().text = multiplayerAMScenes[currentScenario];
+                }
+                else if (currentMode == PlayingMode.MultiplayerBM)
+                {
+                    if (currentScenario < multiplayerBMScenes.Count - 1)
+                    {
+                        currentScenario++;
+                    }
+                    else
+                    {
+                        currentScenario = 0;
+                    }
+                    settingField.GetComponent<InputField>().text = multiplayerBMScenes[currentScenario];
+                }
+                else
+                {
                     if (currentScenario < singleplayerScenes.Count - 1)
                         currentScenario++;
                     else
@@ -115,10 +161,12 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void Previous(GameObject settingField) {
+    public void Previous(GameObject settingField)
+    {
         InputSetting setting = GetSetting(settingField.name);
 
-        switch (setting) {
+        switch (setting)
+        {
             case InputSetting.Mode:
                 if (currentMode > 0)
                     currentMode--;
@@ -134,13 +182,24 @@ public class GameManager : MonoBehaviour {
                 SetMovementText(settingField);
                 break;
             case InputSetting.Scenario:
-                if (currentMode == PlayingMode.Multiplayer) {
+                if (currentMode == PlayingMode.MultiplayerAM)
+                {
                     if (currentScenario > 0)
                         currentScenario--;
                     else
-                        currentScenario = multiplayerScenes.Count - 1;
-                    settingField.GetComponent<InputField>().text = multiplayerScenes[currentScenario];
-                } else {
+                        currentScenario = multiplayerAMScenes.Count - 1;
+                    settingField.GetComponent<InputField>().text = multiplayerAMScenes[currentScenario];
+                }
+                else if (currentMode == PlayingMode.MultiplayerBM)
+                {
+                    if (currentScenario > 0)
+                        currentScenario--;
+                    else
+                        currentScenario = multiplayerBMScenes.Count - 1;
+                    settingField.GetComponent<InputField>().text = multiplayerBMScenes[currentScenario];
+                }
+                else
+                {
                     if (currentScenario > 0)
                         currentScenario--;
                     else
@@ -151,16 +210,20 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void IncrementSlider(Slider slider) {
+    public void IncrementSlider(Slider slider)
+    {
         slider.value += 10;
     }
 
-    public void DecrementSlider(Slider slider) {
+    public void DecrementSlider(Slider slider)
+    {
         slider.value -= 10;
     }
 
-    private InputSetting GetSetting(string name) {
-        switch (name) {
+    private InputSetting GetSetting(string name)
+    {
+        switch (name)
+        {
             case "PlayingModeInputField":
                 return InputSetting.Mode;
             case "MovementInputField":
@@ -172,8 +235,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void SetMovementText(GameObject settingField) {
-        switch (currentMovement) {
+    private void SetMovementText(GameObject settingField)
+    {
+        switch (currentMovement)
+        {
             case MovementMode.ControllerDirection:
                 settingField.GetComponent<InputField>().text = "Lopen richting controller";
                 break;
@@ -186,18 +251,24 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void SetModeText(GameObject settingField) {
-        switch (currentMode) {
+    private void SetModeText(GameObject settingField)
+    {
+        switch (currentMode)
+        {
             case PlayingMode.Singleplayer:
                 settingField.GetComponent<InputField>().text = "Singleplayer";
                 break;
-            default:
-                settingField.GetComponent<InputField>().text = "Multiplayer";
+            case PlayingMode.MultiplayerAM:
+                settingField.GetComponent<InputField>().text = "Multiplayer agent";
+                break;
+            case PlayingMode.MultiplayerBM:
+                settingField.GetComponent<InputField>().text = "Multiplayer burger";
                 break;
         }
     }
 
-    public void ChangedNPCValue() {
+    public void ChangedNPCValue()
+    {
         NPCValueText.GetComponent<Text>().text = NPCValueSlider.value.ToString();
         amountOfNpcsToSpawn = (int)NPCValueSlider.value;
     }

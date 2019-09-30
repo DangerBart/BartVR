@@ -153,7 +153,7 @@ public class VirtualGUI : MonoBehaviour {
 
     private void RunMap() {
 
-        if (GameManager.currentMode == PlayingMode.Multiplayer) { 
+        if (GameManager.currentMode == PlayingMode.MultiplayerAM || GameManager.currentMode == PlayingMode.MultiplayerBM) { 
             SnapTo(icon);
             cursor.gameObject.SetActive(false);
         } else
