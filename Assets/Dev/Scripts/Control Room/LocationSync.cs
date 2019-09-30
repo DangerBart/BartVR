@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LocationSync : MonoBehaviour
@@ -12,9 +13,10 @@ public class LocationSync : MonoBehaviour
     // Public viarables
     public GameObject map;
     public GameObject plane;
-    public NpcImageOption[] NpcToDisplayOnMinimap;
+    public List<NpcImageOption> NpcToDisplayOnMinimap;
     public GameObject npcContainer;
     public GameObject suspectIcon;
+    public GameObject officerIcon;
 
     // Private viarables 
     private Vector2 mapSize;
@@ -29,26 +31,33 @@ public class LocationSync : MonoBehaviour
     public Vector2 GetSuspectMinimapLocation()
     {
         // Last item in array is suspect
-        return NpcToDisplayOnMinimap[NpcToDisplayOnMinimap.Length-1].minimapImage.GetComponent<RectTransform>().transform.localPosition;
+        return NpcToDisplayOnMinimap[NpcToDisplayOnMinimap.Count-1].minimapImage.GetComponent<RectTransform>().transform.localPosition;
     }
 
     // Private methods
     private void Start() {
+        officerIcon.SetActive(false);
         UpdateMapSizeAndScale();
         ReplaceArrayAndAddNpc(GetSuspect(suspectIcon));
     }
 
     private void ReplaceArrayAndAddNpc(NpcImageOption toAddNpc) {
-        NpcImageOption[] newArray = new NpcImageOption[NpcToDisplayOnMinimap.Length + 1];
-        for (int i = 0; i < NpcToDisplayOnMinimap.Length; i++) {
-            newArray[i] = NpcToDisplayOnMinimap[i];
+        foreach (Transform child in npcContainer.transform)
+        {
+            GameObject npc = child.gameObject;
+            Debug.Log("Foreach loop: " + npc);
+            if (npc.tag == "Officer")
+            {
+                NpcImageOption officer = new NpcImageOption();
+                officer.npc = npc;
+                GameObject icon = Instantiate(officerIcon);
+                icon.transform.SetParent(map.transform);
+                officer.minimapImage = icon;
+                icon.SetActive(true);
+                NpcToDisplayOnMinimap.Add(officer);
+            }
         }
-
-        // Add npc as last item in array
-        newArray[newArray.Length - 1] = toAddNpc;
-
-        // Replace array with new one
-        NpcToDisplayOnMinimap = newArray;
+        NpcToDisplayOnMinimap.Add(toAddNpc);
     }
 
     private NpcImageOption GetSuspect(GameObject iconToAttatch) {

@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer Scenes/Straatroof.unity
     guid: 5dc9986f0ba9dbd45a921029b59fb2f3
-  - enabled: 1
-    path: Assets/Scenes/Multiplayer Scenes/Winkeldiefstal.unity
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/037893ab432e3d94e85228ba283baef5
     guid: 037893ab432e3d94e85228ba283baef5
-  - enabled: 1
-    path: Assets/Scenes/Singleplayer Scenes/StraatroofSP.unity
-    guid: bcde7b7fd9922cc448f1b0977170de7a
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
