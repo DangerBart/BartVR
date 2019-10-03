@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer (Burger + Meldkamer)/Burger en meldkamer.unity
     guid: bb3268761d4762645a2194f648123f06
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Multiplayer Scenes (Agent + Meldkamer)/Straatroof.unity
     guid: 5dc9986f0ba9dbd45a921029b59fb2f3
   - enabled: 0
